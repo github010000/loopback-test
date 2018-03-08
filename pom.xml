@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.skb.xpg</groupId>
+	<artifactId>nxpg.svc</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
+
+	<name>xpg-nxpg-svc</name>
+	<description>XPG project for Spring Boot</description>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>1.5.4.RELEASE</version>
+		<relativePath /> <!-- lookup parent from repository -->
+	</parent>
+	
+	<distributionManagement>
+        <repository>
+            <id>releases</id>
+            <url>http://dostore.skbroadband.com/repository/maven-releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <url>http://dostore.skbroadband.com/repository/maven-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>1.8</java.version>
+		<spring-cloud.version>Dalston.SR1</spring-cloud.version>
+		<json.path>2.3.0</json.path>
+		<json.path.assert>2.3.0</json.path.assert>
+		<spring.boot.starter>1.5.4.RELEASE</spring.boot.starter>
+	    <spring.boot.starter.log4j2>1.5.4.RELEASE</spring.boot.starter.log4j2>
+			
+		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+        <sonar.language>java</sonar.language>
+
+		<!-- AppQ 접속 URL 입력 -->
+		<sonar.host.url>http://doquality.skbroadband.com</sonar.host.url>
+	
+		<!-- test coverage 산출을 위한 plugin 선택 -->
+		<sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
+	
+		<!-- biz source 경로 -->
+		<sonar.sources>src/main/java</sonar.sources>
+	
+		<!-- test source 경로 -->
+		<sonar.tests>src/test/java</sonar.tests>
+	
+		<!-- 컴파일 된 biz source 경로 -->
+		<sonar.java.binaries>target/classes</sonar.java.binaries>
+	
+		<!-- 컴파일 된 test source 경로 -->
+		<sonar.java.test.binaries>target/test-classes</sonar.java.test.binaries>
+	
+		<!-- sonarqube 분석에 사용될 workspace. 따로 지정하지 않으면 target 경로를 사용합니다 -->
+		<!--sonar.working.directory>${project.basedir}/target</sonar.working.directory -->
+	
+		<!-- junit report 경로 (surefire 플러그인에 따로 arg를 주지 않으면 아래와 같은 경로에 생성됨) -->
+		<sonar.junit.reportsPath>${project.basedir}/target/surefire-reports</sonar.junit.reportsPath>
+	
+		<!-- jacoco integragion test coverage report 경로. jacoco-maven-plugin의 agent-for-ut 
+			설정 안에 있는 destFile 경로와 일치하면 됩니다 -->
+		<sonar.jacoco.reportPath>${project.basedir}/target/jacoco-unit.exec</sonar.jacoco.reportPath>
+	
+		<!-- jacoco unit test coverage report 경로. jacoco-maven-plugin의 agent-for-it 
+			설정 안에 있는 destFile 경로와 일치하면 됩니다 -->
+		<sonar.jacoco.itReportPath>${project.basedir}/target/jacoco-it.exec</sonar.jacoco.itReportPath>
+	</properties>
+
+	<dependencies>
+	    <dependency>
+	        <groupId>org.springframework.boot</groupId>
+	        <artifactId>spring-boot-starter</artifactId>
+	        <version>${spring.boot.starter}</version>
+	        <exclusions><!-- 로그백 제외 -->
+	            <exclusion>
+	                <groupId>org.springframework.boot</groupId>
+	                <artifactId>spring-boot-starter-logging</artifactId>
+	            </exclusion>
+	        </exclusions>
+	    </dependency>
+	    <dependency>
+	        <groupId>org.springframework.boot</groupId>
+	        <artifactId>spring-boot-starter-log4j2</artifactId>
+	        <version>${spring.boot.starter.log4j2}</version>
+	    </dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-config</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-cache</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-cloud-connectors</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-redis</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+ 
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>1.3.2</version>
+		</dependency>
+	    <!-- <dependency>
+	        <groupId>org.springframework.cloud</groupId>
+	        <artifactId>spring-cloud-starter-zipkin</artifactId>
+	    </dependency> -->
+		<!-- https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple -->
+		<dependency>
+		    <groupId>com.github.cliftonlabs</groupId>
+		    <artifactId>json-simple</artifactId>
+		    <version>3.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId> 
+		</dependency>
+		<dependency>
+			<groupId>com.jayway.jsonpath</groupId>
+			<artifactId>json-path</artifactId>
+			<version>${json.path}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.jayway.jsonpath</groupId>
+			<artifactId>json-path-assert</artifactId>
+			<version>${json.path.assert}</version>
+		</dependency>		
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+        </dependency>
+        <dependency>
+        	<groupId>org.springframework.boot</groupId>
+        	<artifactId>spring-boot-configuration-processor</artifactId>
+        	<optional>true</optional>
+        </dependency>
+	</dependencies>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<!-- <build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build> -->
+	<scm>
+    	<connection>scm:git:http://docode.skbroadband.com/scm/skbbgplxpg/xpg-cntm-svc.git</connection>
+	    <developerConnection>scm:git:http://docode.skbroadband.com/scm/skbbgplxpg/xpg-cntm-svc.git</developerConnection>
+	    <url>http://docode.skbroadband.com/scm/skbbgplxpg/xpg-cntm-svc</url>
+	    <tag>0.0.1</tag>
+	</scm>
+
+	<build>
+		<pluginManagement>
+            <plugins>
+                <!-- integragion test의 verify에 사용 -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <version>2.19</version>
+                </plugin>
+                <!-- integragion test, unit test에 사용 -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.19.1</version>
+                    <configuration>
+                        <skipTests>false</skipTests>
+                    </configuration>
+                </plugin>
+                <!--This plugin's configuration is used to store Eclipse m2e settings
+                    only. It has no influence on the Maven build itself. -->
+                <plugin>
+                    <groupId>org.eclipse.m2e</groupId>
+                    <artifactId>lifecycle-mapping</artifactId>
+                    <version>1.0.0</version>
+                    <configuration>
+                        <lifecycleMappingMetadata>
+                            <pluginExecutions>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>org.jacoco</groupId>
+                                        <artifactId>
+                                            jacoco-maven-plugin
+                                        </artifactId>
+                                        <versionRange>
+                                            [0.7.2.201409121644,)
+                                        </versionRange>
+                                        <goals>
+                                            <goal>prepare-agent</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <ignore />
+                                    </action>
+                                </pluginExecution>
+                            </pluginExecutions>
+                        </lifecycleMappingMetadata>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<configuration>
+					<outputDirectory>./defaultServer/apps</outputDirectory>
+				</configuration>
+			</plugin>
+			<plugin>
+		        <groupId>org.apache.maven.plugins</groupId>
+		        <artifactId>maven-release-plugin</artifactId>
+		        <version>2.5.3</version>
+		        <configuration>
+		            <tagBase>${project.scm.url}/tags</tagBase>
+		            <tagNameFormat>@{project.version}</tagNameFormat>
+		            <autoVersionSubmodules>true</autoVersionSubmodules>
+		        </configuration>
+		        <dependencies>
+		            <dependency>
+		                <groupId>org.apache.maven.plugins</groupId>
+		                <artifactId>maven-scm-plugin</artifactId>
+		                <version>1.9.5</version>
+		            </dependency>
+		        </dependencies>
+		    </plugin>
+		    
+		    <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.5.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+            <!-- integragion test의 verify 수행 -->
+            <!-- plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>2.19.1</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                        <configuration>
+                            <includes>
+                                <includes>**/*Test*</includes>
+                            </includes>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin -->
+            <!-- integragion test, unit test를 수행하고 jacoco를 이용하여 test coverage를 산출합니다 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.7.2.201409121644</version>
+                <executions>
+                    <execution>
+                        <id>agent-for-ut</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                        <configuration>
+                            <append>true</append>
+                            <!-- unit test 레포트 경로 -->
+                            <destFile>${project.basedir}/target/jacoco-unit.exec</destFile>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>agent-for-it</id>
+                        <goals>
+                            <goal>prepare-agent-integration</goal>
+                        </goals>
+                        <configuration>
+                            <append>true</append>
+                            <!-- integragion test 레포트 경로 -->
+                            <destFile>${project.basedir}/target/jacoco-it.exec</destFile>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+		</plugins>
+	</build>
+	
+	<profiles>
+		<profile>
+			<id>unittest</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<configuration>
+							<includes>
+								<include>com/skb/xpg/cntm/svc/unittest/**/*Tests.java</include>
+								<include>com/skb/xpg/cntm/svc/unittest/**/*Test.java</include>
+							</includes>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
+</project>

@@ -1,0 +1,11 @@
+---
+applications:
+- name: xpg-sample-svc
+  host: xpg-sample-svc
+  memory: 1024M
+  buildpack: liberty-for-java
+  path: ./defaultServer
+  services:
+    - dev-xpg-common-redis
+  env:
+    SPRING_PROFILES_ACTIVE: dev

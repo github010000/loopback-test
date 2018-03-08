@@ -1,0 +1,15 @@
+---
+applications:
+- name: xpg-nxpg-svc
+  host: xpg-nxpg-stg
+  memory: 1024M
+  instances: 1
+  buildpack: liberty-for-java
+  path: ./defaultServer
+  services:
+    - stg-xpg-common-redis
+    - stg-xpg-common-syslog
+    - stg-xpg-common-zipkin
+  env:
+    SPRING_PROFILES_ACTIVE: stg
+    JBP_CONFIG_SPRING_AUTO_RECONFIGURATION: '{enabled: false}'
