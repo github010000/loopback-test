@@ -2,13 +2,15 @@ package com.skb.xpg.nxpg.svc.rest;
 
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.client.support.BasicAuthorizationInterceptor;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 public class RestClient {
 
-	RestTemplate restTemplate;
+	private RestTemplate restTemplate;
 
 	public String getRestUri(String uri, Map<String, String> msg, String param) {
 		restTemplate = new RestTemplate();

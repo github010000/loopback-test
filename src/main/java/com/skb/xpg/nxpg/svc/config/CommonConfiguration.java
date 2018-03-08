@@ -13,7 +13,7 @@ import org.springframework.web.client.RestTemplate;
  * Created by dmshin on 06/02/2017.
  */
 @Configuration
-@ComponentScan(basePackages={"com.zinnaworks.config"})
+@ComponentScan(basePackages={"com.skb.xpg.nxpg.svc.config"})
 public class CommonConfiguration {
 	
 	@Autowired
@@ -37,8 +37,9 @@ public class CommonConfiguration {
 		return "";
 	}
 
+	/*
 	@Bean(name = "cmsRestTemplate")
-	private RestTemplate cmsRestTemplate() {
+	public RestTemplate cmsRestTemplate() {
 		HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory();
 		factory.setConnectTimeout(10 * 1000);
 		factory.setReadTimeout(10 * 1000);
@@ -47,11 +48,12 @@ public class CommonConfiguration {
 	}
 
 	@Bean(name = "cwRestTemplate")
-	private RestTemplate cwRestTemplate() {
+	public RestTemplate cwRestTemplate() {
 		HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory();
 		factory.setConnectTimeout(500);
 		factory.setReadTimeout(500);
 		RestTemplate restTemplate = new RestTemplate(factory);
 		return restTemplate;
 	}
+	*/
 }
