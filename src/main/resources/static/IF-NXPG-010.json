@@ -12,54 +12,34 @@
 					"trailer_img": "/movie/34550/M345197_2_trailer.jpg"
 				}
 			],
-			"people_info": [
+			"person": [
 				{
-					"prs_role_cd": "01",
 					"prs_id": "{81ae1c0c-eb73-4202-968f-eded5b1fcf86}",
-					"prs_role_nm": "감독",
+					"prs_role_nm": "감",
 					"prs_nm": "타이카 와이티티",
-					"nm_image_file": ""
-				},
-				{
-					"prs_role_cd": "02",
-					"prs_id": "{88fcd98a-c3a6-4feb-b4e7-d87de07b0186}",
-					"prs_role_nm": "토르",
-					"prs_nm": "크리스 헴스워스",
-					"nm_image_file": ""
-				},
-				{
-					"prs_role_cd": "02",
-					"prs_id": "{329a72f3-ab20-480d-8168-1d4eb2dcedae}",
-					"prs_role_nm": "헐크",
-					"prs_nm": "마크 러팔로",
-					"nm_image_file": ""
-				},
-				{
-					"prs_role_cd": "02",
-					"prs_id": "{2c7b3072-6231-4978-a5d4-17365a6f6b2e}",
-					"prs_role_nm": "로키",
-					"prs_nm": "톰 히들스톤",
-					"nm_image_file": ""
+					"nm_image_file": "",
+					"prs_role_cd": "01"
 				}
 			],
-			"sales_comt_cts": "",
-			"sris_no": "1",
+			"sales_comt_cts":"",
+			"sris_no":"1",
 			"mov_spec": {
 				"multi_lang": "N",
+				"nscrn_yn": "Y",
+				"bind_yn": "N",
+				"capt_file_nm": "N",
+				"capt_lag_fg_cd": "",
 				"wat_lvl_cd": "12",
 				"rslu_typ_cd": "20",
-				"bind_yn": "N",
-				"snd_typ_cd": "2",
-				"mtx_capt_yn": "N",
-				"capt_lag_fg_cd": "",
-				"yn_mul_voc": "N",
-				"capt_file_nm": "N",
-				"voc_file_nm": "N",
 				"running_time": "130",
 				"open_dy": "2017",
-				"nscrn_yn": "Y"
+				"snd_typ_cd": "2",
+				"mtx_capt_yn": "N",
+				"yn_mul_voc": "N",
+				"voc_lag_cd": "01",
+				"voc_file_nm": ""
 			},
-			"epsd_id": "{D28F151D-0194-11E8-A9BB-1D93D2A1C9C0}",
+			"epsd_id":"{D28F151D-0194-11E8-A9BB-1D93D2A1C9C0}",
 			"season_info": [
 				{
 					"sris_id": "{53462203-0195-11E8-A9BB-1D93D2A1C9C0}",
@@ -82,44 +62,55 @@
 					"epsd_id": "{D28F151D-0194-11E8-A9BB-1D93D2A1C9C0}"
 				}
 			],
+			
 			"title": "토르: 라그나로크",
-			"sris_synop_cts": "시리즈 사상 가장 새롭고, 강력한 이야기로 귀환하다!\r\n피할 수 없는 세상의 멸망, 라그나로크를 막아라.\r\n죽음의 여신 헬라가 아스가르드를 침략하고, 세상은 모든 것의 종말 라그나로크의 위기에 처한다. \r\n헬라에게 자신의 망치마저 파괴당한 토르는 어벤져스 동료인 헐크와도 피할 수 없는 대결을벌이면서 절체절명의 위기에 빠지게 되는데...\r\n지금, 마블의 메인 이벤트가 시작된다!",
-			"epsd_synop_cts": "시리즈 사상 가장 새롭고, 강력한 이야기로 귀환하다!\r\n피할 수 없는 세상의 멸망, 라그나로크를 막아라.\r\n죽음의 여신 헬라가 아스가르드를 침략하고, 세상은 모든 것의 종말 라그나로크의 위기에 처한다. \r\n헬라에게 자신의 망치마저 파괴당한 토르는 어벤져스 동료인 헐크와도 피할 수 없는 대결을벌이면서 절체절명의 위기에 빠지게 되는데...\r\n지금, 마블의 메인 이벤트가 시작된다!",
+			"snss_ctn":"시리즈 사상 가장 새롭고, 강력한 이야기로 귀환하다! 피할 수 없는 세상의 멸망, 라그나로크를 막아라. 죽음의 여신 헬라가 아스가르드를 침략하고, 세상은 모든 것의 종말 라그나로크의 위기에 처한다.  헬라에게 자신의 망치마저 파괴당한 토르는 어벤져스 동료인 헐크와도 피할 수 없는 대결을벌이면서 절체절명의 위기에 빠지게 되는데... 지금, 마블의 메인 이벤트가 시작된다!",
+			"clt_img":"/metaimg/tmdb/284053/tmdb_clt_284053_36.jpg",
 			"bg_img": "/metaimg/tmdb/284053/tmdb_bg_284053_36.jpg",
 			"typ_cd": "01",
-			"commentary_mov": [],
+			"commentary_mov": [
+				{
+					"call_typ_cd":"6",
+					"epsd_rslu_id":"{039A8711-022E-11E8-ABC1-93204C75BC8A}",
+					"title":"{039A8711-022E-11E8-ABC1-93204C75BC8A}",
+					"pcim_addn_typ_nm":"스페셜영상",
+					"trailer_img":"/movie/34550/M345197_2_trailer.jpg"
+				}
+			],
 			"sris_id": "{53462203-0195-11E8-A9BB-1D93D2A1C9C0}",
-			"sub_title": "토르: 라그나로크[우리말]",
+			"sub_title":"토르: 라그나로크[우리말]",
+			
 			"conner": [
 				{
 					"sris_no": "330",
 					"start": "911",
-					"epi_id": "148227",
-					"nm_image_file": "/ontv/10500/330_T_11461_20170506174845.jpg",
-					"epi_gid": "1000007154",
+					"cnr_id": "148227",
+					"fr_svc_img_file_nm": "/ontv/10500/330_T_11461_20170506174845.jpg",
+					"cnr_grp_id": "1000007154",
 					"title": "스텔라장"
 				},
 				{
 					"sris_no": "330",
 					"start": "1095",
-					"epi_id": "148230",
-					"nm_image_file": "/ontv/10500/330_T_11461_20170506174916.jpg",
-					"epi_gid": "1000006754",
+					"cnr_id": "148230",
+					"fr_svc_img_file_nm": "/ontv/10500/330_T_11461_20170506174916.jpg",
+					"cnr_grp_id": "1000006754",
 					"title": "모모랜드"
 				},
 				{
 					"sris_no": "330",
 					"start": "1293",
-					"epi_id": "148225",
-					"nm_image_file": "/ontv/10500/330_T_11461_20170506175026.jpg",
-					"epi_gid": "1000005672",
+					"cnr_id": "148225",
+					"fr_svc_img_file_nm": "/ontv/10500/330_T_11461_20170506175026.jpg",
+					"cnr_grp_id": "1000005672",
 					"title": "다이아"
 				}
 			],
 			"cw_call_id": "RELATED.MOVIE.PAGE",
 			"title_img": "",
-			"synop_typ": "01",
-			"event_comment": "",
+			"dpr_cp_inf":"",
+			"evt_comt_cts": "",
+			"snss_typ_cd":"01",
 			"drc_nm": "타이카 와이티티",
 			"still_img": [
 				{
@@ -145,15 +136,16 @@
 				}
 			],
 			"epsd_rslu_id": "{D28F151D-0194-11E8-A9BB-1D93D2A1C9C0}",
-			"rating_info": [],
 			"aprc_pt_cts": "죽음의 여신 '헬라'로부터 아스가르드를 지키기위한 토르와 헐크의 모험! 연기, 연출, 음악의 앙상블에 높은 만족감을 느끼다. 역대급으로 재미있는 스토리와 보다 더 화려해진 액션으로 시간 가는 줄 모른다!",
 			"starring": "크리스 헴스워스, 마크 러팔로, 톰 히들스턴",
+			"is_series":"N",
 			"series_info": [
 				{
 					"nm_image_file": "",
 					"sris_id": "{53462203-0195-11E8-A9BB-1D93D2A1C9C0}",
 					"sris_no": "1",
 					"sale_prc": "1,500",
+					"prod_prd":"2,000",
 					"epsd_id": "{D28F151D-0194-11E8-A9BB-1D93D2A1C9C0}"
 				},
 				{
@@ -161,6 +153,7 @@
 					"sris_id": "{53462203-0195-11E8-A9BB-1D93D2A1C9C0}",
 					"sris_no": "2",
 					"sale_prc": "1,500",
+					"prod_prd":"2,000",
 					"epsd_id": "{D28F151D-0194-11E8-A9BB-1D93D2A1C9C0}"
 				},
 				{
@@ -168,7 +161,25 @@
 					"sris_id": "{53462203-0195-11E8-A9BB-1D93D2A1C9C0}",
 					"sris_no": "3",
 					"sale_prc": "1,500",
+					"prod_prd":"2,000",
 					"epsd_id": "{D28F151D-0194-11E8-A9BB-1D93D2A1C9C0}"
+				}
+			]
+		}
+	],
+	"purchase":[
+		{
+			"code": "01",
+			"contents_list": [
+				{
+					"epsd_rslu_id": "{D28F151D-0194-11E8-A9BB-1D93D2A1C9C0}",
+					"sale_prc":"4500",
+					"prod_prc":"6000",
+					"epsd_id": "{D28F151D-0194-11E8-A9BB-1D93D2A1C9C0}",	
+					"rank": "01",	
+					"prd_prc_id" : "123123",	
+					"hb_desc": "[일반 한글자막]프리미어편성예정일",
+					"next_prd_prc_fr_dt": "20180521"
 				}
 			]
 		}
