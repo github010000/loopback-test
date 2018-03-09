@@ -1,0 +1,73 @@
+{
+	"result": "OK",
+	"reason": "",
+	"total_count": 4,
+	"character": [
+		{
+			"scn_mthd_cd": "",
+			"home_img_off": "",
+			"menu_cd": "155508",
+			"menu_exps_prop_cd": "1",
+			"menu_img": "/DATA/epg/menu_image/kids/n_home_character_155508.png",
+			"is_leaf": "Y",
+			"svc_prop_cd": "",
+			"call_typ_cd": "",
+			"call_url": "",
+			"nm_image_file": "",
+			"menu_nm": "슈퍼키즈클럽",
+			"lim_lvl_yn": "N",
+			"menus": null,
+			"home_img_on": "",
+			"menu_id": "A000004696"
+		},
+		{
+			"scn_mthd_cd": "",
+			"home_img_off": "",
+			"menu_cd": "142759",
+			"menu_exps_prop_cd": "1",
+			"menu_img": "/DATA/epg/menu_image/kids/n_home_character_142759.png",
+			"is_leaf": "Y",
+			"svc_prop_cd": "",
+			"call_typ_cd": "",
+			"call_url": "",
+			"nm_image_file": "n_home_character_badge_03.png",
+			"menu_nm": "뽀로로튜브",
+			"lim_lvl_yn": "N",
+			"menus": null,
+			"home_img_on": "",
+			"menu_id": "A000004195"
+		},
+		{
+			"scn_mthd_cd": "",
+			"menu_cd": "155524",
+			"menu_exps_prop_cd": "1",
+			"menu_img": "/DATA/epg/menu_image/kids/n_home_character_155524.png",
+			"is_leaf": "Y",
+			"svc_prop_cd": "",
+			"call_typ_cd": "",
+			"call_url": "",
+			"nm_image_file": "",
+			"menu_nm": "디즈니주니어",
+			"lim_lvl_yn": "N",
+			"menus": null,
+			"menu_id": "A000004712"
+		},
+		{
+			"scn_mthd_cd": "",
+			"menu_cd": "157676",
+			"menu_exps_prop_cd": "1",
+			"menu_img": "/DATA/epg/menu_image/kids/n_home_character_157676.png",
+			"is_leaf": "Y",
+			"svc_prop_cd": "",
+			"call_typ_cd": "",
+			"call_url": "",
+			"nm_image_file": "",
+			"menu_nm": "핑크퐁",
+			"lim_lvl_yn": "N",
+			"menus": null,
+			"menu_id": "A000004822"
+		}
+	],
+	"IF": "IF-NXPG-101",
+	"menu_stb_svc_id": "BSUHD"
+}

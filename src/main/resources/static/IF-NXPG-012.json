@@ -1,0 +1,70 @@
+{
+	"result": "OK",
+	"reason": "",
+	"IF": "IF-NXPG-012",
+	"people": [
+		{
+			"dbu_cts": "YTV 드라마 기네비어 존스 (2002)",
+			"boold_cd": "",
+			"death_dy": "",
+			"nmgco_nm": "",
+			"series": [
+				{
+					"year": "2017",
+					"contents": [
+						{
+							"prs_role_cd": "02",
+							"poster_filename_h": "/movie/34650/M346118.jpg",
+							"sris_id": "{223FC5DA-109B-11E8-B7BD-2BAC564E33F7}",
+							"poster_filename_v": "/movie/34650/M346118.jpg",
+							"prize_smry_cts": "",
+							"sris_nm": "그것만이 내 세상",
+							"epsd_id": "{133B3294-1098-11E8-9252-FFA90356A7A9}",
+							"adlt_lvl_cd": "N",
+							"title": "그것만이 내 세상"
+						}
+					]
+				},
+				{
+					"year": "2016",
+					"contents": [
+						{
+							"prs_role_cd": "02",
+							"poster_filename_h": "/movie/34650/M346118.jpg",
+							"sris_id": "{223FC5DA-109B-11E8-B7BD-2BAC564E33F7}",
+							"poster_filename_v": "/movie/34650/M346118.jpg",
+							"prize_smry_cts": "",
+							"sris_nm": "그것만이 내 세상",
+							"epsd_id": "{133B3294-1098-11E8-9252-FFA90356A7A9}",
+							"adlt_lvl_cd": "N",
+							"title": "그것만이 내 세상"
+						}
+					]
+				},
+				{
+					"year": "2015",
+					"contents": [
+						{
+							"prs_role_cd": "02",
+							"poster_filename_h": "/movie/34650/M346118.jpg",
+							"sris_id": "{223FC5DA-109B-11E8-B7BD-2BAC564E33F7}",
+							"poster_filename_v": "/movie/34650/M346118.jpg",
+							"prize_smry_cts": "",
+							"sris_nm": "그것만이 내 세상",
+							"epsd_id": "{133B3294-1098-11E8-9252-FFA90356A7A9}",
+							"adlt_lvl_cd": "N",
+							"title": "그것만이 내 세상"
+						}
+					]
+				}
+			],
+			"brth_ymd": "1983년08월11일",
+			"rnm": "크리스 헴스워스",
+			"wgt_val": "",
+			"prs_eng_nm": "Chris Hemsworth",
+			"prs_typ_cd": "영화배우",
+			"hight_val": "190Cm"
+		}
+	],
+	"menu_stb_svc_id": "BSUHD"
+}

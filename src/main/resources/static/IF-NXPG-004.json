@@ -1,0 +1,70 @@
+{
+	"result": "OK",
+	"reason": "",
+	"total_count": 2,
+	"block": [
+		{
+			"scn_mthd_cd": "",
+			"menu_cd": "122104",
+			"menu_exps_prop_cd": "1",
+			"cw_call_id": "",
+			"menu_nm": "이번 주 시선집중",
+			"lim_lvl_yn": "N",
+			"menu_img": "/DATA/epg/menu_image/update/h_122104.png",
+			"is_leaf": "Y",
+			"menus": null,
+			"menu_id": "A000002661"
+		},
+		{
+			"scn_mthd_cd": "81",
+			"menu_cd": "159867",
+			"menu_exps_prop_cd": "1",
+			"cw_call_id": "MOVIESERIESPREM.PAGE",
+			"menu_nm": "취향저격 맞춤 영화",
+			"lim_lvl_yn": "N",
+			"menu_img": "/DATA/epg/menu_image/update/159867.png",
+			"is_leaf": "Y",
+			"menus": null,
+			"menu_id": "A000005499"
+		},
+		{
+			"scn_mthd_cd": "",
+			"menu_cd": "108471",
+			"menu_exps_prop_cd": "1",
+			"cw_call_id": "",
+			"menu_nm": "캐치온 VOD",
+			"lim_lvl_yn": "N",
+			"menu_img": "/DATA/epg/menu_image/update/108471.png",
+			"is_leaf": "Y",
+			"menus": [
+				{
+					"scn_mthd_cd": "",
+					"menu_cd": "108729",
+					"menu_exps_prop_cd": "1",
+					"cw_call_id": "",
+					"menu_nm": "2월의 캐치온",
+					"lim_lvl_yn": "N",
+					"menu_img": "/DATA/epg/menu_image/update/108729.png",
+					"is_leaf": "Y",
+					"menus": null,
+					"menu_id": "A000001907"
+				},
+				{
+					"scn_mthd_cd": "",
+					"menu_cd": "108730",
+					"menu_exps_prop_cd": "1",
+					"cw_call_id": "",
+					"menu_nm": "캐치온 최신작",
+					"lim_lvl_yn": "N",
+					"menu_img": "/DATA/epg/menu_image/update/108730.png",
+					"is_leaf": "Y",
+					"menus": null,
+					"menu_id": "A000001908"
+				}
+			],
+			"menu_id": "A000001670"
+		}
+	],
+	"IF": "IF-NXPG-004",
+	"menu_stb_svc_id": "BSUHD"
+}

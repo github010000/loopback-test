@@ -1,0 +1,25 @@
+{
+	"result": "OK",
+	"reason": "",
+	"total_count": 1,
+	"IF": "IF-NXPG-003",
+	"promotion": [
+		{
+			"scn_mthd_cd": "30",
+			"prm_img": "",
+			"menu_cd": "122258",
+			"menu_exps_prop_cd": "",
+			"par_menu_id": "A000002200",
+			"vas_itm_id": "",
+			"svc_prop_cd": "",
+			"call_typ_cd": "2",
+			"call_url": "http://wps.hanafostv.com:8080/upload/iad/ds/data/3305/index.html",
+			"vas_svc_id": "",
+			"menu_nm": "B tv 연말대결산",
+			"vas_id": "",
+			"lim_lvl_yn": "N",
+			"menu_id": "A000002690"
+		}
+	],
+	"menu_stb_svc_id": "BSUHD"
+}

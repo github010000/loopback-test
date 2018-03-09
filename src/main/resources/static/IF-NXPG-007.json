@@ -1,0 +1,74 @@
+{
+	"result": "OK",
+	"reason": "",
+	"block_count": 2,
+	"block": [
+		{
+			"scn_mthd_cd": "",
+			"menu_cd": "122104",
+			"grid": [
+				{
+					"poster_filename_h": "/movie/34650/M346118.jpg",
+					"sris_id": "{223FC5DA-109B-11E8-B7BD-2BAC564E33F7}",
+					"poster_filename_v": "/movie/34650/M346118.jpg",
+					"sris_nm": "그것만이 내 세상",
+					"epsd_id": "{133B3294-1098-11E8-9252-FFA90356A7A9}",
+					"adlt_lvl_cd": "N",
+					"title": "그것만이 내 세상"
+				}
+			],
+			"menu_exps_prop_cd": "1",
+			"cw_call_id": "",
+			"menu_nm": "이번 주 시선집중",
+			"lim_lvl_yn": "N",
+			"menu_img": "/DATA/epg/menu_image/update/h_122104.png",
+			"is_leaf": "Y",
+			"menus": null,
+			"menu_id": "A000002661"
+		},
+		{
+			"scn_mthd_cd": "81",
+			"menu_cd": "159867",
+			"grid": [
+				{
+					"poster_filename_h": "/movie/34650/M346118.jpg",
+					"sris_id": "{223FC5DA-109B-11E8-B7BD-2BAC564E33F7}",
+					"poster_filename_v": "/movie/34650/M346118.jpg",
+					"sris_nm": "그것만이 내 세상",
+					"epsd_id": "{133B3294-1098-11E8-9252-FFA90356A7A9}",
+					"adlt_lvl_cd": "N",
+					"title": "그것만이 내 세상"
+				}
+			],
+			"menu_exps_prop_cd": "1",
+			"cw_call_id": "MOVIESERIESPREM.PAGE",
+			"menu_nm": "취향저격 맞춤 영화",
+			"lim_lvl_yn": "N",
+			"menu_img": "/DATA/epg/menu_image/update/159867.png",
+			"is_leaf": "Y",
+			"menus": null,
+			"menu_id": "A000005499"
+		}
+	],
+	"banner_count": 1,
+	"IF": "IF-NXPG-007",
+	"menu_stb_svc_id": "BSUHD",
+	"promotion": [
+		{
+			"scn_mthd_cd": "30",
+			"prm_img": "",
+			"menu_cd": "122258",
+			"menu_exps_prop_cd": "",
+			"par_menu_id": "A000002200",
+			"vas_itm_id": "",
+			"svc_prop_cd": "",
+			"call_typ_cd": "2",
+			"call_url": "http://wps.hanafostv.com:8080/upload/iad/ds/data/3305/index.html",
+			"vas_svc_id": "",
+			"menu_nm": "B tv 연말대결산",
+			"vas_id": "",
+			"lim_lvl_yn": "N",
+			"menu_id": "A000002690"
+		}
+	]
+}

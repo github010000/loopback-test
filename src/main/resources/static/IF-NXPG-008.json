@@ -1,0 +1,57 @@
+{
+	"result": "OK",
+	"reason": "",
+	"total_count": 2,
+	"menus": [
+		{
+			"menu_cd": "140149",
+			"sale_prc": "11000",
+			"menu_expl": "영화 한편값으로 개봉 최신 영화를 마음껏 즐기세요!",
+			"menu_nm": "프리미어",
+			"prd_prc_id": "1017470",
+			"block": [
+				{
+					"scn_mthd_cd": "",
+					"menu_cd": "122104",
+					"menu_exps_prop_cd": "1",
+					"cw_call_id": "",
+					"menu_nm": "이번 주 시선집중",
+					"lim_lvl_yn": "N",
+					"menu_img": "/DATA/epg/menu_image/update/h_122104.png",
+					"is_leaf": "Y",
+					"menus": null,
+					"menu_id": "A000002661"
+				}
+			],
+			"lim_lvl_yn": "N",
+			"menu_img": "/DATA/epg/menu_image/update/h_140149.png",
+			"menu_id": "A000003542"
+		},
+		{
+			"menu_cd": "136914",
+			"sale_prc": "9000",
+			"menu_expl": "",
+			"menu_nm": "지상파",
+			"prd_prc_id": "1476793",
+			"block": [
+				{
+					"scn_mthd_cd": "",
+					"menu_cd": "122104",
+					"menu_exps_prop_cd": "1",
+					"cw_call_id": "",
+					"menu_nm": "이번 주 시선집중",
+					"lim_lvl_yn": "N",
+					"menu_img": "/DATA/epg/menu_image/update/h_122104.png",
+					"is_leaf": "Y",
+					"menus": null,
+					"menu_id": "A000002661"
+				}
+			],
+			"lim_lvl_yn": "N",
+			"menu_img": "/DATA/epg/menu_image/update/h_136914.png",
+			"menu_id": "A000003143"
+		}
+	],
+	"IF": "IF-NXPG-008",
+	"menu_stb_svc_id": "BSUHD"
+}

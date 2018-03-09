@@ -1,0 +1,109 @@
+{
+	"result": "OK",
+	"reason": "",
+	"purchase": [
+		{
+			"code": "01",
+			"contents_list": [
+				{
+					"epsd_rslu_id": "{D28F151D-0194-11E8-A9BB-1D93D2A1C9C0}",
+					"sale_prc": "4500",
+					"epsd_id": "{D28F151D-0194-11E8-A9BB-1D93D2A1C9C0}",
+					"rank": "01",
+					"prd_prc_id": "123123",
+					"hb_desc": "[일반 한글자막]프리미어편성예정일",
+					"next_prd_prc_fr_dt": "20180521"
+				},
+				{
+					"epsd_rslu_id": "{D28F151D-0194-11E8-A9BB-1D93D2A1C9C0}",
+					"sale_prc": "4500",
+					"epsd_id": "{D28F151D-0194-11E8-A9BB-1D93D2A1C9C0}",
+					"rank": "02",
+					"prd_prc_id": "123124",
+					"hb_desc": "[일반 한글자막]프리미어편성예정일",
+					"next_prd_prc_fr_dt": "20180521"
+				}
+			]
+		},
+		{
+			"code": "02",
+			"contents_list": [
+				{
+					"epsd_rslu_id": "{D28F151D-0194-11E8-A9BB-1D93D2A1C9C0}",
+					"sale_prc": "10000",
+					"epsd_id": "{D28F151D-0194-11E8-A9BB-1D93D2A1C9C0}",
+					"rank": "01",
+					"prd_prc_id": "123125",
+					"hb_desc": "",
+					"next_prd_prc_fr_dt": ""
+				},
+				{
+					"epsd_rslu_id": "{D28F151D-0194-11E8-A9BB-1D93D2A1C9C0}",
+					"sale_prc": "10000",
+					"epsd_id": "{D28F151D-0194-11E8-A9BB-1D93D2A1C9C0}",
+					"rank": "02",
+					"prd_prc_id": "123126",
+					"hb_desc": "",
+					"next_prd_prc_fr_dt": ""
+				}
+			]
+		},
+		{
+			"code": "03",
+			"contents_list": [
+				{
+					"epsd_rslu_id": "{D28F151D-0194-11E8-A9BB-1D93D2A1C9C0}",
+					"sale_prc": "16900",
+					"epsd_id": "{D28F151D-0194-11E8-A9BB-1D93D2A1C9C0}",
+					"rank": "01",
+					"prd_prc_id": "123127",
+					"hb_desc": "",
+					"next_prd_prc_fr_dt": ""
+				},
+				{
+					"epsd_rslu_id": "{D28F151D-0194-11E8-A9BB-1D93D2A1C9C0}",
+					"sale_prc": "17900",
+					"epsd_id": "{D28F151D-0194-11E8-A9BB-1D93D2A1C9C0}",
+					"rank": "01",
+					"prd_prc_id": "123128",
+					"hb_desc": "",
+					"next_prd_prc_fr_dt": ""
+				},
+				{
+					"epsd_rslu_id": "{D28F151D-0194-11E8-A9BB-1D93D2A1C9C0}",
+					"sale_prc": "18900",
+					"epsd_id": "{D28F151D-0194-11E8-A9BB-1D93D2A1C9C0}",
+					"rank": "01",
+					"prd_prc_id": "123129",
+					"hb_desc": "",
+					"next_prd_prc_fr_dt": ""
+				},
+				{
+					"epsd_rslu_id": "{D28F151D-0194-11E8-A9BB-1D93D2A1C9C0}",
+					"sale_prc": "19900",
+					"epsd_id": "{D28F151D-0194-11E8-A9BB-1D93D2A1C9C0}",
+					"rank": "01",
+					"prd_prc_id": "123130",
+					"hb_desc": "",
+					"next_prd_prc_fr_dt": ""
+				}
+			]
+		},
+		{
+			"code": "04",
+			"contents_list": [
+				{
+					"epsd_rslu_id": "{D28F151D-0194-11E8-A9BB-1D93D2A1C9C0}",
+					"sale_prc": "10000",
+					"epsd_id": "{D28F151D-0194-11E8-A9BB-1D93D2A1C9C0}",
+					"rank": "01",
+					"prd_prc_id": "1017470",
+					"hb_desc": "",
+					"next_prd_prc_fr_dt": ""
+				}
+			]
+		}
+	],
+	"IF": "IF-NXPG-011",
+	"menu_stb_svc_id": "BSUHD"
+}

@@ -1,0 +1,31 @@
+{
+	"result": "OK",
+	"reason": "",
+	"total_count": 2,
+	"menus": [
+		{
+			"scn_mthd_cd": "",
+			"svc_prop_cd": "",
+			"menu_cd": "110401",
+			"call_typ_cd": "",
+			"call_url": "",
+			"menu_exps_prop_cd": "26",
+			"menu_nm": "영화/시리즈",
+			"lim_lvl_yn": "N",
+			"menu_id": "A000002200"
+		},
+		{
+			"scn_mthd_cd": "",
+			"svc_prop_cd": "",
+			"menu_cd": "108320",
+			"call_typ_cd": "",
+			"call_url": "",
+			"menu_exps_prop_cd": "26",
+			"menu_nm": "TV다시보기",
+			"lim_lvl_yn": "N",
+			"menu_id": "A000001519"
+		}
+	],
+	"IF": "IF-NXPG-001",
+	"menu_stb_svc_id": "BSUHD"
+}
