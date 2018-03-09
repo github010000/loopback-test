@@ -19,133 +19,133 @@ import org.springframework.web.bind.annotation.RestController;
  * Created by dmshin on 06/02/2017.
  */
 @RestController
-@RequestMapping(produces = "application/json; charset=utf-8")
+@RequestMapping(value = "/xpg/{ver}", produces = "application/json; charset=utf-8")
 public class SampleController {
 
 	@Autowired
 	private ResourceLoader resourceLoader;
 
-	@RequestMapping(value = "/xpg/v5/menu/gnb")
+	@RequestMapping(value = "/menu/gnb")
 	public Map<String, Object> nxpg1(@PathVariable String ver, @RequestParam Map<String, String> param) {
 		return getJson("IF-NXPG-001");
 	}
 
-	@RequestMapping(value = "/xpg/v5/menu/all")
+	@RequestMapping(value = "/menu/all")
 	public Map<String, Object> nxpg2(@PathVariable String ver, @RequestParam Map<String, String> param) {
 		return getJson("IF-NXPG-002");
 	}
 
-	@RequestMapping(value = "/xpg/v5/menu/block")
+	@RequestMapping(value = "/menu/block")
 	public Map<String, Object> nxpg3(@PathVariable String ver, @RequestParam Map<String, String> param) {
 		return getJson("IF-NXPG-003");
 	}
 
-	@RequestMapping(value = "/xpg/v5/menu/monthinfo")
+	@RequestMapping(value = "/menu/monthinfo")
 	public Map<String, Object> nxpg4(@PathVariable String ver, @RequestParam Map<String, String> param) {
 		return getJson("IF-NXPG-004");
 	}
 
-	@RequestMapping(value = "/xpg/v5/menu/month")
+	@RequestMapping(value = "/menu/month")
 	public Map<String, Object> nxpg5(@PathVariable String ver, @RequestParam Map<String, String> param) {
 		return getJson("IF-NXPG-005");
 	}
 
-	@RequestMapping(value = "/xpg/v5/grid/grid")
+	@RequestMapping(value = "/grid/grid")
 	public Map<String, Object> nxpg6(@PathVariable String ver, @RequestParam Map<String, String> param) {
 		return getJson("IF-NXPG-006");
 	}
 
-	@RequestMapping(value = "/xpg/v5/grid/event")
+	@RequestMapping(value = "/grid/event")
 	public Map<String, Object> nxpg7(@PathVariable String ver, @RequestParam Map<String, String> param) {
 		return getJson("IF-NXPG-007");
 	}
 
-	@RequestMapping(value = "/xpg/v5/contents/rating")
+	@RequestMapping(value = "/contents/rating")
 	public Map<String, Object> nxpg8(@PathVariable String ver, @RequestParam Map<String, String> param) {
 		return getJson("IF-NXPG-008");
 	}
 
-	@RequestMapping(value = "/xpg/v5/inter/cwgrid")
+	@RequestMapping(value = "/inter/cwgrid")
 	public Map<String, Object> nxpg9(@PathVariable String ver, @RequestParam Map<String, String> param) {
 		return getJson("IF-NXPG-009");
 	}
 
-	@RequestMapping(value = "/xpg/v5/contents/synopsis")
+	@RequestMapping(value = "/contents/synopsis")
 	public Map<String, Object> nxpg10(@PathVariable String ver, @RequestParam Map<String, String> param) {
 		return getJson("IF-NXPG-010");
 	}
 
-	@RequestMapping(value = "/xpg/v5/contents/people")
+	@RequestMapping(value = "/contents/people")
 	public Map<String, Object> nxpg12(@PathVariable String ver, @RequestParam Map<String, String> param) {
 		return getJson("IF-NXPG-011");
 	}
 
-	@RequestMapping(value = "/xpg/v5/inter/cwrelation")
+	@RequestMapping(value = "/inter/cwrelation")
 	public Map<String, Object> nxpg13(@PathVariable String ver, @RequestParam Map<String, String> param) {
 		return getJson("IF-NXPG-012");
 	}
 
-	@RequestMapping(value = "/xpg/v5/added/epg")
+	@RequestMapping(value = "/added/epg")
 	public Map<String, Object> nxpg14(@PathVariable String ver, @RequestParam Map<String, String> param) {
 		return getJson("IF-NXPG-013");
 	}
 
-	@RequestMapping(value = "/xpg/v5/contents/gwsynop")
+	@RequestMapping(value = "/contents/gwsynop")
 	public Map<String, Object> nxpg15(@PathVariable String ver, @RequestParam Map<String, String> param) {
 		return getJson("IF-NXPG-014");
 	}
 
-	@RequestMapping(value = "/xpg/v5/contents/commerce")
+	@RequestMapping(value = "/contents/commerce")
 	public Map<String, Object> nxpg16(@PathVariable String ver, @RequestParam Map<String, String> param) {
 		return getJson("IF-NXPG-015");
 	}
 
-	@RequestMapping(value = "/xpg/v5/contents/corner")
+	@RequestMapping(value = "/contents/corner")
 	public Map<String, Object> nxpg17(@PathVariable String ver, @RequestParam Map<String, String> param) {
 		return getJson("IF-NXPG-016");
 	}
 
-	@RequestMapping(value = "/xpg/v5/contents/vodlist")
+	@RequestMapping(value = "/contents/vodlist")
 	public Map<String, Object> nxpg18(@PathVariable String ver, @RequestParam Map<String, String> param) {
 		return getJson("IF-NXPG-017");
 	}
 
-	@RequestMapping(value = "/xpg/v5/menu/guide")
+	@RequestMapping(value = "/menu/guide")
 	public Map<String, Object> nxpg19(@PathVariable String ver, @RequestParam Map<String, String> param) {
 		return getJson("IF-NXPG-018");
 	}
 
-	@RequestMapping(value = "/xpg/v5/menu/liveevent")
+	@RequestMapping(value = "/menu/liveevent")
 	public Map<String, Object> nxpg20(@PathVariable String ver, @RequestParam Map<String, String> param) {
 		return getJson("IF-NXPG-019");
 	}
 
-	@RequestMapping(value = "/xpg/v5/menu/kzchar")
+	@RequestMapping(value = "/menu/kzchar")
 	public Map<String, Object> nxpg21(@PathVariable String ver, @RequestParam Map<String, String> param) {
 		return getJson("IF-NXPG-101");
 	}
 
-	@RequestMapping(value = "/xpg/v5/menu/kzgnb")
+	@RequestMapping(value = "/menu/kzgnb")
 	public Map<String, Object> nxpg22(@PathVariable String ver, @RequestParam Map<String, String> param) {
 		return getJson("IF-NXPG-102");
 	}
 
-	@RequestMapping(value = "/xpg/v5/grid/kzcharinfo")
+	@RequestMapping(value = "/grid/kzcharinfo")
 	public Map<String, Object> nxpg23(@PathVariable String ver, @RequestParam Map<String, String> param) {
 		return getJson("IF-NXPG-103");
 	}
 
-	@RequestMapping(value = "/xpg/v5/menu/lftmenu")
+	@RequestMapping(value = "/menu/lftmenu")
 	public Map<String, Object> nxpg24(@PathVariable String ver, @RequestParam Map<String, String> param) {
 		return getJson("IF-NXPG-401");
 	}
 
-	@RequestMapping(value = "/xpg/v5/grid/lftgrid")
+	@RequestMapping(value = "/grid/lftgrid")
 	public Map<String, Object> nxpg25(@PathVariable String ver, @RequestParam Map<String, String> param) {
 		return getJson("IF-NXPG-402");
 	}
 
-	@RequestMapping(value = "/xpg/v5/contents/lftsynop")
+	@RequestMapping(value = "/contents/lftsynop")
 	public Map<String, Object> nxpg26(@PathVariable String ver, @RequestParam Map<String, String> param) {
 		return getJson("IF-NXPG-403");
 	}
