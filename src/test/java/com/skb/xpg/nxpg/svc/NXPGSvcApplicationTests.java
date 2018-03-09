@@ -8,7 +8,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@ActiveProfiles( profiles={"jenkins"} )
+@ActiveProfiles( profiles={"local"} )
 public class NXPGSvcApplicationTests {
 
 	@Test

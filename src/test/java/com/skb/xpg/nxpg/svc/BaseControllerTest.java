@@ -11,7 +11,7 @@ import com.skb.xpg.nxpg.svc.NXPGSvcApplication;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = NXPGSvcApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("jenkins")
+@ActiveProfiles("local")
 public class BaseControllerTest {
 	
 	@LocalServerPort
