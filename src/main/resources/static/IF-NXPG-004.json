@@ -5,7 +5,7 @@
 	"prd_prc_id": "",
 	"sale_prc": "",
 	"prod_prc": "",
-	"menus": [
+	"block": [
 		{
 			"scn_mthd_cd": "",
 			"menu_exps_prop_cd": "1",
