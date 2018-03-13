@@ -1,5 +1,8 @@
 package com.skb.xpg.nxpg.svc.util;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -7,56 +10,74 @@ import org.springframework.stereotype.Component;
 @Component
 public class LogUtil {
 
-	public static void info(String className, String interfaceId, String type, String stgId, String data) {
+	public static void info(String className, String interfaceId, String transactionType, String transactionId, String stbId, String extName, String data) {
+		String logLevel = "info";
 		Logger logger = LoggerFactory.getLogger(className);
-		
 		if (logger != null) {
-			logger.debug(getLogString(interfaceId, type, stgId, data));
+			logger.debug(getLogString(logLevel, interfaceId, transactionType, transactionId, stbId, extName, data));
 		}
 	}
 
-	public static void error(StackTraceElement[] elements, String interfaceId) {
+
+	public static void error(StackTraceElement[] elements, String interfaceId, String transactionType, String transactionId, String stbId, String extName, String data) {
+		String logLevel = "Error";
 		Logger logger;
 		if (elements != null && elements.length > 0) {
 			for (int iterator = 1; iterator <= elements.length; iterator++) {
 				logger = LoggerFactory.getLogger(elements[iterator - 1].getClassName());
 				if (logger != null) {
-					logger.error(getLogString(interfaceId, "BACH", null,
+					logger.error(getLogString(logLevel, interfaceId, transactionType, 
+							transactionId, stbId, extName, /*"BACH", null,*/
 							elements[iterator - 1].getMethodName() + "(" + elements[iterator - 1].getLineNumber()
 									+ ")"));
 				}
 			}
 		}
 	}
-
-	public static void debug(String className, String interfaceId, String type, String stgId, String data) {
+	
+	public static void debug(String className, String interfaceId, String transactionType, String transactionId, String stbId, String extName, String data) {
+		String logLevel = "debug";
 		Logger logger = LoggerFactory.getLogger(className);
 		if (logger != null) {
-			logger.debug(getLogString(interfaceId, type, stgId, data));
+			logger.debug(getLogString(logLevel, interfaceId, transactionType, transactionId, stbId, extName, data));
 		}
 	}
 
-	private static String getLogString(String interfaceId, String type, String stbId, String data) {
-		String log = "xpg-svc";
+	private static String getLogString(String logLevel, String interfaceId, String transactionType, String transactionId, String stbId, String extName, String data) {
+		String log = "";
+		String serviceName = "xpg-svc";
+		
+		log = DateUtil.getYYYYMMDDhhmmssms();
+		
+		log += "|" + serviceName;
+		if (logLevel == null)
+			log += "|NULL";
+		else
+			log += "|" + logLevel;
 		if (interfaceId == null)
 			log += "|NULL";
 		else
 			log += "|" + interfaceId;
-		if (type == null)
+		if (transactionType == null)
 			log += "|NULL";
 		else
-			log += "|" + type;
-		log += "|NULL"; // 트랜젝션 아이디
+			log += "|" + transactionType;
+		if (transactionId == null)
+			log += "|NULL";
+		else
+			log += "|" + transactionId;// 트랜잭션 아이디 
 		if (stbId == null)
 			log += "|NULL";
 		else {
 			stbId = stbId.replaceAll("\\{", "").replaceAll("\\}", "");
 			log += "|" + stbId;
 		}
-		log += "|NULL"; // 외부 연동 시스템 명
-		log += "|" + data;
+		if (extName == null)
+			log += "|NULL";
+		else
+			log += "|" + extName;
+			log += "|" + data;
 
 		return log;
 	}
-
 }
