@@ -5,7 +5,6 @@
 	"block": [
 		{
 			"scn_mthd_cd": "",
-			"menu_cd": "122104",
 			"menu_exps_prop_cd": "1",
 			"menu_nm": "우리아이 살아있는 동화",
 			"lim_lvl_yn": "N",
@@ -16,7 +15,6 @@
 		},
 		{
 			"scn_mthd_cd": "81",
-			"menu_cd": "159867",
 			"menu_exps_prop_cd": "1",
 			"menu_nm": "명작 동화",
 			"lim_lvl_yn": "N",
@@ -27,7 +25,6 @@
 		},
 		{
 			"scn_mthd_cd": "",
-			"menu_cd": "108471",
 			"menu_exps_prop_cd": "1",
 			"menu_nm": "장르별 동화",
 			"lim_lvl_yn": "N",
@@ -36,7 +33,6 @@
 			"menus": [
 				{
 					"scn_mthd_cd": "",
-					"menu_cd": "108729",
 					"menu_exps_prop_cd": "1",
 					"menu_nm": "전체",
 					"lim_lvl_yn": "N",
@@ -47,7 +43,6 @@
 				},
 				{
 					"scn_mthd_cd": "",
-					"menu_cd": "108730",
 					"menu_exps_prop_cd": "1",
 					"menu_nm": "신체 활동",
 					"lim_lvl_yn": "N",

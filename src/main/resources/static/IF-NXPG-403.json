@@ -13,6 +13,7 @@
 			"snss_cts": "친구들에게는 있는 꼬리가 왜 코알라에게는 없을까요?\r\n코알라에게 무슨 일이 있었는지 함께 알아보러 가볼까요?",
 			"epsd_rslu_id": "{D28F151D-0194-11E8-A9BB-1D93D2A1C9C0}",
 			"sale_prc": "0",
+			"prod_prc": "0",
 			"page_info": [
 				{
 					"sris_no": "1",
@@ -37,6 +38,7 @@
 				}
 			],
 			"bg_img": "",
+			"end_cover_img": "/ontv/10500/11461_end.jpg",
 			"livefairytale": {
 				"year": "2017",
 				"publisher": "",

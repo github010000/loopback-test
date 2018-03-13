@@ -6,7 +6,6 @@
 		{
 			"scn_mthd_cd": "",
 			"home_img_off": "",
-			"menu_cd": "155508",
 			"menu_exps_prop_cd": "1",
 			"menu_img": "/DATA/epg/menu_image/kids/n_home_character_155508.png",
 			"is_leaf": "Y",
@@ -23,7 +22,6 @@
 		{
 			"scn_mthd_cd": "",
 			"home_img_off": "",
-			"menu_cd": "142759",
 			"menu_exps_prop_cd": "1",
 			"menu_img": "/DATA/epg/menu_image/kids/n_home_character_142759.png",
 			"is_leaf": "Y",
@@ -39,7 +37,6 @@
 		},
 		{
 			"scn_mthd_cd": "",
-			"menu_cd": "155524",
 			"menu_exps_prop_cd": "1",
 			"menu_img": "/DATA/epg/menu_image/kids/n_home_character_155524.png",
 			"is_leaf": "Y",
@@ -54,7 +51,6 @@
 		},
 		{
 			"scn_mthd_cd": "",
-			"menu_cd": "157676",
 			"menu_exps_prop_cd": "1",
 			"menu_img": "/DATA/epg/menu_image/kids/n_home_character_157676.png",
 			"is_leaf": "Y",

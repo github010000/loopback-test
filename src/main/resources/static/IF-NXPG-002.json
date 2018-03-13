@@ -6,7 +6,6 @@
 		{
 			"scn_mthd_cd": "",
 			"svc_prop_cd": "",
-			"menu_cd": "110401",
 			"call_typ_cd": "",
 			"call_url": "",
 			"menu_exps_prop_cd": "26",
@@ -18,7 +17,6 @@
 				{
 					"scn_mthd_cd": "",
 					"svc_prop_cd": "",
-					"menu_cd": "108478",
 					"call_typ_cd": "",
 					"call_url": "",
 					"menu_exps_prop_cd": "1",
@@ -32,7 +30,6 @@
 				{
 					"scn_mthd_cd": "",
 					"svc_prop_cd": "",
-					"menu_cd": "113204",
 					"call_typ_cd": "",
 					"call_url": "",
 					"menu_exps_prop_cd": "1",
@@ -49,7 +46,6 @@
 		{
 			"scn_mthd_cd": "",
 			"svc_prop_cd": "",
-			"menu_cd": "108320",
 			"call_typ_cd": "",
 			"call_url": "",
 			"menu_exps_prop_cd": "26",
