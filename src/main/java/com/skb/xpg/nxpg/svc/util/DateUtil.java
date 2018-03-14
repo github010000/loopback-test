@@ -103,5 +103,15 @@ public class DateUtil {
 
 		return formatter.format(new Date());
 	}
+	
+	public static String getYYYYMMDDhhmmssms() {
+		Locale currLocale = new Locale("KOREAN","KOREA");  
+		String pattern = "yyyyMMddHHmmssms";
+		SimpleDateFormat formatter = new SimpleDateFormat(pattern, currLocale);
+
+		return formatter.format(new Date());
+	}
+	
+	
 }
 
