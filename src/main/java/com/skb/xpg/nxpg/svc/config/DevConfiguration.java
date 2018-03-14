@@ -76,7 +76,7 @@ public class DevConfiguration {
 			return redisTemplate;
 
 		} catch (JedisConnectionException e) {
-			LogUtil.error(e.getStackTrace(), "NULL");
+//			LogUtil.error(e.getStackTrace(), "NULL");
 			return null;
 		}
 	}
