@@ -1,0 +1,109 @@
+{
+	"result": "OK",
+	"reason": "",
+	"total_count": 10,
+	"grid": [
+		{
+			"poster_filename_h": "/movie/34750/M347233_h.jpg",
+			"sris_id": "{B38117CB-DF02-11E7-BC92-2FD82E4AE8A0}",
+			"poster_filename_v": "/movie/34750/M347233_v.jpg",
+			"sris_no": "0",
+			"sris_nm": "스타워즈: 라스트 제다이",
+			"epsd_id": "{B7A2CC5F-21CA-11E8-A758-3B8AE57B8A3C}",
+			"adlt_lvl_cd": "N",
+			"title": "스타워즈: 라스트 제다이[우리말][소장용]"
+		},
+		{
+			"poster_filename_h": "/movie/34750/M347053_h.jpg",
+			"sris_id": "{A33759A7-2031-11E8-A758-3B8AE57B8A3C}",
+			"poster_filename_v": "/movie/34750/M347053_v.jpg",
+			"sris_no": "0",
+			"sris_nm": "골든슬럼버(2018)",
+			"epsd_id": "{B4AC3957-1DD7-11E8-B08B-C7751FE09052}",
+			"adlt_lvl_cd": "N",
+			"title": "골든슬럼버(2018)"
+		},
+		{
+			"poster_filename_h": "/movie/34600/M345660_h.jpg",
+			"sris_id": "{0C7E0388-0A4B-11E8-B50D-035E9B295403}",
+			"poster_filename_v": "/movie/34600/M345660_v.jpg",
+			"sris_no": "0",
+			"sris_nm": "신과 함께: 죄와 벌",
+			"epsd_id": "{1819C382-0A46-11E8-9252-FFA90356A7A9}",
+			"adlt_lvl_cd": "N",
+			"title": "신과 함께: 죄와 벌"
+		},
+		{
+			"poster_filename_h": "/movie/34700/M346638_h.jpg",
+			"sris_id": "{997F1375-1798-11E8-BC4F-CBED43C60403}",
+			"poster_filename_v": "/movie/34700/M346638_v.jpg",
+			"sris_no": "0",
+			"sris_nm": "인시디어스 4: 라스트 키",
+			"epsd_id": "{4A183B8F-1798-11E8-BC4F-CBED43C60403}",
+			"adlt_lvl_cd": "N",
+			"title": "인시디어스 4: 라스트 키"
+		},
+		{
+			"poster_filename_h": "/movie/34650/M346118_h.jpg",
+			"sris_id": "{223FC5DA-109B-11E8-B7BD-2BAC564E33F7}",
+			"poster_filename_v": "/movie/34650/M346118_v.jpg",
+			"sris_no": "0",
+			"sris_nm": "그것만이 내 세상",
+			"epsd_id": "{133B3294-1098-11E8-9252-FFA90356A7A9}",
+			"adlt_lvl_cd": "N",
+			"title": "그것만이 내 세상"
+		},
+		{
+			"poster_filename_h": "/movie/34650/M346248_h.jpg",
+			"sris_id": "{11F6430E-1518-11E8-BC4F-CBED43C60403}",
+			"poster_filename_v": "/movie/34650/M346248_v.jpg",
+			"sris_no": "0",
+			"sris_nm": "메이즈 러너: 데스 큐어",
+			"epsd_id": "{1B2D13AC-1517-11E8-BC4F-CBED43C60403}",
+			"adlt_lvl_cd": "N",
+			"title": "메이즈 러너: 데스 큐어"
+		},
+		{
+			"poster_filename_h": "/movie/34500/M344590_h.jpg",
+			"sris_id": "{A9F8F51B-F5CF-11E7-ACDA-2BBA3426B75B}",
+			"poster_filename_v": "/movie/34500/M344590_v.jpg",
+			"sris_no": "0",
+			"sris_nm": "강철비",
+			"epsd_id": "{68703D7C-F5C8-11E7-ACDA-2BBA3426B75B}",
+			"adlt_lvl_cd": "N",
+			"title": "[프리미어]강철비"
+		},
+		{
+			"poster_filename_h": "/movie/34750/M347221_h.jpg",
+			"sris_id": "{15D552E3-21B1-11E8-A306-FF56F1FE6384}",
+			"poster_filename_v": "/movie/34750/M347221_v.jpg",
+			"sris_no": "0",
+			"sris_nm": "패딩턴 2",
+			"epsd_id": "{36F9A846-21AD-11E8-B08B-C7751FE09052}",
+			"adlt_lvl_cd": "N",
+			"title": "패딩턴 2[우리말]"
+		},
+		{
+			"poster_filename_h": "/movie/34600/M345738_h.jpg",
+			"sris_id": "{4CD21862-0C89-11E8-B7BD-2BAC564E33F7}",
+			"poster_filename_v": "/movie/34600/M345738_v.jpg",
+			"sris_no": "0",
+			"sris_nm": "코코",
+			"epsd_id": "{8BA7D3FE-0C87-11E8-B7BD-2BAC564E33F7}",
+			"adlt_lvl_cd": "N",
+			"title": "코코[우리말]"
+		},
+		{
+			"poster_filename_h": "/movie/34600/M345554_h.jpg",
+			"sris_id": "{8902DB4B-073F-11E8-8651-177C4BB0135A}",
+			"poster_filename_v": "/movie/34600/M345554_v.jpg",
+			"sris_no": "0",
+			"sris_nm": "페르디난드",
+			"epsd_id": "{A8278C87-0737-11E8-8651-177C4BB0135A}",
+			"adlt_lvl_cd": "N",
+			"title": "페르디난드[우리말]"
+		}
+	],
+	"IF": "IF-NXPG-006",
+	"menu_stb_svc_id": "BSUHD"
+}

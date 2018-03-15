@@ -27,7 +27,7 @@ public class SampleController {
 
 	@RequestMapping(value = "/menu/gnb")
 	public Map<String, Object> nxpg1(@PathVariable String ver, @RequestParam Map<String, String> param) {
-		return getJson("IF-NXPG-001");
+		return getJson("IF-NXPG-001", "menu_stb_svc_id", param);
 	}
 
 	@RequestMapping(value = "/menu/all")
@@ -37,7 +37,7 @@ public class SampleController {
 
 	@RequestMapping(value = "/menu/block")
 	public Map<String, Object> nxpg3(@PathVariable String ver, @RequestParam Map<String, String> param) {
-		return getJson("IF-NXPG-003");
+		return getJson("IF-NXPG-003", "menu_id", param);
 	}
 
 	@RequestMapping(value = "/menu/monthinfo")
@@ -52,12 +52,12 @@ public class SampleController {
 
 	@RequestMapping(value = "/grid/grid")
 	public Map<String, Object> nxpg6(@PathVariable String ver, @RequestParam Map<String, String> param) {
-		return getJson("IF-NXPG-006");
+		return getJson("IF-NXPG-006", "menu_id", param);
 	}
 
 	@RequestMapping(value = "/grid/event")
 	public Map<String, Object> nxpg7(@PathVariable String ver, @RequestParam Map<String, String> param) {
-		return getJson("IF-NXPG-007");
+		return getJson("IF-NXPG-007", "menu_id", param);
 	}
 
 	@RequestMapping(value = "/contents/rating")
@@ -72,7 +72,7 @@ public class SampleController {
 
 	@RequestMapping(value = "/contents/synopsis")
 	public Map<String, Object> nxpg10(@PathVariable String ver, @RequestParam Map<String, String> param) {
-		return getJson("IF-NXPG-010");
+		return getJson("IF-NXPG-010", "epsd_id", param);
 	}
 
 	@RequestMapping(value = "/contents/people")
@@ -148,6 +148,18 @@ public class SampleController {
 	@RequestMapping(value = "/contents/lftsynop")
 	public Map<String, Object> nxpg26(@PathVariable String ver, @RequestParam Map<String, String> param) {
 		return getJson("IF-NXPG-403");
+	}
+
+	private Map<String, Object> getJson(String fileName, String searchKey, Map<String, String> param) {
+		Resource resource = resourceLoader.getResource("classpath:static/" + fileName + "-" + param.get(searchKey) + ".json");
+		File jsonFile = null;
+		try {
+			jsonFile = resource.getFile();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return StringToJsonList(readFile(jsonFile));
 	}
 
 	private Map<String, Object> getJson(String fileName) {

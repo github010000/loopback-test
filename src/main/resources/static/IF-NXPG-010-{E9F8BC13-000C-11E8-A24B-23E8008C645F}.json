@@ -1,0 +1,242 @@
+{
+	"result": "OK",
+	"reason": "",
+	"contents": [
+		{
+			"preview": null,
+			"person": [
+				{
+					"prs_id": "{011b776d-7be6-4ead-b5f9-78ddd4c189da}",
+					"prs_role_nm": "감독",
+					"prs_nm": "김철규",
+					"nm_image_file": "",
+					"prs_role_cd": "01"
+				},
+				{
+					"prs_id": "{d9faa2cc-162f-4936-938a-92d568975be2}",
+					"prs_role_nm": "수진",
+					"prs_nm": "이보영",
+					"nm_image_file": "",
+					"prs_role_cd": "02"
+				},
+				{
+					"prs_id": "{19c9c88f-0ef0-4bef-a1ef-22689f403b23}",
+					"prs_role_nm": "영신",
+					"prs_nm": "이혜영",
+					"nm_image_file": "",
+					"prs_role_cd": "02"
+				},
+				{
+					"prs_id": "{ce0f72b4-4677-4898-b56a-5fcdf36edfc9}",
+					"prs_role_nm": "자영",
+					"prs_nm": "고성희",
+					"nm_image_file": "",
+					"prs_role_cd": "03"
+				},
+				{
+					"prs_id": "{c9f43b9a-7c87-47fb-a2d3-bb2f7b40ff42}",
+					"prs_role_nm": "진홍",
+					"prs_nm": "이재윤",
+					"nm_image_file": "",
+					"prs_role_cd": "03"
+				}
+			],
+			"sales_comt_cts":"",
+			"sris_no":"15",
+			"mov_spec": {
+				"multi_lang": "N",
+				"nscrn_yn": "N",
+				"bind_yn": "N",
+				"capt_file_nm": "N",
+				"capt_lag_fg_cd": "",
+				"wat_lvl_cd": "15",
+				"rslu_typ_cd": "20",
+				"running_time": "68",
+				"open_dy": "",
+				"snd_typ_cd": "1",
+				"mtx_capt_yn": "N",
+				"yn_mul_voc": "N",
+				"voc_lag_cd": "",
+				"voc_file_nm": ""
+			},
+			"epsd_id":"{E9F8BC13-000C-11E8-A24B-23E8008C645F}",
+			"season_info": null,			
+			"title": "마더",
+			"snss_ctn":"[15회]오랜만에 세 딸과 모인 영신(이혜영)은 그동안 묻어 두었던 이야기들을 풀어낸다.\r\n하지만 모진 말로 혜나(허율)를 내쫓았던 기억만은 아프게 후회로 남아, 혜나에게 다가가지 못하는 수진(이보영)을 볼 때마다 가슴이 아프다.\r\n한편, 수진을 기다리던 혜나는 결국 시설을 빠져나오는데...",
+			"clt_img":"",
+			"bg_img": "",
+			"typ_cd": "",
+			"commentary_mov": null,
+			"sris_id": "{10E3A7E5-000D-11E8-A24B-23E8008C645F}",
+			"sub_title":"18.03.14.수",
+			"conner": null,
+			"cw_call_id": "RELATED.TVPROGRAM.PAGE",
+			"title_img": "",
+			"dpr_cp_inf":"",
+			"evt_comt_cts": "",
+			"snss_typ_cd":"01",
+			"drc_nm": "김철규",
+			"still_img": null,
+			"epsd_rslu_id": "{E9F8BC13-000C-11E8-A24B-23E8008C645F}",
+			"aprc_pt_cts": "",
+			"starring": "이보영, 허율, 이혜영, 고성희, 이재윤 등",
+			"is_series":"N",
+			"series_info": [
+				{
+					"nm_image_file": "",
+					"sris_id": "{10E3A7E5-000D-11E8-A24B-23E8008C645F}",
+					"sris_no": "15",
+					"sale_prc": "1,500",
+					"prod_prd":"1,500",
+					"epsd_id": "{E9F8BC13-000C-11E8-A24B-23E8008C645F}",
+					"s_title": "18.03.14.수"
+				},
+				{
+					"nm_image_file": "",
+					"sris_id": "{10E3A7E5-000D-11E8-A24B-23E8008C645F}",
+					"sris_no": "14",
+					"sale_prc": "1,500",
+					"prod_prd":"1,500",
+					"epsd_id": "{E9E66C92-000C-11E8-A24B-23E8008C645F}",
+					"s_title": "18.03.08.목"
+				},
+				{
+					"nm_image_file": "",
+					"sris_id": "{10E3A7E5-000D-11E8-A24B-23E8008C645F}",
+					"sris_no": "13",
+					"sale_prc": "1,500",
+					"prod_prd":"1,500",
+					"epsd_id": "{E9D52E81-000C-11E8-A24B-23E8008C645F}",
+					"s_title": "18.03.07.수"
+				},
+				{
+					"nm_image_file": "",
+					"sris_id": "{10E3A7E5-000D-11E8-A24B-23E8008C645F}",
+					"sris_no": "12",
+					"sale_prc": "1,500",
+					"prod_prd":"1,500",
+					"epsd_id": "{E9C269D0-000C-11E8-A24B-23E8008C645F}",
+					"s_title": "18.03.01.목"
+				},
+				{
+					"nm_image_file": "",
+					"sris_id": "{10E3A7E5-000D-11E8-A24B-23E8008C645F}",
+					"sris_no": "11",
+					"sale_prc": "1,500",
+					"prod_prd":"1,500",
+					"epsd_id": "{E9B0686F-000C-11E8-A24B-23E8008C645F}",
+					"s_title": "18.02.28.수"
+				},
+				{
+					"nm_image_file": "",
+					"sris_id": "{10E3A7E5-000D-11E8-A24B-23E8008C645F}",
+					"sris_no": "10",
+					"sale_prc": "1,500",
+					"prod_prd":"1,500",
+					"epsd_id": "{E99C442E-000C-11E8-A24B-23E8008C645F}",
+					"s_title": "18.02.22.목"
+				},
+				{
+					"nm_image_file": "",
+					"sris_id": "{10E3A7E5-000D-11E8-A24B-23E8008C645F}",
+					"sris_no": "9",
+					"sale_prc": "1,500",
+					"prod_prd":"1,500",
+					"epsd_id": "{E988BC2D-000C-11E8-A24B-23E8008C645F}",
+					"s_title": "18.02.21.수"
+				},
+				{
+					"nm_image_file": "",
+					"sris_id": "{10E3A7E5-000D-11E8-A24B-23E8008C645F}",
+					"sris_no": "8",
+					"sale_prc": "1,500",
+					"prod_prd":"1,500",
+					"epsd_id": "{E976E1DC-000C-11E8-A24B-23E8008C645F}",
+					"s_title": "18.02.15.목"
+				},
+				{
+					"nm_image_file": "",
+					"sris_id": "{10E3A7E5-000D-11E8-A24B-23E8008C645F}",
+					"sris_no": "7",
+					"sale_prc": "1,500",
+					"prod_prd":"1,500",
+					"epsd_id": "{E9641D2B-000C-11E8-A24B-23E8008C645F}",
+					"s_title": "18.02.14.수"
+				},
+				{
+					"nm_image_file": "",
+					"sris_id": "{10E3A7E5-000D-11E8-A24B-23E8008C645F}",
+					"sris_no": "6",
+					"sale_prc": "1,500",
+					"prod_prd":"1,500",
+					"epsd_id": "{E954B3DA-000C-11E8-A24B-23E8008C645F}",
+					"s_title": "18.02.08.목"
+				},
+				{
+					"nm_image_file": "",
+					"sris_id": "{10E3A7E5-000D-11E8-A24B-23E8008C645F}",
+					"sris_no": "5",
+					"sale_prc": "1,500",
+					"prod_prd":"1,500",
+					"epsd_id": "{E93C70E9-000C-11E8-A24B-23E8008C645F}",
+					"s_title": "18.02.07.수"
+				},
+				{
+					"nm_image_file": "",
+					"sris_id": "{10E3A7E5-000D-11E8-A24B-23E8008C645F}",
+					"sris_no": "4",
+					"sale_prc": "1,500",
+					"prod_prd":"1,500",
+					"epsd_id": "{E92D0798-000C-11E8-A24B-23E8008C645F}",
+					"s_title": "18.02.01.목"
+				},
+				{
+					"nm_image_file": "",
+					"sris_id": "{10E3A7E5-000D-11E8-A24B-23E8008C645F}",
+					"sris_no": "3",
+					"sale_prc": "1,500",
+					"prod_prd":"1,500",
+					"epsd_id": "{E91E88A7-000C-11E8-A24B-23E8008C645F}",
+					"s_title": "18.01.31.수"
+				},
+				{
+					"nm_image_file": "",
+					"sris_id": "{10E3A7E5-000D-11E8-A24B-23E8008C645F}",
+					"sris_no": "2",
+					"sale_prc": "1,500",
+					"prod_prd":"1,500",
+					"epsd_id": "{E90B00A6-000C-11E8-A24B-23E8008C645F}",
+					"s_title": "18.01.25.목"
+				},
+				{
+					"nm_image_file": "",
+					"sris_id": "{10E3A7E5-000D-11E8-A24B-23E8008C645F}",
+					"sris_no": "1",
+					"sale_prc": "1,500",
+					"prod_prd":"1,500",
+					"epsd_id": "{E8F26F95-000C-11E8-A24B-23E8008C645F}",
+					"s_title": "18.01.24.수"
+				}
+			]
+		}
+	],
+	"purchase":[
+		{
+			"code": "01",
+			"contents_list": [
+				{
+					"epsd_rslu_id": "{E9F8BC13-000C-11E8-A24B-23E8008C645F}",
+					"sale_prc":"1500",
+					"prod_prc":"1500",
+					"epsd_id": "{E9F8BC13-000C-11E8-A24B-23E8008C645F}",	
+					"rank": "01",	
+					"prd_prc_id" : "123123",	
+					"hb_desc": "",
+					"next_prd_prc_fr_dt": ""
+				}
+			]
+		}
+	],
+	"IF": "IF-NXPG-010",
+	"menu_stb_svc_id": "BSUHD"
+}

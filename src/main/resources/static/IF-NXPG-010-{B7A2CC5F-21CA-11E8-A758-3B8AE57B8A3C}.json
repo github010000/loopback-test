@@ -1,0 +1,173 @@
+{
+	"result": "OK",
+	"reason": "",
+	"contents": [
+		{
+			"preview": [
+				{
+					"epsd_rslu_id": "{b3c27729-55a2-4f52-a838-f20bd3383644}",
+					"pcim_addn_typ_nm": "예고편",
+					"title": "일반용 UI 예고편 [스타워즈: 라스트 제다이]",
+					"call_typ_cd": "6",
+					"trailer_img": "/movie/34750/M347231_2_trailer.jpg"
+				}
+			],
+			"person": [
+				{
+					"prs_id": "{b3c27729-55a2-4f52-a838-f20bd3383644}",
+					"prs_role_nm": "감독",
+					"prs_nm": "라이언 존슨",
+					"nm_image_file": "",
+					"prs_role_cd": "01"
+				},
+				{
+					"prs_id": "{fd880d79-906f-44e7-b537-513b61a27319}",
+					"prs_role_nm": "루크 스카이워커",
+					"prs_nm": "마크 해밀",
+					"nm_image_file": "",
+					"prs_role_cd": "02"
+				},
+				{
+					"prs_id": "{e7ec781c-1b50-479f-af2e-32317dc4fb4f}",
+					"prs_role_nm": "레아",
+					"prs_nm": "캐리 피셔",
+					"nm_image_file": "",
+					"prs_role_cd": "02"
+				},
+				{
+					"prs_id": "{2b5bc3a2-1e56-48d0-977b-af0a7aba5df1}",
+					"prs_role_nm": "레이",
+					"prs_nm": "데이지 리들리",
+					"nm_image_file": "",
+					"prs_role_cd": "02"
+				},
+				{
+					"prs_id": "{8cb373ad-6587-4b3e-8e7b-4fc212655c11}",
+					"prs_role_nm": "카일로 렌",
+					"prs_nm": "아담 드라이버",
+					"nm_image_file": "",
+					"prs_role_cd": "02"
+				},
+				{
+					"prs_id": "{5260f6d7-1588-4e1a-af04-db4a7c22a4d0}",
+					"prs_role_nm": "포 다메론",
+					"prs_nm": "오스카 아이삭",
+					"nm_image_file": "",
+					"prs_role_cd": "02"
+				},
+				{
+					"prs_id": "{4312e1b8-10e3-4c3d-a47e-763a4e5cf04b}",
+					"prs_role_nm": "핀",
+					"prs_nm": "존 보예가",
+					"nm_image_file": "",
+					"prs_role_cd": "02"
+				}
+			],
+			"sales_comt_cts": "콘텐츠 구매 후 B tv 해지 전까지 무제한 시청 가능합니다.",
+			"sris_no": "1",
+			"mov_spec": {
+				"multi_lang": "N",
+				"nscrn_yn": "Y",
+				"bind_yn": "N",
+				"capt_file_nm": "N",
+				"capt_lag_fg_cd": "",
+				"wat_lvl_cd": "12",
+				"rslu_typ_cd": "20",
+				"running_time": "152",
+				"open_dy": "2018",
+				"snd_typ_cd": "2",
+				"mtx_capt_yn": "N",
+				"yn_mul_voc": "N",
+				"voc_lag_cd": "02",
+				"voc_file_nm": ""
+			},
+			"epsd_id": "{B7A2CC5F-21CA-11E8-A758-3B8AE57B8A3C}",
+			"season_info": null,
+			"title": "스타워즈: 라스트 제다이",
+			"snss_ctn": "선과 악의 전쟁, 거대한 운명이 결정된다!\r\n악의 세력인 무자비한 퍼스트 오더가 은하계를 장악한 시대.\r\n레아 장군이 이끄는 저항군은 승리의 불씨를 지필 마지막 희망을 찾아 레이를 과거의 영웅 루크에게 보낸다. \r\n루크를 통해 자신 안에 잠들어 있던 특별한 힘을 깨닫게 된 레이는 뜻밖에 퍼스트 오더의 실세 카일로 렌과도 교감하게 되는데...\r\n누가 빛이고 누가 어둠이 될 것인가?\r\n지금, 선과 악의 운명을 건 거대한 전쟁이 시작된다!",
+			"clt_img": "/metaimg/tmdb/181808/tmdb_clt_181808_20.jpg",
+			"bg_img": "/metaimg/tmdb/181808/tmdb_bg_181808_20.jpg",
+			"typ_cd": "01",
+			"commentary_mov": [
+				{
+					"call_typ_cd": "6",
+					"cmt_type_cd": "12",
+					"epsd_rslu_id": "{360490B3-25BF-11E8-BA5D-F33514C76BAF}",
+					"title": "삭제 장면 소개 [라스트 제다이]",
+					"pcim_addn_typ_nm": "미공개 영상",
+					"trailer_img": "/movie/34750/M347233_8_trailer.jpg"
+				},
+				{
+					"call_typ_cd": "6",
+					"cmt_type_cd": "9",
+					"epsd_rslu_id": "{35AB742F-25BF-11E8-BA5D-F33514C76BAF}",
+					"title": "포스의 균형 [라스트 제다이]",
+					"pcim_addn_typ_nm": "메이킹",
+					"trailer_img": "/movie/34750/M347233_4_trailer.jpg"
+				},
+				{
+					"call_typ_cd": "6",
+					"cmt_type_cd": "12",
+					"epsd_rslu_id": "{3631E245-25BF-11E8-BA5D-F33514C76BAF}",
+					"title": "삭제 장면: 페이지의 고장난 총 [라스트 제다이]",
+					"pcim_addn_typ_nm": "미공개 영상",
+					"trailer_img": "/movie/34750/M347233_10_trailer.jpg"
+				},
+				{
+					"call_typ_cd": "6",
+					"cmt_type_cd": "15",
+					"epsd_rslu_id": "{35D6C9F1-25BF-11E8-BA5D-F33514C76BAF}",
+					"title": "불꽃의 시작: 우주 전투의 탄생 [라스트 제다이]",
+					"pcim_addn_typ_nm": "보너스 영상",
+					"trailer_img": "/movie/34750/M347233_6_trailer.jpg"
+				}
+			],
+			"sris_id": "{B38117CB-DF02-11E7-BC92-2FD82E4AE8A0}",
+			"sub_title": "스타워즈: 라스트 제다이[우리말][소장용]",
+			"conner": null,
+			"cw_call_id": "RELATED.MOVIE.PAGE",
+			"title_img": "",
+			"dpr_cp_inf": "",
+			"evt_comt_cts": "[포스 넘치는 이벤트] 구매고객 전원에게 '스타워즈: 깨어난 포스' 무료쿠폰을, 포스의 선택을 받은 151명에게는 초호화 레고 선물을 드립니다! 자세한 내용은 줄거리에서 확인하세요! (3/13~3/19)",
+			"snss_typ_cd": "01",
+			"drc_nm": "라이언 존슨",
+			"still_img": null,
+			"epsd_rslu_id": "{D28F151D-0194-11E8-A9BB-1D93D2A1C9C0}",
+			"aprc_pt_cts": "",
+			"starring": "마크 해밀, 캐리 피셔",
+			"is_series": "N",
+			"series_info": null
+		}
+	],
+	"purchase": [
+		{
+			"code": "02",
+			"contents_list": [
+				{
+					"epsd_rslu_id": "{8D8E709E-21CB-11E8-A758-3B8AE57B8A3C}",
+					"sale_prc": "9900",
+					"prod_prc": "9900",
+					"epsd_id": "{8D8E709E-21CB-11E8-A758-3B8AE57B8A3C}",
+					"rank": "01",
+					"prd_prc_id": "123125",
+					"voc_lag_cd": "02",
+					"hb_desc": "",
+					"next_prd_prc_fr_dt": ""
+				},
+				{
+					"epsd_rslu_id": "{B7A2CC5F-21CA-11E8-A758-3B8AE57B8A3C}",
+					"sale_prc": "9900",
+					"prod_prc": "9900",
+					"epsd_id": "{B7A2CC5F-21CA-11E8-A758-3B8AE57B8A3C}",
+					"rank": "01",
+					"prd_prc_id": "123126",
+					"voc_lag_cd": "01",
+					"hb_desc": "",
+					"next_prd_prc_fr_dt": ""
+				}
+			]
+		}
+	],
+	"IF": "IF-NXPG-010",
+	"menu_stb_svc_id": "BSUHD"
+}

@@ -1,0 +1,54 @@
+{
+	"result": "OK",
+	"reason": "",
+	"total_count": 3,
+	"event": [
+		{
+			"scn_mthd_cd": "51",
+			"prm_img": "/promo/updown/108530_promo_up_345047_0315.png",
+			"menu_exps_prop_cd": "",
+			"par_menu_id": "A000005949",	
+			"vas_itm_id": "",	
+			"svc_prop_cd": "",	
+			"call_typ_cd": "",	
+			"call_url": "20544/{E8F26F95-000C-11E8-A24B-23E8008C645F}/Y/15",	
+			"vas_svc_id": "",	
+			"menu_nm": "마더",
+			"vas_id": "",
+			"lim_lvl_yn": "N",	
+			"menu_id": "A000001719"
+		},
+		{
+			"scn_mthd_cd": "51",
+			"prm_img": "/promo/updown/139515_promo_up_Vod_327691_0315.png",
+			"menu_exps_prop_cd": "",
+			"par_menu_id": "A000005949",	
+			"vas_itm_id": "",	
+			"svc_prop_cd": "",	
+			"call_typ_cd": "",	
+			"call_url": "64213/{BF44F7B3-6C24-11E7-A687-D9AF8E5F116C}/Y/15",	
+			"vas_svc_id": "",	
+			"menu_nm": "한끼 줍쇼",
+			"vas_id": "",
+			"lim_lvl_yn": "N",	
+			"menu_id": "A000003419"
+		},
+		{
+			"scn_mthd_cd": "51",
+			"prm_img": "/promo/updown/114825_promo_up_328877_0314.png",
+			"menu_exps_prop_cd": "",
+			"par_menu_id": "A000005949",	
+			"vas_itm_id": "",	
+			"svc_prop_cd": "",	
+			"call_typ_cd": "",	
+			"call_url": "64213/{4EB35C45-86FB-11E7-84DB-6B2AE9D23E97}/Y/15",	
+			"vas_svc_id": "",	
+			"menu_nm": "뭉쳐야 뜬다",
+			"vas_id": "",
+			"lim_lvl_yn": "N",	
+			"menu_id": "A000002421"
+		}
+	],
+	"IF": "IF-NXPG-007",
+	"menu_stb_svc_id": "BSUHD"
+}
