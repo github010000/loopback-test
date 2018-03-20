@@ -235,6 +235,21 @@
 					"next_prd_prc_fr_dt": ""
 				}
 			]
+		},
+		{
+			"code": "05",
+			"contents_list": [
+				{
+					"epsd_rslu_id": "{E9F8BC13-000C-11E8-A24B-23E8008C645F}",
+					"sale_prc":"19800",
+					"prod_prc":"19800",
+					"epsd_id": "{E9F8BC13-000C-11E8-A24B-23E8008C645F}",	
+					"rank": "01",	
+					"prd_prc_id" : "123123",	
+					"hb_desc": "",
+					"next_prd_prc_fr_dt": ""
+				}
+			]
 		}
 	],
 	"IF": "IF-NXPG-010",

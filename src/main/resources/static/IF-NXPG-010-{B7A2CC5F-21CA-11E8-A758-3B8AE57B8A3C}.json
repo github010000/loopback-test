@@ -141,6 +141,33 @@
 	],
 	"purchase": [
 		{
+			"code": "01",
+			"contents_list": [
+				{
+					"epsd_rslu_id": "{8D8E709E-21CB-11E8-A758-3B8AE57B8A3C}",
+					"sale_prc": "5000",
+					"prod_prc": "5500",
+					"epsd_id": "{8D8E709E-21CB-11E8-A758-3B8AE57B8A3C}",
+					"rank": "01",
+					"prd_prc_id": "123125",
+					"voc_lag_cd": "02",
+					"hb_desc": "",
+					"next_prd_prc_fr_dt": ""
+				},
+				{
+					"epsd_rslu_id": "{B7A2CC5F-21CA-11E8-A758-3B8AE57B8A3C}",
+					"sale_prc": "5000",
+					"prod_prc": "5500",
+					"epsd_id": "{B7A2CC5F-21CA-11E8-A758-3B8AE57B8A3C}",
+					"rank": "01",
+					"prd_prc_id": "123126",
+					"voc_lag_cd": "01",
+					"hb_desc": "",
+					"next_prd_prc_fr_dt": ""
+				}
+			]
+		},
+		{
 			"code": "02",
 			"contents_list": [
 				{
@@ -162,6 +189,38 @@
 					"rank": "01",
 					"prd_prc_id": "123126",
 					"voc_lag_cd": "01",
+					"hb_desc": "",
+					"next_prd_prc_fr_dt": ""
+				}
+			]
+		},
+		{
+			"code": "03",
+			"contents_list": [
+				{
+					"epsd_rslu_id": "{8D8E709E-21CB-11E8-A758-3B8AE57B8A3C}",
+					"sale_prc": "15000",
+					"prod_prc": "15000",
+					"epsd_id": "{8D8E709E-21CB-11E8-A758-3B8AE57B8A3C}",
+					"rank": "01",
+					"prd_prc_id": "123125",
+					"voc_lag_cd": "02",
+					"hb_desc": "",
+					"next_prd_prc_fr_dt": ""
+				}
+			]
+		},
+		{
+			"code": "04",
+			"contents_list": [
+				{
+					"epsd_rslu_id": "{8D8E709E-21CB-11E8-A758-3B8AE57B8A3C}",
+					"sale_prc": "9900",
+					"prod_prc": "9900",
+					"epsd_id": "{8D8E709E-21CB-11E8-A758-3B8AE57B8A3C}",
+					"rank": "01",
+					"prd_prc_id": "123125",
+					"voc_lag_cd": "02",
 					"hb_desc": "",
 					"next_prd_prc_fr_dt": ""
 				}
