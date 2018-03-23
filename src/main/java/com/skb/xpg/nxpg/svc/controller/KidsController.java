@@ -22,7 +22,7 @@ public class KidsController {
 	@Autowired
 	private Properties properties;
 	
-	// IF-NXPG-001
+	// IF-NXPG-101
 	@RequestMapping(value = "/menu/kzchar")
 	public Map<String, Object> getMenuKzchar(@PathVariable String ver, @RequestParam Map<String, String> param) {
 		String IF = param.get("IF");
@@ -46,7 +46,7 @@ public class KidsController {
 		// 성공
 		else {
 			rtn.put("result", "0000");
-			rtn.put("menus", resultMap);
+			rtn.put("character", resultMap);
 			// 카운트 넣어주기 
 			if (resultMap != null) rtn.put("total_count", resultMap.size());
 		}
@@ -54,7 +54,7 @@ public class KidsController {
 		return rtn;
 	}
 
-	// IF-NXPG-001
+	// IF-NXPG-102
 	@RequestMapping(value = "/menu/kzgnb")
 	public Map<String, Object> getMenuKzgnb(@PathVariable String ver, @RequestParam Map<String, String> param) {
 		String IF = param.get("IF");
@@ -63,7 +63,7 @@ public class KidsController {
 		rtn.put("IF", IF);
 		rtn.put("request_time", DateUtil.getYYYYMMDDhhmmss());
 		
-		if (StrUtil.isEmpty(param.get("menu_stb_svc_id")) || StrUtil.isEmpty(param.get("stb_id"))) {
+		if (StrUtil.isEmpty(param.get("menu_stb_svc_id"))) {
 			rtn.put("result", "9999");
 			return rtn;
 		}

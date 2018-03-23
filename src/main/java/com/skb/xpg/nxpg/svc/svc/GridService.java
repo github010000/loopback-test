@@ -10,24 +10,24 @@ import com.skb.xpg.nxpg.svc.redis.RedisClient;
 import com.skb.xpg.nxpg.svc.util.CastUtil;
 
 @Service
-public class KidsService {
+public class GridService {
 
 	@Autowired
 	private RedisClient redisClient;
 	
-	// IF-NXPG-101
-	public Map<String, Object> getMenuKzchar(String ver, Map<String, String> param) {
+	// IF-NXPG-006
+	public Map<String, Object> getGrid(String ver, Map<String, String> param) {
 		try {
-			return CastUtil.StringToJsonMap((String) redisClient.hget(NXPGCommon.MENU_KZCHAR, param.get("menu_stb_svc_id")));
+			return CastUtil.StringToJsonMap((String) redisClient.hget(NXPGCommon.GRID_CONTENTS, param.get("menu_id")));
 		} catch (Exception e) {
 			return null;
 		}
 	}
 	
-	// IF-NXPG-102
-	public Map<String, Object> getMenuKzgnb(String ver, Map<String, String> param) {
+	// IF-NXPG-007
+	public Map<String, Object> getGridEvent(String ver, Map<String, String> param) {
 		try {
-			return CastUtil.StringToJsonMap((String) redisClient.hget(NXPGCommon.MENU_KZGNB, param.get("menu_stb_svc_id")));
+			return CastUtil.StringToJsonMap((String) redisClient.hget(NXPGCommon.SYNOPSIS_CONTENTS, param.get("epsd_id")));
 		} catch (Exception e) {
 			return null;
 		}
