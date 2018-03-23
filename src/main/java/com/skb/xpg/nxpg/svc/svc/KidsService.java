@@ -18,7 +18,7 @@ public class KidsService {
 	// IF-NXPG-101
 	public Map<String, Object> getMenuKzchar(String ver, Map<String, String> param) {
 		try {
-			return CastUtil.StringToJsonMap((String) redisClient.hget(NXPGCommon.MENU_KZCHAR, param.get("menu_stb_svc_id")));
+			return CastUtil.StringToJsonMap((String) redisClient.hget(NXPGCommon.MENU_GNB, param.get("menu_stb_svc_id")));
 		} catch (Exception e) {
 			return null;
 		}
@@ -27,7 +27,7 @@ public class KidsService {
 	// IF-NXPG-102
 	public Map<String, Object> getMenuKzgnb(String ver, Map<String, String> param) {
 		try {
-			return CastUtil.StringToJsonMap((String) redisClient.hget(NXPGCommon.MENU_KZGNB, param.get("menu_stb_svc_id")));
+			return CastUtil.StringToJsonMap((String) redisClient.hget(NXPGCommon.MENU_ALL, param.get("menu_stb_svc_id")));
 		} catch (Exception e) {
 			return null;
 		}

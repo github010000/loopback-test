@@ -65,6 +65,35 @@ public class ContentsController {
 	// return rtn;
 	// }
 
+	// IF-NXPG-008
+	@RequestMapping(value = "/contents/rating")
+	public Map<String, Object> getContentsRating(@PathVariable String ver, @RequestParam Map<String, String> param) {
+		String IF = param.get("IF");
+		Map<String, Object> rtn = properties.getResults();
+
+		rtn.put("IF", IF);
+		rtn.put("request_time", DateUtil.getYYYYMMDDhhmmss());
+
+		if (StrUtil.isEmpty(param.get("menu_stb_svc_id")) || StrUtil.isEmpty(param.get("stb_id"))) {
+			rtn.put("result", "9999");
+			return rtn;
+		}
+
+		// 값 불러오기
+		Map<String, Object> resultMap = contentsService.getContentsRating(ver, param);
+		// 조회값 없음
+		if (resultMap == null) {
+			rtn.put("result", "9998");
+		}
+		// 성공
+		else {
+			rtn.put("result", "0000");
+			rtn.put("menus", resultMap);
+		}
+		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
+		return rtn;
+	}
+
 	// IF-NXPG-010
 	@RequestMapping(value = "/contents/synopsis")
 	public Map<String, Object> getContentsSynopsis(@PathVariable String ver, @RequestParam Map<String, String> param) {
@@ -185,7 +214,7 @@ public class ContentsController {
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
 		return rtn;
 	}
-	
+
 	// IF-NXPG-016
 	@RequestMapping(value = "/contents/corner")
 	public Map<String, Object> getContentsConer(@PathVariable String ver, @RequestParam Map<String, String> param) {
@@ -215,7 +244,7 @@ public class ContentsController {
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
 		return rtn;
 	}
-	
+
 	// IF-NXPG-017
 	@RequestMapping(value = "/contents/vodlist")
 	public Map<String, Object> getContentsVodList(@PathVariable String ver, @RequestParam Map<String, String> param) {

@@ -1,6 +1,5 @@
 package com.skb.xpg.nxpg.svc.controller;
 
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +37,7 @@ public class MenuController {
 		}
 		
 		// 값 불러오기 
-		List<Object> resultMap = menuService.getMenuGnb(ver, param);
+		Map<String, Object> resultMap = menuService.getMenuGnb(ver, param);
 		// 조회값 없음
 		if (resultMap == null) {
 			rtn.put("result", "9998");
@@ -54,7 +53,7 @@ public class MenuController {
 		return rtn;
 	}
 
-	// IF-NXPG-002
+	// IF-NXPG-001
 	@RequestMapping(value = "/menu/all")
 	public Map<String, Object> getMenuAll(@PathVariable String ver, @RequestParam Map<String, String> param) {
 		String IF = param.get("IF");
@@ -69,7 +68,7 @@ public class MenuController {
 		}
 		
 		// 값 불러오기 
-		List<Object> resultMap = menuService.getMenuAll(ver, param);
+		Map<String, Object> resultMap = menuService.getMenuAll(ver, param);
 		// 조회값 없음
 		if (resultMap == null) {
 			rtn.put("result", "9998");
