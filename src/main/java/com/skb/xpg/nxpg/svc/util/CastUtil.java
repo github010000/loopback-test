@@ -39,6 +39,7 @@ public class CastUtil {
 
 	public static int getStringToInteger(String str) {
 		int rtn = 0;
+		
 		if (str != null & str.matches("[0-9]+")) {
 			try {
 				rtn = Integer.parseInt(str);
