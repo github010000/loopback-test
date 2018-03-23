@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.skb.xpg.nxpg.svc.common.NXPGCommon;
 import com.skb.xpg.nxpg.svc.redis.RedisClient;
+import com.skb.xpg.nxpg.svc.util.CastUtil;
 
 @Service
 public class MenuService {
@@ -14,7 +15,21 @@ public class MenuService {
 	@Autowired
 	private RedisClient redisClient;
 	
-	public Object getMenuGnb(String ver, Map<String, String> param) {
-		return redisClient.hget(NXPGCommon.MENU_GNB, param.get("menu_stb_svc_id"));
+	// IF-NXPG-001
+	public Map<String, Object> getMenuGnb(String ver, Map<String, String> param) {
+		try {
+			return CastUtil.StringToJsonMap((String) redisClient.hget(NXPGCommon.MENU_GNB, param.get("menu_stb_svc_id")));
+		} catch (Exception e) {
+			return null;
+		}
+	}
+	
+	// IF-NXPG-002
+	public Map<String, Object> getMenuAll(String ver, Map<String, String> param) {
+		try {
+			return CastUtil.StringToJsonMap((String) redisClient.hget(NXPGCommon.MENU_ALL, param.get("menu_stb_svc_id")));
+		} catch (Exception e) {
+			return null;
+		}
 	}
 }
