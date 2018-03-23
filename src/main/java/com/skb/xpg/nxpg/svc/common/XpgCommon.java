@@ -53,7 +53,4 @@ public class XpgCommon {
 	
 	public static final String EPG_CHANNEL = "epgChannel";
 	public static final String CHANNEL_PLUS = "channelPlus";
-	
-
-	
 }
