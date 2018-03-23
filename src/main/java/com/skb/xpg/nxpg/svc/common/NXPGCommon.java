@@ -4,4 +4,13 @@ public class NXPGCommon {
 
 	public static final String MENU_GNB = "menu_gnb";
 	public static final String MENU_ALL = "menu_all";
+	public static final String CONTENTS_SYNOPSIS = "contents_synopsis";
+	public static final String CONTENTS_PEOPLE = "contents_people";
+	public static final String CONTENTS_GWSYNOP = "contents_gwsynop";
+	public static final String CONTENTS_COMMERCE  = "contents_commerce";
+	public static final String CONTENTS_CORNER  = "contents_corner";
+	public static final String CONTENTS_VODLIST  = "contents_vodlist";
+	
+	
+	
 }
