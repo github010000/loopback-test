@@ -11,16 +11,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.skb.xpg.nxpg.svc.config.Properties;
-import com.skb.xpg.nxpg.svc.svc.EpgService;
+import com.skb.xpg.nxpg.svc.svc.AddedService;
 import com.skb.xpg.nxpg.svc.util.DateUtil;
 import com.skb.xpg.nxpg.svc.util.StrUtil;
 
 @RestController
 @RequestMapping(value = "/nxpg/{ver}", produces = "application/json; charset=utf-8")
-public class EpgController {
+public class AddedController {
 
     @Autowired
-    EpgService epgService;
+    AddedService epgService;
     @Autowired
     private Properties properties;
     

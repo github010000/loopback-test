@@ -24,11 +24,18 @@ public class KidsService {
 			return null;
 		}
 	}
-	
 	// IF-NXPG-102
 	public List getMenuKzgnb(String ver, Map<String, String> param) {
 		try {
 			return CastUtil.StringToJsonList((String) redisClient.hget("menu_kidsGnb", param.get("menu_stb_svc_id")));
+		} catch (Exception e) {
+			return null;
+		}
+	}
+	// IF-NXPG-403
+	public Map<String, Object> getContentsLftsynop(String ver, Map<String, String> param) {
+		try {
+			return CastUtil.StringToJsonMap((String) redisClient.hget("synopsis_liveChildStory", param.get("epsd_id")));
 		} catch (Exception e) {
 			return null;
 		}

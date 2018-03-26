@@ -23,7 +23,7 @@ public class KidsController {
 	KidsService kidsService;
 	@Autowired
 	private Properties properties;
-	
+
 	// IF-NXPG-001
 	@RequestMapping(value = "/menu/kzchar")
 	public Map<String, Object> getMenuKzchar(@PathVariable String ver, @RequestParam Map<String, String> param) {
@@ -31,17 +31,17 @@ public class KidsController {
 		Map<String, Object> result = properties.getResults();
 		Map<String, Object> rtn = new HashMap<String, Object>();
 		rtn.putAll(result);
-		
+
 		rtn.put("IF", IF);
 		rtn.put("request_time", DateUtil.getYYYYMMDDhhmmss());
-		
+
 		if (StrUtil.isEmpty(param.get("menu_stb_svc_id")) || StrUtil.isEmpty(param.get("stb_id"))
 				|| StrUtil.isEmpty(param.get("menu_id"))) {
 			rtn.put("result", "9999");
 			return rtn;
 		}
-		
-		// 값 불러오기 
+
+		// 값 불러오기
 		List list = kidsService.getMenuKzchar(ver, param);
 		// 조회값 없음
 		if (list == null) {
@@ -51,8 +51,9 @@ public class KidsController {
 		else {
 			rtn.put("result", "0000");
 			rtn.put("menus", list);
-			// 카운트 넣어주기 
-			if (list != null) rtn.put("total_count", list.size());
+			// 카운트 넣어주기
+			if (list != null)
+				rtn.put("total_count", list.size());
 		}
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
 		return rtn;
@@ -65,16 +66,16 @@ public class KidsController {
 		Map<String, Object> result = properties.getResults();
 		Map<String, Object> rtn = new HashMap<String, Object>();
 		rtn.putAll(result);
-		
+
 		rtn.put("IF", IF);
 		rtn.put("request_time", DateUtil.getYYYYMMDDhhmmss());
-		
+
 		if (StrUtil.isEmpty(param.get("menu_stb_svc_id")) || StrUtil.isEmpty(param.get("stb_id"))) {
 			rtn.put("result", "9999");
 			return rtn;
 		}
-		
-		// 값 불러오기 
+
+		// 값 불러오기
 		List list = kidsService.getMenuKzgnb(ver, param);
 		// 조회값 없음
 		if (list == null) {
@@ -84,11 +85,44 @@ public class KidsController {
 		else {
 			rtn.put("result", "0000");
 			rtn.put("menus", list);
-			// 카운트 넣어주기 
-			if (list != null) rtn.put("total_count", list.size());
+			// 카운트 넣어주기
+			if (list != null)
+				rtn.put("total_count", list.size());
 		}
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
 		return rtn;
 	}
-	
+
+	// IF-NXPG-403
+	@RequestMapping(value = "/contents/lftsynop")
+	public Map<String, Object> getContentsLftsynop(@PathVariable String ver, @RequestParam Map<String, String> param) {
+		String IF = param.get("IF");
+		Map<String, Object> result = properties.getResults();
+		Map<String, Object> rtn = new HashMap<String, Object>();
+		rtn.putAll(result);
+
+		rtn.put("IF", IF);
+		rtn.put("request_time", DateUtil.getYYYYMMDDhhmmss());
+
+		if (StrUtil.isEmpty(param.get("menu_stb_svc_id")) || StrUtil.isEmpty(param.get("menu_id"))
+				|| StrUtil.isEmpty(param.get("sris_id")) || StrUtil.isEmpty(param.get("epsd_id"))
+				|| StrUtil.isEmpty(param.get("stb_id"))) {
+			rtn.put("result", "9999");
+			return rtn;
+		}
+
+		// 값 불러오기
+		Map<String, Object> map = kidsService.getContentsLftsynop(ver, param);
+		// 조회값 없음
+		if (map == null) {
+			rtn.put("result", "9998");
+		}
+		// 성공
+		else {
+			rtn.put("result", "0000");
+			rtn.put("contents", map);
+		}
+		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
+		return rtn;
+	}
 }

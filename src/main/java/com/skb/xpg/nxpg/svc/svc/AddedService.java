@@ -11,7 +11,7 @@ import com.skb.xpg.nxpg.svc.redis.RedisClient;
 import com.skb.xpg.nxpg.svc.util.CastUtil;
 
 @Service
-public class EpgService {
+public class AddedService {
 
     @Autowired
     private RedisClient redisClient;
