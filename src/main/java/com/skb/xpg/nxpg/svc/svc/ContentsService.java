@@ -152,6 +152,15 @@ public class ContentsService {
 	//IF-NXPG-013
 	public Map<String, Object> getContentsCorner(String ver, Map<String, String> param) {
 		try {
+			return CastUtil.StringToJsonMap((String) redisClient.hget("contents_corner", param.get("epsd_id")));
+		} catch (Exception e) {
+			return null;
+		}
+	}	
+	
+	//IF-NXPG-013
+	public Map<String, Object> getCornerGather(String ver, Map<String, String> param) {
+		try {
 			return CastUtil.StringToJsonMap((String) redisClient.hget("corner_gather", param.get("cnr_grp_id")));
 		} catch (Exception e) {
 			return null;

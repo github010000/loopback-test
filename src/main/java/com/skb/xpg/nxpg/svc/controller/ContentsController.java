@@ -54,7 +54,6 @@ public class ContentsController {
 			contents.putAll(contentsService.getContentsPeople(ver, param));
 			contents.putAll(contentsService.getContentsCorner(ver, param));
 			contents.putAll(contentsService.getContentsPreview(ver, param));
-			contents.putAll(contentsService.getContentsPreview(ver, param));
 			contents.put("series_info", contentsService.getContentsSeries(ver, param));
 			rtn.put("result", "0000");
 			rtn.put("contents", contents);
@@ -181,7 +180,7 @@ public class ContentsController {
 		}
 
 		// 값 불러오기
-		Map<String, Object> resultMap = contentsService.getContentsCorner(ver, param);
+		Map<String, Object> resultMap = contentsService.getCornerGather(ver, param);
 		// 조회값 없음
 		if (resultMap == null) {
 			rtn.put("result", "9998");
