@@ -1,5 +1,7 @@
 package com.skb.xpg.nxpg.svc.controller;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +28,9 @@ public class GridController {
 	@RequestMapping(value = "/grid/grid")
 	public Map<String, Object> getGrid(@PathVariable String ver, @RequestParam Map<String, String> param) {
 		String IF = param.get("IF");
-		Map<String, Object> rtn = properties.getResults();
+		Map<String, Object> result = properties.getResults();
+		Map<String, Object> rtn = new HashMap<String, Object>();
+		rtn.putAll(result);
 		
 		rtn.put("IF", IF);
 		rtn.put("request_time", DateUtil.getYYYYMMDDhhmmss());
@@ -46,9 +50,7 @@ public class GridController {
 		// 성공
 		else {
 			rtn.put("result", "0000");
-			rtn.put("grid", resultMap);
-			// 카운트 넣어주기 
-			if (resultMap != null) rtn.put("total_count", resultMap.size());
+			rtn.putAll(resultMap);
 		}
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
 		return rtn;
@@ -58,7 +60,9 @@ public class GridController {
 	@RequestMapping(value = "/grid/event")
 	public Map<String, Object> getGridEvent(@PathVariable String ver, @RequestParam Map<String, String> param) {
 		String IF = param.get("IF");
-		Map<String, Object> rtn = properties.getResults();
+		Map<String, Object> result = properties.getResults();
+		Map<String, Object> rtn = new HashMap<String, Object>();
+		rtn.putAll(result);
 		
 		rtn.put("IF", IF);
 		rtn.put("request_time", DateUtil.getYYYYMMDDhhmmss());
@@ -78,9 +82,7 @@ public class GridController {
 		// 성공
 		else {
 			rtn.put("result", "0000");
-			rtn.put("event", resultMap);
-			// 카운트 넣어주기 
-			if (resultMap != null) rtn.put("total_count", resultMap.size());
+			rtn.putAll(resultMap);
 		}
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
 		return rtn;

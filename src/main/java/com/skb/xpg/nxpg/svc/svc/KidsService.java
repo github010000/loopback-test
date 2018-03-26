@@ -1,5 +1,6 @@
 package com.skb.xpg.nxpg.svc.svc;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,18 +17,18 @@ public class KidsService {
 	private RedisClient redisClient;
 	
 	// IF-NXPG-101
-	public Map<String, Object> getMenuKzchar(String ver, Map<String, String> param) {
+	public List getMenuKzchar(String ver, Map<String, String> param) {
 		try {
-			return CastUtil.StringToJsonMap((String) redisClient.hget(NXPGCommon.MENU_GNB, param.get("menu_stb_svc_id")));
+			return CastUtil.StringToJsonList((String) redisClient.hget("menu_kidsCharacter", param.get("menu_id")));
 		} catch (Exception e) {
 			return null;
 		}
 	}
 	
 	// IF-NXPG-102
-	public Map<String, Object> getMenuKzgnb(String ver, Map<String, String> param) {
+	public List getMenuKzgnb(String ver, Map<String, String> param) {
 		try {
-			return CastUtil.StringToJsonMap((String) redisClient.hget(NXPGCommon.MENU_ALL, param.get("menu_stb_svc_id")));
+			return CastUtil.StringToJsonList((String) redisClient.hget("menu_kidsGnb", param.get("menu_stb_svc_id")));
 		} catch (Exception e) {
 			return null;
 		}

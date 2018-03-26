@@ -1,5 +1,7 @@
 package com.skb.xpg.nxpg.svc.controller;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.skb.xpg.nxpg.svc.config.Properties;
 import com.skb.xpg.nxpg.svc.svc.ContentsService;
-import com.skb.xpg.nxpg.svc.svc.MenuService;
-import com.skb.xpg.nxpg.svc.util.CastUtil;
 import com.skb.xpg.nxpg.svc.util.DateUtil;
 import com.skb.xpg.nxpg.svc.util.StrUtil;
 
@@ -24,81 +24,14 @@ public class ContentsController {
 	@Autowired
 	private Properties properties;
 
-	// // IF-NXPG-008
-	// @RequestMapping(value = "/contents/rating")
-	// public Map<String, Object> nxpg8(@PathVariable String ver, @RequestParam
-	// Map<String, String> param) {
-	// String IF = param.get("IF");
-	// String stb_id = param.get("stb_id");
-	// String menu_stb_svc_id = param.get("menu_stb_svc_id");
-	//
-	// Map<String, Object> rtn = properties.getResults();
-	// rtn.put("IF", IF);
-	// rtn.put("request_time", DateUtil.getYYYYMMDDhhmmss());
-	//
-	// if (StrUtil.isEmpty(param.get("menu_stb_svc_id")) ||
-	// StrUtil.isEmpty(param.get("stb_id"))) {
-	// rtn.put("result", "9999");
-	// return rtn;
-	// }
-	//
-	// // 값 불러오기
-	// String objResult = (String) @PathVariable.getContentsRating(ver, param);
-	// // 조회값 없음
-	// if (objResult == null) {
-	// rtn.put("result", "9998");
-	// }
-	// // 성공
-	// else {
-	// rtn.put("result", "0000");
-	// // Redis안에 String이여서 Map으로 변환
-	// Map<String, Object> resultMap = CastUtil.StringToJsonMap(objResult);
-	// rtn.put("menus", resultMap);
-	//
-	// // 카운트 넣어주기
-	// if (resultMap != null) rtn.put("total_count", resultMap.size());
-	//
-	// }
-	//
-	//
-	// rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
-	// return rtn;
-	// }
-
-	// IF-NXPG-008
-	@RequestMapping(value = "/contents/rating")
-	public Map<String, Object> getContentsRating(@PathVariable String ver, @RequestParam Map<String, String> param) {
-		String IF = param.get("IF");
-		Map<String, Object> rtn = properties.getResults();
-
-		rtn.put("IF", IF);
-		rtn.put("request_time", DateUtil.getYYYYMMDDhhmmss());
-
-		if (StrUtil.isEmpty(param.get("menu_stb_svc_id")) || StrUtil.isEmpty(param.get("stb_id"))) {
-			rtn.put("result", "9999");
-			return rtn;
-		}
-
-		// 값 불러오기
-		Map<String, Object> resultMap = contentsService.getContentsRating(ver, param);
-		// 조회값 없음
-		if (resultMap == null) {
-			rtn.put("result", "9998");
-		}
-		// 성공
-		else {
-			rtn.put("result", "0000");
-			rtn.put("menus", resultMap);
-		}
-		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
-		return rtn;
-	}
-
 	// IF-NXPG-010
 	@RequestMapping(value = "/contents/synopsis")
 	public Map<String, Object> getContentsSynopsis(@PathVariable String ver, @RequestParam Map<String, String> param) {
 		String IF = param.get("IF");
-		Map<String, Object> rtn = properties.getResults();
+		Map<String, Object> result = properties.getResults();
+		Map<String, Object> rtn = new HashMap<String, Object>();
+		
+		rtn.putAll(result);
 
 		rtn.put("IF", IF);
 		rtn.put("request_time", DateUtil.getYYYYMMDDhhmmss());
@@ -111,15 +44,21 @@ public class ContentsController {
 		}
 
 		// 값 불러오기
-		Map<String, Object> resultMap = contentsService.getContentsSynopsis(ver, param);
+		Map<String, Object> contents = contentsService.getSynopsisContents(ver, param);
+		Map<String, Object> purchares = contentsService.getContentsPurchares(ver, param);
 		// 조회값 없음
-		if (resultMap == null) {
+		if (contents == null) {
 			rtn.put("result", "9998");
-		}
-		// 성공
-		else {
+		} else {
+			// 성공
+			contents.putAll(contentsService.getContentsPeople(ver, param));
+			contents.putAll(contentsService.getContentsCorner(ver, param));
+			contents.putAll(contentsService.getContentsPreview(ver, param));
+			contents.putAll(contentsService.getContentsPreview(ver, param));
+			contents.put("series_info", contentsService.getContentsSeries(ver, param));
 			rtn.put("result", "0000");
-			rtn.put("menus", resultMap);
+			rtn.put("contents", contents);
+			rtn.put("purchares", purchares.get("products"));
 		}
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
 		return rtn;
@@ -129,7 +68,10 @@ public class ContentsController {
 	@RequestMapping(value = "/contents/people")
 	public Map<String, Object> getContentsPeople(@PathVariable String ver, @RequestParam Map<String, String> param) {
 		String IF = param.get("IF");
-		Map<String, Object> rtn = properties.getResults();
+		Map<String, Object> result = properties.getResults();
+		Map<String, Object> rtn = new HashMap<String, Object>();
+		
+		rtn.putAll(result);
 
 		rtn.put("IF", IF);
 		rtn.put("request_time", DateUtil.getYYYYMMDDhhmmss());
@@ -159,19 +101,21 @@ public class ContentsController {
 	@RequestMapping(value = "/contents/gwsynop")
 	public Map<String, Object> getContentsGwsynop(@PathVariable String ver, @RequestParam Map<String, String> param) {
 		String IF = param.get("IF");
-		Map<String, Object> rtn = properties.getResults();
+		Map<String, Object> result = properties.getResults();
+		Map<String, Object> rtn = new HashMap<String, Object>();
+		
+		rtn.putAll(result);
 
 		rtn.put("IF", IF);
 		rtn.put("request_time", DateUtil.getYYYYMMDDhhmmss());
 
-		if (StrUtil.isEmpty(param.get("menu_stb_svc_id")) || StrUtil.isEmpty(param.get("menu_id"))
-				|| StrUtil.isEmpty(param.get("pid")) || StrUtil.isEmpty(param.get("stb_id"))) {
+		if (StrUtil.isEmpty(param.get("menu_id")) || StrUtil.isEmpty(param.get("stb_id"))) {
 			rtn.put("result", "9999");
 			return rtn;
 		}
 
 		// 값 불러오기
-		Map<String, Object> resultMap = contentsService.getContentsGwsynop(ver, param);
+		List<Map<String, Object>> resultMap = contentsService.getContentsGwsynop(ver, param);
 		// 조회값 없음
 		if (resultMap == null) {
 			rtn.put("result", "9998");
@@ -189,7 +133,10 @@ public class ContentsController {
 	@RequestMapping(value = "/contents/commerce")
 	public Map<String, Object> getContentsCommerce(@PathVariable String ver, @RequestParam Map<String, String> param) {
 		String IF = param.get("IF");
-		Map<String, Object> rtn = properties.getResults();
+		Map<String, Object> result = properties.getResults();
+		Map<String, Object> rtn = new HashMap<String, Object>();
+		
+		rtn.putAll(result);
 
 		rtn.put("IF", IF);
 		rtn.put("request_time", DateUtil.getYYYYMMDDhhmmss());
@@ -214,12 +161,15 @@ public class ContentsController {
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
 		return rtn;
 	}
-
+	
 	// IF-NXPG-016
-	@RequestMapping(value = "/contents/corner")
+	@RequestMapping(value = "/corner/gather")
 	public Map<String, Object> getContentsConer(@PathVariable String ver, @RequestParam Map<String, String> param) {
 		String IF = param.get("IF");
-		Map<String, Object> rtn = properties.getResults();
+		Map<String, Object> result = properties.getResults();
+		Map<String, Object> rtn = new HashMap<String, Object>();
+		
+		rtn.putAll(result);
 
 		rtn.put("IF", IF);
 		rtn.put("request_time", DateUtil.getYYYYMMDDhhmmss());
@@ -239,17 +189,20 @@ public class ContentsController {
 		// 성공
 		else {
 			rtn.put("result", "0000");
-			rtn.put("menus", resultMap);
+			rtn.putAll(resultMap);
 		}
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
 		return rtn;
 	}
-
+	
 	// IF-NXPG-017
 	@RequestMapping(value = "/contents/vodlist")
 	public Map<String, Object> getContentsVodList(@PathVariable String ver, @RequestParam Map<String, String> param) {
 		String IF = param.get("IF");
-		Map<String, Object> rtn = properties.getResults();
+		Map<String, Object> result = properties.getResults();
+		Map<String, Object> rtn = new HashMap<String, Object>();
+		
+		rtn.putAll(result);
 
 		rtn.put("IF", IF);
 		rtn.put("request_time", DateUtil.getYYYYMMDDhhmmss());
@@ -262,6 +215,70 @@ public class ContentsController {
 
 		// 값 불러오기
 		Map<String, Object> resultMap = contentsService.getContentsVodList(ver, param);
+		// 조회값 없음
+		if (resultMap == null) {
+			rtn.put("result", "9998");
+		}
+		// 성공
+		else {
+			rtn.put("result", "0000");
+			rtn.put("menus", resultMap);
+		}
+		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
+		return rtn;
+	}
+	
+	// IF-NXPG-008 contents_review
+	@RequestMapping(value = "/contents/rating")
+	public Map<String, Object> getContentsReview(@PathVariable String ver, @RequestParam Map<String, String> param) {
+		String IF = param.get("IF");
+		Map<String, Object> result = properties.getResults();
+		Map<String, Object> rtn = new HashMap<String, Object>();
+		
+		rtn.putAll(result);
+
+		rtn.put("IF", IF);
+		rtn.put("request_time", DateUtil.getYYYYMMDDhhmmss());
+
+		if (StrUtil.isEmpty(param.get("sris_id")) || StrUtil.isEmpty(param.get("stb_id"))) {
+			rtn.put("result", "9999");
+			return rtn;
+		}
+
+		// 값 불러오기
+		Map<String, Object> resultMap = contentsService.getContentsReview(ver, param);
+		// 조회값 없음
+		if (resultMap == null) {
+			rtn.put("result", "9998");
+		}
+		// 성공
+		else {
+			rtn.put("result", "0000");
+			rtn.put("menus", resultMap);
+		}
+		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
+		return rtn;
+	}
+
+	// IF-NXPG-011 people
+	@RequestMapping(value = "/people/info")
+	public Map<String, Object> getPeopleInfo(@PathVariable String ver, @RequestParam Map<String, String> param) {
+		String IF = param.get("IF");
+		Map<String, Object> result = properties.getResults();
+		Map<String, Object> rtn = new HashMap<String, Object>();
+		
+		rtn.putAll(result);
+
+		rtn.put("IF", IF);
+		rtn.put("request_time", DateUtil.getYYYYMMDDhhmmss());
+
+		if (StrUtil.isEmpty(param.get("pnr_id")) || StrUtil.isEmpty(param.get("stb_id"))) {
+			rtn.put("result", "9999");
+			return rtn;
+		}
+
+		// 값 불러오기
+		Map<String, Object> resultMap = contentsService.getPeopleInfo(ver, param);
 		// 조회값 없음
 		if (resultMap == null) {
 			rtn.put("result", "9998");

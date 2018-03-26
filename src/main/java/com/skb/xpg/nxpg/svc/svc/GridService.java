@@ -1,5 +1,6 @@
 package com.skb.xpg.nxpg.svc.svc;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ public class GridService {
 	// IF-NXPG-007
 	public Map<String, Object> getGridEvent(String ver, Map<String, String> param) {
 		try {
-			return CastUtil.StringToJsonMap((String) redisClient.hget(NXPGCommon.SYNOPSIS_CONTENTS, param.get("epsd_id")));
+			return CastUtil.StringToJsonMap((String) redisClient.hget("grid_banner", param.get("menu_id")));
 		} catch (Exception e) {
 			return null;
 		}

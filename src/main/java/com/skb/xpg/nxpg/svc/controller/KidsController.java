@@ -1,5 +1,7 @@
 package com.skb.xpg.nxpg.svc.controller;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +28,9 @@ public class KidsController {
 	@RequestMapping(value = "/menu/kzchar")
 	public Map<String, Object> getMenuKzchar(@PathVariable String ver, @RequestParam Map<String, String> param) {
 		String IF = param.get("IF");
-		Map<String, Object> rtn = properties.getResults();
+		Map<String, Object> result = properties.getResults();
+		Map<String, Object> rtn = new HashMap<String, Object>();
+		rtn.putAll(result);
 		
 		rtn.put("IF", IF);
 		rtn.put("request_time", DateUtil.getYYYYMMDDhhmmss());
@@ -38,17 +42,17 @@ public class KidsController {
 		}
 		
 		// 값 불러오기 
-		Map<String, Object> resultMap = kidsService.getMenuKzchar(ver, param);
+		List list = kidsService.getMenuKzchar(ver, param);
 		// 조회값 없음
-		if (resultMap == null) {
+		if (list == null) {
 			rtn.put("result", "9998");
 		}
 		// 성공
 		else {
 			rtn.put("result", "0000");
-			rtn.put("menus", resultMap);
+			rtn.put("menus", list);
 			// 카운트 넣어주기 
-			if (resultMap != null) rtn.put("total_count", resultMap.size());
+			if (list != null) rtn.put("total_count", list.size());
 		}
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
 		return rtn;
@@ -58,7 +62,9 @@ public class KidsController {
 	@RequestMapping(value = "/menu/kzgnb")
 	public Map<String, Object> getMenuKzgnb(@PathVariable String ver, @RequestParam Map<String, String> param) {
 		String IF = param.get("IF");
-		Map<String, Object> rtn = properties.getResults();
+		Map<String, Object> result = properties.getResults();
+		Map<String, Object> rtn = new HashMap<String, Object>();
+		rtn.putAll(result);
 		
 		rtn.put("IF", IF);
 		rtn.put("request_time", DateUtil.getYYYYMMDDhhmmss());
@@ -69,17 +75,17 @@ public class KidsController {
 		}
 		
 		// 값 불러오기 
-		Map<String, Object> resultMap = kidsService.getMenuKzgnb(ver, param);
+		List list = kidsService.getMenuKzgnb(ver, param);
 		// 조회값 없음
-		if (resultMap == null) {
+		if (list == null) {
 			rtn.put("result", "9998");
 		}
 		// 성공
 		else {
 			rtn.put("result", "0000");
-			rtn.put("menus", resultMap);
+			rtn.put("menus", list);
 			// 카운트 넣어주기 
-			if (resultMap != null) rtn.put("total_count", resultMap.size());
+			if (list != null) rtn.put("total_count", list.size());
 		}
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
 		return rtn;

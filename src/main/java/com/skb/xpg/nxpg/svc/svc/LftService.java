@@ -1,5 +1,6 @@
 package com.skb.xpg.nxpg.svc.svc;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ public class LftService {
 	// IF-NXPG-403
 	public Map<String, Object> getContentsLftsynop(String ver, Map<String, String> param) {
 		try {
-			return CastUtil.StringToJsonMap((String) redisClient.hget(NXPGCommon.CONTENTS_LFTSYNOP, param.get("menu_stb_svc_id")));
+			return CastUtil.StringToJsonMap((String) redisClient.hget("synopsis_liveChildStory", param.get("epsd_id")));
 		} catch (Exception e) {
 			return null;
 		}

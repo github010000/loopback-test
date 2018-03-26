@@ -1,5 +1,6 @@
 package com.skb.xpg.nxpg.svc.svc;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,18 +17,62 @@ public class MenuService {
 	private RedisClient redisClient;
 	
 	// IF-NXPG-001
-	public Map<String, Object> getMenuGnb(String ver, Map<String, String> param) {
+	public List getMenuGnb(String ver, Map<String, String> param) {
 		try {
-			return CastUtil.StringToJsonMap((String) redisClient.hget(NXPGCommon.MENU_GNB, param.get("menu_stb_svc_id")));
+			return CastUtil.StringToJsonList((String) redisClient.hget(NXPGCommon.MENU_GNB, param.get("menu_stb_svc_id")));
 		} catch (Exception e) {
+			e.printStackTrace();
 			return null;
 		}
 	}
 	
 	// IF-NXPG-002
-	public Map<String, Object> getMenuAll(String ver, Map<String, String> param) {
+	public List getMenuAll(String ver, Map<String, String> param) {
 		try {
-			return CastUtil.StringToJsonMap((String) redisClient.hget(NXPGCommon.MENU_ALL, param.get("menu_stb_svc_id")));
+			return CastUtil.StringToJsonList((String) redisClient.hget(NXPGCommon.MENU_ALL, param.get("menu_stb_svc_id")));
+		} catch (Exception e) {
+			return null;
+		}
+	}
+	
+	// IF-NXPG-003
+	public Map<String, Object> getBlockBigBanner(String ver, Map<String, String> param) {
+		try {
+			Map<String, Object> bigbanner = CastUtil.StringToJsonMap((String) redisClient.hget("big_banner", param.get("menu_id")));
+
+			bigbanner.put("banner_count", bigbanner.get("total_count"));
+			bigbanner.remove("total_count");
+			
+			return bigbanner;
+		} catch (Exception e) {
+			return null;
+		}
+	}
+	
+	// IF-NXPG-003
+	public Map<String, Object> getBlockBlock(String ver, Map<String, String> param) {
+		try {
+			Map<String, Object> blockblock = CastUtil.StringToJsonMap((String) redisClient.hget("block_block", param.get("menu_id")));
+			List<Map<String, Object>> blocks = CastUtil.getObjectToMapList(blockblock.get("blocks"));
+			for (Object block : blocks) {
+				Map<String, Object> map = CastUtil.getObjectToMap(block);
+
+				Map<String, Object> gridbanner = getGridBanner(map.get("menu_id").toString());
+				
+				map.put("menus", gridbanner.get("banners"));
+			}
+			blockblock.put("block_count", blockblock.get("total_count"));
+			blockblock.remove("total_count");
+			return blockblock;
+		} catch (Exception e) {
+			return null;
+		}
+	}
+	
+	// IF-NXPG-003
+	public Map<String, Object> getGridBanner(String menu_id) {
+		try {
+			return CastUtil.StringToJsonMap((String) redisClient.hget("grid_banner", menu_id));
 		} catch (Exception e) {
 			return null;
 		}
