@@ -27,7 +27,7 @@ public class SampleController {
 
 	@RequestMapping(value = "/menu/gnb")
 	public Map<String, Object> nxpg1(@PathVariable String ver, @RequestParam Map<String, String> param) {
-		return getJson("IF-NXPG-001", "menu_stb_svc_id", param);
+		return getJson("IF-NXPG-001");
 	}
 
 	@RequestMapping(value = "/menu/all")
@@ -37,27 +37,27 @@ public class SampleController {
 
 	@RequestMapping(value = "/menu/block")
 	public Map<String, Object> nxpg3(@PathVariable String ver, @RequestParam Map<String, String> param) {
-		return getJson("IF-NXPG-003", "menu_id", param);
+		return getJson("IF-NXPG-003");
 	}
 
-	@RequestMapping(value = "/menu/monthinfo")
-	public Map<String, Object> nxpg4(@PathVariable String ver, @RequestParam Map<String, String> param) {
-		return getJson("IF-NXPG-004");
-	}
-
-	@RequestMapping(value = "/menu/month")
-	public Map<String, Object> nxpg5(@PathVariable String ver, @RequestParam Map<String, String> param) {
-		return getJson("IF-NXPG-005");
-	}
+//	@RequestMapping(value = "/menu/monthinfo")
+//	public Map<String, Object> nxpg4(@PathVariable String ver, @RequestParam Map<String, String> param) {
+//		return getJson("IF-NXPG-004");
+//	}
+//
+//	@RequestMapping(value = "/menu/month")
+//	public Map<String, Object> nxpg5(@PathVariable String ver, @RequestParam Map<String, String> param) {
+//		return getJson("IF-NXPG-005");
+//	}
 
 	@RequestMapping(value = "/grid/grid")
 	public Map<String, Object> nxpg6(@PathVariable String ver, @RequestParam Map<String, String> param) {
-		return getJson("IF-NXPG-006", "menu_id", param);
+		return getJson("IF-NXPG-006");
 	}
 
 	@RequestMapping(value = "/grid/event")
 	public Map<String, Object> nxpg7(@PathVariable String ver, @RequestParam Map<String, String> param) {
-		return getJson("IF-NXPG-007", "menu_id", param);
+		return getJson("IF-NXPG-007");
 	}
 
 	@RequestMapping(value = "/contents/rating")
@@ -72,7 +72,7 @@ public class SampleController {
 
 	@RequestMapping(value = "/contents/synopsis")
 	public Map<String, Object> nxpg10(@PathVariable String ver, @RequestParam Map<String, String> param) {
-		return getJson("IF-NXPG-010", "epsd_id", param);
+		return getJson("IF-NXPG-010");
 	}
 
 	@RequestMapping(value = "/contents/people")
@@ -105,20 +105,20 @@ public class SampleController {
 		return getJson("IF-NXPG-016");
 	}
 
-	@RequestMapping(value = "/contents/vodlist")
+	@RequestMapping(value = "/added/epggenre")
 	public Map<String, Object> nxpg18(@PathVariable String ver, @RequestParam Map<String, String> param) {
 		return getJson("IF-NXPG-017");
 	}
 
-	@RequestMapping(value = "/menu/guide")
-	public Map<String, Object> nxpg19(@PathVariable String ver, @RequestParam Map<String, String> param) {
-		return getJson("IF-NXPG-018");
-	}
-
-	@RequestMapping(value = "/menu/liveevent")
-	public Map<String, Object> nxpg20(@PathVariable String ver, @RequestParam Map<String, String> param) {
-		return getJson("IF-NXPG-019");
-	}
+//	@RequestMapping(value = "/menu/guide")
+//	public Map<String, Object> nxpg19(@PathVariable String ver, @RequestParam Map<String, String> param) {
+//		return getJson("IF-NXPG-018");
+//	}
+//
+//	@RequestMapping(value = "/menu/liveevent")
+//	public Map<String, Object> nxpg20(@PathVariable String ver, @RequestParam Map<String, String> param) {
+//		return getJson("IF-NXPG-019");
+//	}
 
 	@RequestMapping(value = "/menu/kzchar")
 	public Map<String, Object> nxpg21(@PathVariable String ver, @RequestParam Map<String, String> param) {
