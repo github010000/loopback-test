@@ -1,0 +1,198 @@
+{
+	"result": "0000",
+	"reason": "",
+	"request_time": "20180328140512",
+	"contents": {
+		"title_img_path": "/title/lalaland.jpg",
+		"mix_lag_yn": "Y",
+		"sales_comt_cts": "[현재 극장 동시상영 중인 영화로 특별편성 영화입니다]",
+		"next_sris_id": "CS000000003",
+		"sales_vas_svc_id": "",
+		"bg_img_path": "/poster/lalaland_bg.jpg",
+		"chrts": "뽀로로,크롱,에디,루피,퍼티",
+		"sales_comt_call_objt_id": "CS000000002",
+		"title": "LALALAND",
+		"epsd_rslu_info": {
+			"capt_svc_file_path": "/movie/33650/M336168_0_170607.ts.pac.smi",
+			"epsd_rslu_id": "{34CA4EEB-4B2B-11E7-ADC1-3531C7FFBD3}",
+			"capt_lans": {
+				"mtx_capt_bas_yn": "Y",
+				"capt_lag": "10"
+			},
+			"rslu_typ_cd": "20",
+			"mtx_capt_svc_file_path": "/movie/33650/M336168_0_170607.ts.pac.smi",
+			"capt_yn": "Y",
+			"mtx_capt_yn": "Y"
+		},
+		"snss_cts": "꿈을 꾸는 사람들을 위한 별들의 도시 '라라랜드'. 재즈 피아니스트 '서비스찬'과 배우 지망생 '미아'. 인생에서 가장 빛나는 순간 만난 두 사람은 미완성인 서로의 무대를 만들어가기 시작한다.",
+		"evt_comt_call_objt_id": "CS000000003",
+		"evt_vas_itm_id": "",
+		"aprc_pt_cts": "황홀한 사랑, 순수한 희망, 결렬한 열정...",
+		"prev_sris_id": "CS000000002",
+		"meta_title_colr_val": "#EFEFEF",
+		"wat_lvl_cd": "A000001510",
+		"sales_vas_itm_id": "",
+		"sales_comt_call_url": "",
+		"adlt_lvl_cd": "A000001510",
+		"evt_comt_exps_mthd_cd": "10",
+		"open_yr": "110401",
+		"evt_vas_svc_id": "",
+		"meta_typ_cd": "000",
+		"sris_id": "CS000000001",
+		"sris_typ_cd": "10",
+		"sales_comt_img_path": "",
+		"director": "데이미언 세젤",
+		"evt_comt_call_typ_cd": "26",
+		"evt_comt_call_url": "",
+		"nscrn_yn": "Y",
+		"aprc_pt_cts_colr_val": "#EFEFEF",
+		"actor": "라이언 고슬링,엠마스톤",
+		"snd_typ_cd": "https://promotion.hanafostv.com:8443/event/NextUI/Battleship/premiere_main.jsp?ui_name=nxuhdstb",
+		"play_tms_val": "10",
+		"evt_comt_cts": "소장용 구매고객 중 추첨하여 라라랜드 OST 시디 증정!",
+		"rslu_typ_cd": "30",
+		"kids_yn": "N",
+		"guest": "이상화,곽윤기,이승훈,이효준 ",
+		"sales_comt_exps_mthd_cd": "10",
+		"sales_comt_call_typ_cd": "26",
+		"evt_comt_img_path": "",
+		"pepoles": [
+			{
+				"prs_id": "PS00000001",
+				"img_path": "/people/PS00000001.jpg",
+				"prs_nm": "하정우",
+				"prs_role_nm": "주연",
+				"prs_prl_nm": "강림",
+				"sort_seq": "1.0",
+				"prs_role_cd": "02"
+			},
+			{
+				"prs_id": "PS00000002",
+				"img_path": "/people/PS00000002.jpg",
+				"prs_nm": "이지은",
+				"prs_role_nm": "주연",
+				"prs_prl_nm": "지은",
+				"sort_seq": "2.0",
+				"prs_role_cd": "02"
+			}
+		],
+		"epsd_id": "EP000000001",
+		"corners": [
+			{
+				"cnr_id": "CN000000001",
+				"cnr_nm": "더 이상은 못참아",
+				"epsd_rslu_id": "{53462203-0195-11E8-A9BB-1D93D2A1C9C0}",
+				"img_path": "/ontv/10750/284_T_11701_20160612174048.jpg",
+				"wat_fr_byte_val": "223707fc",
+				"tmtag_fr_tmsc": "703.0",
+				"sort_seq": "1",
+				"cnr_grp_id": "CG000000001"
+			},
+			{
+				"cnr_id": "CN000000002",
+				"cnr_nm": "더 이상은 못참아2",
+				"epsd_rslu_id": "{1D93D2A1C9C0-0195-A9BB-11E8-53462203}",
+				"img_path": "/ontv/10750/284_T_11701_20160712174048.jpg",
+				"wat_fr_byte_val": "223707fc",
+				"tmtag_fr_tmsc": "803.0",
+				"sort_seq": "2",
+				"cnr_grp_id": "CG000000002"
+			}
+		],
+		"preview": [
+			{
+				"pcim_addn_typ_nm": "예고편",
+				"epsd_rslu_id": "{53462203-0195-11E8-A9BB-1D93D2A1C9C0}",
+				"img_path": "/usr/local/poster/pw_AlongWithTheGods.png",
+				"title": "[예고편] 신과 함께"
+			}
+		],
+		"stillCut": [
+			{
+				"img_path": "/usr/local/poster/st_AlongWithTheGods.png"
+			}
+		],
+		"special": [
+			{
+				"pcim_addn_typ_nm": "예고편",
+				"epsd_rslu_id": "{53462203-0195-11E8-A9BB-1D93D2A1C9C0}",
+				"img_path": "/usr/local/poster/sp_AlongWithTheGods.png",
+				"title": "[예고편] 신과 함께"
+			}
+		],
+		"series_info": [
+			{
+				"poster_filename_h": "/ontv/10900/T43893.jpg",
+				"sris_id": "CS0000000001",
+				"poster_filename_v": "/ontv/10900/T43893.jpg",
+				"epsd_id": "EP0000000001",
+				"brcast_tseq_nm": "12",
+				"cacbro_yn": "Y"
+			}
+		]
+	},
+	"purchares": [
+		{
+			"prd_prc_id": "12345678",
+			"prd_typ_cd": "10",
+			"sale_prc": "9900.0",
+			"use_yn": "Y",
+			"epsd_id": "EP0000000001",
+			"ppm_orgnz_fr_dt": "20180215000000",
+			"purc_wat_to_dt": "20180621235959",
+			"prd_grp_id": "PG00000001",
+			"prd_prc_to_dt": "20180614235959",
+			"sale_prc_vat": "9900.0",
+			"prd_prc": "10000.0",
+			"epsd_rslu_id": "{12040680-B975-11DF-AB33-5FA235B03540}",
+			"rslu_typ_cd": "20",
+			"possn_yn": "Y",
+			"rel_groups": [
+				{
+					"rel_prd_grp_id": "PG00000001"
+				},
+				{
+					"rel_prd_grp_id": "PG00000002"
+				}
+			],
+			"prd_prc_fr_dt": "20180115000000",
+			"ppm_orgnz_to_dt": "20180601235959",
+			"purc_pref_rank": "0201",
+			"next_prd_prc_fr_dt": "20180615000000",
+			"lag_capt_typ_cd": "10",
+			"prd_prc_vat": "10000.0"
+		},
+		{
+			"prd_prc_id": "12345678",
+			"prd_typ_cd": "10",
+			"sale_prc": "9900.0",
+			"use_yn": "Y",
+			"epsd_id": "EP0000000001",
+			"ppm_orgnz_fr_dt": "20180215000000",
+			"purc_wat_to_dt": "20180621235959",
+			"prd_grp_id": "PG00000002",
+			"prd_prc_to_dt": "20180614235959",
+			"sale_prc_vat": "9900.0",
+			"prd_prc": "10000.0",
+			"epsd_rslu_id": "{12040680-B975-11DF-AB33-5FA235B03540}",
+			"rslu_typ_cd": "20",
+			"possn_yn": "Y",
+			"rel_groups": [
+				{
+					"rel_prd_grp_id": "PG00000003"
+				},
+				{
+					"rel_prd_grp_id": "PG00000004"
+				}
+			],
+			"prd_prc_fr_dt": "20180115000000",
+			"ppm_orgnz_to_dt": "20180601235959",
+			"purc_pref_rank": "0201",
+			"next_prd_prc_fr_dt": "20180615000000",
+			"lag_capt_typ_cd": "10",
+			"prd_prc_vat": "10000.0"
+		}
+	],
+	"response_time": "20180328140512",
+	"IF": "IF-NXPG-010"
+}

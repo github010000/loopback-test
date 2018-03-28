@@ -1,0 +1,44 @@
+{
+	"result": "0000",
+	"reason": "",
+	"response_time": "20180328112309",
+	"request_time": "20180328112309",
+	"menus": {
+		"sris_id": "CS000000001",
+		"sites": [
+			{
+				"bas_pnt": "10.0",
+				"site_cd": "01",
+				"reviews": [
+					{
+						"prs_nm": "김현수 기자",
+						"pnt": "8.0",
+						"review_ctsc": "2D 감성까지 옮길 수 없단걸 감안하면 최선의 리메이크"
+					}
+				],
+				"dist_info": [
+					{
+						"pnt": "1.0",
+						"dist_rate": "7.0"
+					}
+				],
+				"avg_pnt": "8.3",
+				"review_cnt ": "1549.0",
+				"site_nm": "씨네21"
+			}
+		],
+		"prize_history": [
+			{
+				"prize_peoples": [
+					{
+						"prize_dts_cts": "남우조연상",
+						"prs_nm": "김희원"
+					}
+				],
+				"prize_yr": "2017",
+				"awrdc_nm": "한국영화제작가협회상 4회"
+			}
+		]
+	},
+	"IF": "IF-NXPG-008"
+}

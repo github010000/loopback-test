@@ -1,6 +1,7 @@
 {
 	"result": "OK",
 	"reason": "",
-	"IF": "IF-NXPG-008",
+	"total_count": 2,
+	"IF": "IF-NXPG-018",
 	"menu_stb_svc_id": "BSUHD"
 }

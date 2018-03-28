@@ -1,37 +1,19 @@
 {
-	"result": "OK",
+	"result": "0000",
 	"reason": "",
-	"total_count": 2,
-	"contents": [
-		{
-			"sris_id": "{23F114CD-218F-11E5-8FC0-FB19CA3ADA26}",
-			"wat_fr_byte_val": "424",
-			"tmtag_fr_tmsc": "424",
-			"epsd_rslu_id": "{0CC2A3E0-73C6-11E6-824F-C9B8D3223C2E}",
-			"sris_no": "329",
-			"cnr_id": "148082",
-			"wat_to_byte_val": "620",
-			"tmtag_to_tmsc": "620",
-			"nm_image_file": "/ontv/10500/329_T_11461_20170429175112.jpg",
-			"epsd_id": "{0CC2A3E0-73C6-11E6-824F-C9B8D3223C2E}",
-			"cnr_grp_id": "1000006754",
-			"title": "모모랜드"
-		},
-		{
-			"sris_id": "{23F114CD-218F-11E5-8FC0-FB19CA3ADA26}",
-			"wat_fr_byte_val": "1095",
-			"tmtag_fr_tmsc": "1095",
-			"epsd_rslu_id": "{0CD0D4B1-73C6-11E6-824F-C9B8D3223C2E}",
-			"sris_no": "330",
-			"cnr_id": "148230",
-			"wat_to_byte_val": "620",
-			"tmtag_to_tmsc": "1291",
-			"nm_image_file": "/ontv/10500/330_T_11461_20170506174916.jpg",
-			"epsd_id": "{0CD0D4B1-73C6-11E6-824F-C9B8D3223C2E}",
-			"cnr_grp_id": "1000006754",
-			"title": "모모랜드"
-		}
-	],
+	"corners": {
+		"cnr_id": "CN000000001",
+		"tmtag_to_tmsc": "903.0",
+		"cnr_nm": "못참아",
+		"epsd_rslu_id": "{53462203-0195-11E8-A9BB-1D93D2A1C9C0}",
+		"img_path": "/ontv/10750/284_T_11701_20160612174048.jpg",
+		"wat_fr_byte_val": "223707fc",
+		"tmtag_fr_tmsc": "703.0",
+		"sort_seq": "1",
+		"wat_to_byte_val": "245707ab"
+	},
+	"request_time": "20180328142918",
+	"response_time": "20180328142918",
 	"IF": "IF-NXPG-016",
-	"menu_stb_svc_id": "BSUHD"
+	"cnr_grp_id": "CG0000000001"
 }

@@ -1,0 +1,62 @@
+{
+	"result": "OK",
+	"reason": "",
+	"total_count": 2,
+	"menus": [
+		{
+			"scn_mthd_cd": "",
+			"svc_prop_cd": "",
+			"call_typ_cd": "",
+			"call_url": "",
+			"menu_exps_prop_cd": "26",
+			"menu_nm": "영화/시리즈",
+			"lim_lvl_yn": "N",
+			"menu_img": "/DATA/epg/menu_image/update/h_110401_over.png",
+			"is_leaf": "N",
+			"menus": [
+				{
+					"scn_mthd_cd": "",
+					"svc_prop_cd": "",
+					"call_typ_cd": "",
+					"call_url": "",
+					"menu_exps_prop_cd": "1",
+					"menu_nm": "영화 인기순위",
+					"lim_lvl_yn": "N",
+					"menu_img": "/DATA/epg/menu_image/update/h_108478_over.png",
+					"is_leaf": "Y",
+					"menus": null,
+					"menu_id": "A000001677"
+				},
+				{
+					"scn_mthd_cd": "",
+					"svc_prop_cd": "",
+					"call_typ_cd": "",
+					"call_url": "",
+					"menu_exps_prop_cd": "1",
+					"menu_nm": "신작영화",
+					"lim_lvl_yn": "N",
+					"menu_img": "/DATA/epg/menu_image/update/h_113204_over.png",
+					"is_leaf": "Y",
+					"menus": null,
+					"menu_id": "A000002310"
+				}
+			],
+			"menu_id": "A000002200"
+		},
+		{
+			"scn_mthd_cd": "",
+			"svc_prop_cd": "",
+			"call_typ_cd": "",
+			"call_url": "",
+			"menu_exps_prop_cd": "26",
+			"menu_nm": "TV다시보기",
+			"lim_lvl_yn": "N",
+			"menu_img": "/DATA/epg/menu_image/update/h_110401_over.png",
+			"is_leaf": "Y",
+			"menus": null,
+			"menu_id": "A000001519"
+		}
+	],
+	"IF": "IF-NXPG-002",
+	"menu_stb_svc_id": "BSUHD"
+}

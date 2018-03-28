@@ -92,9 +92,9 @@ public class ContentsService {
 	//IF-NXPG-007
 	public Map<String, Object> getSynopsisContents(String ver, Map<String, String> param) {
 		try {
-			Map<String, Object> synop = CastUtil.StringToJsonMap((String) redisClient.hget(NXPGCommon.SYNOPSIS_CONTENTS, param.get("epsd_id")));
+			Map<String, Object> synop = CastUtil.StringToJsonMap((String) redisClient.hget(NXPGCommon.SYNOPSIS_CONTENTS, param.get("sris_id")));
 			
-			if (synop.get("sris_typ_cd").toString().equals("02")) {
+			if (synop.get("sris_typ_cd").toString().equals("01")) {
 				synop = CastUtil.StringToJsonMap((String) redisClient.hget(NXPGCommon.SYNOPSIS_SRISINFO, param.get("epsd_id")));
 			}
 			

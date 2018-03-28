@@ -1,0 +1,28 @@
+{
+	"result": "OK",
+	"reason": "",
+	"status_code": "0000",
+	"total_count": 2,
+	"IF": "IF-NXPG-009",
+	"grid": [
+		{
+			"poster_filename_h": "/movie/34550/M345199_h.jpg",
+			"sris_id": "{53462203-0195-11E8-A9BB-1D93D2A1C9C0}",
+			"poster_filename_v": "/movie/34550/M345199_v.jpg",
+			"sris_nm": "토르: 라그나로크[우리말]",
+			"epsd_id": "{D28F151D-0194-11E8-A9BB-1D93D2A1C9C0}",
+			"title": "토르: 라그나로크[우리말]",
+			"adlt_lvl_cd": "N"
+		},
+		{
+			"poster_filename_h": "/movie/34500/M344867_h.jpg",
+			"sris_id": "{39711209-FC1A-11E7-A24B-23E8008C645F}",
+			"poster_filename_v": "/movie/34500/M344867_v.jpg",
+			"sris_nm": "위대한 쇼맨",
+			"title": "위대한 쇼맨",
+			"epsd_id": "{74B9A7EC-FC1B-11E7-A24B-23E8008C645F}",
+			"adlt_lvl_cd": "N"
+		}
+	],
+	"menu_stb_svc_id": "BSUHD"
+}

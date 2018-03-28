@@ -1,61 +1,30 @@
 {
-     "result": "OK",
-     "reason": "",
-     "contents": [
-          {
-               "purchase": [
-                    {
-                         "code": "05",
-                         "contents_list": [
-                              {
-                                   "epsd_rslu_id": "{D28F151D-0194-11E8-A9BB-1D93D2A1C9C0}",
-                                   "sale_prc": "4500",
-                                   "prod_prc": "6000",
-                                   "epsd_id": "{D28F151D-0194-11E8-A9BB-1D93D2A1C9C0}",
-                                   "rank": "01",
-                                   "prd_prc_id": "123123",
-                                   "hb_desc": "",
-                                   "next_prd_prc_fr_dt": ""
-                              }
-                         ]
-                    }
-               ],
-               "bg_img": "/metaimg/tmdb/284053/tmdb_bg_284053_36.jpg",
-               "title_img": "",
-               "contents_list": [
-                    {
-                         "poster_filename_h": "/movie/34650/M346118.jpg",
-                         "sris_id": "{223FC5DA-109B-11E8-B7BD-2BAC564E33F7}",
-                         "poster_filename_v": "/movie/34650/M346118.jpg",
-                         "sris_nm": "그것만이 내 세상",
-                         "epsd_id": "{133B3294-1098-11E8-9252-FFA90356A7A9}",
-                         "adlt_lvl_cd": "N",
-                         "title": "그것만이 내 세상",
-                         "menu_id": "A000003121"
-                    },
-                    {
-                         "poster_filename_h": "/movie/34650/M346118.jpg",
-                         "sris_id": "{223FC5DA-109B-11E8-B7BD-2BAC564E33F7}",
-                         "poster_filename_v": "/movie/34650/M346118.jpg",
-                         "sris_nm": "그것만이 내 세상",
-                         "epsd_id": "{133B3294-1098-11E8-9252-FFA90356A7A9}",
-                         "adlt_lvl_cd": "N",
-                         "title": "그것만이 내 세상",
-                         "menu_id": "A000003121"
-                    },
-                    {
-                         "poster_filename_h": "/movie/34650/M346118.jpg",
-                         "sris_id": "{223FC5DA-109B-11E8-B7BD-2BAC564E33F7}",
-                         "poster_filename_v": "/movie/34650/M346118.jpg",
-                         "sris_nm": "그것만이 내 세상",
-                         "epsd_id": "{133B3294-1098-11E8-9252-FFA90356A7A9}",
-                         "adlt_lvl_cd": "N",
-                         "title": "그것만이 내 세상",
-                         "menu_id": "A000003121"
-                    }
-               ]
-          }
-     ],
-     "IF": "IF-NXPG-016",
-     "menu_stb_svc_id": "BSUHD"
+	"result": "0000",
+	"reason": "",
+	"response_time": "20180328142533",
+	"request_time": "20180328142533",
+	"menus": [
+		{
+			"sale_prc_vat": "9900",
+			"prd_prc_id": "12345678",
+			"sale_prc": "9900",
+			"meta_typ_cd": "000",
+			"sris_id": "CS0000000001",
+			"prd_prc": "26000",
+			"contents": {
+				"sris_id": "CS000000001",
+				"poster_filename_v": "/poster/transformers2.png",
+				"epsd_id": "EP000000001",
+				"adlt_lvl_cd": "1",
+				"title": "트랜스포머 : 패자의 역습",
+				"synon_typ_cd": "1",
+				"lag_capt_typ_cd": "02"
+			},
+			"bg_img_path": "/poster/transformers_bg.jpg",
+			"kids_yn": "N",
+			"title": "TRANSFORMERS",
+			"prd_prc_vat": "10000"
+		}
+	],
+	"IF": "IF-NXPG-014"
 }

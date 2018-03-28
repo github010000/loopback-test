@@ -1,71 +1,34 @@
 {
-	"result": "OK",
+	"result": "0000",
 	"reason": "",
-	"IF": "IF-NXPG-011",
-	"people": [
-		{
-			"dbu_cts": "YTV 드라마 기네비어 존스 (2002)",
-			"death_dy": "",
-			"nmgco_nm": "",
-			"series": [
-				{
-					"open_dy": "2017",
-					"contents": [
-						{
-							"prs_role_cd": "02",
-							"poster_filename_h": "/movie/34650/M346118.jpg",
-							"sris_id": "{223FC5DA-109B-11E8-B7BD-2BAC564E33F7}",
-							"poster_filename_v": "/movie/34650/M346118.jpg",
-							"prize_smry_cts": "",
-							"sris_nm": "그것만이 내 세상",
-							"epsd_id": "{133B3294-1098-11E8-9252-FFA90356A7A9}",
-							"yn_adult": "N",
-							"title": "그것만이 내 세상"
-						}
-					]
-				},
-				{
-					"open_dy": "2016",
-					"contents": [
-						{
-							"prs_role_cd": "02",
-							"poster_filename_h": "/movie/34650/M346118.jpg",
-							"sris_id": "{223FC5DA-109B-11E8-B7BD-2BAC564E33F7}",
-							"poster_filename_v": "/movie/34650/M346118.jpg",
-							"prize_smry_cts": "",
-							"sris_nm": "그것만이 내 세상",
-							"epsd_id": "{133B3294-1098-11E8-9252-FFA90356A7A9}",
-							"yn_adult": "N",
-							"title": "그것만이 내 세상"
-						}
-					]
-				},
-				{
-					"open_dy": "2015",
-					"contents": [
-						{
-							"prs_role_cd": "02",
-							"poster_filename_h": "/movie/34650/M346118.jpg",
-							"sris_id": "{223FC5DA-109B-11E8-B7BD-2BAC564E33F7}",
-							"poster_filename_v": "/movie/34650/M346118.jpg",
-							"prize_smry_cts": "",
-							"sris_nm": "그것만이 내 세상",
-							"epsd_id": "{133B3294-1098-11E8-9252-FFA90356A7A9}",
-							"yn_adult": "N",
-							"title": "그것만이 내 세상"
-						}
-					]
-				}
-			],
-			"brth_ymd": "1983년08월11일",
-			"boold_cd": "",
-			"prs_nm": "크리스 헴스워스",
-			"rnm": "Chris Hemsworth",
-			"wgt_val": "",
-			"prs_eng_nm": "Chris Hemsworth",
-			"prs_typ_cd": "영화배우",
-			"hight_val": "190Cm"
-		}
-	],
-	"menu_stb_svc_id": "BSUHD"
+	"response_time": "20180328142434",
+	"request_time": "20180328142434",
+	"menus": {
+		"pnr_id": "PS00000001",
+		"death_dy": "",
+		"prs_eng_nm": "",
+		"brth_ymd": "19761023",
+		"job_nm": "영화배우, 작가",
+		"blood_nm": "A",
+		"hght_val": "184",
+		"rnm": "공지철",
+		"filmogrps": {
+			"manuf_yr": {
+				"poster_filename_h": "/poster/TrainToBusan.png",
+				"sris_id": "CS00000001",
+				"poster_filename_v": "/poster/TrainToBusan.png",
+				"prize_dts_cts": "2017년 74회 골든 글러브 시상식 남우주연상 외 6건",
+				"epsd_id": "EP00000001",
+				"adlt_lvl_cd": "10",
+				"prs_role_nm": "주연",
+				"title": "부산행",
+				"synon_typ_cd": "1"
+			}
+		},
+		"prs_nm": "공유",
+		"mngco_nm": "레드벨벳(SM Ent)",
+		"dbu_cts": "학교4",
+		"wgt_val": "74"
+	},
+	"IF": "IF-NXPG-011"
 }

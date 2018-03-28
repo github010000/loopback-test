@@ -1,54 +1,28 @@
 {
-	"result": "OK",
+	"result": "0000",
 	"reason": "",
-	"contents": [
-		{
-			"sris_id": "{53462203-0195-11E8-A9BB-1D93D2A1C9C0}",
-			"sub_title": "꼬리가 없어!",
-			"poster_filename_v": "",
-			"sris_no": "1",
-			"page_cnt": "3",
-			"epsd_id": "{D28F151D-0194-11E8-A9BB-1D93D2A1C9C0}",
-			"title": "꼬리가 없어!",
-			"snss_cts": "친구들에게는 있는 꼬리가 왜 코알라에게는 없을까요?\r\n코알라에게 무슨 일이 있었는지 함께 알아보러 가볼까요?",
-			"epsd_rslu_id": "{D28F151D-0194-11E8-A9BB-1D93D2A1C9C0}",
-			"sale_prc": "0",
-			"prod_prc": "0",
-			"page_info": [
-				{
-					"sris_no": "1",
-					"start": "911",
-					"cnr_id": "148227",
-					"nm_image_file": "/ontv/10500/330_T_11461_20170506174845.jpg",
-					"title": "1장"
-				},
-				{
-					"sris_no": "1",
-					"start": "1095",
-					"cnr_id": "148230",
-					"nm_image_file": "/ontv/10500/330_T_11461_20170506174916.jpg",
-					"title": "2장"
-				},
-				{
-					"sris_no": "1",
-					"start": "1293",
-					"cnr_id": "148225",
-					"nm_image_file": "/ontv/10500/330_T_11461_20170506175026.jpg",
-					"title": "3장"
-				}
-			],
-			"bg_img": "",
-			"end_cover_img": "/ontv/10500/11461_end.jpg",
-			"livefairytale": {
-				"year": "2017",
-				"publisher": "",
-				"con_typ": "01",
-				"runningtime": "10",
-				"text": "",
-				"picture": ""
-			}
-		}
-	],
+	"response_time": "20180328143033",
+	"request_time": "20180328143033",
 	"IF": "IF-NXPG-403",
-	"menu_stb_svc_id": "BSUHD"
+	"contents": {
+		"end_img_path": "/bg/NoTail_ending2.jpg",
+		"prd_prc_id": "/character/pororo_tot_out2.png",
+		"sale_prc": "8800.0",
+		"sris_id": "CS000000002",
+		"poster_filename_v": "/poster/NoTail2.jpg",
+		"sub_title": "없어!",
+		"bg_img_path": "/bg/NoTail2.jpg",
+		"epsd_id": "EP000000002",
+		"title": "없어!",
+		"snss_cts": "친구들에게는 있는 꼬리가 왜 코알라에게는 없을까요?",
+		"fstry_draw_exps_yn": "Y",
+		"prd_prc": "7700.0",
+		"play_tms_val": "0~5세",
+		"fstry_role_plyg_exps_yn": "N",
+		"fstry_spch_exps_yn": "N",
+		"writer": "이누즈카 노리히사",
+		"pblsr_nm": "한림출판사",
+		"manuf_yr": "2017",
+		"illustrator": "오시마 히로코"
+	}
 }

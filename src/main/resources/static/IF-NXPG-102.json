@@ -1,39 +1,32 @@
 {
-	"result": "OK",
+	"result": "0000",
 	"reason": "",
-	"total_count": 3,
+	"request_time": "20180328142940",
+	"total_count": "2",
+	"response_time": "20180328142940",
 	"menus": [
 		{
-			"scn_mthd_cd": "",
-			"svc_prop_cd": "",
-			"call_typ_cd": "",
-			"call_url": "",
-			"menu_exps_prop_cd": "26",
-			"menu_nm": "월정액",
-			"lim_lvl_yn": "N",
-			"menu_id": "A000002201"
-		},
-		{
-			"scn_mthd_cd": "",
-			"svc_prop_cd": "",
-			"call_typ_cd": "",
-			"call_url": "",
-			"menu_exps_prop_cd": "26",
-			"menu_nm": "장르메뉴 전체",
-			"lim_lvl_yn": "N",
-			"menu_id": "A000002202"
-		},
-		{
-			"scn_mthd_cd": "",
-			"svc_prop_cd": "",
-			"call_typ_cd": "",
-			"call_url": "",
-			"menu_exps_prop_cd": "26",
+			"dist_fr_dt": "20180301000000",
+			"call_typ_cd": "2",
+			"menu_exps_prop_cd": "1",
+			"call_url": "https://promotion.hanafostv.com:8443/event/NextUI/Battleship/premiere_main.jsp?ui_name=nxuhdstb",
+			"dist_to_dt": "20180331235959",
 			"menu_nm": "캐릭터",
-			"lim_lvl_yn": "N",
-			"menu_id": "A000002203"
+			"lim_lvl_yn": "Y",
+			"kidsz_gnb_cd": "30",
+			"menu_id": "A000001510"
+		},
+		{
+			"dist_fr_dt": "20180302000000",
+			"call_typ_cd": "2",
+			"menu_exps_prop_cd": "1",
+			"call_url": "https://promotion.hanafostv.com:8443/event/NextUI/Battleship/premiere_main.jsp?ui_name=nxuhdstb",
+			"dist_to_dt": "20180331235959",
+			"menu_nm": "캐릭터2",
+			"lim_lvl_yn": "Y",
+			"kidsz_gnb_cd": "30",
+			"menu_id": "A000001512"
 		}
 	],
-	"IF": "IF-NXPG-102",
-	"menu_stb_svc_id": "BSUHD"
+	"IF": "IF-NXPG-102"
 }

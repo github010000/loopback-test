@@ -1,0 +1,85 @@
+{
+	"result": "OK",
+	"reason": "",
+	"status_code": "0000",
+	"related_info": [
+		{
+			"t_cnt": "12",
+			"sub_title": "주토피아[우리말]  시청한 고객이 감상한 영화들",
+			"cw_call_id": "RELATED.MOVIE.PAGE",
+			"session_id": "3dbd4dc4-40f3-46da-9732-a79c246417ee",
+			"block": [
+				{
+					"poster_filename_h": "/movie/33350/M333061_h.jpg",
+					"sris_id": "{08333BC9-0884-11E7-98CA-4104D10153FA}",
+					"poster_filename_v": "/movie/33350/M333061_v.jpg",
+					"track_id": "130.2545.1519284806292.1",
+					"sris_nm": "토이스토리 2[우리말]",
+					"title": "토이스토리 2[우리말]",
+					"epsd_id": "{08333BC9-0884-11E7-98CA-4104D10153FA}",
+					"adlt_lvl_cd": "N"
+				},
+				{
+					"poster_filename_h": "/movie/33200/M331604_h.jpg",
+					"sris_id": "{08D32D72-E81A-11E6-B395-81910960D836}",
+					"poster_filename_v": "/movie/33200/M331604_v.jpg",
+					"track_id": "130.2545.1519284806292.2",
+					"sris_nm": "모아나",
+					"title": "모아나",
+					"epsd_id": "{08D32D72-E81A-11E6-B395-81910960D836}",
+					"adlt_lvl_cd": "N"
+				},
+				{
+					"poster_filename_h": "/movie/86100/M86053_h.jpg",
+					"sris_id": "{1ADCEC58-DA58-11E3-9222-B70E4DB11A38}",
+					"poster_filename_v": "/movie/86100/M86053_v.jpg",
+					"track_id": "130.2545.1519284806292.3",
+					"sris_nm": "토이 스토리[우리말]",
+					"title": "토이 스토리[우리말]",
+					"epsd_id": "{1ADCEC58-DA58-11E3-9222-B70E4DB11A38}",
+					"adlt_lvl_cd": "N"
+				}
+			],
+			"sectionId": "105159#35@@default@@103652#217@@5",
+			"btrack_id": "130.2545.1519284806285"
+		},
+		{
+			"t_cnt": null,
+			"sub_title": null,
+			"cw_call_id": "RELATED.MOVIE.PAGE",
+			"session_id": "3dbd4dc4-40f3-46da-9732-a79c246417ee",
+			"block": null,
+			"sectionId": "105159#35@@default@@105203#33@@2",
+			"btrack_id": "130.2545.1519284806285"
+		},
+		{
+			"t_cnt": null,
+			"sub_title": null,
+			"cw_call_id": "RELATED.MOVIE.PAGE",
+			"session_id": "3dbd4dc4-40f3-46da-9732-a79c246417ee",
+			"block": null,
+			"sectionId": "105159#35@@default@@105179#32@@3",
+			"btrack_id": "130.2545.1519284806285"
+		},
+		{
+			"t_cnt": null,
+			"sub_title": null,
+			"cw_call_id": "RELATED.MOVIE.PAGE",
+			"session_id": "3dbd4dc4-40f3-46da-9732-a79c246417ee",
+			"block": null,
+			"sectionId": "105159#35@@default@@105199#32@@4",
+			"btrack_id": "130.2545.1519284806285"
+		},
+		{
+			"t_cnt": null,
+			"sub_title": null,
+			"cw_call_id": "RELATED.MOVIE.PAGE",
+			"session_id": "3dbd4dc4-40f3-46da-9732-a79c246417ee",
+			"block": null,
+			"sectionId": "105159#35@@default@@105168#32@@5",
+			"btrack_id": "130.2545.1519284806285"
+		}
+	],
+	"IF": "IF-NXPG-012",
+	"menu_stb_svc_id": "BSUHD"
+}
