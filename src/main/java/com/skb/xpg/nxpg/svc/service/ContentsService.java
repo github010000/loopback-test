@@ -1,4 +1,4 @@
-package com.skb.xpg.nxpg.svc.svc;
+package com.skb.xpg.nxpg.svc.service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -90,13 +90,11 @@ public class ContentsService {
 	//IF-NXPG-007
 	public Map<String, Object> getSynopsisContents(String ver, Map<String, String> param) {
 		try {
-			Map<String, Object> synop = CastUtil.StringToJsonMap((String) redisClient.hget(NXPGCommon.SYNOPSIS_CONTENTS, param.get("sris_id")));
+			Map<String, Object> sris = CastUtil.StringToJsonMap((String) redisClient.hget(NXPGCommon.SYNOPSIS_CONTENTS, param.get("sris_id")));
+			Map<String, Object> epsd = CastUtil.StringToJsonMap((String) redisClient.hget(NXPGCommon.SYNOPSIS_SRISINFO, param.get("epsd_id")));
+			sris.putAll(epsd);
 			
-			if (synop.get("sris_typ_cd").toString().equals("01")) {
-				synop = CastUtil.StringToJsonMap((String) redisClient.hget(NXPGCommon.SYNOPSIS_SRISINFO, param.get("epsd_id")));
-			}
-			
-			return synop;
+			return sris;
 		} catch (Exception e) {
 			return null;
 		}

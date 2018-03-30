@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.skb.xpg.nxpg.svc.config.Properties;
-import com.skb.xpg.nxpg.svc.svc.KidsService;
+import com.skb.xpg.nxpg.svc.service.KidsService;
 import com.skb.xpg.nxpg.svc.util.DateUtil;
 import com.skb.xpg.nxpg.svc.util.StrUtil;
 
