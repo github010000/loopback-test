@@ -44,11 +44,11 @@ public class SampleController {
 //	public Map<String, Object> nxpg4(@PathVariable String ver, @RequestParam Map<String, String> param) {
 //		return getJson("IF-NXPG-004");
 //	}
-//
-//	@RequestMapping(value = "/menu/month")
-//	public Map<String, Object> nxpg5(@PathVariable String ver, @RequestParam Map<String, String> param) {
-//		return getJson("IF-NXPG-005");
-//	}
+
+	@RequestMapping(value = "/menu/month")
+	public Map<String, Object> nxpg5(@PathVariable String ver, @RequestParam Map<String, String> param) {
+		return getJson("IF-NXPG-005");
+	}
 
 	@RequestMapping(value = "/grid/grid")
 	public Map<String, Object> nxpg6(@PathVariable String ver, @RequestParam Map<String, String> param) {
