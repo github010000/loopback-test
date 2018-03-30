@@ -1,7 +1,7 @@
 {
 	"result": "0000",
 	"reason": "",
-	"request_time": "20180328141943",
+	"request_time": "20180330153657",
 	"contents": [
 		{
 			"brcast_tseq": "1",
@@ -35,7 +35,7 @@
 		}
 	],
 	"total_count": "2",
-	"response_time": "20180328141943",
+	"response_time": "20180330153657",
 	"IF": "IF-NXPG-006",
 	"menu_id": "A000001510"
 }

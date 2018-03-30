@@ -2,34 +2,41 @@
 	"result": "0000",
 	"channel": [
 		{
-			"channels": {
-				"no_ch": "277",
-				"nm_ch": "CCTV4",
-				"id_svc": "779",
-				"cd_area": "0"
-			},
+			"total_count": 3,
+			"newui_gnr_cd": "40",
 			"newui_gnr_nm": "뉴스/경제",
-			"newui_gnr_cd": "40"
+			"channels": [
+				{
+					"id_svc": 779,
+					"no_ch": 277,
+					"nm_ch": "CCTV4",
+					"cd_area": 0
+				}
+			]
 		},
 		{
-			"channels": {
-				"no_ch": "278",
-				"nm_ch": "CCTV5",
-				"id_svc": "780",
-				"cd_area": "0"
-			},
+			"newui_gnr_cd": "40",
 			"newui_gnr_nm": "드라마",
-			"newui_gnr_cd": "40"
+			"channels": [
+				{
+					"id_svc": 780,
+					"no_ch": 278,
+					"nm_ch": "CCTV5",
+					"cd_area": 0
+				}
+			]
 		},
 		{
-			"channels": {
-				"no_ch": "279",
-				"nm_ch": "CCTV6",
-				"id_svc": "781",
-				"cd_area": "0"
-			},
+			"newui_gnr_cd": "40",
 			"newui_gnr_nm": "예능",
-			"newui_gnr_cd": "40"
+			"channels": [
+				{
+					"id_svc": 781,
+					"no_ch": 279,
+					"nm_ch": "CCTV6",
+					"cd_area": 0
+				}
+			]
 		}
 	],
 	"reason": "",

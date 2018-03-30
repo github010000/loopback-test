@@ -143,16 +143,16 @@ public class MenuController {
 		
 		// 값 불러오기 
 		Map<String, Object> bigbanner = menuService.getBlockBigBanner(ver, param);
-		Map<String, Object> blockblock = menuService.getBlockMonth(ver, param);
+		Map<String, Object> month = menuService.getBlockMonth(ver, param);
 		// 조회값 없음
-		if (blockblock == null) {
+		if (month == null) {
 			rtn.put("result", "9998");
 		}
 		// 성공
 		else {
 			rtn.put("result", "0000");
 			rtn.putAll(bigbanner);
-			rtn.putAll(blockblock);
+			rtn.putAll(month);
 			// 카운트 넣어주기 
 //			if (bigbanner != null) rtn.put("total_count", bigbanner.size());
 		}

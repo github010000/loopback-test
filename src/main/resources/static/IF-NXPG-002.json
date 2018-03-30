@@ -1,8 +1,9 @@
 {
 	"result": "0000",
-	"request_time": "20180328141005",
+	"reason": "",
+	"request_time": "20180330151308",
 	"total_count": "2",
-	"response_time": "20180328141005",
+	"response_time": "20180330151308",
 	"menus": [
 		{
 			"scn_mthd_cd": "11",
@@ -17,7 +18,7 @@
 			"prd_id": "N",
 			"par_menu_id": "A000001500",
 			"cmpgn_fr_dt": "20180301000000",
-			"svc_prop_cd": "",
+			"svc_prop_cd": "11",
 			"depth": "1",
 			"cmpgn_apl_fr_dt": "20180301000000",
 			"call_typ_cd": "2",
@@ -26,9 +27,9 @@
 			"dist_to_dt": "20180331235959",
 			"menu_nm": "BSUHD",
 			"lim_lvl_yn": "Y",
-			"menus": "",
+			"menus": [],
 			"menu_id": "A000001510",
-			"gnb_typ_cd": "KIDS"
+			"gnb_typ_cd": "01"
 		},
 		{
 			"scn_mthd_cd": "11",
@@ -36,14 +37,14 @@
 			"dist_fr_dt": "20180301000000",
 			"cmpgn_to_dt": "20180331235959",
 			"menu_exps_prop_cd": "1",
-			"cmpgn_nm": "새마을운동2",
+			"cmpgn_nm": "새마을운동22",
 			"cmpgn_itlk_typ_cd": "1",
 			"shcut_menu_id": "A000009999",
 			"is_leaf": "N",
 			"prd_id": "N",
 			"par_menu_id": "A000001501",
 			"cmpgn_fr_dt": "20180301000000",
-			"svc_prop_cd": "",
+			"svc_prop_cd": "11",
 			"depth": "2",
 			"cmpgn_apl_fr_dt": "20180301000000",
 			"call_typ_cd": "2",
@@ -52,9 +53,9 @@
 			"dist_to_dt": "20180331235959",
 			"menu_nm": "BSUHD",
 			"lim_lvl_yn": "Y",
-			"menus": "",
+			"menus": [],
 			"menu_id": "A000001511",
-			"gnb_typ_cd": "KIDS"
+			"gnb_typ_cd": "01"
 		}
 	],
 	"IF": "IF-NXPG-002"

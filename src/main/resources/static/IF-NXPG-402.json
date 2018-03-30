@@ -1,31 +1,41 @@
 {
 	"result": "0000",
 	"reason": "",
-	"total_count": 2,
-	"grid": [
+	"request_time": "20180330162056",
+	"contents": [
 		{
-			"poster_filename_h": "/movie/34650/M346118.jpg",
-			"sris_id": "{223FC5DA-109B-11E8-B7BD-2BAC564E33F7}",
-			"poster_filename_v": "/movie/34650/M346118.jpg",
-			"sris_no": "1",
-			"sris_nm": "꼬리가 없어!",
-			"nm_image_file": "NEW.png",
-			"epsd_id": "{133B3294-1098-11E8-9252-FFA90356A7A9}",
-			"adlt_lvl_cd": "N",
-			"title": "꼬리가 없어!"
+			"brcast_tseq": "1",
+			"meta_typ_cd": "000",
+			"sris_id": "CS000000001",
+			"poster_filename_v": "Y",
+			"epsd_id": "도라에모옹",
+			"sort_seq": "1",
+			"title": "[HD] 도라에몽!",
+			"synon_typ_cd": "1",
+			"poster_filename_h": "N",
+			"wat_lvl_cd": "19",
+			"badge_img_path": "new.gif",
+			"adlt_lvl_cd": "1",
+			"kids_yn": "Y"
 		},
 		{
-			"poster_filename_h": "/movie/35650/M356118.jpg",
-			"sris_id": "{423FC5DA-109B-11E8-B7BD-2BAC564E33F7}",
-			"poster_filename_v": "/movie/35650/M356118.jpg",
-			"sris_no": "1",
-			"sris_nm": "내가 앞에 설래!",
-			"nm_image_file": "",
-			"epsd_id": "{333B3294-1098-11E8-9252-FFA90356A7A9}",
-			"adlt_lvl_cd": "N",
-			"title": "내가 앞에 설래!"
+			"brcast_tseq": "2",
+			"meta_typ_cd": "000",
+			"sris_id": "CS000000002",
+			"poster_filename_v": "Y",
+			"epsd_id": "뽀로로로로2",
+			"sort_seq": "2",
+			"title": "[HD] 강력한 친구 뽀로로",
+			"synon_typ_cd": "1",
+			"poster_filename_h": "N",
+			"wat_lvl_cd": "19",
+			"badge_img_path": "new.gif",
+			"adlt_lvl_cd": "1",
+			"kids_yn": "Y"
 		}
 	],
+	"total_count": "2",
+	"response_time": "20180330162056",
 	"IF": "IF-NXPG-402",
-	"menu_stb_svc_id": "BSUHD"
+	"menu_id": "A000001510"
 }

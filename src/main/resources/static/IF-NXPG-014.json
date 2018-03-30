@@ -1,29 +1,32 @@
 {
 	"result": "0000",
 	"reason": "",
-	"response_time": "20180328142533",
-	"request_time": "20180328142533",
+	"response_time": "20180330153933",
+	"request_time": "20180330153933",
 	"menus": [
 		{
 			"sale_prc_vat": "9900",
 			"prd_prc_id": "12345678",
-			"sale_prc": "9900",
+			"sale_prc": "9000",
 			"meta_typ_cd": "000",
 			"sris_id": "CS0000000001",
-			"prd_prc": "26000",
-			"contents": {
-				"sris_id": "CS000000001",
-				"poster_filename_v": "/poster/transformers2.png",
-				"epsd_id": "EP000000001",
-				"adlt_lvl_cd": "1",
-				"title": "트랜스포머 : 패자의 역습",
-				"synon_typ_cd": "1",
-				"lag_capt_typ_cd": "02"
-			},
+			"prd_prc": "10000",
+			"contents": [
+				{
+					"sris_id": "CS000000001",
+					"poster_filename_v": "/poster/transformers2.png",
+					"wat_lvl_cd": "7",
+					"epsd_id": "EP000000001",
+					"adlt_lvl_cd": "1",
+					"title": "트랜스포머 : 패자의 역습",
+					"synon_typ_cd": "1",
+					"lag_capt_typ_cd": "02"
+				}
+			],
 			"bg_img_path": "/poster/transformers_bg.jpg",
 			"kids_yn": "N",
 			"title": "TRANSFORMERS",
-			"prd_prc_vat": "10000"
+			"prd_prc_vat": "11000"
 		}
 	],
 	"IF": "IF-NXPG-014"

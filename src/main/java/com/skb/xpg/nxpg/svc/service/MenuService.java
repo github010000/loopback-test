@@ -1,5 +1,6 @@
 package com.skb.xpg.nxpg.svc.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -85,24 +86,28 @@ public class MenuService {
 			List<Map<String, Object>> blocks = CastUtil.getObjectToMapList(blockblock.get("blocks"));
 			for (Object block : blocks) {
 				Map<String, Object> map = CastUtil.getObjectToMap(block);
-
-				Map<String, Object> gridbanner = getGridMonth(map.get("menu_id").toString());
 				
-				map.put("menus", gridbanner.get("banners"));
+				List gridbanner = getGridMonth(map.get("menu_id").toString());
+				System.out.println(gridbanner.toString());
+				
+				map.put("menus", gridbanner);
 			}
 			blockblock.put("block_count", blockblock.get("total_count"));
 			blockblock.remove("total_count");
 			return blockblock;
 		} catch (Exception e) {
+			e.printStackTrace();
 			return null;
 		}
 	}
 	
 	// IF-NXPG-005
-	public Map<String, Object> getGridMonth(String menu_id) {
+	public List getGridMonth(String menu_id) {
 		try {
-			return CastUtil.StringToJsonMap((String) redisClient.hget("block_month", menu_id));
+			System.out.println(redisClient.hget("block_month", menu_id));
+			return CastUtil.StringToJsonList((String) redisClient.hget("block_month", menu_id));
 		} catch (Exception e) {
+			e.printStackTrace();
 			return null;
 		}
 	}
