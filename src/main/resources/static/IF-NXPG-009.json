@@ -2,7 +2,9 @@
 	"result": "OK",
 	"reason": "",
 	"status_code": "0000",
-	"total_count": 2,
+	"request_time": "20180330151308",
+	"response_time": "20180330151308",
+	"total_count": "2",
 	"IF": "IF-NXPG-009",
 	"grid": [
 		{

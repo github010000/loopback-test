@@ -22,8 +22,8 @@ spring:
       charset: UTF-8
   jackson:
     default-property-inclusion: NON_NULL
-    generator:
-      write-numbers-as-strings: true
+#    generator:
+#      write-numbers-as-strings: true
   redis:
     host: localhost
     port: 6379
