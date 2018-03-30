@@ -100,19 +100,15 @@ public class ContentsService {
 		}
 	}
 	
-	//IF-NXPG-008
-	public Map<String, Object> getSynopsisSrisInfo(String ver, Map<String, String> param) {
-		try {
-			return CastUtil.StringToJsonMap((String) redisClient.hget(NXPGCommon.SYNOPSIS_SRISINFO, param.get("epsd_id")));
-		} catch (Exception e) {
-			return null;
-		}
-	}
-	
 	//IF-NXPG-010
 	public Map<String, Object> getContentsCommerce(String ver, Map<String, String> param) {
 		try {
-			return CastUtil.StringToJsonMap((String) redisClient.hget("synopsis_commerce", param.get("sris_id")));
+			Map<String, Object> commerce = CastUtil.StringToJsonMap((String) redisClient.hget("synopsis_commerce", param.get("sris_id")));
+			
+			commerce.put("info_id", CastUtil.StringToJsonMap((String) redisClient.hget("contents_phrase", commerce.get("info_id").toString())));
+			commerce.put("delivery_info_id", CastUtil.StringToJsonMap((String) redisClient.hget("contents_phrase", commerce.get("delivery_info_id").toString())));
+			commerce.put("refund_info_id", CastUtil.StringToJsonMap((String) redisClient.hget("contents_phrase", commerce.get("refund_info_id").toString())));
+			return commerce;
 		} catch (Exception e) {
 			return null;
 		}

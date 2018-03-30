@@ -77,4 +77,33 @@ public class MenuService {
 			return null;
 		}
 	}
+	
+	// IF-NXPG-005
+	public Map<String, Object> getBlockMonth(String ver, Map<String, String> param) {
+		try {
+			Map<String, Object> blockblock = CastUtil.StringToJsonMap((String) redisClient.hget("block_block", param.get("menu_id")));
+			List<Map<String, Object>> blocks = CastUtil.getObjectToMapList(blockblock.get("blocks"));
+			for (Object block : blocks) {
+				Map<String, Object> map = CastUtil.getObjectToMap(block);
+
+				Map<String, Object> gridbanner = getGridMonth(map.get("menu_id").toString());
+				
+				map.put("menus", gridbanner.get("banners"));
+			}
+			blockblock.put("block_count", blockblock.get("total_count"));
+			blockblock.remove("total_count");
+			return blockblock;
+		} catch (Exception e) {
+			return null;
+		}
+	}
+	
+	// IF-NXPG-005
+	public Map<String, Object> getGridMonth(String menu_id) {
+		try {
+			return CastUtil.StringToJsonMap((String) redisClient.hget("block_month", menu_id));
+		} catch (Exception e) {
+			return null;
+		}
+	}
 }

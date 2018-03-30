@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.skb.xpg.nxpg.svc.config.Properties;
+import com.skb.xpg.nxpg.svc.service.GridService;
 import com.skb.xpg.nxpg.svc.service.KidsService;
+import com.skb.xpg.nxpg.svc.service.MenuService;
 import com.skb.xpg.nxpg.svc.util.DateUtil;
 import com.skb.xpg.nxpg.svc.util.StrUtil;
 
@@ -20,7 +22,11 @@ import com.skb.xpg.nxpg.svc.util.StrUtil;
 public class KidsController {
 
 	@Autowired
+	MenuService menuService;
+	@Autowired
 	KidsService kidsService;
+	@Autowired
+	GridService gridService;
 	@Autowired
 	private Properties properties;
 
@@ -41,19 +47,16 @@ public class KidsController {
 			return rtn;
 		}
 
-		// 값 불러오기
-		List list = kidsService.getMenuKzchar(ver, param);
+		// 값 불러오기 
+		Map<String, Object> bigbanner = menuService.getBlockBigBanner(ver, param);
 		// 조회값 없음
-		if (list == null) {
+		if (bigbanner == null) {
 			rtn.put("result", "9998");
-		}
-		// 성공
-		else {
+		} else {
 			rtn.put("result", "0000");
-			rtn.put("menus", list);
-			// 카운트 넣어주기
-			if (list != null)
-				rtn.put("total_count", list.size());
+			rtn.putAll(bigbanner);
+			// 카운트 넣어주기 
+//					if (bigbanner != null) rtn.put("total_count", bigbanner.size());
 		}
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
 		return rtn;
@@ -75,19 +78,16 @@ public class KidsController {
 			return rtn;
 		}
 
-		// 값 불러오기
-		List list = kidsService.getMenuKzgnb(ver, param);
+		// 값 불러오기 
+		Map<String, Object> resultMap = gridService.getGrid(ver, param);
 		// 조회값 없음
-		if (list == null) {
+		if (resultMap == null) {
 			rtn.put("result", "9998");
 		}
 		// 성공
 		else {
 			rtn.put("result", "0000");
-			rtn.put("menus", list);
-			// 카운트 넣어주기
-			if (list != null)
-				rtn.put("total_count", list.size());
+			rtn.putAll(resultMap);
 		}
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
 		return rtn;
