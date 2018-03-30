@@ -1,9 +1,9 @@
 {
 	"result": "0000",
 	"reason": "",
-	"request_time": "20180328140920",
+	"request_time": "20180330150853",
 	"total_count": "2",
-	"response_time": "20180328140920",
+	"response_time": "20180330150853",
 	"menus": [
 		{
 			"scn_mthd_cd": "11",
@@ -15,11 +15,11 @@
 			"call_url": "https://promotion.hanafostv.com:8443/event/NextUI/Battleship/premiere_main.jsp?ui_name=nxuhdstb",
 			"dist_to_dt": "20180331235959",
 			"vas_svc_id": "",
-			"menu_nm": "BSUHD",
+			"menu_nm": "메뉴1",
 			"vas_id": "",
 			"lim_lvl_yn": "Y",
 			"menu_id": "A000001510",
-			"gnb_typ_cd": "KIDS"
+			"gnb_typ_cd": "01"
 		},
 		{
 			"scn_mthd_cd": "11",
@@ -27,15 +27,15 @@
 			"menu_exps_prop_cd": "1",
 			"vas_itm_id": "",
 			"svc_prop_cd": "11",
-			"call_typ_cd": "3",
+			"call_typ_cd": "2",
 			"call_url": "https://promotion.hanafostv.com:8443/event/NextUI/Battleship/premiere_main.jsp?ui_name=nxuhdstb",
 			"dist_to_dt": "20180331235959",
 			"vas_svc_id": "",
-			"menu_nm": "BSUHD",
+			"menu_nm": "메뉴2",
 			"vas_id": "",
 			"lim_lvl_yn": "Y",
 			"menu_id": "A000001511",
-			"gnb_typ_cd": "KIDS"
+			"gnb_typ_cd": "01"
 		}
 	],
 	"IF": "IF-NXPG-001"
