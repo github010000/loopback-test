@@ -11,7 +11,7 @@
 			"dist_fr_dt": "20180301000000",
 			"cmpgn_to_dt": "20180331235959",
 			"menu_exps_prop_cd": "1",
-			"cmpgn_nm": "새마을운동",
+			"cmpgn_nm": "영화/시리즈",
 			"cmpgn_itlk_typ_cd": "1",
 			"shcut_menu_id": "A000009999",
 			"is_leaf": "N",
@@ -23,13 +23,13 @@
 			"cmpgn_apl_fr_dt": "20180301000000",
 			"call_typ_cd": "2",
 			"cmpgn_id": "0124567893",
-			"call_url": "https://promotion.hanafostv.com:8443/event/NextUI/Battleship/premiere_main.jsp?ui_name=nxuhdstb",
+			"call_url": "",
 			"dist_to_dt": "20180331235959",
 			"menu_nm": "BSUHD",
 			"lim_lvl_yn": "Y",
 			"menus": [],
-			"menu_id": "A000001510",
-			"gnb_typ_cd": "01"
+			"menu_id": "NM000001236",
+			"gnb_typ_cd": "U5_04"
 		},
 		{
 			"scn_mthd_cd": "11",
@@ -37,7 +37,7 @@
 			"dist_fr_dt": "20180301000000",
 			"cmpgn_to_dt": "20180331235959",
 			"menu_exps_prop_cd": "1",
-			"cmpgn_nm": "새마을운동22",
+			"cmpgn_nm": "TV다시보기",
 			"cmpgn_itlk_typ_cd": "1",
 			"shcut_menu_id": "A000009999",
 			"is_leaf": "N",
@@ -49,13 +49,13 @@
 			"cmpgn_apl_fr_dt": "20180301000000",
 			"call_typ_cd": "2",
 			"cmpgn_id": "0124567893",
-			"call_url": "https://promotion.hanafostv.com:8443/event/NextUI/Battleship/premiere_main.jsp?ui_name=nxuhdstb",
+			"call_url": "",
 			"dist_to_dt": "20180331235959",
 			"menu_nm": "BSUHD",
 			"lim_lvl_yn": "Y",
 			"menus": [],
-			"menu_id": "A000001511",
-			"gnb_typ_cd": "01"
+			"menu_id": "NM000001237",
+			"gnb_typ_cd": "U5_05"
 		}
 	],
 	"IF": "IF-NXPG-002"
