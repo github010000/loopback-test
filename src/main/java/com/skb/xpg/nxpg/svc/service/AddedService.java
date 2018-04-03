@@ -24,4 +24,13 @@ public class AddedService {
             return null;
         }
     }
+    // IF-NXPG-102
+    public List<Object> getAddedGenre(String ver, Map<String, String> param) {
+        try {
+            return CastUtil.StringToJsonList((String) redisClient.hget("genre_info", "genre"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

@@ -31,3 +31,8 @@ spring:
 management:
   security:
     enabled: false
+zuul:
+  routes:
+    ge:
+      path: /ge/**
+      url: http://localhost:8090

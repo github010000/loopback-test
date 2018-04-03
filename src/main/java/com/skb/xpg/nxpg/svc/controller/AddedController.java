@@ -56,4 +56,37 @@ public class AddedController {
         rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
         return rtn;
     }
+    
+    // IF-NXPG-013
+    @RequestMapping(value = "/added/genre")
+    public Map<String, Object> getAddedGenre(@PathVariable String ver, @RequestParam Map<String, String> param) {
+        String IF = param.get("IF");
+
+		Map<String, Object> result = properties.getResults();
+		Map<String, Object> rtn = new HashMap<String, Object>();
+		
+		rtn.putAll(result);
+		
+        rtn.put("IF", IF);
+        rtn.put("request_time", DateUtil.getYYYYMMDDhhmmss());
+        
+        if (StrUtil.isEmpty(param.get("stb_id"))) {
+            rtn.put("result", "9999");
+            return rtn;
+        }
+        
+        // 값 불러오기 
+        List<Object> resultMap = epgService.getAddedGenre(ver, param);
+        // 조회값 없음
+        if (resultMap == null) {
+            rtn.put("result", "9998");
+        }
+        // 성공
+        else {
+            rtn.put("result", "0000");
+            rtn.put("channel", resultMap);
+        }
+        rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
+        return rtn;
+    }
 }

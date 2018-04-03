@@ -23,9 +23,14 @@ spring:
   jackson:
     default-property-inclusion: NON_NULL
   redis:
-    host: localhost
+    host: 10.10.113.8
     port: 6379
-    password: null
+    password: eera9eizohxiengaF9iemai3zuc4oogh
 management:
   security:
     enabled: false
+zuul:
+  routes:
+    ge:
+      path: /ge/**
+      url: http://localhost:8090

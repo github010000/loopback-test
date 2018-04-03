@@ -4,6 +4,7 @@ package com.skb.xpg.nxpg.svc;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
 
@@ -14,6 +15,7 @@ import com.skb.xpg.nxpg.svc.config.CommonConfiguration;
  */
 @SpringBootApplication
 @EnableAutoConfiguration
+@EnableZuulProxy
 @ComponentScan
 @Import(CommonConfiguration.class) 
 public class NXPGSvcApplication {

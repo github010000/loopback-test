@@ -59,13 +59,16 @@ public class MenuService {
 				Map<String, Object> map = CastUtil.getObjectToMap(block);
 
 				Map<String, Object> gridbanner = getGridBanner(map.get("menu_id").toString());
-				
-				map.put("menus", gridbanner.get("banners"));
+				map.put("menus", null);
+				if (gridbanner != null) {
+					map.put("menus", gridbanner.get("banners"));
+				}
 			}
 			blockblock.put("block_count", blockblock.get("total_count"));
 			blockblock.remove("total_count");
 			return blockblock;
 		} catch (Exception e) {
+			e.printStackTrace();
 			return null;
 		}
 	}
@@ -75,6 +78,7 @@ public class MenuService {
 		try {
 			return CastUtil.StringToJsonMap((String) redisClient.hget("grid_banner", menu_id));
 		} catch (Exception e) {
+			e.printStackTrace();
 			return null;
 		}
 	}
