@@ -33,4 +33,4 @@ zuul:
   routes:
     ge:
       path: /ge/**
-      url: http://localhost:8090
+      url: http://10.10.113.12:8090
