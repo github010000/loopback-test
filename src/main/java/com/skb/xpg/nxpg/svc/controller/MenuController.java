@@ -110,17 +110,21 @@ public class MenuController {
 		Map<String, Object> bigbanner = menuService.getBlockBigBanner(ver, param);
 		Map<String, Object> blockblock = menuService.getBlockBlock(ver, param);
 		// 조회값 없음
-		if (blockblock == null) {
-			rtn.put("result", "9998");
-		}
-		// 성공
-		else {
-			rtn.put("result", "0000");
+		
+		rtn.put("result", "0000");
+		if (bigbanner != null) {
 			rtn.putAll(bigbanner);
+		} else {
+			rtn.put("banners", null);
+		}
+		if (blockblock != null) {
 			rtn.putAll(blockblock);
+		} else {
+			rtn.put("blocks", null);
+		}
 			// 카운트 넣어주기 
 //			if (bigbanner != null) rtn.put("total_count", bigbanner.size());
-		}
+		
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
 		return rtn;
 	}
