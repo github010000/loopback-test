@@ -1,8 +1,12 @@
 package com.skb.xpg.nxpg.svc.util;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * 날짜를 쉽게 출력하기 위한 utility 클래스
@@ -10,91 +14,6 @@ import java.util.Locale;
  * @author  지승렬
  */
 public class DateUtil {
-//	public static String eventStartDate="200410202255"; // 원하는 달에서 1을 빼주는 것에 주의 !!
-//	public static String eventEndDate="200410210705"; // 원하는 달에서 1을 빼주는 것에 주의 !!
-
-	// 현재날짜 (format : YYYYMMDDhhmmss)
-//	private static String getYYYYMMDDhhmmss(){
-//		int iYear, iMonth, iDay, iHour, iMinute, iSecond;
-//		String strYear, strMonth, strDay, strHour, strMinute, strSecond;
-//		Calendar cal = Calendar.getInstance();
-//		
-//		iYear 	= cal.get(Calendar.YEAR);
-//		iMonth	= cal.get(Calendar.MONTH) + 1;
-//		iDay	= cal.get(Calendar.DATE);
-//		
-//		if (cal.get(Calendar.AM_PM) == 0) // 오전
-//		{
-//			iHour	= cal.get(Calendar.HOUR);
-//		}
-//		else
-//		{
-//			iHour	= 12 + cal.get(Calendar.HOUR);
-//		}
-//		iMinute	= cal.get(Calendar.MINUTE);
-//		iSecond	= cal.get(Calendar.SECOND);
-//		
-//		strYear 	= Integer.toString(iYear);
-//		strMonth 	= Integer.toString(iMonth + 100).substring(1, 3);
-//		strDay		= Integer.toString(iDay + 100).substring(1, 3);
-//		strHour		= Integer.toString(iHour + 100).substring(1, 3);
-//		strMinute	= Integer.toString(iMinute + 100).substring(1, 3);
-//		strSecond	= Integer.toString(iSecond + 100).substring(1, 3);
-//		
-//		return (strYear + strMonth + strDay + strHour + strMinute + strSecond);
-//	}
-	
-//	// 지정된 날짜로부터 +, - 날짜 (format : YYYYMMDD)
-//	public static String getYYYYMMDD(String strYYYYMMDD, String strType, int iAdded)
-//	{
-//		Integer intYear, intMonth, intDay;
-//		int iYear, iMonth, iDay;
-//		String strYear, strMonth, strDay;
-//		
-//		
-//		intYear 	= Integer.valueOf(strYYYYMMDD.substring(0, 4));
-//		intMonth	= Integer.valueOf(strYYYYMMDD.substring(4, 6));
-//		intDay		= Integer.valueOf(strYYYYMMDD.substring(6, 8));
-//		
-//		Calendar cal = Calendar.getInstance();
-//		cal.set(intYear, intMonth - 1, intDay);
-//		
-//		if (strType.compareTo("DAY") == 0)
-//		{
-//			cal.add(Calendar.DATE, iAdded);
-//		}
-//		else if (strType.compareTo("YEAR") == 0)
-//		{
-//			cal.add(Calendar.YEAR, iAdded);
-//		}
-//		else if(strType.compareTo("MONTH") ==0)
-//		{
-//			cal.add(Calendar.MONTH,iAdded);
-//		}
-//		else
-//		{
-//			return strYYYYMMDD;
-//		}
-//		
-//		iYear 	= cal.get(Calendar.YEAR);
-//		iMonth	= cal.get(Calendar.MONTH) + 1;
-//		iDay	= cal.get(Calendar.DATE);
-//		
-//		
-//		strYear 	= Integer.toString(iYear);
-//		strMonth 	= Integer.toString(iMonth + 100).substring(1, 3);
-//		strDay		= Integer.toString(iDay + 100).substring(1, 3);
-//		
-//		return (strYear + strMonth + strDay);
-//	}
-//	
-//	public static String getYYMMDDhhmmss() {
-//		Locale currLocale = new Locale("KOREAN","KOREA");  
-//		String pattern = "yyMMddHHmmss";
-//		SimpleDateFormat formatter = new SimpleDateFormat(pattern, currLocale);
-//
-//		return formatter.format(new Date());
-//	}
 	
 	public static String getYYYYMMDDhhmmss() {
 		Locale currLocale = new Locale("KOREAN","KOREA");  
@@ -112,6 +31,36 @@ public class DateUtil {
 		return formatter.format(new Date());
 	}
 	
+	public static List<Map<String, Object>> getCompare(List<Map<String, Object>> map){
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+		
+		Date date = new Date();
+		Date strTime = null;
+		Date endTime = null;
+		
+		List<Map<String, Object>> gnb = new ArrayList<Map<String, Object>>();
+		for(Map<String, Object> object : map) {
+           // menu_cd 제거
+           if(object.containsKey("menu_cd")){
+              object.remove("menu_cd");
+           }
+           
+           try {
+			strTime = dateFormat.parse(String.valueOf(object.get("dist_fr_dt")));
+			endTime = dateFormat.parse(String.valueOf(object.get("dist_to_dt")));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+           
+           
+           if(date.after(strTime) && date.before(endTime)) {
+        	   gnb.add(object);
+           }
+		}
+		
+		return gnb;
+	}
 	
 }
 

@@ -92,10 +92,14 @@ public class ContentsService {
 		try {
 			Map<String, Object> sris = CastUtil.StringToJsonMap((String) redisClient.hget(NXPGCommon.SYNOPSIS_CONTENTS, param.get("sris_id")));
 			Map<String, Object> epsd = CastUtil.StringToJsonMap((String) redisClient.hget(NXPGCommon.SYNOPSIS_SRISINFO, param.get("epsd_id")));
-			sris.putAll(epsd);
+			
+			if(epsd != null) {
+				sris.putAll(epsd);
+			}
 			
 			return sris;
 		} catch (Exception e) {
+			e.printStackTrace();
 			return null;
 		}
 	}
@@ -114,37 +118,75 @@ public class ContentsService {
 		}
 	}
 	
+	//IF-NXPG-011 콘텐츠용 인물정보 불러오기 - 아래 메소드와 같이 수정 필요
+	public Map<String, Object> getContentsPeople(Map<String, Object> contents, Map<String, String> param) {
+		try {
+			String redisData = (String) redisClient.hget(NXPGCommon.CONTENTS_PEOPLE, param.get("epsd_id"));
+			if(redisData!=null&&!"".equals(redisData)) {
+				contents.putAll(CastUtil.StringToJsonMap(redisData));
+			}else {
+				contents.put("peoples", null);
+			}
+			
+//			return CastUtil.StringToJsonMap((String) redisClient.hget(NXPGCommon.CONTENTS_PEOPLE, param.get("epsd_id")));
+			return contents;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
 	//IF-NXPG-011
 	public Map<String, Object> getContentsPeople(String ver, Map<String, String> param) {
 		try {
 			return CastUtil.StringToJsonMap((String) redisClient.hget(NXPGCommon.CONTENTS_PEOPLE, param.get("epsd_id")));
 		} catch (Exception e) {
+			e.printStackTrace();
 			return null;
 		}
 	}
 	
 	//IF-NXPG-012
-	public Map<String, Object> getContentsPreview(String ver, Map<String, String> param) {
+	public Map<String, Object> getContentsPreview(Map<String, Object> contents, Map<String, String> param) {
 		try {
-			return CastUtil.StringToJsonMap((String) redisClient.hget(NXPGCommon.CONTENTS_PREVIEW, param.get("sris_id")));
+			String redisData = (String) redisClient.hget(NXPGCommon.CONTENTS_PREVIEW, param.get("sris_id"));
+			if(redisData!=null&&!"".equals(redisData)) {
+				contents.putAll(CastUtil.StringToJsonMap(redisData));
+			}else {
+				contents.put("peoples", null);
+			}
+			
+//			return CastUtil.StringToJsonMap((String) redisClient.hget(NXPGCommon.CONTENTS_PREVIEW, param.get("sris_id")));
+			return contents;
 		} catch (Exception e) {
 			return null;
 		}
 	}	
 	
 	//IF-NXPG-025
-	public List getContentsSeries(String ver, Map<String, String> param) {
+	public Object getContentsSeries(String ver, Map<String, String> param) {
 		try {
-			return CastUtil.StringToJsonList((String) redisClient.hget("synopsis_sris", param.get("sris_id")));
+			Map<String, Object> temp = CastUtil.StringToJsonMap((String) redisClient.hget("synopsis_sris", param.get("sris_id")));
+			return temp.get("episodes");
 		} catch (Exception e) {
 			return null;
 		}
 	}	
 	
 	//IF-NXPG-013
-	public Map<String, Object> getContentsCorner(String ver, Map<String, String> param) {
+	public Map<String, Object> getContentsCorner(Map<String, Object> contents, Map<String, String> param) {
 		try {
-			return CastUtil.StringToJsonMap((String) redisClient.hget("contents_corner", param.get("epsd_id")));
+			String redisData = (String) redisClient.hget("contents_corner", param.get("epsd_id"));
+			Map <String, Object> redisMap = null;
+			if(redisData!=null&&!"".equals(redisData)) {
+				redisMap = CastUtil.StringToJsonMap(redisData);
+				contents.putAll(redisMap);
+			}else {
+				contents.put("corners", null);
+			}
+			
+//			return CastUtil.StringToJsonMap((String) redisClient.hget("contents_corner", param.get("epsd_id")));
+			return contents;
 		} catch (Exception e) {
 			return null;
 		}

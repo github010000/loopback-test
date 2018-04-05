@@ -1,7 +1,6 @@
 package com.skb.xpg.nxpg.svc.controller;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,7 @@ import com.skb.xpg.nxpg.svc.util.DateUtil;
 import com.skb.xpg.nxpg.svc.util.StrUtil;
 
 @RestController
-@RequestMapping(value = "/nxpg/{ver}", produces = "application/json; charset=utf-8")
+@RequestMapping(value = "/xpg/{ver}", produces = "application/json; charset=utf-8")
 public class AddedController {
 
     @Autowired
@@ -43,7 +42,7 @@ public class AddedController {
         }
         
         // 값 불러오기 
-        List<Object> resultMap = epgService.getAddedEpg(ver, param);
+        Object resultMap = epgService.getAddedEpg(ver, param);
         // 조회값 없음
         if (resultMap == null) {
             rtn.put("result", "9998");
@@ -76,7 +75,7 @@ public class AddedController {
         }
         
         // 값 불러오기 
-        List<Object> resultMap = epgService.getAddedGenre(ver, param);
+        Object resultMap = epgService.getAddedGenre(ver, param);
         // 조회값 없음
         if (resultMap == null) {
             rtn.put("result", "9998");

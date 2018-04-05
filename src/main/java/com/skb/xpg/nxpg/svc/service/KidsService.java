@@ -35,7 +35,7 @@ public class KidsService {
 	// IF-NXPG-403
 	public Map<String, Object> getContentsLftsynop(String ver, Map<String, String> param) {
 		try {
-			return CastUtil.StringToJsonMap((String) redisClient.hget("synopsis_liveChildStory", param.get("epsd_id")));
+			return CastUtil.StringToJsonMap((String) redisClient.hget("synopsis_liveChildStory", param.get("sris_id")));
 		} catch (Exception e) {
 			return null;
 		}

@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Created by dmshin on 06/02/2017.
  */
 @RestController
-@RequestMapping(value = "/xpg/{ver}", produces = "application/json; charset=utf-8")
+@RequestMapping(produces = "application/json; charset=utf-8")
 public class SampleController {
 
 	@Autowired

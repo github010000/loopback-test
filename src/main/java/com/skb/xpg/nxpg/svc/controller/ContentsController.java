@@ -16,7 +16,7 @@ import com.skb.xpg.nxpg.svc.util.DateUtil;
 import com.skb.xpg.nxpg.svc.util.StrUtil;
 
 @RestController
-@RequestMapping(value = "/nxpg/{ver}", produces = "application/json; charset=utf-8")
+@RequestMapping(value = "/xpg/{ver}", produces = "application/json; charset=utf-8")
 public class ContentsController {
 
 	@Autowired
@@ -51,9 +51,9 @@ public class ContentsController {
 			rtn.put("result", "9998");
 		} else {
 			// 성공
-			contents.putAll(contentsService.getContentsPeople(ver, param));
-			contents.putAll(contentsService.getContentsCorner(ver, param));
-			contents.putAll(contentsService.getContentsPreview(ver, param));
+			contents.putAll(contentsService.getContentsPeople(contents, param));
+			contents.putAll(contentsService.getContentsCorner(contents, param));
+			contents.putAll(contentsService.getContentsPreview(contents, param));
 			contents.put("series_info", contentsService.getContentsSeries(ver, param));
 			rtn.put("result", "0000");
 			rtn.put("contents", contents);
@@ -162,7 +162,7 @@ public class ContentsController {
 	}
 	
 	// IF-NXPG-016
-	@RequestMapping(value = "/corner/gather")
+	@RequestMapping(value = "/contents/corner")
 	public Map<String, Object> getContentsConer(@PathVariable String ver, @RequestParam Map<String, String> param) {
 		String IF = param.get("IF");
 		Map<String, Object> result = properties.getResults();

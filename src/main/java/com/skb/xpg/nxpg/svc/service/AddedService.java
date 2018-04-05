@@ -17,17 +17,17 @@ public class AddedService {
     private RedisClient redisClient;
 
     // IF-NXPG-102
-    public List<Object> getAddedEpg(String ver, Map<String, String> param) {
+    public Object getAddedEpg(String ver, Map<String, String> param) {
         try {
-            return CastUtil.StringToJsonList((String) redisClient.hget("epg_info", "epg"));
+            return CastUtil.StringToJsonList((String) redisClient.hget("epg_info", "epg")).get(0);
         } catch (Exception e) {
             return null;
         }
     }
     // IF-NXPG-102
-    public List<Object> getAddedGenre(String ver, Map<String, String> param) {
+    public Object getAddedGenre(String ver, Map<String, String> param) {
         try {
-            return CastUtil.StringToJsonList((String) redisClient.hget("genre_info", "genre"));
+            return CastUtil.StringToJsonList((String) redisClient.hget("genre_info", "genre")).get(0);
         } catch (Exception e) {
             e.printStackTrace();
             return null;

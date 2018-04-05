@@ -1,6 +1,5 @@
 package com.skb.xpg.nxpg.svc.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.skb.xpg.nxpg.svc.common.NXPGCommon;
 import com.skb.xpg.nxpg.svc.redis.RedisClient;
 import com.skb.xpg.nxpg.svc.util.CastUtil;
+import com.skb.xpg.nxpg.svc.util.DateUtil;
 
 @Service
 public class MenuService {
@@ -20,7 +20,11 @@ public class MenuService {
 	// IF-NXPG-001
 	public List getMenuGnb(String ver, Map<String, String> param) {
 		try {
-			return CastUtil.StringToJsonList((String) redisClient.hget(NXPGCommon.MENU_GNB, param.get("menu_stb_svc_id")));
+			List<Object> menugnb = CastUtil.StringToJsonList((String) redisClient.hget(NXPGCommon.MENU_GNB, param.get("menu_stb_svc_id")));
+			List<Map<String, Object>> data = (List<Map<String, Object>>) CastUtil.getObjectToMapList(menugnb);
+			List<Map<String, Object>> gnb = DateUtil.getCompare(data);
+			
+			return gnb;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -30,7 +34,11 @@ public class MenuService {
 	// IF-NXPG-002
 	public List getMenuAll(String ver, Map<String, String> param) {
 		try {
-			return CastUtil.StringToJsonList((String) redisClient.hget(NXPGCommon.MENU_ALL, param.get("menu_stb_svc_id")));
+			List<Object> menuall = CastUtil.StringToJsonList((String) redisClient.hget(NXPGCommon.MENU_ALL, param.get("menu_stb_svc_id")));
+			List<Map<String, Object>> data = (List<Map<String, Object>>) CastUtil.getObjectToMapList(menuall);
+			List<Map<String, Object>> all = DateUtil.getCompare(data);
+			
+			return all;
 		} catch (Exception e) {
 			return null;
 		}
