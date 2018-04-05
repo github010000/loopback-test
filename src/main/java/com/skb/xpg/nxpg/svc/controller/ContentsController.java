@@ -57,7 +57,9 @@ public class ContentsController {
 			contents.put("series_info", contentsService.getContentsSeries(ver, param));
 			rtn.put("result", "0000");
 			rtn.put("contents", contents);
-			rtn.put("purchares", purchares.get("products"));
+			if (purchares != null && purchares.get("products") != null) {
+				rtn.put("purchares", purchares.get("products"));
+			}
 		}
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
 		return rtn;
