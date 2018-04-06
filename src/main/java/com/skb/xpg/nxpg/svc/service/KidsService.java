@@ -19,7 +19,7 @@ public class KidsService {
 	// IF-NXPG-101
 	public List getMenuKzchar(String ver, Map<String, String> param) {
 		try {
-			return CastUtil.StringToJsonList((String) redisClient.hget("menu_kidsCharacter", param.get("menu_id")));
+			return CastUtil.StringToJsonList((String) redisClient.hget("menu_kidsCharacter", param.get("menu_stb_svc_id")));
 		} catch (Exception e) {
 			return null;
 		}

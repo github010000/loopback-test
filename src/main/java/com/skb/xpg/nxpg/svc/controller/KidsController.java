@@ -41,8 +41,7 @@ public class KidsController {
 		rtn.put("IF", IF);
 		rtn.put("request_time", DateUtil.getYYYYMMDDhhmmss());
 	
-		if (StrUtil.isEmpty(param.get("menu_stb_svc_id")) || StrUtil.isEmpty(param.get("stb_id"))
-				|| StrUtil.isEmpty(param.get("menu_id"))) {
+		if (StrUtil.isEmpty(param.get("menu_stb_svc_id")) || StrUtil.isEmpty(param.get("stb_id"))) {
 			rtn.put("result", "9999");
 			return rtn;
 		}
