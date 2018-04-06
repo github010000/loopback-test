@@ -16,6 +16,8 @@ user:
       essential: con_id
       params: con_id,new_series,id_package
       response_name: contents
+  defaults:
+    menu_stb_svc_id: UI50_BSUHD2
 spring:
   http:
     encoding:

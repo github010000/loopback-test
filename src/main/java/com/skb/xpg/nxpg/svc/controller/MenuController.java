@@ -29,6 +29,7 @@ public class MenuController {
 	public Map<String, Object> getMenuGnb(@PathVariable String ver, @RequestParam Map<String, String> param) {
 		String IF = param.get("IF");
 		Map<String, Object> result = properties.getResults();
+		Map<String, String> defaults = properties.getDefaults();
 		Map<String, Object> rtn = new HashMap<String, Object>();
 		
 		rtn.putAll(result);
@@ -36,7 +37,11 @@ public class MenuController {
 		rtn.put("IF", IF);
 		rtn.put("request_time", DateUtil.getYYYYMMDDhhmmss());
 		
-		if (StrUtil.isEmpty(param.get("menu_stb_svc_id")) || StrUtil.isEmpty(param.get("stb_id"))) {
+		if (StrUtil.isEmpty(param.get("menu_stb_svc_id"))) {
+			param.put("menu_stb_svc_id", defaults.get("menu_stb_svc_id"));
+		}
+		
+		if (StrUtil.isEmpty(param.get("menu_stb_svc_id"))) {
 			rtn.put("result", "9999");
 			return rtn;
 		}
@@ -62,13 +67,18 @@ public class MenuController {
 	public Map<String, Object> getMenuAll(@PathVariable String ver, @RequestParam Map<String, String> param) {
 		String IF = param.get("IF");
 		Map<String, Object> result = properties.getResults();
+		Map<String, String> defaults = properties.getDefaults();
 		Map<String, Object> rtn = new HashMap<String, Object>();
 
 		rtn.putAll(result);
 		rtn.put("IF", IF);
 		rtn.put("request_time", DateUtil.getYYYYMMDDhhmmss());
+
+		if (StrUtil.isEmpty(param.get("menu_stb_svc_id"))) {
+			param.put("menu_stb_svc_id", defaults.get("menu_stb_svc_id"));
+		}
 		
-		if (StrUtil.isEmpty(param.get("menu_stb_svc_id")) || StrUtil.isEmpty(param.get("stb_id"))) {
+		if (StrUtil.isEmpty(param.get("menu_stb_svc_id"))) {
 			rtn.put("result", "9999");
 			return rtn;
 		}
@@ -95,13 +105,18 @@ public class MenuController {
 	public Map<String, Object> getMenuBlock(@PathVariable String ver, @RequestParam Map<String, String> param) {
 		String IF = param.get("IF");
 		Map<String, Object> result = properties.getResults();
+		Map<String, String> defaults = properties.getDefaults();
 		Map<String, Object> rtn = new HashMap<String, Object>();
 
 		rtn.putAll(result);
 		rtn.put("IF", IF);
 		rtn.put("request_time", DateUtil.getYYYYMMDDhhmmss());
 		
-		if (StrUtil.isEmpty(param.get("menu_id")) || StrUtil.isEmpty(param.get("stb_id"))) {
+		if (StrUtil.isEmpty(param.get("menu_stb_svc_id"))) {
+			param.put("menu_stb_svc_id", defaults.get("menu_stb_svc_id"));
+		}
+		
+		if (StrUtil.isEmpty(param.get("menu_id"))) {
 			rtn.put("result", "9999");
 			return rtn;
 		}
@@ -134,15 +149,15 @@ public class MenuController {
 	public Map<String, Object> getMenuMonth(@PathVariable String ver, @RequestParam Map<String, String> param) {
 		String IF = param.get("IF");
 		Map<String, Object> result = properties.getResults();
+		Map<String, String> defaults = properties.getDefaults();
 		Map<String, Object> rtn = new HashMap<String, Object>();
 
 		rtn.putAll(result);
 		rtn.put("IF", IF);
 		rtn.put("request_time", DateUtil.getYYYYMMDDhhmmss());
 		
-		if (StrUtil.isEmpty(param.get("menu_id")) || StrUtil.isEmpty(param.get("stb_id"))) {
-			rtn.put("result", "9999");
-			return rtn;
+		if (StrUtil.isEmpty(param.get("menu_stb_svc_id"))) {
+			param.put("menu_stb_svc_id", defaults.get("menu_stb_svc_id"));
 		}
 		
 		// 값 불러오기 

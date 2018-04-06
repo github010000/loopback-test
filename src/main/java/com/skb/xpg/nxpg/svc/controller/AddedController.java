@@ -36,10 +36,10 @@ public class AddedController {
         rtn.put("IF", IF);
         rtn.put("request_time", DateUtil.getYYYYMMDDhhmmss());
         
-        if (StrUtil.isEmpty(param.get("stb_id"))) {
-            rtn.put("result", "9999");
-            return rtn;
-        }
+//        if (StrUtil.isEmpty(param.get("stb_id"))) {
+//            rtn.put("result", "9999");
+//            return rtn;
+//        }
         
         // 값 불러오기 
         Object resultMap = epgService.getAddedEpg(ver, param);
@@ -69,10 +69,10 @@ public class AddedController {
         rtn.put("IF", IF);
         rtn.put("request_time", DateUtil.getYYYYMMDDhhmmss());
         
-        if (StrUtil.isEmpty(param.get("stb_id"))) {
-            rtn.put("result", "9999");
-            return rtn;
-        }
+//        if (StrUtil.isEmpty(param.get("stb_id"))) {
+//            rtn.put("result", "9999");
+//            return rtn;
+//        }
         
         // 값 불러오기 
         Object resultMap = epgService.getAddedGenre(ver, param);

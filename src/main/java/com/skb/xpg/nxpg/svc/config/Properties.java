@@ -29,4 +29,10 @@ public class Properties {
     public Map<String, Object> getApi() {
         return api;
     }
+    
+    private Map<String, String> defaults = new HashMap<>();
+
+    public Map<String, String> getDefaults() {
+        return defaults;
+    }
 }
