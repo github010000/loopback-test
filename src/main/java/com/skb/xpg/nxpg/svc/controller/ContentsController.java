@@ -51,9 +51,10 @@ public class ContentsController {
 			rtn.put("result", "9998");
 		} else {
 			// 성공
-			contents.putAll(contentsService.getContentsPeople(contents, param));
-			contents.putAll(contentsService.getContentsCorner(contents, param));
-			contents.putAll(contentsService.getContentsPreview(contents, param));
+			contentsService.getContentsPeople(contents, param);
+			contentsService.getContentsCorner(contents, param);
+			contentsService.getContentsPreview(contents, param);
+			contentsService.getContentsReview(contents, param);
 			contents.put("series_info", contentsService.getContentsSeries(ver, param));
 			rtn.put("result", "0000");
 			rtn.put("contents", contents);
@@ -241,7 +242,7 @@ public class ContentsController {
 		rtn.put("IF", IF);
 		rtn.put("request_time", DateUtil.getYYYYMMDDhhmmss());
 
-		if (StrUtil.isEmpty(param.get("sris_id"))) {
+		if (StrUtil.isEmpty(param.get("sris_id")) || StrUtil.isEmpty(param.get("page_no")) || StrUtil.isEmpty(param.get("page_cnt"))) {
 			rtn.put("result", "9999");
 			return rtn;
 		}

@@ -119,7 +119,7 @@ public class ContentsService {
 	}
 	
 	//IF-NXPG-011 콘텐츠용 인물정보 불러오기 - 아래 메소드와 같이 수정 필요
-	public Map<String, Object> getContentsPeople(Map<String, Object> contents, Map<String, String> param) {
+	public void getContentsPeople(Map<String, Object> contents, Map<String, String> param) {
 		try {
 			String redisData = (String) redisClient.hget(NXPGCommon.CONTENTS_PEOPLE, param.get("epsd_id"));
 			if(redisData!=null&&!"".equals(redisData)) {
@@ -128,11 +128,8 @@ public class ContentsService {
 				contents.put("peoples", null);
 			}
 			
-//			return CastUtil.StringToJsonMap((String) redisClient.hget(NXPGCommon.CONTENTS_PEOPLE, param.get("epsd_id")));
-			return contents;
 		} catch (Exception e) {
 			e.printStackTrace();
-			return null;
 		}
 	}
 	
@@ -174,7 +171,7 @@ public class ContentsService {
 	}	
 	
 	//IF-NXPG-013
-	public Map<String, Object> getContentsCorner(Map<String, Object> contents, Map<String, String> param) {
+	public void getContentsCorner(Map<String, Object> contents, Map<String, String> param) {
 		try {
 			String redisData = (String) redisClient.hget("contents_corner", param.get("epsd_id"));
 			Map <String, Object> redisMap = null;
@@ -186,9 +183,7 @@ public class ContentsService {
 			}
 			
 //			return CastUtil.StringToJsonMap((String) redisClient.hget("contents_corner", param.get("epsd_id")));
-			return contents;
 		} catch (Exception e) {
-			return null;
 		}
 	}	
 	
@@ -231,10 +226,80 @@ public class ContentsService {
 
 	//IF-NXPG-01?
 	public Map<String, Object> getContentsReview(String ver, Map<String, String> param) {
+		
 		try {
-			return CastUtil.StringToJsonMap((String) redisClient.hget("contents_review", param.get("sris_id")));
+			String redisData = (String) redisClient.hget("contents_review", param.get("sris_id"));
+			Map<String, Object> root = null;
+			if (redisData != null && !"".equals(redisData)) {
+				root = CastUtil.StringToJsonMap(redisData);
+				
+				int idx = 1;
+				int start = CastUtil.getStringToInteger(param.get("page_no"));
+				if (start < 1) {
+					start = 1;
+				}
+				int count = CastUtil.getStringToInteger(param.get("page_cnt"));
+				// Map<String, Object> menus = CastUtil.getObjectToMap(root.get("menus"));
+				List<Map<String, Object>> sites = CastUtil.getObjectToMapList(root.get("sites"));
+
+				for (Map<String, Object> site : sites) {
+					List<Map<String, Object>> reviews = CastUtil.getObjectToMapList(site.get("reviews"));
+					List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+					if (reviews != null && reviews.size() > 0) {
+						for (Map<String, Object> review : reviews) {
+							
+							if (review != null && start <= idx && idx <= (start + count - 1)) {
+								list.add(review);
+							}
+							idx++;
+						}
+					}
+					site.put("reviews", list);
+					
+				}
+
+			}
+			
+			return root;
+
 		} catch (Exception e) {
+			e.printStackTrace();
 			return null;
+		}
+	}
+
+	//IF-NXPG-01?
+	public void getContentsReview(Map<String, Object> contents, Map<String, String> param) {
+		try {
+			String redisData = (String) redisClient.hget("contents_review", param.get("sris_id"));
+			Map<String, Object> root = null;
+			if (redisData != null && !"".equals(redisData)) {
+				root = CastUtil.StringToJsonMap(redisData);
+
+				Map<String, Object> temp = null;
+				// Map<String, Object> menus = CastUtil.getObjectToMap(root.get("menus"));
+				List<Map<String, Object>> sites = CastUtil.getObjectToMapList(root.get("sites"));
+
+				for (Map<String, Object> site : sites) {
+					temp = null;
+					List<Map<String, Object>> reviews = CastUtil.getObjectToMapList(site.get("reviews"));
+					if (reviews != null && reviews.size() > 0) {
+						temp = reviews.get(0);
+					}
+					List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+					if (temp != null) {
+						list.add(temp);
+					}
+					site.put("reviews", list);
+				}
+
+				contents.put("site_review", root);
+			} else {
+				contents.put("site_review", null);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 	
