@@ -1,27 +1,40 @@
+user:
+  results:
+    result: null
+    reason: null
+    IF: null
+    request_time: null
+    response_time: null
+  scripts:
+    Contents:
+    - yn_adult|wat_lvl_cd^rslu_typ_cd|yn_adult = 'N'; if (wat_lvl_cd >= '15') yn_adult = 'Y';
+    - yn_adult2|wat_lvl_cd^rslu_typ_cd|yn_adult2 = 'N'; if (wat_lvl_cd >= '19') yn_adult2 = 'Y';
+  api:
+    contents_synopsis:
+      redis: contents
+      field: con_id
+      essential: con_id
+      params: con_id,new_series,id_package
+      response_name: contents
+  defaults:
+    menu_stb_svc_id: UI50_BSUHD2
 spring:
   http:
     encoding:
       charset: UTF-8
-  data:
-    mongodb:
-      host: localhost
-      port: 27017
-      database: xpg_mp
-btv:
-  point: 6.0
-server:
-  image:
-    url: http://image.hanafostv.com:8080/meta/
-local:
+  jackson:
+    default-property-inclusion: NON_NULL
+#    generator:
+#      write-numbers-as-strings: true
   redis:
     host: localhost
     port: 6379
     password: null
-logging:
-  pattern:
-    console: '%d|%p|%m%n'
-    file: '%d|%p|%m%n'
-  level:
-    com:
-      skb:
-        xpg: DEBUG
+management:
+  security:
+    enabled: false
+zuul:
+  routes:
+    ge:
+      path: /ge/**
+      url: http://localhost:8090

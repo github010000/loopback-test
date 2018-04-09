@@ -223,7 +223,7 @@ public class ContentsService {
 	//IF-NXPG-017
 	public Map<String, Object> getContentsVodList(String ver, Map<String, String> param) {
 		try {
-			return CastUtil.StringToJsonMap((String) redisClient.hget(NXPGCommon.CONTENTS_VODLIST, param.get("pnr_id")));
+			return CastUtil.StringToJsonMap((String) redisClient.hget(NXPGCommon.CONTENTS_VODLIST, param.get("prs_id")));
 		} catch (Exception e) {
 			return null;
 		}
@@ -232,7 +232,6 @@ public class ContentsService {
 	//IF-NXPG-01?
 	public Map<String, Object> getContentsReview(String ver, Map<String, String> param) {
 		try {
-			System.out.println(param);
 			return CastUtil.StringToJsonMap((String) redisClient.hget("contents_review", param.get("sris_id")));
 		} catch (Exception e) {
 			return null;
@@ -242,8 +241,7 @@ public class ContentsService {
 	//IF-NXPG-01?
 	public Map<String, Object> getPeopleInfo(String ver, Map<String, String> param) {
 		try {
-			System.out.println(param);
-			return CastUtil.StringToJsonMap((String) redisClient.hget("people_info", param.get("pnr_id")));
+			return CastUtil.StringToJsonMap((String) redisClient.hget("people_info", param.get("prs_id")));
 		} catch (Exception e) {
 			return null;
 		}

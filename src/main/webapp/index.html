@@ -2,21 +2,106 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta>
-<title>Append</title>
-<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<title>Content Meta</title>
+<script src="jquery-3.2.1.min.js"></script>
 </head>
 <body>
-	<h2 style="color:#229922;">MSA APPD XPG Service (webapp)</h2>
+	<h2 style="color:#229922;">NXPG API list</h2>
+	
+	<!-- <p>CONTENT_ID value must be entered.</p>
+	<table>
+		<tr>
+			<td><b>CONTENT ID</b></td>
+			<td><input type="text" id="con_id" style="width:500px;" value="A2C46D9E-1B04-11E6-B49C-5702654CECC8"/></td>
+		</tr>
+		<tr>
+			<td><b>MASTER ID</b></td>
+			<td><input type="text" id="mst_id" style="width:500px;" value="D3E94229-1B03-11E6-B49C-5702654CECC8"/></td>
+		</tr>
+	</table> -->
+	
 	<ol>
-		<li>IF-XPG-APPD-001 (<a href="/v1/home/banner?IF=IF-XPG-APPD-001&ver=v1&response_format=json&id_package=20&menu_id=A000003145&stb_id=%7BF2992BBB-E4EB-11E5-A490-FDCFBFF8EC17%7D&ui_name=BSUHD2&prom_resltn_cd=185x128">홈배너</a>)</li>
-		<li>IF-XPG-APPD-002 (<a href="/v1/allmenu/banner?IF=IF-XPG-APPD-002&ver=v1&response_format=json&ui_name=BSUHD2&service_code=0&id_package=15&menu_id=A000001712&stb_id=%7BE9CA4B0C-714E-11DE-A053-B5248267E59C%7D&version=0&prom_top_cd=1x1&prom_bottom_cd=1x1">전체메뉴 배너</a>)</li>
-		<li>IF-XPG-APPD-003 (<a href="/v1/content/pntEpiInfo?IF=IF-XPG-APPD-003&ver=v1&response_format=json&ui_name=BSUHD2&id_package=15&con_id=%7BA683170E-7FD1-11E6-B970-61A99837AD11%7D&stb_id=%7BE9CA4B0C-714E-11DE-A053-B5248267E59C%7D&sw_ver=0.1.163&stb_model=SMT-E5030&st_cd=224x224&st_b_cd=404x227&pre_cd=96x72&pre_b_cd=404x227&hero_cd=960x540&hash_id=aa&epi_resltn_cd=252X142&epi_scr_resltn_cd=282x159&cmt_cd=1x1&cmt_b_cd=2x2">컨텐츠 별 평점 및 부가정보</a>)</li>
-		<li>IF-XPG-APPD-004 (<a href="/v1/content/refInfo?IF=IF-XPG-APPD-004&ver=v1&response_format=json&ui_name=BSUHD2&id_package=20&con_id=%7B0058813D-1C47-11DF-9CC2-2D5B8C97D6D1%7D&stb_id=%7BE9CA4B0C-714E-11DE-A053-B5248267E59C%7D&sw_ver=3.3.144&stb_model=TD910H&link_resltn_cd=180x258&rst_type=hd">연관컨텐츠</a>)</li>	
-		<li>IF-XPG-APPD-005 (<a href="/v1/content/staffInfoList?IF=IF-XPG-APPD-005&ver=v1&response_format=json&ui_name=BSUHD2&id_package=20&stb_id=%7BE9CA4B0C-714E-11DE-A053-B5248267E59C%7D&id=MP0000000549&resltn_cd=200x200">인물정보</a>)</li>
-		<li>IF-XPG-APPD-006 (<a href="/v1/epg/channel?IF=IF-XPG-APPD-006&ver=v1&response_format=json&ui_name=BSUHD2&id_package=20&stb_id=%7BE9CA4B0C-714E-11DE-A053-B5248267E59C%7D&region_code=mbc=1^kbs=41^sbs=61^uhdmbc=100^uhdkbs=100^UMAX=100">Epg 채널정보</a>)</li>
-		<li>IF-XPG-APPD-007 (<a href="/v1/realTime/channel?IF=IF-XPG-APPD-007&ver=v1&response_format=json&ui_name=BSUHD2&id_package=20">실시간 채널순위</a>)</li>
-		<li>IF-XPG-APPD-008 (<a href="/v1/popular/vodInfo?IF=IF-XPG-APPD-008&ver=v1&response_format=json&ui_name=BSUHD2&id_package=20&rst_type=4k&stb_id=%7BE9CA4B0C-714E-11DE-A053-B5248267E59C%7D">인기VOD정보</a>)</li>
-		<li>IF-XPG-APPD-009 (<a href="/v1/content/specify?IF=IF-XPG-APPD-009&response_format=json&id_package=20&ui_name=BSUHD2&ver=v1&stb_id=%7BE9CA4B0C-714E-11DE-A053-B5248267E59C%7D&ui_version=4301-03-03&resltn_cd=200x200">검색지정컨텐츠</a>)</li>
-		<li>IF-XPG-APPD-010 (<a href="/v1/content/corner?IF=IF-XPG-APPD-010&response_format=json&id_package=20&ui_name=BSUHD2&stb_id=%7BE9CA4B0C-714E-11DE-A053-B5248267E59C%7D&epi_gid=CN0000006379">코너별 모아보기</a>)</li>
+		<li>IF-NXPG-001 / <a href="#" id="u001">GNB 메뉴 정보</a></li>
+		<li>IF-NXPG-002 / <a href="#" id="u002">전체 메뉴 정보</a></li>
+		<li>IF-NXPG-003 / <a href="#" id="u003">블록 정보</a></li>
+		<!-- <li>IF-NXPG-004 / <a href="#" id="u004">월정액 상세 정보</a></li> -->
+		<li>IF-NXPG-005 / <a href="#" id="u005">월정액 가입자 메뉴 정보</a></li>
+		<li>IF-NXPG-006 / <a href="#" id="u006">블록 별 그리드 정보</a></li>
+		<li>IF-NXPG-007 / <a href="#" id="u007">이벤트 정보</a></li>
+		<li>IF-NXPG-008 / <a href="#" id="u008">평점 및 리뷰</a></li>
+		<li>IF-NXPG-009 / <a href="#" id="u009">CW연동 그리드</a></li>
+		<li>IF-NXPG-010 / <a href="#" id="u010">시놉시스</a></li>
+		<li><a href="http://ui50-xpg-nxpg-dev.skb-suy-dev01.mybluemix.net/xpg/v5/contents/synopsis?menu_stb_svc_id=UI50_BSUHD2&sris_id=CS01050906&epsd_id=CE0001080426&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&menu_id=A000002200&yn_recent=Y&epsd_rslu_id=%7B039A8711-022E-11E8-ABC1-93204C75BC8A%7D&IF=IF-NXPG-010">인물정보 있는 시놉시스</a></li>
+		<li>IF-NXPG-011 / <a href="#" id="u011">인물정보</a></li>
+		<li>IF-NXPG-012 / <a href="#" id="u012">CW연관콘텐츠</a></li>
+		<li>IF-NXPG-013 / <a href="#" id="u013">실시간 EPG 정보</a></li>
+		<li>IF-NXPG-014 / <a href="#" id="u014">게이트웨이 시놉시스</a></li>
+		<li>IF-NXPG-015 / <a href="#" id="u015">VOD+관련상품 시놉시스</a></li>
+		<li>IF-NXPG-016 / <a href="#" id="u016">코너 모아보기</a></li>
+		<li>IF-NXPG-017 / <a href="#" id="u017">EPG 장르 편성표</a></li>
+		<li>IF-NXPG-018 / <a href="#" id="u018">실시간 채널 순위</a></li>
+		<li>IF-NXPG-019 / <a href="#" id="u019">진행중이벤트</a></li> -->
+		<li>IF-NXPG-101 / <a href="#" id="u020">키즈존 캐릭터메뉴 정보</a></li>
+		<li>IF-NXPG-102 / <a href="#" id="u021">키즈존 GNB 메뉴정보</a></li>
+		<!-- <li>IF-NXPG-103 / <a href="#" id="u022">키즈존 캐릭터서브 정보</a></li> -->
+		
+		<li>IF-NXPG-403 / <a href="#" id="u025">살아있는동화 시놉시스</a></li>
+
 	</ol>
+	
+	<h2 style="color:#229922;">Sample Data List</h2>
+	<pre style="font-family: Sans-Serif; font-size:0.9em;">
+
+	</pre>
+	<!-- <h3>Content Id Sample</h3>
+	<ul>
+		<li>포켓몬 : 4F5E1499-12AC-11E7-AA4D-770183037457</li>
+		<li>렛잇고 : E422C6C7-9DC1-11E3-AE86-D3C00F10593D</li>
+	</ul> -->
 </body>
+<script>
+
+var u001 = "/xpg/v5/menu/gnb?menu_stb_svc_id=UI50_BSUHD2&IF=IF-NXPG-001&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D"
+var u002 = "/xpg/v5/menu/all?menu_stb_svc_id=UI50_BSUHD2&IF=IF-NXPG-002&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D"
+var u003 = "/xpg/v5/menu/block?menu_stb_svc_id=UI50_BSUHD2&menu_id=NM1000018172&IF=IF-NXPG-003&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D"
+//var u004 = "/xpg/v5/menu/monthinfo?menu_stb_svc_id=UI50_BSUHD2&prd_prc_id=P0001&IF=IF-NXPG-004&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D"
+var u005 = "/xpg/v5/menu/month?menu_stb_svc_id=UI50_BSUHD2&menu_id=NM1000018172&IF=IF-NXPG-005&prd_prc_id_lst=P0001%5EP0002&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D"
+var u006 = "/xpg/v5/grid/grid?menu_stb_svc_id=UI50_BSUHD2&menu_id=NM1000018231&IF=IF-NXPG-006&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D"
+var u007 = "/xpg/v5/grid/event?menu_stb_svc_id=UI50_BSUHD2&menu_id=NM1000018172&IF=IF-NXPG-007&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D"
+var u008 = "/xpg/v5/contents/rating?menu_stb_svc_id=UI50_BSUHD2&IF=IF-NXPG-008&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&sris_id=CS01064292"
+var u009 = "/xpg/v5/inter/cwgrid?menu_stb_svc_id=UI50_BSUHD2&menu_id=NM1000018172&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&reference_name=MOVIESERIESREC.PAGE&section_id=&btrack_id=&session_id&IF=IF-NXPG-009"
+var u010 = "/xpg/v5/contents/synopsis?menu_stb_svc_id=UI50_BSUHD2&sris_id=CS01064292&epsd_id=CE0001278822&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&menu_id=A000002200&yn_recent=Y&epsd_rslu_id=%7B039A8711-022E-11E8-ABC1-93204C75BC8A%7D&IF=IF-NXPG-010"
+var u011 = "/xpg/v5/people/info?menu_stb_svc_id=UI50_BSUHD2&menu_id=NM1000018172&prs_id=MP0000000005&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&IF=IF-NXPG-011"
+var u012 = "/xpg/v5/inter/cwrelation?menu_stb_svc_id=UI50_BSUHD2&menu_id=NM1000018172&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&reference_name=MOVIESERIESREC.PAGE&session_id=&btrack_id=&section_id=&IF=IF-NXPG-012"
+var u013 = "/xpg/v5/added/epg?menu_stb_svc_id=UI50_BSUHD2&menu_id=NM1000018172&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&IF=IF-NXPG-013"
+var u014 = "/xpg/v5/contents/gwsynop?menu_stb_svc_id=UI50_BSUHD2&sris_id=CS01055461&epsd_id=%7BD28F151D-0194-11E8-A9BB-1D93D2A1C9C0%7D&pid=&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&menu_id=A000002200&IF=IF-NXPG-014"
+var u015 = "/xpg/v5/contents/commerce?menu_stb_svc_id=UI50_BSUHD2&sris_id=%7B53462203-0195-11E8-A9BB-1D93D2A1C9C0%7D&epsd_id=%7BD28F151D-0194-11E8-A9BB-1D93D2A1C9C0%7D&pid=&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&menu_id=A000002200&IF=IF-NXPG-015"
+var u016 = "/xpg/v5/contents/corner?menu_stb_svc_id=UI50_BSUHD2&menu_id=NM1000018172&epg_gid=1000006754&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&IF=IF-NXPG-016"
+var u017 = "/xpg/v5/added/epggenre?menu_stb_svc_id=UI50_BSUHD2&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D"
+var u018 = "/xpg/v5/added/realtimechannel?"
+//var u019 = "/xpg/v5/menu/liveevent?"
+var u020 = "/xpg/v5/menu/kzchar?menu_stb_svc_id=UI50_BSUHD2&menu_id=NM1000018172&order_type=01&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&IF=IF-NXPG-101"
+var u021 = "/xpg/v5/menu/kzgnb?menu_stb_svc_id=UI50_BSUHD2&IF=IF-NXPG-102&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D"
+//var u022 = "/xpg/v5/grid/kzcharinfo?menu_stb_svc_id=UI50_BSUHD2&menu_id=A000002211&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&IF=IF-NXPG-103"
+var u023 = "/xpg/v5/menu/lftmenu?menu_stb_svc_id=UI50_BSUHD2&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&IF=IF-NXPG-401"
+var u024 = "/xpg/v5/grid/lftgrid?menu_stb_svc_id=UI50_BSUHD2&menu_id=NM1000018172&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&IF=IF-NXPG-402"
+var u025 = "/xpg/v5/contents/lftsynop?menu_stb_svc_id=UI50_BSUHD2&menu_id=NM1000018172&sris_id=CS01060452&epsd_id=%7BD28F151D-0194-11E8-A9BB-1D93D2A1C9C0%7D&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&IF=IF-NXPG-403"
+
+$("a").click(function(){
+	var urlname = $(this).attr("id");
+	var url = "";
+	//alert("url = " + urlname + " + 'con_id" + "%7" + $("#con_id").val() + "%7D';");
+	//eval("url = " + urlname + " + '&con_id=" + "%7B" + $("#con_id").val() + "%7D';");
+	
+	//if (urlname == "url5") {
+	//	url = url + "&mst_id=%7B" + $("#mst_id").val() + "%7D";
+	//}
+	//alert(url);
+	//location.href = urlname;
+	eval("location.href = " + urlname);
+	//&con_id=%7BA2AB675D-1B04-11E6-B49C-5702654CECC8%7D
+	//&mst_id=%7BD3E94229-1B03-11E6-B49C-5702654CECC8%7D
+})
+
+
+</script>

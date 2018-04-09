@@ -3,6 +3,7 @@ package com.skb.xpg.nxpg.svc.service;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,29 +19,64 @@ public class MenuService {
 	private RedisClient redisClient;
 	
 	// IF-NXPG-001
-	public List getMenuGnb(String ver, Map<String, String> param) {
+	public void getMenuGnb(String ver, Map<String, String> param, Map<String, Object> rtn) {
 		try {
-			List<Object> menugnb = CastUtil.StringToJsonList((String) redisClient.hget(NXPGCommon.MENU_GNB, param.get("menu_stb_svc_id")));
-			List<Map<String, Object>> data = (List<Map<String, Object>>) CastUtil.getObjectToMapList(menugnb);
-			List<Map<String, Object>> gnb = DateUtil.getCompare(data);
-			
-			return gnb;
+			String redisData = (String) redisClient.hget(NXPGCommon.MENU_GNB, param.get("menu_stb_svc_id"));
+			if(!"".equals(redisData) && redisData != null) {
+				List<Object> menugnb = CastUtil.StringToJsonList(redisData);			
+				List<Map<String, Object>> data = (List<Map<String, Object>>) CastUtil.getObjectToMapList(menugnb);
+				List<Map<String, Object>> gnb = DateUtil.getCompare(data);
+				
+				String version = StringUtils.defaultIfEmpty((String) redisClient.hget("version",NXPGCommon.MENU_GNB), "");
+				
+				if (gnb == null) {
+					rtn.put("result", "9998");
+				}
+				// 성공
+				else {
+					rtn.put("version", version);
+					rtn.put("result", "0000");
+					rtn.put("menus", gnb);
+					// 카운트 넣어주기 
+					if (gnb != null) rtn.put("total_count", gnb.size());
+				}
+			}else {
+				rtn.put("result", "9998");
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			return null;
 		}
 	}
 	
 	// IF-NXPG-002
-	public List getMenuAll(String ver, Map<String, String> param) {
+	public void getMenuAll(String ver, Map<String, String> param, Map<String, Object> rtn) {
 		try {
-			List<Object> menuall = CastUtil.StringToJsonList((String) redisClient.hget(NXPGCommon.MENU_ALL, param.get("menu_stb_svc_id")));
-			List<Map<String, Object>> data = (List<Map<String, Object>>) CastUtil.getObjectToMapList(menuall);
-			List<Map<String, Object>> all = DateUtil.getCompare(data);
+			String redisData = (String) redisClient.hget(NXPGCommon.MENU_ALL, param.get("menu_stb_svc_id"));
+			if(!"".equals(redisData) && redisData != null) {
+				List<Object> menuall = CastUtil.StringToJsonList(redisData);
+				List<Map<String, Object>> data = (List<Map<String, Object>>) CastUtil.getObjectToMapList(menuall);
+				List<Map<String, Object>> all = DateUtil.getCompare(data);
+				
+				String version = StringUtils.defaultIfEmpty((String) redisClient.hget("version",NXPGCommon.MENU_ALL), "");
+				
+				// 조회값 없음
+				if (all == null) {
+					rtn.put("result", "9998");
+				}
+				// 성공
+				else {
+					rtn.put("version", version);
+					rtn.put("result", "0000");
+					rtn.put("menus", all);
+					// 카운트 넣어주기 
+					if (all != null) rtn.put("total_count", all.size());
+				}
+			}else {
+				rtn.put("result", "9998");
+			}
 			
-			return all;
 		} catch (Exception e) {
-			return null;
+			e.printStackTrace();
 		}
 	}
 	

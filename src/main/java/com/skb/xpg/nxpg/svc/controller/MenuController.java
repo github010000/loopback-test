@@ -46,18 +46,8 @@ public class MenuController {
 			return rtn;
 		}
 		// 값 불러오기 
-		List<Map<String, Object>> resultMap = menuService.getMenuGnb(ver, param);
-		// 조회값 없음
-		if (resultMap == null) {
-			rtn.put("result", "9998");
-		}
-		// 성공
-		else {
-			rtn.put("result", "0000");
-			rtn.put("menus", resultMap);
-			// 카운트 넣어주기 
-			if (resultMap != null) rtn.put("total_count", resultMap.size());
-		}
+		menuService.getMenuGnb(ver, param, rtn);
+		
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
 		return rtn;
 	}
@@ -84,18 +74,8 @@ public class MenuController {
 		}
 		
 		// 값 불러오기 
-		List<Map<String, Object>> resultMap = menuService.getMenuAll(ver, param);
-		// 조회값 없음
-		if (resultMap == null) {
-			rtn.put("result", "9998");
-		}
-		// 성공
-		else {
-			rtn.put("result", "0000");
-			rtn.put("menus", resultMap);
-			// 카운트 넣어주기 
-			if (resultMap != null) rtn.put("total_count", resultMap.size());
-		}
+		menuService.getMenuAll(ver, param, rtn);
+		
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
 		return rtn;
 	}
