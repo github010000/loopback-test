@@ -30,8 +30,10 @@
 		<li>IF-NXPG-007 / <a href="#" id="u007">이벤트 정보</a></li>
 		<li>IF-NXPG-008 / <a href="#" id="u008">평점 및 리뷰</a></li>
 		<li>IF-NXPG-009 / <a href="#" id="u009">CW연동 그리드</a></li>
-		<li>IF-NXPG-010 / <a href="#" id="u010">시놉시스</a></li>
-		<li><a href="http://ui50-xpg-nxpg-dev.skb-suy-dev01.mybluemix.net/v5/contents/synopsis?menu_stb_svc_id=UI50_BSUHD2&sris_id=CS01050906&epsd_id=CE0001080426&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&menu_id=A000002200&yn_recent=Y&epsd_rslu_id=%7B039A8711-022E-11E8-ABC1-93204C75BC8A%7D&IF=IF-NXPG-010">인물정보 있는 시놉시스</a></li>
+		<li>IF-NXPG-010 / <a href="#" id="u010">시놉시스 search_type 1</a></li>
+		<li>IF-NXPG-010 / <a href="#" id="s001">시놉시스 search_type 2</a></li>
+		<li>IF-NXPG-010 / <a href="#" id="s002">시놉시스 search_type 3</a></li>
+
 		<li>IF-NXPG-011 / <a href="#" id="u011">인물정보</a></li>
 		<li>IF-NXPG-012 / <a href="#" id="u012">CW연관콘텐츠</a></li>
 		<li>IF-NXPG-013 / <a href="#" id="u013">실시간 EPG 정보</a></li>
@@ -44,7 +46,7 @@
 		<li>IF-NXPG-101 / <a href="#" id="u020">키즈존 캐릭터메뉴 정보</a></li>
 		<li>IF-NXPG-102 / <a href="#" id="u021">키즈존 GNB 메뉴정보</a></li>
 		<!-- <li>IF-NXPG-103 / <a href="#" id="u022">키즈존 캐릭터서브 정보</a></li> -->
-		
+		<li>IF-NXPG-403 / <a href="#" id="u022">살아있는동화 맵핑정보</a></li>
 		<li>IF-NXPG-403 / <a href="#" id="u025">살아있는동화 시놉시스</a></li>
 
 	</ol>
@@ -120,10 +122,12 @@ var u005 = "/v5/menu/month?menu_stb_svc_id=UI50_BSUHD2&menu_id=NM1000018172&IF=I
 var u006 = "/v5/grid/grid?menu_stb_svc_id=UI50_BSUHD2&menu_id=NM1000018231&IF=IF-NXPG-006&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&page_no=1&page_cnt=20"
 var u007 = "/v5/grid/event?menu_stb_svc_id=UI50_BSUHD2&menu_id=NM1000018172&IF=IF-NXPG-007&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D"
 var u008 = "/v5/contents/rating?menu_stb_svc_id=UI50_BSUHD2&IF=IF-NXPG-008&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&sris_id=CS01064292&page_no=1&page_cnt=2&site_cd=10"
-var u009 = "/v5/inter/cwgrid?menu_stb_svc_id=UI50_BSUHD2&menu_id=NM1000018172&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&reference_name=MOVIESERIESREC.PAGE&section_id=&btrack_id=&session_id&IF=IF-NXPG-009"
-var u010 = "/v5/contents/synopsis?menu_stb_svc_id=UI50_BSUHD2&sris_id=CS01064292&epsd_id=CE0001278822&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&menu_id=A000002200&yn_recent=Y&epsd_rslu_id=%7B039A8711-022E-11E8-ABC1-93204C75BC8A%7D&IF=IF-NXPG-010"
+var u009 = "/v5/inter/cwgrid?menu_stb_svc_id=UI50_BSUHD&menu_id=NM1000018206&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&cw_call_id=TEST.NEW.APIS.PAGE&track_id=368.34727.1522911308391&session_id=b4566b6b-73b9-4f05-ab68-a80ff25a6c95&type=all&IF=IF-NXPG-009"
+var u010 = "/v5/contents/synopsis?menu_stb_svc_id=UI50_BSUHD2&search_type=1&epsd_id=CE0001278822&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&menu_id=A000002200&yn_recent=Y&IF=IF-NXPG-010"
+var s001 = "/v5/contents/synopsis?menu_stb_svc_id=UI50_BSUHD2&search_type=2&epsd_rslu_id=%7B7CEC30C8-9DD8-11E7-AA7F-23FB124830D5%7D&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&menu_id=A000002200&yn_recent=Y&IF=IF-NXPG-010"
+var s002 = "/v5/contents/synopsis?menu_stb_svc_id=UI50_BSUHD2&search_type=3&sris=CS01032383&epsd_id=CE0001278822&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&menu_id=A000002200&yn_recent=Y&IF=IF-NXPG-010"
 var u011 = "/v5/people/info?menu_stb_svc_id=UI50_BSUHD2&menu_id=NM1000018172&prs_id=MP0000000005&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&IF=IF-NXPG-011"
-var u012 = "/v5/inter/cwrelation?menu_stb_svc_id=UI50_BSUHD2&menu_id=NM1000018172&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&reference_name=MOVIESERIESREC.PAGE&session_id=&btrack_id=&section_id=&IF=IF-NXPG-012"
+var u012 = "/v5/inter/cwrelation?menu_stb_svc_id=UI50_BSUHD&menu_id=NM1000018206&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&cw_call_id=TEST.NEW.APIS.PAGE&track_id=368.34727.1522911308391&session_id=b4566b6b-73b9-4f05-ab68-a80ff25a6c95&type=all&sris_id=CS01007926&epsd_id=CE0000008672&IF=IF-NXPG-012"
 var u013 = "/v5/added/epg?menu_stb_svc_id=UI50_BSUHD2&menu_id=NM1000018172&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&IF=IF-NXPG-013"
 var u014 = "/v5/contents/gwsynop?menu_stb_svc_id=UI50_BSUHD2&sris_id=CS01055461&epsd_id=%7BD28F151D-0194-11E8-A9BB-1D93D2A1C9C0%7D&pid=&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&menu_id=A000002200&IF=IF-NXPG-014"
 var u015 = "/v5/contents/commerce?menu_stb_svc_id=UI50_BSUHD2&sris_id=CS10005533&menu_id=A000002200&IF=IF-NXPG-015"
@@ -133,7 +137,7 @@ var u018 = "/v5/added/realtimechannel?"
 //var u019 = "/v5/menu/liveevent?"
 var u020 = "/v5/menu/kzchar?menu_stb_svc_id=UI50_BSUHD2&menu_id=NM1000018172&order_type=01&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&IF=IF-NXPG-101"
 var u021 = "/v5/menu/kzgnb?menu_stb_svc_id=UI50_BSUHD2&IF=IF-NXPG-102&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D"
-//var u022 = "/v5/grid/kzcharinfo?menu_stb_svc_id=UI50_BSUHD2&menu_id=A000002211&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&IF=IF-NXPG-103"
+var u022 = "/v5/menu/lfthomemapping?menu_stb_svc_id=UI50_BSUHD2&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&IF=IF-NXPG-401"
 var u023 = "/v5/menu/lftmenu?menu_stb_svc_id=UI50_BSUHD2&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&IF=IF-NXPG-401"
 var u024 = "/v5/grid/lftgrid?menu_stb_svc_id=UI50_BSUHD2&menu_id=NM1000018172&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&IF=IF-NXPG-402"
 var u025 = "/v5/contents/lftsynop?menu_stb_svc_id=UI50_BSUHD2&menu_id=NM1000018172&sris_id=CS01060452&epsd_id=%7BD28F151D-0194-11E8-A9BB-1D93D2A1C9C0%7D&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&IF=IF-NXPG-403"

@@ -1,8 +1,7 @@
 package com.skb.xpg.nxpg.svc.rest;
 
-import java.util.Map;
+import java.io.UnsupportedEncodingException;
 
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.client.support.BasicAuthorizationInterceptor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
@@ -53,25 +52,62 @@ public class RestClient {
 		return restTemplate.getForObject(uri, String.class);
 	}
 	
+//	public String getRestUri(String uri, String user, String password, String param, Map<String, String> expand) {
+//		restTemplate = new RestTemplate();
+//		restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(user, password));
+//
+//		String json = "";
+////		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(cwUrl + uri);
+//
+//		UriComponentsBuilder builder = UriComponentsBuilder.newInstance().scheme("https")
+//                .host(cwUrl)
+//                .path(uri);
+//		
+//		if (param != null && builder != null) {
+//
+//			String[] arrKey = param.split(";");
+//			if (arrKey != null || !param.isEmpty()) {
+//				for (int y = 0; y < arrKey.length; y++) {
+//					builder.queryParam(arrKey[y].replaceAll("(.*)\\|(.*)", "$1"), arrKey[y].replaceAll("(.*)\\|(.*)", "$2"));
+//				}
+//			}
+//
+//			try {
+//				System.out.println(builder.build().encode().toUri());
+//				json = restTemplate.getForObject(builder.build().expand(expand).encode().toUri(), String.class);
+//			} catch (RestClientException e) {
+//				e.printStackTrace();
+//			}
+////			if (json != null) {
+////				json = json.replaceAll("(^.*item\":)(.*)(\\}\\}$)", "$2");
+////			}
+//		}
+//
+//		return json;
+//
+//	}
 	public String getRestUri(String uri, String user, String password, String param) {
 		restTemplate = new RestTemplate();
 		restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(user, password));
-
+		
 		String json = "";
+		
 		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(cwUrl + uri);
 
+		
 		if (param != null && builder != null) {
-
+			
 			String[] arrKey = param.split(";");
 			if (arrKey != null || !param.isEmpty()) {
 				for (int y = 0; y < arrKey.length; y++) {
 					builder.queryParam(arrKey[y].replaceAll("(.*)\\|(.*)", "$1"), arrKey[y].replaceAll("(.*)\\|(.*)", "$2"));
 				}
 			}
-
+			
 			try {
 				System.out.println(builder.build().encode().toUri());
 				json = restTemplate.getForObject(builder.build().encode().toUri(), String.class);
+				System.out.println(json);
 			} catch (RestClientException e) {
 				e.printStackTrace();
 			}
@@ -79,9 +115,9 @@ public class RestClient {
 //				json = json.replaceAll("(^.*item\":)(.*)(\\}\\}$)", "$2");
 //			}
 		}
-
+		
 		return json;
-
+		
 	}
 	
 	

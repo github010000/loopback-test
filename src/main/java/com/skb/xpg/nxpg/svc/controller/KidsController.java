@@ -165,7 +165,42 @@ public class KidsController {
 //		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
 //		return rtn;
 //	}
+	// IF-NXPG-401
+	@RequestMapping(value = "/menu/lfthomemapping")
+	public Map<String, Object> getContentsLfthomemapping(@PathVariable String ver, @RequestParam Map<String, String> param) {
+		String IF = param.get("IF");
+		Map<String, Object> result = properties.getResults();
+		Map<String, String> defaults = properties.getDefaults();
+		Map<String, Object> rtn = new HashMap<String, Object>();
+		rtn.putAll(result);
 
+		rtn.put("IF", IF);
+		rtn.put("request_time", DateUtil.getYYYYMMDDhhmmss());
+		
+		if (StrUtil.isEmpty(param.get("menu_stb_svc_id"))) {
+			param.put("menu_stb_svc_id", defaults.get("menu_stb_svc_id"));
+		}
+		
+		if (StrUtil.isEmpty(param.get("menu_stb_svc_id")) || StrUtil.isEmpty(param.get("stb_id"))) {
+			rtn.put("result", "9999");
+			return rtn;
+		}
+
+		// 값 불러오기
+		String map = kidsService.getMenulfthomemapping(ver, param);
+		// 조회값 없음
+		if (map == null) {
+			rtn.put("result", "9998");
+		}
+		// 성공
+		else {
+			rtn.put("result", "0000");
+			rtn.put("menu_id", map);
+		}
+		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
+		return rtn;
+	}
+	
 	// IF-NXPG-403
 	@RequestMapping(value = "/contents/lftsynop")
 	public Map<String, Object> getContentsLftsynop(@PathVariable String ver, @RequestParam Map<String, String> param) {
@@ -203,4 +238,6 @@ public class KidsController {
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
 		return rtn;
 	}
+	
+	
 }

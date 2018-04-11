@@ -22,24 +22,24 @@ user:
     baseurl: http://skb-devph2-cwall.contentwise.tv
     fullsection: 
       uri: /parallelApi/v6/CW/ux/{cw_call_id}/page
-      param: user,sessionId,trackId
-      nxpgparam: stb_id,session_id,track_id
+      param: sessionId,trackId,{param},itemType
+      nxpgparam: session_id,track_id,{param},itemType
     multisection:
       uri: /parallelApi/v6/CW/ux/{cw_call_id}/page/sections
-      param: user,sectionIds,sessionId,trackId
-      nxpgparam: stb_id,section_id,session_id,track_id
+      param: sectionIds,sessionId,trackId,{param},itemType
+      nxpgparam: section_id,session_id,track_id,{param},itemType
     onlysection:
       uri: /v6/CW/ux/{cw_call_id}/page
-      param: user,retrieveSections
-      nxpgparam: stb_id,retrieveSections
+      param: retrieveSections,{param},itemType
+      nxpgparam: retrieveSections,{param},itemType
     getonepage:
       uri: /v6/CW/ux/{cw_call_id}/page
-      param: user,sessionId,trackId
-      nxpgparam: stb_id,session_id,track_id
+      param: sessionId,trackId,{param},itemType
+      nxpgparam: session_id,track_id,{param},itemType
     getonesection:
       uri: /v6/CW/ux/{cw_call_id}/page/section
-      param: user,sectionId,sessionId,trackId
-      nxpgparam: stb_id,section_id,session_id,track_id
+      param: sectionId,sessionId,trackId,{param},itemType
+      nxpgparam: section_id,session_id,track_id,{param},itemType
     user: admin
     password: admin
 spring:

@@ -37,31 +37,23 @@ public class ContentsController {
 		rtn.put("request_time", DateUtil.getYYYYMMDDhhmmss());
 
 		if (StrUtil.isEmpty(param.get("menu_stb_svc_id")) || StrUtil.isEmpty(param.get("menu_id"))
-				|| StrUtil.isEmpty(param.get("stb_id")) || StrUtil.isEmpty(param.get("sris_id"))
-				|| StrUtil.isEmpty(param.get("epsd_id")) || StrUtil.isEmpty(param.get("yn_recent"))) {
+				|| StrUtil.isEmpty(param.get("search_type"))) {
 			rtn.put("result", "9999");
+			return rtn;
+		}
+		
+		if ((param.get("search_type").equals("1") && StrUtil.isEmpty(param.get("epsd_id")))
+			|| (param.get("search_type").equals("2") && StrUtil.isEmpty(param.get("epsd_rslu_id")))
+			|| (param.get("search_type").equals("3") && StrUtil.isEmpty(param.get("sris_id")) && StrUtil.isEmpty(param.get("epsd_id")))
+			) {
+			rtn.put("result", "9999");
+			rtn.put("reason", "search_type에 맞는 param입력 요망");
 			return rtn;
 		}
 
 		// 값 불러오기
-		Map<String, Object> contents = contentsService.getSynopsisContents(ver, param);
-		Map<String, Object> purchares = contentsService.getContentsPurchares(ver, param);
-		// 조회값 없음
-		if (contents == null) {
-			rtn.put("result", "9998");
-		} else {
-			// 성공
-			contentsService.getContentsPeople(contents, param);
-			contentsService.getContentsCorner(contents, param);
-			contentsService.getContentsPreview(contents, param);
-			contentsService.getContentsReview(contents, param);
-			contents.put("series_info", contentsService.getContentsSeries(ver, param));
-			rtn.put("result", "0000");
-			rtn.put("contents", contents);
-			if (purchares != null && purchares.get("products") != null) {
-				rtn.put("purchares", purchares.get("products"));
-			}
-		}
+		contentsService.getSynopsisContents(rtn, param);
+		
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
 		return rtn;
 	}
