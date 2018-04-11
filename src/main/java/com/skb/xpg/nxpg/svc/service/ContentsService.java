@@ -114,6 +114,7 @@ public class ContentsService {
 			commerce.put("refund_info_id", CastUtil.StringToJsonMap((String) redisClient.hget("contents_phrase", commerce.get("refund_info_id").toString())));
 			return commerce;
 		} catch (Exception e) {
+			e.printStackTrace();
 			return null;
 		}
 	}
@@ -241,25 +242,29 @@ public class ContentsService {
 				int count = CastUtil.getStringToInteger(param.get("page_cnt"));
 				// Map<String, Object> menus = CastUtil.getObjectToMap(root.get("menus"));
 				List<Map<String, Object>> sites = CastUtil.getObjectToMapList(root.get("sites"));
-
+				Map<String, Object> useSite = null;
+				
 				for (Map<String, Object> site : sites) {
-					List<Map<String, Object>> reviews = CastUtil.getObjectToMapList(site.get("reviews"));
-					List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
-					if (reviews != null && reviews.size() > 0) {
-						for (Map<String, Object> review : reviews) {
-							
-							if (review != null && start <= idx && idx <= (start + count - 1)) {
-								list.add(review);
+					if (site.get("site_cd").equals(param.get("site_cd"))) {
+						List<Map<String, Object>> reviews = CastUtil.getObjectToMapList(site.get("reviews"));
+						List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+						if (reviews != null && reviews.size() > 0) {
+							for (Map<String, Object> review : reviews) {
+								
+								if (review != null && start <= idx && idx <= (start + count - 1)) {
+									list.add(review);
+								}
+								idx++;
 							}
-							idx++;
 						}
+						site.put("reviews", list);
+						useSite = site;
 					}
-					site.put("reviews", list);
+					
 					
 				}
-
+				root.put("sites", useSite);
 			}
-			
 			return root;
 
 		} catch (Exception e) {

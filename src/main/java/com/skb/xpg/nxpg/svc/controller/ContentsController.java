@@ -16,7 +16,7 @@ import com.skb.xpg.nxpg.svc.util.DateUtil;
 import com.skb.xpg.nxpg.svc.util.StrUtil;
 
 @RestController
-@RequestMapping(value = "/xpg/{ver}", produces = "application/json; charset=utf-8")
+@RequestMapping(value = "/{ver}", produces = "application/json; charset=utf-8")
 public class ContentsController {
 
 	@Autowired
@@ -143,8 +143,7 @@ public class ContentsController {
 		rtn.put("IF", IF);
 		rtn.put("request_time", DateUtil.getYYYYMMDDhhmmss());
 
-		if (StrUtil.isEmpty(param.get("menu_stb_svc_id")) || StrUtil.isEmpty(param.get("menu_id"))
-				|| StrUtil.isEmpty(param.get("pid"))) {
+		if (StrUtil.isEmpty(param.get("menu_stb_svc_id")) || StrUtil.isEmpty(param.get("sris_id"))) {
 			rtn.put("result", "9999");
 			return rtn;
 		}
@@ -176,8 +175,7 @@ public class ContentsController {
 		rtn.put("IF", IF);
 		rtn.put("request_time", DateUtil.getYYYYMMDDhhmmss());
 
-		if (StrUtil.isEmpty(param.get("menu_stb_svc_id")) || StrUtil.isEmpty(param.get("menu_id"))
-				|| StrUtil.isEmpty(param.get("stb_id"))) {
+		if (StrUtil.isEmpty(param.get("cnr_grp_id"))) {
 			rtn.put("result", "9999");
 			return rtn;
 		}
@@ -242,7 +240,10 @@ public class ContentsController {
 		rtn.put("IF", IF);
 		rtn.put("request_time", DateUtil.getYYYYMMDDhhmmss());
 
-		if (StrUtil.isEmpty(param.get("sris_id")) || StrUtil.isEmpty(param.get("page_no")) || StrUtil.isEmpty(param.get("page_cnt"))) {
+		if (StrUtil.isEmpty(param.get("sris_id"))
+				|| StrUtil.isEmpty(param.get("page_no")) || StrUtil.isEmpty(param.get("page_cnt"))
+				|| StrUtil.isEmpty(param.get("site_cd"))
+				) {
 			rtn.put("result", "9999");
 			return rtn;
 		}

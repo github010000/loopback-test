@@ -16,7 +16,7 @@ import com.skb.xpg.nxpg.svc.util.DateUtil;
 import com.skb.xpg.nxpg.svc.util.StrUtil;
 
 @RestController
-@RequestMapping(value = "/xpg/{ver}", produces = "application/json; charset=utf-8")
+@RequestMapping(value = "/{ver}", produces = "application/json; charset=utf-8")
 public class MenuController {
 
 	@Autowired
@@ -111,11 +111,13 @@ public class MenuController {
 			rtn.putAll(bigbanner);
 		} else {
 			rtn.put("banners", null);
+			rtn.put("banner_count", "0");
 		}
 		if (blockblock != null) {
 			rtn.putAll(blockblock);
 		} else {
 			rtn.put("blocks", null);
+			rtn.put("block_count", "0");
 		}
 			// 카운트 넣어주기 
 //			if (bigbanner != null) rtn.put("total_count", bigbanner.size());

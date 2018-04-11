@@ -1,7 +1,6 @@
 package com.skb.xpg.nxpg.svc.controller;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,7 @@ import com.skb.xpg.nxpg.svc.util.DateUtil;
 import com.skb.xpg.nxpg.svc.util.StrUtil;
 
 @RestController
-@RequestMapping(value = "/xpg/{ver}", produces = "application/json; charset=utf-8")
+@RequestMapping(value = "/{ver}", produces = "application/json; charset=utf-8")
 public class GridController {
 
 	@Autowired

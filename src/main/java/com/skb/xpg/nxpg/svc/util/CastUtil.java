@@ -63,10 +63,12 @@ public class CastUtil {
 	}
 	
 	public static List<Object> StringToJsonList(String json) {
-		JacksonJsonParser parser = new JacksonJsonParser();
-		List<Object> list = parser.parseList(json);
-		return list;
-
+		if (json != null) {
+			JacksonJsonParser parser = new JacksonJsonParser();
+			List<Object> list = parser.parseList(json);
+			return list;
+		} 
+		return null;
 	}
 	
 	public static Map<String, Object> StringToJsonMap(String json) {

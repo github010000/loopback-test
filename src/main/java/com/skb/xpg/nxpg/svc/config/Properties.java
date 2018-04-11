@@ -35,4 +35,10 @@ public class Properties {
     public Map<String, String> getDefaults() {
         return defaults;
     }
+
+    private Map<String, Object> cw = new HashMap<>();
+    
+    public Map<String, Object> getCw() {
+    	return cw;
+    }
 }

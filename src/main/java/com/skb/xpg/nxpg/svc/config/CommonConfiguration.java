@@ -1,6 +1,7 @@
 package com.skb.xpg.nxpg.svc.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -18,7 +19,31 @@ public class CommonConfiguration {
 	
 	@Autowired
 	private Environment environment;
+	
+	@Value("${user.cw.baseurl}")
+	private String cwBaseUrl;
+	
+	@Value("${user.cw.user}")
+	private String cwUser;
+	
+	@Value("${user.cw.password}")
+	private String cwPassword;
+	
+	@Bean(name = "cwBaseUrl")
+	public String getCwBaseUrl() {
+		return cwBaseUrl;
+	}
+	
+	@Bean(name = "cwUser")
+	public String getCwUser() {
+		return cwUser;
+	}
 
+	@Bean(name = "cwPassword")
+	public String getCwPassword() {
+		return cwPassword;
+	}
+	
 	@Bean()
     @RefreshScope
     public Properties properties() {
@@ -37,6 +62,8 @@ public class CommonConfiguration {
 		return "";
 	}
 
+
+	
 	/*
 	@Bean(name = "cmsRestTemplate")
 	public RestTemplate cmsRestTemplate() {
