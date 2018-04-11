@@ -16,7 +16,7 @@ import com.skb.xpg.nxpg.svc.util.DateUtil;
 import com.skb.xpg.nxpg.svc.util.StrUtil;
 
 @RestController
-@RequestMapping(value = "/xpg/{ver}", produces = "application/json; charset=utf-8")
+@RequestMapping(value = "/{ver}", produces = "application/json; charset=utf-8")
 public class CwController {
 
 	@Autowired
