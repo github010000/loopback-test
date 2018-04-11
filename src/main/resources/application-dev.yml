@@ -18,6 +18,30 @@ user:
       response_name: contents
   defaults:
     menu_stb_svc_id: UI50_BSUHD2
+  cw:
+    baseurl: http://skb-devph2-cwall.contentwise.tv
+    fullsection: 
+      uri: /parallelApi/v6/CW/ux/{cw_call_id}/page
+      param: user,sessionId,trackId
+      nxpgparam: stb_id,session_id,track_id
+    multisection:
+      uri: /parallelApi/v6/CW/ux/{cw_call_id}/page/sections
+      param: user,sectionIds,sessionId,trackId
+      nxpgparam: stb_id,section_id,session_id,track_id
+    onlysection:
+      uri: /v6/CW/ux/{cw_call_id}/page
+      param: user,retrieveSections
+      nxpgparam: stb_id,retrieveSections
+    getonepage:
+      uri: /v6/CW/ux/{cw_call_id}/page
+      param: user,sessionId,trackId
+      nxpgparam: stb_id,session_id,track_id
+    getonesection:
+      uri: /v6/CW/ux/{cw_call_id}/page/section
+      param: user,sectionId,sessionId,trackId
+      nxpgparam: stb_id,section_id,session_id,track_id
+    user: admin
+    password: admin
 spring:
   http:
     encoding:
