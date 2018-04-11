@@ -39,6 +39,14 @@ public class GridController {
 			return rtn;
 		}
 		
+		if (StrUtil.isEmpty(param.get("page_no"))) {
+			param.put("page_no", "1");
+		}
+		
+		if (StrUtil.isEmpty(param.get("page_cnt"))) {
+			param.put("page_cnt", "30");
+		}
+		
 		// 값 불러오기 
 		Map<String, Object> resultMap = gridService.getGrid(ver, param);
 		// 조회값 없음

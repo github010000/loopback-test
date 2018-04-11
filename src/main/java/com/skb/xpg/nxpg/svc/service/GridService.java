@@ -29,8 +29,8 @@ public class GridService {
 			int tCount = 0;
 			if(gridList != null) {
 				tCount = gridList.size();
-				int pageNo = Integer.parseInt(param.get("page_no"));
-	            int pageCnt = Integer.parseInt(param.get("page_cnt"));
+				int pageNo = CastUtil.getStringToInteger(param.get("page_no"));
+	            int pageCnt = CastUtil.getStringToInteger(param.get("page_cnt"));
 	            
 	            int startNo = ((pageNo - 1 < 0) ? 0 : ((pageNo - 1) * pageCnt));
 	            int endNo = ((pageNo < 0) ? tCount : (startNo + pageCnt));
