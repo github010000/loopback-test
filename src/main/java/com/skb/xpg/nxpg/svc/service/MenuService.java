@@ -168,6 +168,8 @@ public class MenuService {
 					}
 				}
 			}
+			DateUtil.getCompare(user_month, "dist_fr_dt", "dist_to_dt", false);
+			
 			// 성공
 			rtn.put("result", "0000");
 			if (bigbanner != null) {
