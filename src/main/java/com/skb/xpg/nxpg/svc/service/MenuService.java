@@ -83,7 +83,8 @@ public class MenuService {
 	// IF-NXPG-003
 	public Map<String, Object> getBlockBigBanner(String ver, Map<String, String> param) {
 		try {
-			Map<String, Object> bigbanner = CastUtil.StringToJsonMap((String) redisClient.hget("big_banner", param.get("menu_id")));
+//			System.out.println("11111 ::: " + param.get("menu_stb_svc_id") +  "_" + param.get("menu_id"));
+			Map<String, Object> bigbanner = CastUtil.StringToJsonMap((String) redisClient.hget("big_banner", param.get("menu_stb_svc_id") + "_" + param.get("menu_id")));
 
 			bigbanner.put("banner_count", bigbanner.get("total_count"));
 			bigbanner.remove("total_count");
@@ -94,15 +95,16 @@ public class MenuService {
 		}
 	}
 	
-	// IF-NXPG-003
+	// IF-NXPG-004
 	public Map<String, Object> getBlockBlock(String ver, Map<String, String> param) {
 		try {
-			Map<String, Object> blockblock = CastUtil.StringToJsonMap((String) redisClient.hget("block_block", param.get("menu_id")));
+			
+			Map<String, Object> blockblock = CastUtil.StringToJsonMap((String) redisClient.hget("block_block", param.get("menu_stb_svc_id") + "_" + param.get("menu_id")));
 			List<Map<String, Object>> blocks = CastUtil.getObjectToMapList(blockblock.get("blocks"));
 			for (Object block : blocks) {
 				Map<String, Object> map = CastUtil.getObjectToMap(block);
 
-				Map<String, Object> gridbanner = getGridBanner(map.get("menu_id").toString());
+				Map<String, Object> gridbanner = getGridBanner(param.get("menu_stb_svc_id") + "_" + map.get("menu_id").toString());
 				map.put("menus", null);
 				if (gridbanner != null) {
 					map.put("menus", gridbanner.get("banners"));

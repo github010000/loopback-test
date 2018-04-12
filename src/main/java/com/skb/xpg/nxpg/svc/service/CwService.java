@@ -82,27 +82,29 @@ public class CwService {
 		//기존 콘텐츠 아이디 추출
 		String epsd_id = (String)param.get("epsd_id");
 		param.put("itemType", "VIDEO_CONTENT");
-		
+		List<Map<String, Object>> resultList = null;
+
 		String contentInfo = (String) redisClient.hget("synopsis_srisInfo",epsd_id);
 		
-		//시리즈아이디, 에피소드아이디 추출로직
-		String regex="\"epsd_rslu_id\"[\\s]*:[\\s]*\"([^\"]+)\"";
-		Pattern ptn = Pattern.compile(regex); 
-		Matcher matcher = ptn.matcher(contentInfo); 
-		String contentId  = "";
-		while(matcher.find()){ 
-			contentId=matcher.group(1);
-			break;
-		}
-		param.put("con_id", contentId);
-
-		String type = (String)param.get("type");
-		
-		List<Map<String, Object>> resultList = null;
-		Map<String, Object> temp = null;
-		
-		switch (type) {
-		
+		if(contentInfo != null) {
+			
+			//시리즈아이디, 에피소드아이디 추출로직
+			String regex="\"epsd_rslu_id\"[\\s]*:[\\s]*\"([^\"]+)\"";
+			Pattern ptn = Pattern.compile(regex); 
+			Matcher matcher = ptn.matcher(contentInfo); 
+			String contentId  = "";
+			while(matcher.find()){ 
+				contentId=matcher.group(1);
+				break;
+			}
+			param.put("con_id", contentId);
+			
+			String type = (String)param.get("type");
+			
+			Map<String, Object> temp = null;
+			
+			switch (type) {
+			
 			case "section":
 				param.put("retrieveSections", "NONE");
 				temp = cwCall("onlysection", param);
@@ -122,9 +124,10 @@ public class CwService {
 			default:
 				temp = cwCall("getonepage", param);
 				break;
+			}
+			
+			resultList = makeCwRelation(temp);
 		}
-		
-		resultList = makeCwRelation(temp);
 		
 		return resultList;
 		
@@ -204,7 +207,12 @@ public class CwService {
 			Map<String, Object> resultMap = new HashMap<String, Object>();
 			List<String>tempIdList = (List<String>) temp.get("idList");
 			if(tempIdList != null) {
-				for(String epsd_rslu_id:tempIdList) {
+				for(String dataGrp:tempIdList) {
+					String [] idNblockId = dataGrp.split("\\|");
+					
+					String epsd_rslu_id = idNblockId[0];
+					String trackId = idNblockId[1];
+					
 					Map<String, Object> gridData = new HashMap<String, Object>();
 					Map<String, Object> cidInfo = CastUtil.StringToJsonMap((String) redisClient.hget("contents_cidinfo",epsd_rslu_id));
 					try {
@@ -221,6 +229,7 @@ public class CwService {
 						gridData.put("epsd_id", srisInfo.get("epsd_id"));
 						gridData.put("adlt_lvl_cd", srisInfo.get("adlt_lvl_cd"));
 						gridData.put("title", srisInfo.get("sub_title"));//? 뭘 써야할지...						
+						gridData.put("trackId", trackId);//? 뭘 써야할지...						
 						
 						resultGridList.add(gridData);
 						
@@ -232,7 +241,6 @@ public class CwService {
 			resultMap.put("sectionId", temp.get("sectionId"));
 			resultMap.put("block", resultGridList);
 			resultMap.put("sub_title", temp.get("blockTitle"));
-			resultMap.put("status_code", objMap.get("status_code"));
 			
 			cwGrid.add(resultMap);
 			resultMap = new HashMap<String, Object>();
