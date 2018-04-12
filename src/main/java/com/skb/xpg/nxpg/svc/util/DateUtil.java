@@ -31,35 +31,37 @@ public class DateUtil {
 		return formatter.format(new Date());
 	}
 	
-	public static List<Map<String, Object>> getCompare(List<Map<String, Object>> map){
+	public static void getCompare(List<Map<String, Object>> map, String fromDt, String toDt, boolean isMenu) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
-		
+
 		Date date = new Date();
 		Date strTime = null;
 		Date endTime = null;
-		
-		List<Map<String, Object>> gnb = new ArrayList<Map<String, Object>>();
-		for(Map<String, Object> object : map) {
-           // menu_cd 제거
-           if(object.containsKey("menu_cd")){
-              object.remove("menu_cd");
-           }
-           
-           try {
-			strTime = dateFormat.parse(String.valueOf(object.get("dist_fr_dt")));
-			endTime = dateFormat.parse(String.valueOf(object.get("dist_to_dt")));
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+
+		List<Map<String, Object>> deleteList = new ArrayList<Map<String, Object>>();
+		for (Map<String, Object> object : map) {
+			// menu_cd 제거
+			if (isMenu && object.containsKey("menu_cd")) {
+				object.remove("menu_cd");
+			}
+
+			try {
+				strTime = dateFormat.parse(String.valueOf(object.get(fromDt)));
+				endTime = dateFormat.parse(String.valueOf(object.get(toDt)));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			if (date.before(strTime) || date.after(endTime)) {
+				deleteList.add(object);
+			}
 		}
-           
-           
-           if(date.after(strTime) && date.before(endTime)) {
-        	   gnb.add(object);
-           }
-		}
 		
-		return gnb;
+		for (Map<String, Object> del : deleteList) {
+			map.remove(del);
+		}
+
 	}
 	
 }

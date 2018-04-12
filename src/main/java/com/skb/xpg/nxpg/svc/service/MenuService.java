@@ -23,25 +23,24 @@ public class MenuService {
 	public void getMenuGnb(String ver, Map<String, String> param, Map<String, Object> rtn) {
 		try {
 			String redisData = (String) redisClient.hget(NXPGCommon.MENU_GNB, param.get("menu_stb_svc_id"));
-			if(!"".equals(redisData) && redisData != null) {
-				List<Object> menugnb = CastUtil.StringToJsonList(redisData);			
+			if (!"".equals(redisData) && redisData != null) {
+				List<Object> menugnb = CastUtil.StringToJsonList(redisData);
 				List<Map<String, Object>> data = (List<Map<String, Object>>) CastUtil.getObjectToMapList(menugnb);
-				List<Map<String, Object>> gnb = DateUtil.getCompare(data);
-				
-				String version = StringUtils.defaultIfEmpty((String) redisClient.hget("version",NXPGCommon.MENU_GNB), "");
-				
-				if (gnb == null) {
+				DateUtil.getCompare(data, "dist_fr_dt", "dist_to_dt", true);
+
+				String version = StringUtils.defaultIfEmpty((String) redisClient.hget("version", NXPGCommon.MENU_GNB), "");
+
+				if (data == null) {
 					rtn.put("result", "9998");
-				}
-				// 성공
-				else {
+				} else {
 					rtn.put("version", version);
 					rtn.put("result", "0000");
-					rtn.put("menus", gnb);
-					// 카운트 넣어주기 
-					if (gnb != null) rtn.put("total_count", gnb.size());
+					rtn.put("menus", data);
+					// 카운트 넣어주기
+					if (data != null)
+						rtn.put("total_count", data.size());
 				}
-			}else {
+			} else {
 				rtn.put("result", "9998");
 			}
 		} catch (Exception e) {
@@ -56,21 +55,21 @@ public class MenuService {
 			if(!"".equals(redisData) && redisData != null) {
 				List<Object> menuall = CastUtil.StringToJsonList(redisData);
 				List<Map<String, Object>> data = (List<Map<String, Object>>) CastUtil.getObjectToMapList(menuall);
-				List<Map<String, Object>> all = DateUtil.getCompare(data);
+				DateUtil.getCompare(data, "dist_fr_dt", "dist_to_dt", true);
 				
 				String version = StringUtils.defaultIfEmpty((String) redisClient.hget("version",NXPGCommon.MENU_ALL), "");
 				
 				// 조회값 없음
-				if (all == null) {
+				if (data == null) {
 					rtn.put("result", "9998");
 				}
 				// 성공
 				else {
 					rtn.put("version", version);
 					rtn.put("result", "0000");
-					rtn.put("menus", all);
+					rtn.put("menus", data);
 					// 카운트 넣어주기 
-					if (all != null) rtn.put("total_count", all.size());
+					if (data != null) rtn.put("total_count", data.size());
 				}
 			}else {
 				rtn.put("result", "9998");
@@ -86,7 +85,10 @@ public class MenuService {
 		try {
 //			System.out.println("11111 ::: " + param.get("menu_stb_svc_id") +  "_" + param.get("menu_id"));
 			Map<String, Object> bigbanner = CastUtil.StringToJsonMap((String) redisClient.hget("big_banner", param.get("menu_stb_svc_id") + "_" + param.get("menu_id")));
-
+			
+			List<Map<String, Object>> banners = CastUtil.getObjectToMapList(bigbanner.get("banners"));
+			DateUtil.getCompare(banners, "dist_fr_dt", "dist_to_dt", false);
+			
 			bigbanner.put("banner_count", bigbanner.get("total_count"));
 			bigbanner.remove("total_count");
 			
@@ -102,6 +104,8 @@ public class MenuService {
 			
 			Map<String, Object> blockblock = CastUtil.StringToJsonMap((String) redisClient.hget("block_block", param.get("menu_stb_svc_id") + "_" + param.get("menu_id")));
 			List<Map<String, Object>> blocks = CastUtil.getObjectToMapList(blockblock.get("blocks"));
+			DateUtil.getCompare(blocks, "dist_fr_dt", "dist_to_dt", false);
+			
 			for (Object block : blocks) {
 				Map<String, Object> map = CastUtil.getObjectToMap(block);
 
@@ -135,6 +139,11 @@ public class MenuService {
 		try {
 			Map<String, Object> bigbanner = CastUtil.StringToJsonMap((String) redisClient.hget("big_banner", param.get("menu_stb_svc_id") + "_" + param.get("menu_id")));
 			Map<String, Object> blockblock = CastUtil.StringToJsonMap((String) redisClient.hget("block_block", param.get("menu_id")));
+			
+			List<Map<String, Object>> banners = CastUtil.getObjectToMapList(bigbanner.get("banners"));
+			DateUtil.getCompare(banners, "dist_fr_dt", "dist_to_dt", false);
+			List<Map<String, Object>> blocks = CastUtil.getObjectToMapList(blockblock.get("blocks"));
+			DateUtil.getCompare(blocks, "dist_fr_dt", "dist_to_dt", false);
 			
 			blockblock.put("block_count", blockblock.get("total_count"));
 			blockblock.remove("total_count");

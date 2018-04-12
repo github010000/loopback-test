@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.skb.xpg.nxpg.svc.common.NXPGCommon;
 import com.skb.xpg.nxpg.svc.redis.RedisClient;
 import com.skb.xpg.nxpg.svc.util.CastUtil;
+import com.skb.xpg.nxpg.svc.util.DateUtil;
 
 @Service
 public class GridService {
@@ -24,7 +25,9 @@ public class GridService {
 			
 			List<Map<String, Object>> gridList = CastUtil.getObjectToMapList(gridMap.get("contents"));
 			List<Map<String, Object>> gList = new ArrayList<>();
-		
+			
+			DateUtil.getCompare(gridList, "svc_fr_dt", "svc_to_dt", false);
+			
 			String gridStr = "";
 			int tCount = 0;
 			if(gridList != null) {
@@ -55,8 +58,13 @@ public class GridService {
 	// IF-NXPG-007
 	public Map<String, Object> getGridEvent(String ver, Map<String, String> param) {
 		try {
-			return CastUtil.StringToJsonMap((String) redisClient.hget("grid_banner", param.get("menu_id")));
+			Map<String, Object> gridBanner = CastUtil.StringToJsonMap((String) redisClient.hget("grid_banner", param.get("menu_stb_svc_id") + "_" + param.get("menu_id")));
+			List<Map<String, Object>> banners = CastUtil.getObjectToMapList(gridBanner.get("banners"));
+			DateUtil.getCompare(banners, "dist_fr_dt", "dist_to_dt", false);
+			
+			return gridBanner;
 		} catch (Exception e) {
+			e.printStackTrace();
 			return null;
 		}
 	}
