@@ -197,8 +197,6 @@ public class CwService {
 		//데이터 추출 메소드
 		getCwData(objMap, resultList);
 
-		System.out.println("::::::"+resultList);
-		
 		//데이터 가공로직 시작
 		List<Map<String, Object>>cwGrid = new ArrayList<Map<String,Object>>();
 		
@@ -215,32 +213,36 @@ public class CwService {
 					
 					Map<String, Object> gridData = new HashMap<String, Object>();
 					Map<String, Object> cidInfo = CastUtil.StringToJsonMap((String) redisClient.hget("contents_cidinfo",epsd_rslu_id));
-					try {
+					if(cidInfo != null) {
 						String epsd_id = (String) cidInfo.get("epsd_id");
 						String sris_id = (String) cidInfo.get("sris_id");
 						
 						Map<String, Object> contentInfo = CastUtil.StringToJsonMap((String) redisClient.hget("synopsis_contents",sris_id));
 						Map<String, Object> srisInfo = CastUtil.StringToJsonMap((String) redisClient.hget("synopsis_srisInfo",epsd_id));
-						
-						gridData.put("poster_filename_h", srisInfo.get("epsd_poster_filename_h"));
-						gridData.put("sris_id", srisInfo.get("sris_id"));
-						gridData.put("poster_filename_v", srisInfo.get("epsd_poster_filename_v"));
-						gridData.put("sris_nm", contentInfo.get("title"));
-						gridData.put("epsd_id", srisInfo.get("epsd_id"));
-						gridData.put("adlt_lvl_cd", srisInfo.get("adlt_lvl_cd"));
-						gridData.put("title", srisInfo.get("sub_title"));//? 뭘 써야할지...						
-						gridData.put("trackId", trackId);//? 뭘 써야할지...						
-						
-						resultGridList.add(gridData);
-						
-					}catch (Exception e){
-						System.out.println("pass");
+						if(contentInfo != null && srisInfo != null) {
+							
+							gridData.put("poster_filename_h", srisInfo.get("epsd_poster_filename_h"));
+							gridData.put("sris_id", srisInfo.get("sris_id"));
+							gridData.put("poster_filename_v", srisInfo.get("epsd_poster_filename_v"));
+							gridData.put("sris_nm", contentInfo.get("title"));
+							gridData.put("epsd_id", srisInfo.get("epsd_id"));
+							gridData.put("adlt_lvl_cd", srisInfo.get("adlt_lvl_cd"));
+							gridData.put("title", srisInfo.get("sub_title"));//? 뭘 써야할지...						
+							gridData.put("trackId", trackId);//? 뭘 써야할지...						
+							
+							resultGridList.add(gridData);
+						}
 					}
 				}
 			}
 			resultMap.put("sectionId", temp.get("sectionId"));
+			resultMap.put("session_id", objMap.get("sessionId"));
+			resultMap.put("btrack_id", objMap.get("trackId"));
 			resultMap.put("block", resultGridList);
 			resultMap.put("sub_title", temp.get("blockTitle"));
+			resultMap.put("block_cnt", resultGridList.size());
+			resultMap.put("cw_call_id", objMap.get("cw_call_id"));
+
 			
 			cwGrid.add(resultMap);
 			resultMap = new HashMap<String, Object>();
@@ -258,10 +260,22 @@ public class CwService {
 		//데이터 추출 메소드
 		getCwData(objMap, resultList);
 		
-		System.out.println("::::::"+resultList);
-		
 		//데이터 가공로직 시작
 		List<Map<String, Object>>cwRelation = new ArrayList<Map<String,Object>>();
+		
+		//TODO 진입한 콘텐츠의 인물정보 가져오기
+		
+//		String prnInfo = (String)redisClient.hget("contents_people","CE0001270830");
+//		
+//		String regex="(peoples)\"[\\s]*:[\\s]*(.*)\\]";
+////		String regex="(peoples)\"[\\s]*:[\\s]*\\[(.*)\\]";
+//		Pattern ptn = Pattern.compile(regex); 
+//		Matcher matcher = ptn.matcher(prnInfo); 
+//		while(matcher.find()){
+//			System.out.println(matcher.group(2));
+//		}
+//		
+		
 		
 		for(Map<String, Object>temp:resultList ) {
 			List<Map<String, Object>>resultRelationList = new ArrayList<Map<String,Object>>();
@@ -276,34 +290,32 @@ public class CwService {
 					
 					Map<String, Object> relationData = new HashMap<String, Object>();
 					Map<String, Object> cidInfo = CastUtil.StringToJsonMap((String) redisClient.hget("contents_cidinfo",epsd_rslu_id));
-					try {
+					if(cidInfo!=null) {
 						String epsd_id = (String) cidInfo.get("epsd_id");
 						String sris_id = (String) cidInfo.get("sris_id");
 						
 						Map<String, Object> contentInfo = CastUtil.StringToJsonMap((String) redisClient.hget("synopsis_contents",sris_id));
 						Map<String, Object> srisInfo = CastUtil.StringToJsonMap((String) redisClient.hget("synopsis_srisInfo",epsd_id));
-						
-						relationData.put("poster_filename_h", srisInfo.get("epsd_poster_filename_h"));
-						relationData.put("sris_id", srisInfo.get("sris_id"));
-						relationData.put("poster_filename_v", srisInfo.get("epsd_poster_filename_v"));
-						relationData.put("sris_nm", contentInfo.get("title"));
-						relationData.put("epsd_id", srisInfo.get("epsd_id"));
-						relationData.put("adlt_lvl_cd", srisInfo.get("adlt_lvl_cd"));
-						relationData.put("title", srisInfo.get("sub_title"));//? 뭘 써야할지...						
-						relationData.put("track_id", trackId);						
-						
-						resultRelationList.add(relationData);
-						
-					}catch (Exception e){
-						System.out.println("pass");
+						if(contentInfo != null && srisInfo != null) {
+							relationData.put("poster_filename_h", srisInfo.get("epsd_poster_filename_h"));
+							relationData.put("sris_id", srisInfo.get("sris_id"));
+							relationData.put("poster_filename_v", srisInfo.get("epsd_poster_filename_v"));
+							relationData.put("sris_nm", contentInfo.get("title"));
+							relationData.put("epsd_id", srisInfo.get("epsd_id"));
+							relationData.put("adlt_lvl_cd", srisInfo.get("adlt_lvl_cd"));
+							relationData.put("title", srisInfo.get("sub_title"));//? 뭘 써야할지...						
+							relationData.put("track_id", trackId);						
+							
+							resultRelationList.add(relationData);
+						}
 					}
 				}
 			}
 //			makeRelationTitle((String) temp.get("blockTitle"), (String)objMap.get("epsd_id"));
 			
 			resultMap.put("sectionId", temp.get("sectionId"));
-			resultMap.put("session_id", temp.get("sessionId"));
-			resultMap.put("btrack_id", temp.get("btrackId"));
+			resultMap.put("session_id", objMap.get("sessionId"));
+			resultMap.put("btrack_id", objMap.get("trackId"));
 			resultMap.put("block", resultRelationList);
 			resultMap.put("t_cnt", resultRelationList.size()+"");
 			resultMap.put("sub_title", temp.get("blockTitle"));
@@ -330,6 +342,7 @@ public class CwService {
 		
 		List<String> idList = new ArrayList<String>();
 		
+		
 		if(sections != null) {
 			for(Map<String, Object>sectionMap:sections) {
 				List<Map<String, Object>> blocks = null;
@@ -345,12 +358,12 @@ public class CwService {
 				if(sectionMap.get("sectionId")!=null) {
 					//전체 섹션(all), 단일page(onepage) 처리 로직
 					result.put("sectionId", sectionMap.get("sectionId"));
-					idList = new ArrayList<String>();
 					resultList.add(result);
 					result = new HashMap<String, Object>();
 				}else {	
 					//멀티섹션(multi) 처리 로직
 					makeItem(sectionMap, result, idList);
+					idList = new ArrayList<String>();
 					resultList.add(result);
 					result = new HashMap<String, Object>();
 				}
@@ -384,46 +397,73 @@ public class CwService {
 		result.put("idList",idList);
 	}	
 	
-//	public void makeRelationTitle(String blockTitle, String epsd_id) {
+//	public String makeRelationTitle(String blockTitle, String epsd_id) {
 //
-//		String titleKey = "";
-//		String subTitle = "";
+////		String titleKey = "";
+////		String subTitle = "";
+////
+////		List<String> tokenList = new ArrayList<String>();
+////		
+////		//연관콘텐츠 제목 추출
+////		StringTokenizer tokens = new StringTokenizer(blockTitle, "#");
+////		
+////		while(tokens.hasMoreTokens()){
+////			tokenList.add(tokens.nextToken());
+////		}
+////		
+////
+////		titleKey = tokenList.get(0);		//#으로 붙어있는 단어들중 맨 앞단어를 사용
+////		titleKey = titleKey.toUpperCase();
+////		
+////		if(tokenList.size()>1) {
+////			subTitle = tokenList.get(1);
+////		}
+//		
+//		
+//		String prnInfo = (String) redisClient.hget("contents_people","CE0001270830");
 //
-//		List<String> tokenList = new ArrayList<String>();
-//		
-//		//연관콘텐츠 제목 추출
-//		StringTokenizer tokens = new StringTokenizer(blockTitle, "#");
-//		
-//		while(tokens.hasMoreTokens()){
-//			tokenList.add(tokens.nextToken());
-//		}
-//		
-//
-//		titleKey = tokenList.get(0);		//#으로 붙어있는 단어들중 맨 앞단어를 사용
-//		titleKey = titleKey.toUpperCase();
-//		
-//		if(tokenList.size()>1) {
-//			subTitle = tokenList.get(1);
-//		}
+//		List<String> code = new ArrayList<String>();
+//		List<String> person = new ArrayList<String>();
 //		
 //		
-//		String prnInfo = (String) redisClient.hget("contents_people",epsd_id);
-//
-//		List<String> director = new ArrayList<String>();
+//		String aa = "#Director# 출연 영화";
+//		int i = 2;
 //		
-//		String regex="\"prs_role_nm\"[\\s]*:[\\s]*\"([^\"]+)\"";
+//		
+//		
+////		[00,00,10,10,10,10]
+////		[ccc,aaa,ddd,cc,vvv,nnn]
+//				
+//		String regex="(prs_role_cd)\"[\\s]*:[\\s]*\\[*\"([^\"]+)\"\\]*";
 //		Pattern ptn = Pattern.compile(regex); 
 //		Matcher matcher = ptn.matcher(prnInfo); 
-//		String job  = "";
-//		while(matcher.find()){ 
-//			job = matcher.group(1);
-//			if(job.contains("감독")) {
-//				director.add()
-//			}else {
-//				
-//			}
-//			
+//		while(matcher.find()){
+//			code.add(matcher.group(2));
 //		}
+//		
+//		String regexNm="(prs_nm)\"[\\s]*:[\\s]*\\[*\"([^\"]+)\"\\]*";
+//		Pattern ptnNm = Pattern.compile(regexNm); 
+//		Matcher matcherNm = ptnNm.matcher(prnInfo); 
+//		while(matcherNm.find()){
+//			person.add(matcherNm.group(2));
+//		}
+//		
+//		
+////		int actIdx  = 0;
+////		int dicIdx = 0;
+////		
+////		for( String str : code  ) {
+////			
+////			if ( "")
+////			
+////			aa.replace("Actor"+String.valueOf(i), person.get(i) );
+////		}
+//		
+//		
+//		
+//		return "";
+//				
+//		
 //		
 //	}
 }

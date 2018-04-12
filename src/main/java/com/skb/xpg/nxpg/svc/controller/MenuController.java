@@ -104,7 +104,7 @@ public class MenuController {
 		Map<String, Object> bigbanner = menuService.getBlockBigBanner(ver, param);
 		Map<String, Object> blockblock = menuService.getBlockBlock(ver, param);
 		// 조회값 없음
-		
+
 		rtn.put("result", "0000");
 		if (bigbanner != null) {
 			rtn.putAll(bigbanner);

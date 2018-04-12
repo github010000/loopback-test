@@ -1,7 +1,16 @@
 package com.skb.xpg.nxpg.svc.rest;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.util.Base64;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.http.client.support.BasicAuthorizationInterceptor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
@@ -12,41 +21,52 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class RestClient {
 
 	private RestTemplate restTemplate;
-	/*
-	public String getRestUri(String uri, Map<String, String> msg, String param) {
-		HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory();
-		factory.setConnectTimeout(300);
-		factory.setReadTimeout(300);
-		restTemplate = new RestTemplate(factory);
-		restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor("user", "user123"));
-
-		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(uri);
-
-		String[] arrKey = param.split(",");
-		String key = "";
-		if (arrKey != null && builder != null) {
-			for (int y = 0; y < arrKey.length; y++) {
-				key = arrKey[y].toUpperCase();
-				if (msg.containsKey(key)) {
-					builder.queryParam(key, msg.get(key));
-				}
-			}
-		}
-
-		return restTemplate.getForObject(builder.build().encode().toUri(), String.class);
-	}
-
-	public String getRestUriSimple(String uri) {
-		restTemplate = new RestTemplate();
-		restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor("user", "user123"));
-
-		return restTemplate.getForObject(uri, String.class);
-	}
 	
-	*/
 	public String cwUrl = "";
 	public boolean sendBff = true;
 
+	public String apacheGet(String url) {
+		HttpClient client = HttpClientBuilder.create().build();
+		HttpGet request = new HttpGet(url);
+		
+		String encoding;
+		try {
+			encoding = Base64.getEncoder().encodeToString(("admin:admin").getBytes("UTF-8"));
+			request.addHeader("Authorization", "Basic " + encoding);
+		} catch (UnsupportedEncodingException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		
+		
+		HttpResponse response;
+		BufferedReader rd;
+		StringBuffer result = new StringBuffer();
+		try {
+			response = client.execute(request);
+			System.out.println("Response Code : " 
+					+ response.getStatusLine().getStatusCode());
+			rd = new BufferedReader(
+					new InputStreamReader(response.getEntity().getContent()));
+			
+			String line = "";
+			while ((line = rd.readLine()) != null) {
+				result.append(line);
+			}
+		} catch (ClientProtocolException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (UnsupportedOperationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return result.toString();
+	}
+	
 	public String getRestUri(String uri) {
 		restTemplate = new RestTemplate();
 		return restTemplate.getForObject(uri, String.class);
@@ -106,7 +126,9 @@ public class RestClient {
 			
 			try {
 				System.out.println(builder.build().encode().toUri());
-				json = restTemplate.getForObject(builder.build().encode().toUri(), String.class);
+//				json = restTemplate.getForObject(builder.build().encode().toUri(), String.class);
+				
+				json = apacheGet(builder.build().encode().toUri().toString());
 				System.out.println(json);
 			} catch (RestClientException e) {
 				e.printStackTrace();

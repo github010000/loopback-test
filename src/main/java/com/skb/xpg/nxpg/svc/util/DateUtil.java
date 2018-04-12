@@ -3,6 +3,7 @@ package com.skb.xpg.nxpg.svc.util;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -22,6 +23,44 @@ public class DateUtil {
 
 		return formatter.format(new Date());
 	}
+	
+	public static String getAddDate(String date, int hour) {
+		Locale currLocale = new Locale("KOREAN","KOREA");  
+		String pattern = "yyyyMMddHHmmss";
+		SimpleDateFormat formatter = new SimpleDateFormat(pattern, currLocale);
+		try {
+			Date time = formatter.parse(String.valueOf(date));
+			
+			Calendar c = Calendar.getInstance();
+	        c.setTime(time);
+	        c.add(Calendar.HOUR, hour);
+			
+	        Date dd = c.getTime();
+
+			return formatter.format(dd);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "";
+	}
+	
+	public static boolean doCompareSingle(String start, String end, String pattern) {
+		Locale currLocale = new Locale("KOREAN","KOREA");  
+//		String pattern = "yyyyMMdd";
+		SimpleDateFormat formatter = new SimpleDateFormat(pattern, currLocale);
+		
+		String today = formatter.format(new Date());
+		
+		if (start.matches("[0-9]{8}") && end.matches("[0-9]{8}")) {
+			
+			if (today.compareTo(start) >= 0 && today.compareTo(end) <= 0) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	
 	public static String getYYYYMMDDhhmmssms() {
 		Locale currLocale = new Locale("KOREAN","KOREA");  

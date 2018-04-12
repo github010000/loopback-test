@@ -40,8 +40,38 @@ user:
       uri: /v6/CW/ux/{cw_call_id}/page/section
       param: sectionId,sessionId,trackId,{param},itemType
       nxpgparam: section_id,session_id,track_id,{param},itemType
+    userpage:
+      uri: /v6/CW/users/{stb_id}
     user: admin
     password: admin
+    block:
+      cmpgn_apl_to_dt: 
+      cmpgn_nm: 
+      is_leaf: Y
+      cmpgn_fr_dt: 
+      dist_to_dt: null
+      menu_nm_exps_yn: 
+      menu_id: 
+      gnb_typ_cd: null
+      scn_mthd_cd: 
+      dist_fr_dt: null
+      cmpgn_to_dt: 
+      menu_exps_prop_cd: 
+      cmpgn_itlk_typ_cd: 
+      blk_typ_cd: "30"
+      exps_mthd_cd: "10"
+      svc_prop_cd: 
+      chrtr_menu_cat_cd: 
+      cmpgn_apl_fr_dt: 
+      call_typ_cd: 
+      cmpgn_id: 
+      call_url: 
+      menu_expl: 
+      menu_nm: 
+      pst_exps_typ_cd: 
+      lim_lvl_yn: N
+      menus: null
+    calltypcd: "22"
 spring:
   http:
     encoding:

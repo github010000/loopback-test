@@ -1,15 +1,23 @@
 package com.skb.xpg.nxpg.svc.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.skb.xpg.nxpg.svc.common.NXPGCommon;
+import com.skb.xpg.nxpg.svc.config.Properties;
 import com.skb.xpg.nxpg.svc.redis.RedisClient;
+import com.skb.xpg.nxpg.svc.rest.RestClient;
 import com.skb.xpg.nxpg.svc.util.CastUtil;
 import com.skb.xpg.nxpg.svc.util.DateUtil;
 
@@ -18,6 +26,25 @@ public class MenuService {
 
 	@Autowired
 	private RedisClient redisClient;
+	
+	@Autowired
+	private Properties properties;
+	
+	@Autowired
+	private RestClient restClient;
+	
+	@Autowired
+	@Qualifier("cwBaseUrl")
+	private String cwBaseUrl;
+	
+	@Autowired
+	@Qualifier("cwUser")
+	private String cwUser;
+	
+	@Autowired
+	@Qualifier("cwPassword")
+	private String cwPassword;
+	
 	
 	// IF-NXPG-001
 	public void getMenuGnb(String ver, Map<String, String> param, Map<String, Object> rtn) {
@@ -105,17 +132,55 @@ public class MenuService {
 			Map<String, Object> blockblock = CastUtil.StringToJsonMap((String) redisClient.hget("block_block", param.get("menu_stb_svc_id") + "_" + param.get("menu_id")));
 			List<Map<String, Object>> blocks = CastUtil.getObjectToMapList(blockblock.get("blocks"));
 			DateUtil.getCompare(blocks, "dist_fr_dt", "dist_to_dt", false);
+			List<Map<String, Object>>cwResult = new ArrayList<Map<String,Object>>();
+			Map<String, Object> cw = properties.getCw();
 			
-			for (Object block : blocks) {
-				Map<String, Object> map = CastUtil.getObjectToMap(block);
+			int i = 0;
+			
+			for (Iterator<Map<String,Object>> iterator = blocks.iterator(); iterator.hasNext() ; ) {
+//			for (Object block : blocks) {
+				Map<String, Object> map = CastUtil.getObjectToMap(iterator.next());
 
+				//CW menu로 대체한다.
+				if(cw.get("calltypcd").equals(map.get("call_typ_cd"))) {
+					
+					iterator.remove(); //CW를 호출하는 맵파일은 삭제한다.
+					i++; //블럭 카운트를 맞추기 위해 삭제한 개수만큼 증가
+					
+					List<String> menuData = cwCall(param);
+					Map<String, Object> keyAndValue;
+					
+					for(String temp:menuData) {
+						keyAndValue = CastUtil.getObjectToMap(cw.get("block"));
+						Map<String, Object> cwRtn = new HashMap<String, Object>();
+						cwRtn.putAll(keyAndValue);
+						String [] menuNtitle = temp.split("\\|");
+						cwRtn.put("menu_id", menuNtitle[0]);
+						cwRtn.put("menu_nm", menuNtitle[1]);
+						cwRtn.put("dist_to_dt", null);
+						cwRtn.put("gnb_typ_cd", null);
+						cwRtn.put("dist_fr_dt", null);
+						cwRtn.put("menus", null);
+						
+						cwResult.add(cwRtn);
+					}
+					
+				}
+				
 				Map<String, Object> gridbanner = getGridBanner(param.get("menu_stb_svc_id") + "_" + map.get("menu_id").toString());
 				map.put("menus", null);
 				if (gridbanner != null) {
 					map.put("menus", gridbanner.get("banners"));
 				}
 			}
-			blockblock.put("block_count", blockblock.get("total_count"));
+			
+			for(Map<String, Object>temp:cwResult) {
+				blocks.add(temp);
+			}
+			
+			double totalCount = (double)blockblock.get("total_count");
+			
+			blockblock.put("block_count", totalCount + cwResult.size()-i);
 			blockblock.remove("total_count");
 			return blockblock;
 		} catch (Exception e) {
@@ -187,6 +252,39 @@ public class MenuService {
 			e.printStackTrace();
 			
 		}
+	}
+	
+	
+	public List<String> cwCall(Map<String, String> param){
+
+		List<String> menuData = null;
+
+		Map<String, Object> cw = properties.getCw();
+		Map<String, Object> keyAndValue;
+		
+		String cwparam = "";
+
+		keyAndValue = CastUtil.getObjectToMap(cw.get("userpage"));
+					
+		String path = keyAndValue.get("uri").toString();
+		String regex = "\\{(.*?)\\}";
+		path = path.replaceAll(regex, param.get("stb_id"));
+
+		String rest = null;
+		rest = restClient.getRestUri(cwBaseUrl + path, cwUser, cwPassword, cwparam);
+		
+		
+		//시리즈아이디, 에피소드아이디 추출로직
+		String regexMenuId="\\\"MenuIdPreferred\\\"[\\s]*:[\\s]*\\[\"(.*?)\"\\],";
+		Pattern ptn = Pattern.compile(regexMenuId); 
+		Matcher matcher = ptn.matcher(rest); 
+		while(matcher.find()){
+			menuData = Arrays.asList((matcher.group(1)).split("\\,"));
+			break;
+		}
+		System.out.println(menuData.toString());
+		
+		return menuData;
 	}
 	
 }
