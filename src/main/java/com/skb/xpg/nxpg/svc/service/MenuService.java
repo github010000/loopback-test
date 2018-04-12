@@ -1,5 +1,6 @@
 package com.skb.xpg.nxpg.svc.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -130,35 +131,51 @@ public class MenuService {
 	}
 	
 	// IF-NXPG-005
-	public Map<String, Object> getBlockMonth(String ver, Map<String, String> param) {
+	public void getBlockMonth(Map<String, Object> rtn, Map<String, String> param) {
 		try {
+			Map<String, Object> bigbanner = CastUtil.StringToJsonMap((String) redisClient.hget("big_banner", param.get("menu_stb_svc_id") + "_" + param.get("menu_id")));
 			Map<String, Object> blockblock = CastUtil.StringToJsonMap((String) redisClient.hget("block_block", param.get("menu_id")));
-			List<Map<String, Object>> blocks = CastUtil.getObjectToMapList(blockblock.get("blocks"));
-			for (Object block : blocks) {
-				Map<String, Object> map = CastUtil.getObjectToMap(block);
-				
-				List gridbanner = getGridMonth(map.get("menu_id").toString());
-				System.out.println(gridbanner.toString());
-				
-				map.put("menus", gridbanner);
-			}
+			
 			blockblock.put("block_count", blockblock.get("total_count"));
 			blockblock.remove("total_count");
-			return blockblock;
+			
+			
+			List<Object> monthList = CastUtil.StringToJsonList((String) redisClient.hget("block_month", param.get("menu_stb_svc_id")));
+			
+			List<Map<String, Object>> user_month = new ArrayList<Map<String, Object>>();
+			for (Object month : monthList) {
+				Map<String, Object> tempMonth = CastUtil.getObjectToMap(month);
+				if (tempMonth.get("prd_prc_id") != null) {
+					String tm = tempMonth.get("prd_prc_id") + "";
+					if (param.get("prd_prc_id_lst").contains(tm)) {
+						List<Map<String, Object>> lowrank = CastUtil.getObjectToMapList(tempMonth.get("low_rank_products"));
+						if (lowrank == null || lowrank.size() < 1) {
+							user_month.add(tempMonth);
+						} else {
+							for (Map<String, Object> low : lowrank) {
+								user_month.add(low);
+							}
+						}
+					}
+				}
+			}
+			// 성공
+			rtn.put("result", "0000");
+			if (bigbanner != null) {
+				rtn.putAll(bigbanner);
+			}
+			if (blockblock != null) {
+				rtn.putAll(blockblock);
+			}
+			rtn.put("month", user_month);
+			// 카운트 넣어주기 
+//				if (bigbanner != null) rtn.put("total_count", bigbanner.size());
+			
 		} catch (Exception e) {
+			rtn.put("result", "9999");
 			e.printStackTrace();
-			return null;
+			
 		}
 	}
 	
-	// IF-NXPG-005
-	public List getGridMonth(String menu_id) {
-		try {
-			System.out.println(redisClient.hget("block_month", menu_id));
-			return CastUtil.StringToJsonList((String) redisClient.hget("block_month", menu_id));
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
 }

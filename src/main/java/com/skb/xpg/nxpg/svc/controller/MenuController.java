@@ -1,7 +1,6 @@
 package com.skb.xpg.nxpg.svc.controller;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -137,26 +136,20 @@ public class MenuController {
 		rtn.putAll(result);
 		rtn.put("IF", IF);
 		rtn.put("request_time", DateUtil.getYYYYMMDDhhmmss());
-		
+
+		if (StrUtil.isEmpty(param.get("prd_prc_id_lst"))) {
+
+			rtn.put("result", "9996");
+			rtn.put("reason", "prd_prc_id_lst - 상품아이디 값 없음");
+		}
 		if (StrUtil.isEmpty(param.get("menu_stb_svc_id"))) {
 			param.put("menu_stb_svc_id", defaults.get("menu_stb_svc_id"));
 		}
 		
 		// 값 불러오기 
-		Map<String, Object> bigbanner = menuService.getBlockBigBanner(ver, param);
-		Map<String, Object> month = menuService.getBlockMonth(ver, param);
+		menuService.getBlockMonth(rtn, param);
 		// 조회값 없음
-		if (month == null) {
-			rtn.put("result", "9998");
-		}
-		// 성공
-		else {
-			rtn.put("result", "0000");
-			rtn.putAll(bigbanner);
-			rtn.putAll(month);
-			// 카운트 넣어주기 
-//			if (bigbanner != null) rtn.put("total_count", bigbanner.size());
-		}
+		
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
 		return rtn;
 	}
