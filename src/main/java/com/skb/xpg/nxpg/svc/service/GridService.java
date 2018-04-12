@@ -59,7 +59,11 @@ public class GridService {
 	public Map<String, Object> getGridEvent(String ver, Map<String, String> param) {
 		try {
 			Map<String, Object> gridBanner = CastUtil.StringToJsonMap((String) redisClient.hget("grid_banner", param.get("menu_stb_svc_id") + "_" + param.get("menu_id")));
-			List<Map<String, Object>> banners = CastUtil.getObjectToMapList(gridBanner.get("banners"));
+
+			List<Map<String, Object>> banners = null;
+			if (gridBanner.get("banners") != null) {
+				banners = CastUtil.getObjectToMapList(gridBanner.get("banners"));
+			}
 			DateUtil.getCompare(banners, "dist_fr_dt", "dist_to_dt", false);
 			
 			return gridBanner;

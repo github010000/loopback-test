@@ -6,7 +6,6 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.skb.xpg.nxpg.svc.common.NXPGCommon;
 import com.skb.xpg.nxpg.svc.redis.RedisClient;
 import com.skb.xpg.nxpg.svc.util.CastUtil;
 import com.skb.xpg.nxpg.svc.util.DateUtil;
@@ -16,10 +15,15 @@ public class KidsService {
 
 	@Autowired
 	private RedisClient redisClient;
+	@Autowired
+	ContentsService contentsService;
 	
 	// IF-NXPG-101
 	public List getMenuKzchar(String ver, Map<String, String> param) {
 		try {
+			List<Object> kzchar = CastUtil.StringToJsonList((String) redisClient.hget("menu_kidsGnb", param.get("menu_stb_svc_id")));
+			DateUtil.getCompareObject(kzchar, "dist_fr_dt", "dist_to_dt", false);
+			
 			return CastUtil.StringToJsonList((String) redisClient.hget("menu_kidsCharacter", param.get("menu_stb_svc_id")));
 		} catch (Exception e) {
 			return null;
@@ -28,6 +32,9 @@ public class KidsService {
 	// IF-NXPG-102
 	public List getMenuKzgnb(String ver, Map<String, String> param) {
 		try {
+			List<Object> kzgnb = CastUtil.StringToJsonList((String) redisClient.hget("menu_kidsGnb", param.get("menu_stb_svc_id")));
+			DateUtil.getCompareObject(kzgnb, "dist_fr_dt", "dist_to_dt", false);
+			
 			return CastUtil.StringToJsonList((String) redisClient.hget("menu_kidsGnb", param.get("menu_stb_svc_id")));
 		} catch (Exception e) {
 			return null;
@@ -57,11 +64,30 @@ public class KidsService {
 		}
 	}
 	// IF-NXPG-403
-	public Map<String, Object> getContentsLftsynop(String ver, Map<String, String> param) {
+	public void getContentsLftsynop(Map<String, Object> rtn, Map<String, String> param) {
 		try {
-			return CastUtil.StringToJsonMap((String) redisClient.hget("synopsis_liveChildStory", param.get("sris_id")));
+			Map<String, Object> synop = CastUtil.StringToJsonMap((String) redisClient.hget("synopsis_liveChildStory", param.get("epsd_id")));
+			
+			contentsService.getContentsCorner(synop, param.get("epsd_id"));
+			
+			if (synop.containsKey("sris_id") && synop.get("sris_id") != null) {
+				Map<String, Object> purchares = contentsService.getContentsPurchares(synop.get("sris_id").toString());
+				if (purchares != null && purchares.get("products") != null) {
+					List<Map<String, Object>> products = CastUtil.getObjectToMapList(purchares.get("products"));
+					DateUtil.getCompare(products, "prd_prc_fr_dt", "purc_wat_to_dt", true);
+					rtn.put("purchares", purchares.get("products"));
+				}
+				rtn.put("result", "0000");
+				rtn.put("contents", synop);
+			} else {
+				rtn.put("result", "9999");
+				rtn.put("contents", null);
+				
+			}
+			
 		} catch (Exception e) {
-			return null;
+			e.printStackTrace();
+			
 		}
 	}
 }

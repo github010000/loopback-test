@@ -25,7 +25,7 @@ public class MenuService {
 			String redisData = (String) redisClient.hget(NXPGCommon.MENU_GNB, param.get("menu_stb_svc_id"));
 			if (!"".equals(redisData) && redisData != null) {
 				List<Object> menugnb = CastUtil.StringToJsonList(redisData);
-				List<Map<String, Object>> data = (List<Map<String, Object>>) CastUtil.getObjectToMapList(menugnb);
+				List<Map<String, Object>> data = CastUtil.getObjectToMapList(menugnb);
 				DateUtil.getCompare(data, "dist_fr_dt", "dist_to_dt", true);
 
 				String version = StringUtils.defaultIfEmpty((String) redisClient.hget("version", NXPGCommon.MENU_GNB), "");

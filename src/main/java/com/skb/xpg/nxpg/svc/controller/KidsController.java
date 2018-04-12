@@ -225,16 +225,12 @@ public class KidsController {
 		}
 
 		// 값 불러오기
-		Map<String, Object> map = kidsService.getContentsLftsynop(ver, param);
+		kidsService.getContentsLftsynop(rtn, param);
 		// 조회값 없음
-		if (map == null) {
-			rtn.put("result", "9998");
-		}
+		
 		// 성공
-		else {
-			rtn.put("result", "0000");
-			rtn.put("contents", map);
-		}
+		
+		
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
 		return rtn;
 	}

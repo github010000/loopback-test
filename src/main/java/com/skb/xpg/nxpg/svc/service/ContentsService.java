@@ -17,6 +17,7 @@ import com.skb.xpg.nxpg.svc.common.NXPGCommon;
 import com.skb.xpg.nxpg.svc.config.Properties;
 import com.skb.xpg.nxpg.svc.redis.RedisClient;
 import com.skb.xpg.nxpg.svc.util.CastUtil;
+import com.skb.xpg.nxpg.svc.util.DateUtil;
 import com.skb.xpg.nxpg.svc.util.StrUtil;
 
 @Service
@@ -156,6 +157,8 @@ public class ContentsService {
 
 				Map<String, Object> purchares = getContentsPurchares(sris_id);
 				if (purchares != null && purchares.get("products") != null) {
+					List<Map<String, Object>> products = CastUtil.getObjectToMapList(purchares.get("products"));
+					DateUtil.getCompare(products, "prd_prc_fr_dt", "purc_wat_to_dt", true);
 					rtn.put("purchares", purchares.get("products"));
 				}
 			}
