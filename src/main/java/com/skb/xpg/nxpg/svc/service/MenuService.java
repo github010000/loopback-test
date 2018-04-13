@@ -221,16 +221,14 @@ public class MenuService {
 	public void getBlockMonth(Map<String, Object> rtn, Map<String, String> param) {
 		try {
 			Map<String, Object> bigbanner = CastUtil.StringToJsonMap((String) redisClient.hget("big_banner", param.get("menu_stb_svc_id") + "_" + param.get("menu_id")));
-			Map<String, Object> blockblock = CastUtil.StringToJsonMap((String) redisClient.hget("block_block", param.get("menu_id")));
+			
+			Map<String, Object> blockblock = null;
+//			Map<String, Object> blockblock = CastUtil.StringToJsonMap((String) redisClient.hget("block_block", param.get("menu_id")));
+			
+			List<Map<String, Object>> newBlocks = new ArrayList<Map<String, Object>>();
 			
 			List<Map<String, Object>> banners = CastUtil.getObjectToMapList(bigbanner.get("banners"));
 			DateUtil.getCompare(banners, "dist_fr_dt", "dist_to_dt", false);
-			List<Map<String, Object>> blocks = CastUtil.getObjectToMapList(blockblock.get("blocks"));
-			DateUtil.getCompare(blocks, "dist_fr_dt", "dist_to_dt", false);
-			
-			blockblock.put("block_count", blockblock.get("total_count"));
-			blockblock.remove("total_count");
-			
 			
 			List<Object> monthList = CastUtil.StringToJsonList((String) redisClient.hget("block_month", param.get("menu_stb_svc_id")));
 			
@@ -248,20 +246,35 @@ public class MenuService {
 								user_month.add(low);
 							}
 						}
+//						blockblock.put("block_count", blockblock.get("total_count"));
+//						blockblock.remove("total_count");
 					}
 				}
 			}
-			DateUtil.getCompare(user_month, "dist_fr_dt", "dist_to_dt", false);
+			
+			for (Map<String, Object> month_item : user_month) {
+				blockblock = CastUtil.StringToJsonMap((String) redisClient.hget("block_block", month_item.get("menu_id") + ""));
+				if (blockblock != null && !blockblock.isEmpty()) {
+					List<Map<String, Object>> blocks = CastUtil.getObjectToMapList(blockblock.get("blocks"));
+					DateUtil.getCompare(blocks, "dist_fr_dt", "dist_to_dt", false);
+					
+					newBlocks.addAll(blocks);
+				}
+			}
+			
 			
 			// 성공
 			rtn.put("result", "0000");
 			if (bigbanner != null) {
 				rtn.putAll(bigbanner);
 			}
-			if (blockblock != null) {
-				rtn.putAll(blockblock);
+			if (newBlocks != null) {
+				rtn.put("blocks", newBlocks);
+				rtn.put("block_count", newBlocks.size());
 			}
 			rtn.put("month", user_month);
+			
+			
 			// 카운트 넣어주기 
 //				if (bigbanner != null) rtn.put("total_count", bigbanner.size());
 			

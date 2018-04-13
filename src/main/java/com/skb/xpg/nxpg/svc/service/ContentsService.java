@@ -1,5 +1,7 @@
 package com.skb.xpg.nxpg.svc.service;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -150,6 +152,18 @@ public class ContentsService {
 				getContentsCorner(sris, epsd_id);
 				getContentsPreview(sris, sris_id);
 				getContentsReview(sris, sris_id);
+
+				sris.put("combine_product_yn", "N");
+				if (param.containsKey("ukey_prd_id")) {
+					List<Map<String, Object>> ukeyList = CastUtil.getObjectToMapList(sris.get("ukey_products"));
+					for (Map<String, Object> ukey : ukeyList) {
+						if (ukey.containsKey("ukey_prd_id")) {
+							if (ukey.get("ukey_prd_id").equals(param.get("ukey_prd_id"))) {
+								sris.put("combine_product_yn", "Y");
+							}
+						}
+					}
+				}
 				
 				sris.put("series_info", getContentsSeries(sris_id));
 				rtn.put("result", "0000");
