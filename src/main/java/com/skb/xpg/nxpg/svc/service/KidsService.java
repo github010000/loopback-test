@@ -34,27 +34,32 @@ public class KidsService {
 	// IF-NXPG-102
 	public void getMenuKzgnb(Map<String, Object> rtn, Map<String, String> param) {
 		try {
-			List<Object> kzgnb = CastUtil.StringToJsonList((String) redisClient.hget("menu_kidsGnb", param.get("menu_stb_svc_id")));
-			
 			String version = StringUtils.defaultIfEmpty((String) redisClient.hget("version", "menu_kidsGnb"), "");
 			
-			if (kzgnb == null) {
-				rtn.put("result", "9998");
-			}
-			// 성공
-			else {
-				DateUtil.getCompareObject(kzgnb, "dist_fr_dt", "dist_to_dt", false);
-				if (param.containsKey("version") && !param.get("version").isEmpty() && param.get("version").compareTo(version) >= 0) {
-					rtn.put("reason", "최신버전");
-				}
+			if (version != null && param.containsKey("version")
+					&& !version.isEmpty() && param.get("version").compareTo(version) >= 0) {
+				rtn.put("reason", "최신버전");
 				rtn.put("result", "0000");
-				rtn.put("menus", kzgnb);
-				// 카운트 넣어주기
-				if (kzgnb != null)
-					rtn.put("total_count", kzgnb.size());
+				rtn.put("version", version);
+			} else {
+				
+				List<Object> kzgnb = CastUtil.StringToJsonList((String) redisClient.hget("menu_kidsGnb", param.get("menu_stb_svc_id")));
+				
+				if (kzgnb == null) {
+					rtn.put("result", "9998");
+				} else {
+					DateUtil.getCompareObject(kzgnb, "dist_fr_dt", "dist_to_dt", false);
+					
+					rtn.put("result", "0000");
+					rtn.put("menus", kzgnb);
+					// 카운트 넣어주기
+					if (kzgnb != null) {
+						rtn.put("total_count", kzgnb.size());
+					}
+				}
 			}
-			
 		} catch (Exception e) {
+			
 		}
 	}
 	// IF-NXPG-401

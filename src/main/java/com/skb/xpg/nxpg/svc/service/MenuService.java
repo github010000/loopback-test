@@ -49,30 +49,35 @@ public class MenuService {
 	// IF-NXPG-001
 	public void getMenuGnb(String ver, Map<String, String> param, Map<String, Object> rtn) {
 		try {
-			String redisData = (String) redisClient.hget(NXPGCommon.MENU_GNB, param.get("menu_stb_svc_id"));
-			if (!"".equals(redisData) && redisData != null) {
-				List<Object> menugnb = CastUtil.StringToJsonList(redisData);
-				List<Map<String, Object>> data = CastUtil.getObjectToMapList(menugnb);
-				DateUtil.getCompare(data, "dist_fr_dt", "dist_to_dt", true);
-
-				String version = StringUtils.defaultIfEmpty((String) redisClient.hget("version", NXPGCommon.MENU_GNB), "");
-
-				if (data == null) {
-					rtn.put("result", "9998");
-				} else {
-					if (param.containsKey("version") && !param.get("version").isEmpty() && param.get("version").compareTo(version) >= 0) {
-						rtn.put("reason", "최신버전");
-					}
-					rtn.put("version", version);
-					rtn.put("result", "0000");
-					rtn.put("menus", data);
-					// 카운트 넣어주기
-					if (data != null) {
-						rtn.put("total_count", data.size());
-					}
-				}
+			String version = StringUtils.defaultIfEmpty((String) redisClient.hget("version", NXPGCommon.MENU_GNB), "");
+			
+			if (version != null && param.containsKey("version")
+					&& !version.isEmpty() && param.get("version").compareTo(version) >= 0) {
+				rtn.put("reason", "최신버전");
+				rtn.put("result", "0000");
+				rtn.put("version", version);
 			} else {
-				rtn.put("result", "9998");
+				String redisData = (String) redisClient.hget(NXPGCommon.MENU_GNB, param.get("menu_stb_svc_id"));
+				if (!"".equals(redisData) && redisData != null) {
+					List<Object> menugnb = CastUtil.StringToJsonList(redisData);
+					List<Map<String, Object>> data = CastUtil.getObjectToMapList(menugnb);
+					DateUtil.getCompare(data, "dist_fr_dt", "dist_to_dt", true);
+
+					if (data == null) {
+						rtn.put("result", "9998");
+					} else {
+						
+						rtn.put("version", version);
+						rtn.put("result", "0000");
+						rtn.put("menus", data);
+						// 카운트 넣어주기
+						if (data != null) {
+							rtn.put("total_count", data.size());
+						}
+					}
+				} else {
+					rtn.put("result", "9998");
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -82,32 +87,38 @@ public class MenuService {
 	// IF-NXPG-002
 	public void getMenuAll(String ver, Map<String, String> param, Map<String, Object> rtn) {
 		try {
-			String redisData = (String) redisClient.hget(NXPGCommon.MENU_ALL, param.get("menu_stb_svc_id"));
-			if(!"".equals(redisData) && redisData != null) {
-				List<Object> menuall = CastUtil.StringToJsonList(redisData);
-				List<Map<String, Object>> data = (List<Map<String, Object>>) CastUtil.getObjectToMapList(menuall);
-				DateUtil.getCompare(data, "dist_fr_dt", "dist_to_dt", true);
-				
-				String version = StringUtils.defaultIfEmpty((String) redisClient.hget("version",NXPGCommon.MENU_ALL), "");
-				
-				// 조회값 없음
-				if (data == null) {
+
+			String version = StringUtils.defaultIfEmpty((String) redisClient.hget("version",NXPGCommon.MENU_ALL), "");
+			
+			if (version != null && param.containsKey("version")
+					&& !version.isEmpty() && param.get("version").compareTo(version) >= 0) {
+				rtn.put("reason", "최신버전");
+				rtn.put("result", "0000");
+				rtn.put("version", version);
+			} else {
+				String redisData = (String) redisClient.hget(NXPGCommon.MENU_ALL, param.get("menu_stb_svc_id"));
+				if(!"".equals(redisData) && redisData != null) {
+					List<Object> menuall = CastUtil.StringToJsonList(redisData);
+					List<Map<String, Object>> data = (List<Map<String, Object>>) CastUtil.getObjectToMapList(menuall);
+					DateUtil.getCompare(data, "dist_fr_dt", "dist_to_dt", true);
+					
+					// 조회값 없음
+					if (data == null) {
+						rtn.put("result", "9998");
+					}
+					// 성공
+					else {
+						rtn.put("version", version);
+						rtn.put("result", "0000");
+						rtn.put("menus", data);
+						// 카운트 넣어주기 
+						if (data != null) rtn.put("total_count", data.size());
+					}
+				}else {
 					rtn.put("result", "9998");
 				}
-				// 성공
-				else {
-					if (param.containsKey("version") && !param.get("version").isEmpty() && param.get("version").compareTo(version) >= 0) {
-						rtn.put("reason", "최신버전");
-					}
-					rtn.put("version", version);
-					rtn.put("result", "0000");
-					rtn.put("menus", data);
-					// 카운트 넣어주기 
-					if (data != null) rtn.put("total_count", data.size());
-				}
-			}else {
-				rtn.put("result", "9998");
 			}
+			
 			
 		} catch (Exception e) {
 			e.printStackTrace();
