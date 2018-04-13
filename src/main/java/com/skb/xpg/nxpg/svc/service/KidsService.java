@@ -3,9 +3,11 @@ package com.skb.xpg.nxpg.svc.service;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.skb.xpg.nxpg.svc.common.NXPGCommon;
 import com.skb.xpg.nxpg.svc.redis.RedisClient;
 import com.skb.xpg.nxpg.svc.util.CastUtil;
 import com.skb.xpg.nxpg.svc.util.DateUtil;
@@ -30,14 +32,29 @@ public class KidsService {
 		}
 	}
 	// IF-NXPG-102
-	public List getMenuKzgnb(String ver, Map<String, String> param) {
+	public void getMenuKzgnb(Map<String, Object> rtn, Map<String, String> param) {
 		try {
 			List<Object> kzgnb = CastUtil.StringToJsonList((String) redisClient.hget("menu_kidsGnb", param.get("menu_stb_svc_id")));
-			DateUtil.getCompareObject(kzgnb, "dist_fr_dt", "dist_to_dt", false);
 			
-			return CastUtil.StringToJsonList((String) redisClient.hget("menu_kidsGnb", param.get("menu_stb_svc_id")));
+			String version = StringUtils.defaultIfEmpty((String) redisClient.hget("version", "menu_kidsGnb"), "");
+			
+			if (kzgnb == null) {
+				rtn.put("result", "9998");
+			}
+			// 성공
+			else {
+				DateUtil.getCompareObject(kzgnb, "dist_fr_dt", "dist_to_dt", false);
+				if (param.containsKey("version") && !param.get("version").isEmpty() && param.get("version").compareTo(version) >= 0) {
+					rtn.put("reason", "최신버전");
+				}
+				rtn.put("result", "0000");
+				rtn.put("menus", kzgnb);
+				// 카운트 넣어주기
+				if (kzgnb != null)
+					rtn.put("total_count", kzgnb.size());
+			}
+			
 		} catch (Exception e) {
-			return null;
 		}
 	}
 	// IF-NXPG-401

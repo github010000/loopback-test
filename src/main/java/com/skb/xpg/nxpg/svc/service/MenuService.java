@@ -60,12 +60,16 @@ public class MenuService {
 				if (data == null) {
 					rtn.put("result", "9998");
 				} else {
+					if (param.containsKey("version") && !param.get("version").isEmpty() && param.get("version").compareTo(version) >= 0) {
+						rtn.put("reason", "최신버전");
+					}
 					rtn.put("version", version);
 					rtn.put("result", "0000");
 					rtn.put("menus", data);
 					// 카운트 넣어주기
-					if (data != null)
+					if (data != null) {
 						rtn.put("total_count", data.size());
+					}
 				}
 			} else {
 				rtn.put("result", "9998");
@@ -92,6 +96,9 @@ public class MenuService {
 				}
 				// 성공
 				else {
+					if (param.containsKey("version") && !param.get("version").isEmpty() && param.get("version").compareTo(version) >= 0) {
+						rtn.put("reason", "최신버전");
+					}
 					rtn.put("version", version);
 					rtn.put("result", "0000");
 					rtn.put("menus", data);

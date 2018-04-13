@@ -86,19 +86,9 @@ public class KidsController {
 		}
 	
 		// 값 불러오기
-		List list = kidsService.getMenuKzgnb(ver, param);
+		kidsService.getMenuKzgnb(rtn, param);
 		// 조회값 없음
-		if (list == null) {
-			rtn.put("result", "9998");
-		}
-		// 성공
-		else {
-			rtn.put("result", "0000");
-			rtn.put("menus", list);
-			// 카운트 넣어주기
-			if (list != null)
-				rtn.put("total_count", list.size());
-		}
+		
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
 		return rtn;
 	}

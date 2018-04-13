@@ -36,21 +36,20 @@ public class AddedService {
     }
 
     // IF-NXPG-018
-	public Map<String, Object> getRealTimeChannel() {
+	public void getRealTimeChannel(Map<String, Object> rtn) {
 //		Map<String, Object> result = (Map<String, Object>)redisClient.hget(XpgCommon.NXTCHANNELRATING, XpgCommon.NXTCHANNELRATING);
-		Map<String, Object> result = null;
-		Object tempObj = redisClient.hget("nxtChannelRating", "nxtChannelRating");
-		if( tempObj instanceof Map){
-			result = (Map<String, Object>) tempObj;
+		List<Object> rating = null;
+		String json = (String) redisClient.hget("channel_rating", "channel_rating");
+		if(json instanceof String){
+			rating = CastUtil.StringToJsonList(json);
 		}
-		if(result != null) {
-			result.put("result", "0000");
-        	result.put("reason", "");
-        } else {
-        	result = new HashMap<String, Object>();
-        	result.put("result", "9999");
-        	result.put("reason", "실시간 채널순위 데이터가 없습니다.");
-        }
-		return result;
+		if (rating != null) {
+			rtn.put("result", "0000");
+			rtn.put("reason", "");
+			rtn.put("rating", rating);
+		} else {
+			rtn.put("result", "9999");
+			rtn.put("reason", "실시간 채널순위 데이터가 없습니다.");
+		}
 	}
 }

@@ -108,16 +108,8 @@ public class AddedController {
 //        }
         
         // 값 불러오기 
-        Object resultMap = epgService.getRealTimeChannel();
-        // 조회값 없음
-        if (resultMap == null) {
-            rtn.put("result", "9998");
-        }
-        // 성공
-        else {
-            rtn.put("result", "0000");
-            rtn.put("channel", resultMap);
-        }
+        epgService.getRealTimeChannel(rtn);
+        
         rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
         return rtn;
     }
