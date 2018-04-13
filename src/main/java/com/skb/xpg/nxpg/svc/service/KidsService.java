@@ -35,12 +35,12 @@ public class KidsService {
 	public void getMenuKzgnb(Map<String, Object> rtn, Map<String, String> param) {
 		try {
 			String version = StringUtils.defaultIfEmpty((String) redisClient.hget("version", "menu_kidsGnb"), "");
+			rtn.put("version", version);
 			
 			if (version != null && param.containsKey("version")
 					&& !version.isEmpty() && param.get("version").compareTo(version) >= 0) {
 				rtn.put("reason", "최신버전");
 				rtn.put("result", "0000");
-				rtn.put("version", version);
 			} else {
 				
 				List<Object> kzgnb = CastUtil.StringToJsonList((String) redisClient.hget("menu_kidsGnb", param.get("menu_stb_svc_id")));
