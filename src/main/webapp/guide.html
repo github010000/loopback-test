@@ -6,10 +6,11 @@
 	<script src="jquery-3.2.1.min.js"></script>
 	<style>
 		ul {
+			display: block;
 			margin: 10px 0 10px 0;
 		}
 		
-		ul li {
+		#gnb li {
 			display: block;
 			float: left;
 			margin: 0px 5px 0 5px;
@@ -23,10 +24,33 @@
 			clear: both;
 			margin-bottom: 10px;
 		}
+		
+		.grid div {
+			display: inline-block;
+			width: 80px;
+			height: 120px;
+			border: 1px solid #777;
+			float: left;
+			margin: 0px 5px 0 5px;
+		}
+		
+		#block div {
+			display: block;
+		}
+		
+		#block div div {
+			display: block;
+		}
+		
+		#block div div div {
+			display: block;
+			float: left;
+			font-size: 0.5em;
+		}
 	</style>
 </head>
 <body>
-	<b>GNB</b>
+	<b>GNB (001)</b>
 	<ul id="gnb">
 		
 	</ul>
@@ -49,20 +73,54 @@
 				
 				$("#gnb li a").click(function() {
 					var menu_id = $(this).parent().find("span").text();
-					
-					$.ajax({    
-						type : "GET",
-						url : "/v5/menu/block?menu_stb_svc_id=UI50_BSUHD2&IF=IF-NXPG-003&stb_id=1234&menu_id=" + menu_id,
-						success : function(args) {
-							$("#block").empty();
-							for (var r in args.blocks) {
-								$("#block").append("<li><a href='#'>" + args.blocks[r].menu_nm + "</a><span>" + args.blocks[r].menu_id + "</span></li>");
-							}
-						}
-					});
+					goBlock(menu_id);
 				});
 			}
 		});
 	});
+	
+	function goBlock(menu_id) {
+		
+		$.ajax({    
+			type : "GET",
+			url : "/v5/menu/block?menu_stb_svc_id=UI50_BSUHD2&IF=IF-NXPG-003&stb_id=1234&menu_id=" + menu_id,
+			success : function(args) {
+				$("#block").empty();
+				var temp = "";
+				for (var r in args.blocks) {
+					temp = "<div>";
+					temp += "<strong>" + args.blocks[r].menu_nm + " : " + args.blocks[r].menu_id + "</strong>";
+					temp += "<div class='grid' id='" + args.blocks[r].menu_id + "'></div>";
+					temp += "</div>";
+					temp += "<div class='clearAll'></div>";
+					$("#block").append(temp);
+				}
+				
+				goGrid();
+			}
+		});
+	}
+	
+	function goGrid() {
+		
+		var tempArray = new Array();
+		$("#block div div").each(function(){
+			var id = $(this).attr("id");
+			$.ajax({    
+				type : "GET",
+				url : "/v5/grid/grid?menu_stb_svc_id=UI50_BSUHD2&IF=IF-NXPG-006&stb_id=2345&page_no=1&page_cnt=20&menu_id=" + id,
+				success : function(args) {
+					//$(this).empty();
+					
+					for (var r in args.contents) {
+						$("#" + id).append("<div><a href='#'>" + args.contents[r].title + "</a><span>" + args.contents[r].epsd_id + "</span></div>");
+						//$("#" + id).append("<li><a href='#'>asdf</a></li>");
+					}
+					
+				}
+			});
+		});
+		
+	}
 
 </script>

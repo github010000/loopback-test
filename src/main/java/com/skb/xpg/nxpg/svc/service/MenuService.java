@@ -148,59 +148,63 @@ public class MenuService {
 		try {
 			
 			Map<String, Object> blockblock = CastUtil.StringToJsonMap((String) redisClient.hget("block_block", param.get("menu_stb_svc_id") + "_" + param.get("menu_id")));
-			List<Map<String, Object>> blocks = CastUtil.getObjectToMapList(blockblock.get("blocks"));
-			DateUtil.getCompare(blocks, "dist_fr_dt", "dist_to_dt", false);
-			List<Map<String, Object>>cwResult = new ArrayList<Map<String,Object>>();
-			Map<String, Object> cw = properties.getCw();
 			
-			int i = 0;
-			
-			for (Iterator<Map<String,Object>> iterator = blocks.iterator(); iterator.hasNext() ; ) {
-//			for (Object block : blocks) {
-				Map<String, Object> map = CastUtil.getObjectToMap(iterator.next());
+			if (blockblock != null && blockblock.get("blocks") != null) {
+				List<Map<String, Object>> blocks = CastUtil.getObjectToMapList(blockblock.get("blocks"));
+				DateUtil.getCompare(blocks, "dist_fr_dt", "dist_to_dt", false);
+				List<Map<String, Object>>cwResult = new ArrayList<Map<String,Object>>();
+				Map<String, Object> cw = properties.getCw();
+				
+				int i = 0;
+				
+				for (Iterator<Map<String,Object>> iterator = blocks.iterator(); iterator.hasNext() ; ) {
+//				for (Object block : blocks) {
+					Map<String, Object> map = CastUtil.getObjectToMap(iterator.next());
 
-				//CW menu로 대체한다.
-				if(cw.get("calltypcd").equals(map.get("call_typ_cd"))) {
-					
-					iterator.remove(); //CW를 호출하는 맵파일은 삭제한다.
-					i++; //블럭 카운트를 맞추기 위해 삭제한 개수만큼 증가
-					
-					List<String> menuData = cwCall(param);
-					Map<String, Object> keyAndValue;
-					if (menuData != null) {
-						for(String temp:menuData) {
-							keyAndValue = CastUtil.getObjectToMap(cw.get("block"));
-							Map<String, Object> cwRtn = new HashMap<String, Object>();
-							cwRtn.putAll(keyAndValue);
-							String [] menuNtitle = temp.split("\\|");
-							cwRtn.put("menu_id", menuNtitle[0]);
-							cwRtn.put("menu_nm", menuNtitle[1]);
-							cwRtn.put("dist_to_dt", null);
-							cwRtn.put("gnb_typ_cd", null);
-							cwRtn.put("dist_fr_dt", null);
-							cwRtn.put("menus", null);
-							
-							cwResult.add(cwRtn);
+					//CW menu로 대체한다.
+					if(cw.get("calltypcd").equals(map.get("call_typ_cd"))) {
+						
+						iterator.remove(); //CW를 호출하는 맵파일은 삭제한다.
+						i++; //블럭 카운트를 맞추기 위해 삭제한 개수만큼 증가
+						
+						List<String> menuData = cwCall(param);
+						Map<String, Object> keyAndValue;
+						if (menuData != null) {
+							for(String temp:menuData) {
+								keyAndValue = CastUtil.getObjectToMap(cw.get("block"));
+								Map<String, Object> cwRtn = new HashMap<String, Object>();
+								cwRtn.putAll(keyAndValue);
+								String [] menuNtitle = temp.split("\\|");
+								cwRtn.put("menu_id", menuNtitle[0]);
+								cwRtn.put("menu_nm", menuNtitle[1]);
+								cwRtn.put("dist_to_dt", null);
+								cwRtn.put("gnb_typ_cd", null);
+								cwRtn.put("dist_fr_dt", null);
+								cwRtn.put("menus", null);
+								
+								cwResult.add(cwRtn);
+							}
 						}
+						
 					}
 					
+					Map<String, Object> gridbanner = getGridBanner(param.get("menu_stb_svc_id") + "_" + map.get("menu_id").toString());
+					map.put("menus", null);
+					if (gridbanner != null) {
+						map.put("menus", gridbanner.get("banners"));
+					}
 				}
 				
-				Map<String, Object> gridbanner = getGridBanner(param.get("menu_stb_svc_id") + "_" + map.get("menu_id").toString());
-				map.put("menus", null);
-				if (gridbanner != null) {
-					map.put("menus", gridbanner.get("banners"));
+				for(Map<String, Object>temp:cwResult) {
+					blocks.add(temp);
 				}
+				
+				double totalCount = (double)blockblock.get("total_count");
+				
+				blockblock.put("block_count", totalCount + cwResult.size()-i);
+				blockblock.remove("total_count");
 			}
 			
-			for(Map<String, Object>temp:cwResult) {
-				blocks.add(temp);
-			}
-			
-			double totalCount = (double)blockblock.get("total_count");
-			
-			blockblock.put("block_count", totalCount + cwResult.size()-i);
-			blockblock.remove("total_count");
 			return blockblock;
 		} catch (Exception e) {
 			e.printStackTrace();
