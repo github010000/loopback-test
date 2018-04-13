@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta>
+	<title>NXPG Service</title>
+	<script src="jquery-3.2.1.min.js"></script>
+	<style>
+		ul {
+			margin: 10px 0 10px 0;
+		}
+		
+		ul li {
+			display: block;
+			float: left;
+			margin: 0px 5px 0 5px;
+		}
+		
+		ul li span {
+			display: none;
+		}
+		
+		.clearAll {
+			clear: both;
+			margin-bottom: 10px;
+		}
+	</style>
+</head>
+<body>
+	<b>GNB</b>
+	<ul id="gnb">
+		
+	</ul>
+	<div class="clearAll"></div>
+	<b>Block / Grid</b>
+	<ul id="block">
+		
+	</ul>
+</body>
+<script>
+	$(document).ready(function() {
+		$.ajax({    
+			type : "GET",
+			url : "/v5/menu/gnb?menu_stb_svc_id=UI50_BSUHD2&IF=IF-NXPG-001&stb_id=1234",
+			success : function(args) {
+				
+				for (var r in args.menus) {
+					$("#gnb").append("<li><a href='#'>" + args.menus[r].menu_nm + "</a><span>" + args.menus[r].menu_id + "</span></li>");
+				}
+				
+				$("#gnb li a").click(function() {
+					var menu_id = $(this).parent().find("span").text();
+					
+					$.ajax({    
+						type : "GET",
+						url : "/v5/menu/block?menu_stb_svc_id=UI50_BSUHD2&IF=IF-NXPG-003&stb_id=1234&menu_id=" + menu_id,
+						success : function(args) {
+							$("#block").empty();
+							for (var r in args.blocks) {
+								$("#block").append("<li><a href='#'>" + args.blocks[r].menu_nm + "</a><span>" + args.blocks[r].menu_id + "</span></li>");
+							}
+						}
+					});
+				});
+			}
+		});
+	});
+
+</script>

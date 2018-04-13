@@ -167,20 +167,21 @@ public class MenuService {
 					
 					List<String> menuData = cwCall(param);
 					Map<String, Object> keyAndValue;
-					
-					for(String temp:menuData) {
-						keyAndValue = CastUtil.getObjectToMap(cw.get("block"));
-						Map<String, Object> cwRtn = new HashMap<String, Object>();
-						cwRtn.putAll(keyAndValue);
-						String [] menuNtitle = temp.split("\\|");
-						cwRtn.put("menu_id", menuNtitle[0]);
-						cwRtn.put("menu_nm", menuNtitle[1]);
-						cwRtn.put("dist_to_dt", null);
-						cwRtn.put("gnb_typ_cd", null);
-						cwRtn.put("dist_fr_dt", null);
-						cwRtn.put("menus", null);
-						
-						cwResult.add(cwRtn);
+					if (menuData != null) {
+						for(String temp:menuData) {
+							keyAndValue = CastUtil.getObjectToMap(cw.get("block"));
+							Map<String, Object> cwRtn = new HashMap<String, Object>();
+							cwRtn.putAll(keyAndValue);
+							String [] menuNtitle = temp.split("\\|");
+							cwRtn.put("menu_id", menuNtitle[0]);
+							cwRtn.put("menu_nm", menuNtitle[1]);
+							cwRtn.put("dist_to_dt", null);
+							cwRtn.put("gnb_typ_cd", null);
+							cwRtn.put("dist_fr_dt", null);
+							cwRtn.put("menus", null);
+							
+							cwResult.add(cwRtn);
+						}
 					}
 					
 				}
@@ -313,7 +314,7 @@ public class MenuService {
 			menuData = Arrays.asList((matcher.group(1)).split("\\,"));
 			break;
 		}
-		System.out.println(menuData.toString());
+//		System.out.println(menuData.toString());
 		
 		return menuData;
 	}

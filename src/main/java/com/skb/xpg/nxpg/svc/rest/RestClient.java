@@ -44,8 +44,7 @@ public class RestClient {
 		StringBuffer result = new StringBuffer();
 		try {
 			response = client.execute(request);
-			System.out.println("Response Code : " 
-					+ response.getStatusLine().getStatusCode());
+//			System.out.println("Response Code : "  + response.getStatusLine().getStatusCode());
 			rd = new BufferedReader(
 					new InputStreamReader(response.getEntity().getContent()));
 			
@@ -125,11 +124,11 @@ public class RestClient {
 			}
 			
 			try {
-				System.out.println(builder.build().encode().toUri());
+//				System.out.println(builder.build().encode().toUri());
 //				json = restTemplate.getForObject(builder.build().encode().toUri(), String.class);
 				
 				json = apacheGet(builder.build().encode().toUri().toString());
-				System.out.println(json);
+//				System.out.println(json);
 			} catch (RestClientException e) {
 				e.printStackTrace();
 			}
