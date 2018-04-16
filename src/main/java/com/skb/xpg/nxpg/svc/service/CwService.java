@@ -1,6 +1,9 @@
 package com.skb.xpg.nxpg.svc.service;
 
+import static org.mockito.Matchers.matches;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,10 +15,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import com.skb.xpg.nxpg.svc.common.NXPGCommon;
 import com.skb.xpg.nxpg.svc.config.Properties;
 import com.skb.xpg.nxpg.svc.redis.RedisClient;
 import com.skb.xpg.nxpg.svc.rest.RestClient;
 import com.skb.xpg.nxpg.svc.util.CastUtil;
+import com.skb.xpg.nxpg.svc.util.StrUtil;
 
 @Service
 public class CwService {
@@ -43,8 +48,8 @@ public class CwService {
 	
 	
 	public List<Map<String, Object>> cwGetGrid(String ver, Map<String, String> param) {
-		
-		String type = (String)param.get("type");
+		String type = CastUtil.getString(param.get("type"));
+//		String type = (String)param.get("type");
 		List<Map<String, Object>> resultList = null;
 		Map<String, Object> temp = null;
 		
@@ -77,29 +82,27 @@ public class CwService {
 		
 	}
 	
-	public List<Map<String, Object>> cwGetRelation(String ver, Map<String, String> param) {
+	public Map<String, Object> cwGetRelation(String ver, Map<String, String> param) {
 		
 		//기존 콘텐츠 아이디 추출
-		String epsd_id = (String)param.get("epsd_id");
+		String epsd_id = CastUtil.getString(param.get("epsd_id"));
+//		String epsd_id = (String)param.get("epsd_id");
 		param.put("itemType", "VIDEO_CONTENT");
+		Map<String, Object> result = new HashMap<String, Object>();
 		List<Map<String, Object>> resultList = null;
 
-		String contentInfo = (String) redisClient.hget("synopsis_srisInfo",epsd_id);
+		String contentInfo = redisClient.hget(NXPGCommon.SYNOPSIS_SRISINFO,epsd_id);
 		
 		if(contentInfo != null) {
 			
+			
 			//시리즈아이디, 에피소드아이디 추출로직
 			String regex="\"epsd_rslu_id\"[\\s]*:[\\s]*\"([^\"]+)\"";
-			Pattern ptn = Pattern.compile(regex); 
-			Matcher matcher = ptn.matcher(contentInfo); 
-			String contentId  = "";
-			while(matcher.find()){ 
-				contentId=matcher.group(1);
-				break;
-			}
+			String contentId = StrUtil.getRegexString(regex, contentInfo);
 			param.put("con_id", contentId);
 			
-			String type = (String)param.get("type");
+			String type = CastUtil.getString(param.get("type"));
+//			String type = (String)param.get("type");
 			
 			Map<String, Object> temp = null;
 			
@@ -126,10 +129,18 @@ public class CwService {
 				break;
 			}
 			
-			resultList = makeCwRelation(temp);
+			resultList = makeCwRelation(temp, epsd_id);
+			result.put("status_code", temp.get("status_code"));
+			if(resultList != null) {
+				result.put("relation", resultList);
+				result.put("size", resultList.size()+"");
+			}else {
+				result = null;
+			}
 		}
 		
-		return resultList;
+		
+		return result;
 		
 	}
 	
@@ -177,16 +188,25 @@ public class CwService {
 			cwparam = cwparam.substring(1);
 		}
 		
-		System.out.println(cwparam);
+//		System.out.println(cwparam);
 		String rest = null;
 		rest = restClient.getRestUri(cwBaseUrl + path, cwUser, cwPassword, cwparam);
 
+
+		//응답값 확인
+		String restregex="\"code\"[\\s]*:[\\s]*([0-9]*)";
+		String codeValue = StrUtil.getRegexString(restregex, rest);
+
 		objMap = CastUtil.StringToJsonMap(rest);
-		
-		objMap.put("cw_call_id", param.get("cw_call_id"));
-		objMap.put("epsd_id", param.get("epsd_id"));
-		
+		if("0".equals(codeValue)) {
+			objMap.put("status_code", "0000");
+			objMap.put("cw_call_id", param.get("cw_call_id"));
+			objMap.put("epsd_id", param.get("epsd_id"));
+		}else {
+			objMap.put("status_code", "0002");
+		}
 		return objMap;
+		
 	}
 	
 	
@@ -212,13 +232,15 @@ public class CwService {
 					String trackId = idNblockId[1];
 					
 					Map<String, Object> gridData = new HashMap<String, Object>();
-					Map<String, Object> cidInfo = CastUtil.StringToJsonMap((String) redisClient.hget("contents_cidinfo",epsd_rslu_id));
+					Map<String, Object> cidInfo = CastUtil.StringToJsonMap(redisClient.hget("contents_cidinfo",epsd_rslu_id));
 					if(cidInfo != null) {
-						String epsd_id = (String) cidInfo.get("epsd_id");
-						String sris_id = (String) cidInfo.get("sris_id");
+						String epsd_id = CastUtil.getObjectToString(cidInfo.get("epsd_id"));
+						String sris_id = CastUtil.getObjectToString(cidInfo.get("sris_id"));
+//						String epsd_id = (String) cidInfo.get("epsd_id");
+//						String sris_id = (String) cidInfo.get("sris_id");
 						
-						Map<String, Object> contentInfo = CastUtil.StringToJsonMap((String) redisClient.hget("synopsis_contents",sris_id));
-						Map<String, Object> srisInfo = CastUtil.StringToJsonMap((String) redisClient.hget("synopsis_srisInfo",epsd_id));
+						Map<String, Object> contentInfo = CastUtil.StringToJsonMap(redisClient.hget("synopsis_contents",sris_id));
+						Map<String, Object> srisInfo = CastUtil.StringToJsonMap(redisClient.hget("synopsis_srisInfo",epsd_id));
 						if(contentInfo != null && srisInfo != null) {
 							
 							gridData.put("poster_filename_h", srisInfo.get("epsd_poster_filename_h"));
@@ -253,7 +275,7 @@ public class CwService {
 		return cwGrid;
 	}
 	
-	public List<Map<String, Object>> makeCwRelation(Map<String, Object> objMap) {
+	public List makeCwRelation(Map<String, Object> objMap, String param_epsd_id) {
 		
 		List<Map<String, Object>> resultList = new ArrayList<Map<String,Object>>();
 		
@@ -261,10 +283,9 @@ public class CwService {
 		getCwData(objMap, resultList);
 		
 		//데이터 가공로직 시작
-		List<Map<String, Object>>cwRelation = new ArrayList<Map<String,Object>>();
+		List cwRelation = null;
 		
 		//TODO 진입한 콘텐츠의 인물정보 가져오기
-		
 //		String prnInfo = (String)redisClient.hget("contents_people","CE0001270830");
 //		
 //		String regex="(peoples)\"[\\s]*:[\\s]*(.*)\\]";
@@ -275,57 +296,67 @@ public class CwService {
 //			System.out.println(matcher.group(2));
 //		}
 //		
-		
-		
-		for(Map<String, Object>temp:resultList ) {
-			List<Map<String, Object>>resultRelationList = new ArrayList<Map<String,Object>>();
-			Map<String, Object> resultMap = new HashMap<String, Object>();
-			List<String>tempIdList = (List<String>) temp.get("idList");
-			if(tempIdList != null) {
-				for(String dataGrp:tempIdList) {
-					String [] idNblockId = dataGrp.split("\\|");
-					
-					String epsd_rslu_id = idNblockId[0];
-					String trackId = idNblockId[1];
-					
-					Map<String, Object> relationData = new HashMap<String, Object>();
-					Map<String, Object> cidInfo = CastUtil.StringToJsonMap((String) redisClient.hget("contents_cidinfo",epsd_rslu_id));
-					if(cidInfo!=null) {
-						String epsd_id = (String) cidInfo.get("epsd_id");
-						String sris_id = (String) cidInfo.get("sris_id");
+//		System.out.println(resultList);
+		if(resultList!=null && resultList.size()>0) {
+			cwRelation = new ArrayList<Map<String,Object>>();
+			for(Map<String, Object>temp:resultList ) {
+				List<Map<String, Object>>resultRelationList = new ArrayList<Map<String,Object>>();
+				Map<String, Object> resultMap = new HashMap<String, Object>();
+				List<String>tempIdList = (List<String>) temp.get("idList");
+				if(tempIdList != null) {
+					for(String dataGrp:tempIdList) {
+						String [] idNblockId = dataGrp.split("\\|");
 						
-						Map<String, Object> contentInfo = CastUtil.StringToJsonMap((String) redisClient.hget("synopsis_contents",sris_id));
-						Map<String, Object> srisInfo = CastUtil.StringToJsonMap((String) redisClient.hget("synopsis_srisInfo",epsd_id));
-						if(contentInfo != null && srisInfo != null) {
-							relationData.put("poster_filename_h", srisInfo.get("epsd_poster_filename_h"));
-							relationData.put("sris_id", srisInfo.get("sris_id"));
-							relationData.put("poster_filename_v", srisInfo.get("epsd_poster_filename_v"));
-							relationData.put("sris_nm", contentInfo.get("title"));
-							relationData.put("epsd_id", srisInfo.get("epsd_id"));
-							relationData.put("adlt_lvl_cd", srisInfo.get("adlt_lvl_cd"));
-							relationData.put("title", srisInfo.get("sub_title"));//? 뭘 써야할지...						
-							relationData.put("track_id", trackId);						
+						String epsd_rslu_id = idNblockId[0];
+						String trackId = idNblockId[1];
+						
+						Map<String, Object> relationData = new HashMap<String, Object>();
+						Map<String, Object> cidInfo = CastUtil.StringToJsonMap(redisClient.hget("contents_cidinfo",epsd_rslu_id));
+						if(cidInfo!=null) {
+							String epsd_id = CastUtil.getObjectToString(cidInfo.get("epsd_id"));
+							String sris_id = CastUtil.getObjectToString(cidInfo.get("sris_id"));
+//							String epsd_id = (String) cidInfo.get("epsd_id");
+//							String sris_id = (String) cidInfo.get("sris_id");
 							
-							resultRelationList.add(relationData);
+							Map<String, Object> contentInfo = CastUtil.StringToJsonMap(redisClient.hget("synopsis_contents",sris_id));
+							Map<String, Object> srisInfo = CastUtil.StringToJsonMap(redisClient.hget("synopsis_srisInfo",epsd_id));
+							if(contentInfo != null && srisInfo != null) {
+								relationData.put("poster_filename_h", srisInfo.get("epsd_poster_filename_h"));
+								relationData.put("sris_id", srisInfo.get("sris_id"));
+								relationData.put("poster_filename_v", srisInfo.get("epsd_poster_filename_v"));
+								relationData.put("sris_nm", contentInfo.get("title"));
+								relationData.put("epsd_id", srisInfo.get("epsd_id"));
+								relationData.put("adlt_lvl_cd", srisInfo.get("adlt_lvl_cd"));
+								relationData.put("title", srisInfo.get("sub_title"));//? 뭘 써야할지...						
+								relationData.put("track_id", trackId);						
+								
+								resultRelationList.add(relationData);
+							}
 						}
 					}
 				}
+	//			makeRelationTitle((String) temp.get("blockTitle"), (String)objMap.get("epsd_id"));
+				
+				resultMap.put("sectionId", temp.get("sectionId"));
+				resultMap.put("session_id", objMap.get("sessionId"));
+				resultMap.put("btrack_id", objMap.get("trackId"));
+				resultMap.put("block", resultRelationList);
+				resultMap.put("t_cnt", resultRelationList.size()+"");
+				resultMap.put("sub_title", temp.get("blockTitle"));
+				resultMap.put("cw_call_id", objMap.get("cw_call_id"));
+				
+				cwRelation.add(resultMap);
+				resultMap = new HashMap<String, Object>();
 			}
-//			makeRelationTitle((String) temp.get("blockTitle"), (String)objMap.get("epsd_id"));
+		}else {
 			
-			resultMap.put("sectionId", temp.get("sectionId"));
-			resultMap.put("session_id", objMap.get("sessionId"));
-			resultMap.put("btrack_id", objMap.get("trackId"));
-			resultMap.put("block", resultRelationList);
-			resultMap.put("t_cnt", resultRelationList.size()+"");
-			resultMap.put("sub_title", temp.get("blockTitle"));
-			resultMap.put("cw_call_id", objMap.get("cw_call_id"));
-			
-			cwRelation.add(resultMap);
-			resultMap = new HashMap<String, Object>();
-			
+			String srisInfo = redisClient.hget("synopsis_srisInfo",param_epsd_id);
+			String regexRelation = "\\\"relation_contents\\\"[\\s]*:[\\s]*(\\[\\{.*?\\}\\])";
+			String relationData = StrUtil.getRegexString(regexRelation, srisInfo);
+			if(relationData != null && !"".equals(relationData)) {
+				cwRelation = CastUtil.StringToJsonList(relationData);
+			}
 		}
-		
 		
 		return cwRelation;
 	}
@@ -385,8 +416,10 @@ public class CwService {
 		if(items != null) {
 			for(Map<String, Object>itemMap:items) {
 				Map<String, Object> itemIds = (Map<String, Object>) itemMap.get("itemIds");
-				String contentId = (String) itemIds.get("CW");
-				String trackId = (String) itemMap.get("trackId");
+				String contentId = CastUtil.getObjectToString(itemIds.get("CW"));
+				String trackId = CastUtil.getObjectToString(itemIds.get("trackId"));
+//				String contentId = (String) itemIds.get("CW");
+//				String trackId = (String) itemMap.get("trackId");
 				idList.add(contentId+"|"+trackId);
 			}
 		}

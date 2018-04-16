@@ -12,31 +12,35 @@ public class CastUtil {
 
 	public static String getObjectToString(Object obj) {
 		if (obj != null && obj instanceof String) {
-			return (String) obj;
+			String str = (String) obj;
+			return str;
 		} else return null;
 	}
 	
 	@SuppressWarnings("unchecked")
 	public static Map<String, Object> getObjectToMap(Object obj) {
 		if (obj != null && obj instanceof Map<?, ?>) {
-			return (Map<String, Object>) obj;
+			Map<String, Object> map = (Map<String, Object>) obj;
+			return map;
 		} else return null;
 	}
 	
 	@SuppressWarnings("unchecked")
 	public static Map<String, String> getObjectToMapStringString(Object obj) {
 		if (obj != null && obj instanceof Map<?, ?>) {
-			return (Map<String, String>) obj;
+			Map<String, String> mapStringString = (Map<String, String>) obj;
+			return mapStringString;
 		} else return null;
 	}
 
 	@SuppressWarnings("unchecked")
 	public static List<Map<String, Object>> getObjectToMapList(Object obj) {
 		if (obj != null && obj instanceof List<?>) {
-			return (List<Map<String, Object>>) obj;
+			List<Map<String, Object>> list = (List<Map<String, Object>>) obj;
+			return list;
 		} else return null;
 	}
-
+	
 	public static int getStringToInteger(String str) {
 		int rtn = 0;
 		
@@ -45,6 +49,7 @@ public class CastUtil {
 				rtn = Integer.parseInt(str);
 			} catch (NumberFormatException e) {
 				rtn = 0;
+				LogUtil.error(e.getStackTrace(), "", "", "", "", "", "");
 			}
 		}
 		return rtn;
@@ -57,27 +62,37 @@ public class CastUtil {
 				rtn = Long.parseLong(str);
 			} catch (NumberFormatException e) {
 				rtn = 0;
+				LogUtil.error(e.getStackTrace(), "", "", "", "", "", "");
 			}
 		}
 		return rtn;
 	}
 	
 	public static List<Object> StringToJsonList(String json) {
-		if (json != null) {
+		if (json != null) {	
 			JacksonJsonParser parser = new JacksonJsonParser();
 			List<Object> list = parser.parseList(json);
 			return list;
-		} 
-		return null;
+		} else return null;
 	}
 	
 	public static Map<String, Object> StringToJsonMap(String json) {
-		if (json != null) {
-
+		if (json != null) {	
 			GsonJsonParser parser = new GsonJsonParser();
 			Map<String, Object> map = parser.parseMap(json);
 			return map;
-		}
-		return null;
+		} else return null;
 	}
+	
+	public static String getString(String value) {
+		String result = "";
+		
+		if (value instanceof String) {
+			result = (String) value;
+		}
+		
+		return result;
+		
+	}	
+	
 }

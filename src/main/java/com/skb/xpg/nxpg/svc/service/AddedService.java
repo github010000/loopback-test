@@ -1,15 +1,14 @@
 package com.skb.xpg.nxpg.svc.service;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.skb.xpg.nxpg.svc.common.NXPGCommon;
 import com.skb.xpg.nxpg.svc.redis.RedisClient;
 import com.skb.xpg.nxpg.svc.util.CastUtil;
+import com.skb.xpg.nxpg.svc.util.LogUtil;
 
 @Service
 public class AddedService {
@@ -18,19 +17,20 @@ public class AddedService {
     private RedisClient redisClient;
 
     // IF-NXPG-013
-    public Object getAddedEpg(String ver, Map<String, String> param) {
-        try {
-            return CastUtil.StringToJsonList((String) redisClient.hget("epg_info", "epg")).get(0);
-        } catch (Exception e) {
+    public Object getAddedEpg(String ver,  Map<String, String> param) {
+    	try {
+    		return CastUtil.StringToJsonList(redisClient.hget("epg_info", "epg")).get(0);
+    	} catch (Exception e) {
+    		LogUtil.error(e.getStackTrace(), param.get("IF"), "", "", param.get("stb_id"), "", "");
             return null;
-        }
+    	}
     }
     // IF-NXPG-017
     public Object getAddedGenre(String ver, Map<String, String> param) {
         try {
-            return CastUtil.StringToJsonList((String) redisClient.hget("genre_info", "genre")).get(0);
+            return CastUtil.StringToJsonList(redisClient.hget("genre_info", "genre")).get(0);
         } catch (Exception e) {
-            e.printStackTrace();
+        	LogUtil.error(e.getStackTrace(), param.get("IF"), "", "", param.get("stb_id"), "", "");
             return null;
         }
     }
@@ -39,7 +39,7 @@ public class AddedService {
 	public void getRealTimeChannel(Map<String, Object> rtn) {
 //		Map<String, Object> result = (Map<String, Object>)redisClient.hget(XpgCommon.NXTCHANNELRATING, XpgCommon.NXTCHANNELRATING);
 		List<Object> rating = null;
-		String json = (String) redisClient.hget("channel_rating", "channel_rating");
+		String json = redisClient.hget("channel_rating", "channel_rating");
 		if(json instanceof String){
 			rating = CastUtil.StringToJsonList(json);
 		}

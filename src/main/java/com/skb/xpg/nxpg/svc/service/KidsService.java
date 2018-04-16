@@ -7,10 +7,10 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.skb.xpg.nxpg.svc.common.NXPGCommon;
 import com.skb.xpg.nxpg.svc.redis.RedisClient;
 import com.skb.xpg.nxpg.svc.util.CastUtil;
 import com.skb.xpg.nxpg.svc.util.DateUtil;
+import com.skb.xpg.nxpg.svc.util.LogUtil;
 
 @Service
 public class KidsService {
@@ -23,18 +23,19 @@ public class KidsService {
 	// IF-NXPG-101
 	public List getMenuKzchar(String ver, Map<String, String> param) {
 		try {
-			List<Object> kzchar = CastUtil.StringToJsonList((String) redisClient.hget("menu_kidsGnb", param.get("menu_stb_svc_id")));
+			List<Object> kzchar = CastUtil.StringToJsonList(redisClient.hget("menu_kidsGnb", param.get("menu_stb_svc_id")));
 			DateUtil.getCompareObject(kzchar, "dist_fr_dt", "dist_to_dt", false);
 			
-			return CastUtil.StringToJsonList((String) redisClient.hget("menu_kidsCharacter", param.get("menu_stb_svc_id")));
+			return CastUtil.StringToJsonList(redisClient.hget("menu_kidsCharacter", param.get("menu_stb_svc_id")));
 		} catch (Exception e) {
+			LogUtil.error(e.getStackTrace(), param.get("IF"), "", "", param.get("stb_id"), "", "");
 			return null;
 		}
 	}
 	// IF-NXPG-102
 	public void getMenuKzgnb(Map<String, Object> rtn, Map<String, String> param) {
 		try {
-			String version = StringUtils.defaultIfEmpty((String) redisClient.hget("version", "menu_kidsGnb"), "");
+			String version = StringUtils.defaultIfEmpty(redisClient.hget("version", "menu_kidsGnb"), "");
 			rtn.put("version", version);
 			
 			if (version != null && param.containsKey("version")
@@ -43,7 +44,7 @@ public class KidsService {
 				rtn.put("result", "0000");
 			} else {
 				
-				List<Object> kzgnb = CastUtil.StringToJsonList((String) redisClient.hget("menu_kidsGnb", param.get("menu_stb_svc_id")));
+				List<Object> kzgnb = CastUtil.StringToJsonList(redisClient.hget("menu_kidsGnb", param.get("menu_stb_svc_id")));
 				
 				if (kzgnb == null) {
 					rtn.put("result", "9998");
@@ -59,22 +60,26 @@ public class KidsService {
 				}
 			}
 		} catch (Exception e) {
-			
+			LogUtil.error(e.getStackTrace(), param.get("IF"), "", "", param.get("stb_id"), "", "");
 		}
 	}
 	// IF-NXPG-401
 	public String getMenulfthomemapping(String ver, Map<String, String> param) {
 		try {
-			String redisData = (String) redisClient.hget("menu_kidsGnb", param.get("menu_stb_svc_id"));
+			String redisData = redisClient.hget("menu_kidsGnb", param.get("menu_stb_svc_id"));
 			String kidsMenu = "";
+			// 살아있는 동화
+			String kidszGnbCd = "70";
+			
 			if(!"".equals(redisData) && redisData != null) {
 				List<Object> kidsMenuGnb = CastUtil.StringToJsonList(redisData);	
 				List<Map<String, Object>> data = (List<Map<String, Object>>) CastUtil.getObjectToMapList(kidsMenuGnb);
 				
 				for(Map<String, Object> kids : data) {
 		           // 살아있는 동화 최상위 메뉴 ID 가져오기
-		           if(kids.get("kidsz_gnb_cd").equals("70")){
-		        	   kidsMenu = (String) kids.get("menu_id"); 
+		           if(kids.get("kidsz_gnb_cd").equals(kidszGnbCd)){
+		        	   kidsMenu = CastUtil.getObjectToString(kids.get("menu_id"));
+//		        	   kidsMenu = (String) kids.get("menu_id"); 
 		        	   break;
 		           }
 				}
@@ -82,13 +87,14 @@ public class KidsService {
 			
 			return kidsMenu;
 		} catch (Exception e) {
+			LogUtil.error(e.getStackTrace(), param.get("IF"), "", "", param.get("stb_id"), "", "");
 			return null;
 		}
 	}
 	// IF-NXPG-403
 	public void getContentsLftsynop(Map<String, Object> rtn, Map<String, String> param) {
 		try {
-			Map<String, Object> synop = CastUtil.StringToJsonMap((String) redisClient.hget("synopsis_liveChildStory", param.get("epsd_id")));
+			Map<String, Object> synop = CastUtil.StringToJsonMap(redisClient.hget("synopsis_liveChildStory", param.get("epsd_id")));
 			
 			contentsService.getContentsCorner(synop, param.get("epsd_id"));
 			
@@ -108,7 +114,7 @@ public class KidsService {
 			}
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			LogUtil.error(e.getStackTrace(), param.get("IF"), "", "", param.get("stb_id"), "", "");
 			
 		}
 	}

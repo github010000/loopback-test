@@ -17,6 +17,8 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.skb.xpg.nxpg.svc.util.LogUtil;
+
 @Service
 public class RestClient {
 
@@ -35,7 +37,7 @@ public class RestClient {
 			request.addHeader("Authorization", "Basic " + encoding);
 		} catch (UnsupportedEncodingException e2) {
 			// TODO Auto-generated catch block
-			e2.printStackTrace();
+			LogUtil.error(e2.getStackTrace(), "", "", "", "", "", "");
 		}
 		
 		
@@ -54,11 +56,13 @@ public class RestClient {
 			}
 		} catch (ClientProtocolException e1) {
 			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			LogUtil.error(e1.getStackTrace(), "", "", "", "", "", "");
 		} catch (IOException e1) {
+			LogUtil.error(e1.getStackTrace(), "", "", "", "", "", "");
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (UnsupportedOperationException e) {
+			LogUtil.error(e.getStackTrace(), "", "", "", "", "", "");
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -125,16 +129,11 @@ public class RestClient {
 			
 			try {
 //				System.out.println(builder.build().encode().toUri());
-//				json = restTemplate.getForObject(builder.build().encode().toUri(), String.class);
-				
+
 				json = apacheGet(builder.build().encode().toUri().toString());
-//				System.out.println(json);
 			} catch (RestClientException e) {
-				e.printStackTrace();
+				LogUtil.error(e.getStackTrace(), "", "", "", "", "", "");
 			}
-//			if (json != null) {
-//				json = json.replaceAll("(^.*item\":)(.*)(\\}\\}$)", "$2");
-//			}
 		}
 		
 		return json;

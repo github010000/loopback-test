@@ -84,6 +84,7 @@ public class StgPrdConfiguration {
 
 		} catch (JedisConnectionException e) {
 //			LogUtil.error(e.getStackTrace(), "NULL");
+			LogUtil.error(e.getStackTrace(), "", "", "", "", "", "NULL");
 			return null;
 		}
 	}

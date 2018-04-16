@@ -31,7 +31,19 @@
 			height: 120px;
 			border: 1px solid #777;
 			float: left;
-			margin: 0px 5px 0 5px;
+			margin: 5px 5px 0 0;
+		}
+		
+		.red {
+			color: #B43104;
+		}
+		
+		.blue {
+			color: #2E64FE;
+		}
+		
+		.gray {
+			color: #848484;
 		}
 		
 		#block div {
@@ -87,9 +99,22 @@
 			success : function(args) {
 				$("#block").empty();
 				var temp = "";
+				var color = "";
+				var tag = "";
 				for (var r in args.blocks) {
+					
+					if (args.blocks[r].menu_nm_exps_yn == "Y") {
+						tag = "표시";
+						color = "blue";
+					} else if (args.blocks[r].menu_nm_exps_yn == "Y") {
+						tag = "숨김";
+						color = "red";
+					} else {
+						tag = "값없음";
+						color = "gray";
+					}
 					temp = "<div>";
-					temp += "<strong>" + args.blocks[r].menu_nm + " : " + args.blocks[r].menu_id + "</strong>";
+					temp += "<strong>" + args.blocks[r].menu_nm + " : " + args.blocks[r].menu_id + "</strong> - <small class='" + color + "'>" + tag + "</small>";
 					temp += "<div class='grid' id='" + args.blocks[r].menu_id + "'></div>";
 					temp += "</div>";
 					temp += "<div class='clearAll'></div>";

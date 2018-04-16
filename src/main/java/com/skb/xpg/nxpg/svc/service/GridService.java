@@ -11,6 +11,7 @@ import com.skb.xpg.nxpg.svc.common.NXPGCommon;
 import com.skb.xpg.nxpg.svc.redis.RedisClient;
 import com.skb.xpg.nxpg.svc.util.CastUtil;
 import com.skb.xpg.nxpg.svc.util.DateUtil;
+import com.skb.xpg.nxpg.svc.util.LogUtil;
 
 @Service
 public class GridService {
@@ -21,7 +22,7 @@ public class GridService {
 	// IF-NXPG-006
 	public Map<String, Object> getGrid(String ver, Map<String, String> param) {
 		try {
-			Map<String, Object> gridMap = CastUtil.StringToJsonMap((String) redisClient.hget(NXPGCommon.GRID_CONTENTS, param.get("menu_id")));
+			Map<String, Object> gridMap = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.GRID_CONTENTS, param.get("menu_id")));
 			
 			List<Map<String, Object>> gridList = CastUtil.getObjectToMapList(gridMap.get("contents"));
 			List<Map<String, Object>> gList = new ArrayList<>();
@@ -52,6 +53,7 @@ public class GridService {
 			
 			return gridMap;
 		} catch (Exception e) {
+			LogUtil.error(e.getStackTrace(), param.get("IF"), "", "", param.get("stb_id"), "", "");
 			return null;
 		}
 	}
@@ -59,7 +61,7 @@ public class GridService {
 	// IF-NXPG-007
 	public Map<String, Object> getGridEvent(String ver, Map<String, String> param) {
 		try {
-			Map<String, Object> gridBanner = CastUtil.StringToJsonMap((String) redisClient.hget("grid_banner", param.get("menu_stb_svc_id") + "_" + param.get("menu_id")));
+			Map<String, Object> gridBanner = CastUtil.StringToJsonMap(redisClient.hget("grid_banner", param.get("menu_stb_svc_id") + "_" + param.get("menu_id")));
 
 			List<Map<String, Object>> banners = null;
 			if (gridBanner.get("banners") != null) {
@@ -69,7 +71,7 @@ public class GridService {
 			
 			return gridBanner;
 		} catch (Exception e) {
-			e.printStackTrace();
+			LogUtil.error(e.getStackTrace(), param.get("IF"), "", "", param.get("stb_id"), "", "");
 			return null;
 		}
 	}
@@ -91,7 +93,7 @@ public class GridService {
 		
 		if ("01".equals(grid.get("synon_typ_cd"))) {
 			
-			if ("024".equals(meta_typ_cd) && !sris_dist_fir_svc_dt.isEmpty() && DateUtil.getAddDate(sris_dist_fir_svc_dt, 3).compareTo(DateUtil.getYYYYMMDDhhmmss()) <= 0) {
+			if ("024".equals(meta_typ_cd) && !sris_dist_fir_svc_dt.isEmpty() && DateUtil.getAddDate(sris_dist_fir_svc_dt, 7).compareTo(DateUtil.getYYYYMMDDhhmmss()) <= 0) {
 				result = "sale";
 			} else if ("024".equals(meta_typ_cd) && "0".equals(sale_prc)) {
 				result = "free";
@@ -107,9 +109,9 @@ public class GridService {
 				} else if ("0".equals(sale_prc)) {
 					result = "free";
 				} else if (!epsd_dist_fir_svc_dt.isEmpty() && DateUtil.getAddDate(epsd_dist_fir_svc_dt, 1).compareTo(DateUtil.getYYYYMMDDhhmmss()) <= 0) {
-					result = "";
+					result = "up";
 				} else if ("Y".equals(cacbro_yn)) {
-					result = "";
+					result = "rest";
 				} else if ("독점".equals(badge_typ_nm) && DateUtil.doCompareSingle(icon_exps_fr_dy, icon_exps_to_dy, "yyyyMMdd")) {
 					result = "monopoly";
 				} else if ("35".equals(rslu_typ_cd)) {
@@ -121,7 +123,7 @@ public class GridService {
 				}
 			}
 		} else if ("02".equals(grid.get("synon_typ_cd"))) {
-			if ("024".equals(meta_typ_cd) && !epsd_dist_fir_svc_dt.isEmpty() && DateUtil.getAddDate(epsd_dist_fir_svc_dt, 3).compareTo(DateUtil.getYYYYMMDDhhmmss()) <= 0) {
+			if ("024".equals(meta_typ_cd) && !epsd_dist_fir_svc_dt.isEmpty() && DateUtil.getAddDate(epsd_dist_fir_svc_dt, 7).compareTo(DateUtil.getYYYYMMDDhhmmss()) <= 0) {
 				result = "sale";
 			} else if ("024".equals(meta_typ_cd) && "0".equals(sale_prc)) {
 				result = "free";

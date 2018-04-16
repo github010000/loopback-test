@@ -2,6 +2,9 @@ package com.skb.xpg.nxpg.svc.util;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by Jay Lee on 27/12/2016.
@@ -39,5 +42,19 @@ public class StrUtil {
 			}
 		}
 		return result;
+	}
+	
+	public static String getRegexString(String regex, String replaceStr) {
+		
+		String result = "";
+		
+		Pattern ptn = Pattern.compile(regex); 
+		Matcher matcher = ptn.matcher(replaceStr); 
+		while(matcher.find()){ 
+			result=matcher.group(1);
+		}
+		
+		return result;
+		
 	}
 }

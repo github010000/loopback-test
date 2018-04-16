@@ -1,5 +1,7 @@
 package com.skb.xpg.nxpg.svc.redis;
 
+import static org.hamcrest.CoreMatchers.instanceOf;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -71,12 +73,13 @@ public class RedisClient {
 		return redisTemplate.<String, Object>opsForHash().hasKey(key, field);
 	}
 
-	public Object hget(String key, String field) {
+	public String hget(String key, String field) {
 		Object obj = null;
 
 		obj = redisTemplate.<String, Object>opsForHash().get(key, field);
-		return obj;
-
+		if(obj != null && obj instanceof String) {
+			return (String) obj;
+		} else return null;
 	}
 	
 	public List<Object> oget(String keyValueList) {

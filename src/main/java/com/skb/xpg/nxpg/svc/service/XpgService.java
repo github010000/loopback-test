@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.skb.xpg.nxpg.svc.config.Properties;
 import com.skb.xpg.nxpg.svc.redis.RedisClient;
 import com.skb.xpg.nxpg.svc.util.CastUtil;
+import com.skb.xpg.nxpg.svc.util.LogUtil;
 
 @Service
 public class XpgService {
@@ -93,7 +94,7 @@ public class XpgService {
 		    }
 		    
 		} catch (ScriptException | NullPointerException e) {
-			e.printStackTrace();
+			LogUtil.error(e.getStackTrace(), "", "", "", "", "", "");
 		}
 		
 	}

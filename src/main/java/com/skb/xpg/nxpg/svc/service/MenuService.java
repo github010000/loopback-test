@@ -20,6 +20,7 @@ import com.skb.xpg.nxpg.svc.redis.RedisClient;
 import com.skb.xpg.nxpg.svc.rest.RestClient;
 import com.skb.xpg.nxpg.svc.util.CastUtil;
 import com.skb.xpg.nxpg.svc.util.DateUtil;
+import com.skb.xpg.nxpg.svc.util.LogUtil;
 
 @Service
 public class MenuService {
@@ -49,7 +50,7 @@ public class MenuService {
 	// IF-NXPG-001
 	public void getMenuGnb(String ver, Map<String, String> param, Map<String, Object> rtn) {
 		try {
-			String version = StringUtils.defaultIfEmpty((String) redisClient.hget("version", NXPGCommon.MENU_GNB), "");
+			String version = StringUtils.defaultIfEmpty(redisClient.hget("version", NXPGCommon.MENU_GNB), "");
 			
 			if (version != null && param.containsKey("version")
 					&& !version.isEmpty() && param.get("version").compareTo(version) >= 0) {
@@ -57,7 +58,7 @@ public class MenuService {
 				rtn.put("result", "0000");
 				rtn.put("version", version);
 			} else {
-				String redisData = (String) redisClient.hget(NXPGCommon.MENU_GNB, param.get("menu_stb_svc_id"));
+				String redisData = redisClient.hget(NXPGCommon.MENU_GNB, param.get("menu_stb_svc_id"));
 				if (!"".equals(redisData) && redisData != null) {
 					List<Object> menugnb = CastUtil.StringToJsonList(redisData);
 					List<Map<String, Object>> data = CastUtil.getObjectToMapList(menugnb);
@@ -80,7 +81,7 @@ public class MenuService {
 				}
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			LogUtil.error(e.getStackTrace(), param.get("IF"), "", "", param.get("stb_id"), "", "");
 		}
 	}
 	
@@ -88,7 +89,7 @@ public class MenuService {
 	public void getMenuAll(String ver, Map<String, String> param, Map<String, Object> rtn) {
 		try {
 
-			String version = StringUtils.defaultIfEmpty((String) redisClient.hget("version",NXPGCommon.MENU_ALL), "");
+			String version = StringUtils.defaultIfEmpty(redisClient.hget("version",NXPGCommon.MENU_ALL), "");
 			
 			if (version != null && param.containsKey("version")
 					&& !version.isEmpty() && param.get("version").compareTo(version) >= 0) {
@@ -96,7 +97,7 @@ public class MenuService {
 				rtn.put("result", "0000");
 				rtn.put("version", version);
 			} else {
-				String redisData = (String) redisClient.hget(NXPGCommon.MENU_ALL, param.get("menu_stb_svc_id"));
+				String redisData = redisClient.hget(NXPGCommon.MENU_ALL, param.get("menu_stb_svc_id"));
 				if(!"".equals(redisData) && redisData != null) {
 					List<Object> menuall = CastUtil.StringToJsonList(redisData);
 					List<Map<String, Object>> data = (List<Map<String, Object>>) CastUtil.getObjectToMapList(menuall);
@@ -121,7 +122,7 @@ public class MenuService {
 			
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			LogUtil.error(e.getStackTrace(), param.get("IF"), "", "", param.get("stb_id"), "", "");
 		}
 	}
 	
@@ -129,7 +130,7 @@ public class MenuService {
 	public Map<String, Object> getBlockBigBanner(String ver, Map<String, String> param) {
 		try {
 //			System.out.println("11111 ::: " + param.get("menu_stb_svc_id") +  "_" + param.get("menu_id"));
-			Map<String, Object> bigbanner = CastUtil.StringToJsonMap((String) redisClient.hget("big_banner", param.get("menu_stb_svc_id") + "_" + param.get("menu_id")));
+			Map<String, Object> bigbanner = CastUtil.StringToJsonMap(redisClient.hget("big_banner", param.get("menu_stb_svc_id") + "_" + param.get("menu_id")));
 			
 			List<Map<String, Object>> banners = CastUtil.getObjectToMapList(bigbanner.get("banners"));
 			DateUtil.getCompare(banners, "dist_fr_dt", "dist_to_dt", false);
@@ -139,6 +140,7 @@ public class MenuService {
 			
 			return bigbanner;
 		} catch (Exception e) {
+			LogUtil.error(e.getStackTrace(), param.get("IF"), "", "", param.get("stb_id"), "", "");
 			return null;
 		}
 	}
@@ -147,7 +149,7 @@ public class MenuService {
 	public Map<String, Object> getBlockBlock(String ver, Map<String, String> param) {
 		try {
 			
-			Map<String, Object> blockblock = CastUtil.StringToJsonMap((String) redisClient.hget("block_block", param.get("menu_stb_svc_id") + "_" + param.get("menu_id")));
+			Map<String, Object> blockblock = CastUtil.StringToJsonMap(redisClient.hget("block_block", param.get("menu_stb_svc_id") + "_" + param.get("menu_id")));
 			
 			if (blockblock != null && blockblock.get("blocks") != null) {
 				List<Map<String, Object>> blocks = CastUtil.getObjectToMapList(blockblock.get("blocks"));
@@ -207,25 +209,20 @@ public class MenuService {
 			
 			return blockblock;
 		} catch (Exception e) {
-			e.printStackTrace();
+			LogUtil.error(e.getStackTrace(), param.get("IF"), "", "", "", param.get("stb_id"), "");
 			return null;
 		}
 	}
 	
 	// IF-NXPG-003
 	public Map<String, Object> getGridBanner(String menu_id) {
-		try {
-			return CastUtil.StringToJsonMap((String) redisClient.hget("grid_banner", menu_id));
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
+		return CastUtil.StringToJsonMap(redisClient.hget("grid_banner", menu_id));
 	}
 	
 	// IF-NXPG-005
 	public void getBlockMonth(Map<String, Object> rtn, Map<String, String> param) {
 		try {
-			Map<String, Object> bigbanner = CastUtil.StringToJsonMap((String) redisClient.hget("big_banner", param.get("menu_stb_svc_id") + "_" + param.get("menu_id")));
+			Map<String, Object> bigbanner = CastUtil.StringToJsonMap(redisClient.hget("big_banner", param.get("menu_stb_svc_id") + "_" + param.get("menu_id")));
 			
 			Map<String, Object> blockblock = null;
 //			Map<String, Object> blockblock = CastUtil.StringToJsonMap((String) redisClient.hget("block_block", param.get("menu_id")));
@@ -235,7 +232,7 @@ public class MenuService {
 			List<Map<String, Object>> banners = CastUtil.getObjectToMapList(bigbanner.get("banners"));
 			DateUtil.getCompare(banners, "dist_fr_dt", "dist_to_dt", false);
 			
-			List<Object> monthList = CastUtil.StringToJsonList((String) redisClient.hget("block_month", param.get("menu_stb_svc_id")));
+			List<Object> monthList = CastUtil.StringToJsonList(redisClient.hget("block_month", param.get("menu_stb_svc_id")));
 			
 			List<Map<String, Object>> user_month = new ArrayList<Map<String, Object>>();
 			for (Object month : monthList) {
@@ -258,7 +255,7 @@ public class MenuService {
 			}
 			
 			for (Map<String, Object> month_item : user_month) {
-				blockblock = CastUtil.StringToJsonMap((String) redisClient.hget("block_block", month_item.get("menu_id") + ""));
+				blockblock = CastUtil.StringToJsonMap(redisClient.hget("block_block", month_item.get("menu_id") + ""));
 				if (blockblock != null && !blockblock.isEmpty()) {
 					List<Map<String, Object>> blocks = CastUtil.getObjectToMapList(blockblock.get("blocks"));
 					DateUtil.getCompare(blocks, "dist_fr_dt", "dist_to_dt", false);
@@ -285,7 +282,7 @@ public class MenuService {
 			
 		} catch (Exception e) {
 			rtn.put("result", "9999");
-			e.printStackTrace();
+			LogUtil.error(e.getStackTrace(), param.get("IF"), "", "", param.get("stb_id"), "", "");
 			
 		}
 	}

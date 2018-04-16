@@ -79,17 +79,26 @@ public class CwController {
 		}
 		
 		// 값 불러오기
-		List<Map<String, Object>> list = cwService.cwGetRelation(ver, param);
+		Map<String, Object> resultMap = cwService.cwGetRelation(ver, param);
 		// 조회값 없음
-		if (list == null) {
+		if (resultMap == null) {
 			rtn.put("result", "9998");
 		}
 		// 성공
 		else {
-			rtn.put("result", "0000");
-			rtn.put("related_info", list);
-			rtn.put("total_count", list.size()+"");
-			rtn.put("status_code", "0000");
+			if("0000".equals(resultMap.get("status_code"))) {
+				rtn.put("result", "0000");
+				rtn.put("status_code", resultMap.get("status_code"));
+				rtn.put("related_info", resultMap.get("relation"));
+				rtn.put("total_count", resultMap.get("size"));
+				rtn.put("relation_contents", null);
+			}else {
+				rtn.put("result", "0000");
+				rtn.put("status_code", resultMap.get("status_code"));
+				rtn.put("relation_contents", resultMap.get("relation"));
+				rtn.put("total_count", resultMap.get("size"));
+				rtn.put("related_info", null);
+			}
 
 		}
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
