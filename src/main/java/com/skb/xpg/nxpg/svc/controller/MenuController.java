@@ -138,17 +138,19 @@ public class MenuController {
 		rtn.put("IF", IF);
 		rtn.put("request_time", DateUtil.getYYYYMMDDhhmmss());
 
-		if (StrUtil.isEmpty(param.get("prd_prc_id_lst"))) {
+		if (StrUtil.isEmpty(param.get("prd_prc_id_lst")) || param.get("prd_prc_id_lst").isEmpty()) {
 
 			rtn.put("result", "9996");
 			rtn.put("reason", "prd_prc_id_lst - 상품아이디 값 없음");
-		}
-		if (StrUtil.isEmpty(param.get("menu_stb_svc_id"))) {
-			param.put("menu_stb_svc_id", defaults.get("menu_stb_svc_id"));
+		} else {
+			if (StrUtil.isEmpty(param.get("menu_stb_svc_id"))) {
+				param.put("menu_stb_svc_id", defaults.get("menu_stb_svc_id"));
+			}
+			
+			// 값 불러오기 
+			menuService.getBlockMonth(rtn, param);
 		}
 		
-		// 값 불러오기 
-		menuService.getBlockMonth(rtn, param);
 		// 조회값 없음
 		
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
