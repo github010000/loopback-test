@@ -50,32 +50,37 @@ public class ContentsService {
 			} 
 			
 			epsd = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.SYNOPSIS_SRISINFO, epsd_id));
-			if (sris_id != null && sris_id.isEmpty()) {
+			if (epsd != null) {
 				sris_id = epsd.get("sris_id") + "";
 			}
-			sris = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.SYNOPSIS_CONTENTS, sris_id));
+			if (sris_id != null && !sris_id.isEmpty()) {
+				sris = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.SYNOPSIS_CONTENTS, sris_id));
+			}
+			
+			if (sris != null) {
+				if ("Y".equals(param.get("yn_recent")) && sris != null && "01".equals(sris.get("sris_typ_cd"))) {
 
-			if ("Y".equals(param.get("yn_recent")) && sris != null && "01".equals(sris.get("sris_typ_cd"))) {
-
-				String series = redisClient.hget("synopsis_sris", sris_id);
-				if (series != null && !series.isEmpty()) {
-					String last_epsd_id = "";
-					Pattern p = Pattern.compile(".*epsd_id\":\"([^\"]+)\"");
-					Matcher m = p.matcher(series);
-					
-					if (m.find()) {
-//						System.out.println(m.group(1));
-						last_epsd_id = m.group(1);
-					}
-					
-					if (!last_epsd_id.isEmpty()) {
-						epsd_id = last_epsd_id;
+					String series = redisClient.hget("synopsis_sris", sris_id);
+					if (series != null && !series.isEmpty()) {
+						String last_epsd_id = "";
+						Pattern p = Pattern.compile(".*epsd_id\":\"([^\"]+)\"");
+						Matcher m = p.matcher(series);
+						
+						if (m.find()) {
+//							System.out.println(m.group(1));
+							last_epsd_id = m.group(1);
+						}
+						
+						if (!last_epsd_id.isEmpty()) {
+							epsd_id = last_epsd_id;
+						}
 					}
 				}
 			}
+			
 
 			// 조회값 없음
-			if (sris == null) {
+			if (epsd == null) {
 				rtn.put("result", "9998");
 			} else {
 				sris.putAll(epsd);

@@ -45,16 +45,17 @@ public class CwController {
 		}
 		
 		// 값 불러오기
-		List<Map<String, Object>> list = cwService.cwGetGrid(ver, param);
+		Map<String, Object> resultMap = cwService.cwGetGrid(ver, param);
 		// 조회값 없음
-		if (list == null) {
+		if (resultMap == null) {
 			rtn.put("result", "9998");
 		}
 		// 성공
 		else {
 			rtn.put("result", "0000");
-			rtn.put("grid", list);
-			rtn.put("total_count", list.size()+"");
+			rtn.put("status_code", resultMap.get("status_code"));
+			rtn.put("grid", resultMap.get("grid"));
+			rtn.put("total_count", resultMap.get("size"));
 		}
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
 		return rtn;
@@ -99,7 +100,6 @@ public class CwController {
 				rtn.put("total_count", resultMap.get("size"));
 				rtn.put("related_info", null);
 			}
-
 		}
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
 		return rtn;

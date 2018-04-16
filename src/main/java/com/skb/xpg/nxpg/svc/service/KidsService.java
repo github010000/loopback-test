@@ -98,19 +98,24 @@ public class KidsService {
 			
 			contentsService.getContentsCorner(synop, param.get("epsd_id"));
 			
-			if (synop.containsKey("sris_id") && synop.get("sris_id") != null) {
-				Map<String, Object> purchares = contentsService.getContentsPurchares(synop.get("sris_id").toString());
-				if (purchares != null && purchares.get("products") != null) {
-					List<Map<String, Object>> products = CastUtil.getObjectToMapList(purchares.get("products"));
-					DateUtil.getCompare(products, "prd_prc_fr_dt", "purc_wat_to_dt", true);
-					rtn.put("purchares", purchares.get("products"));
-				}
-				rtn.put("result", "0000");
-				rtn.put("contents", synop);
-			} else {
-				rtn.put("result", "9999");
+			if (synop == null) {
+				rtn.put("result", "9998");
 				rtn.put("contents", null);
-				
+			} else {
+				if (synop.containsKey("sris_id") && synop.get("sris_id") != null) {
+					Map<String, Object> purchares = contentsService.getContentsPurchares(synop.get("sris_id").toString());
+					if (purchares != null && purchares.get("products") != null) {
+						List<Map<String, Object>> products = CastUtil.getObjectToMapList(purchares.get("products"));
+						DateUtil.getCompare(products, "prd_prc_fr_dt", "purc_wat_to_dt", true);
+						rtn.put("purchares", purchares.get("products"));
+					}
+					rtn.put("result", "0000");
+					rtn.put("contents", synop);
+				} else {
+					rtn.put("result", "9999");
+					rtn.put("contents", null);
+					
+				}
 			}
 			
 		} catch (Exception e) {

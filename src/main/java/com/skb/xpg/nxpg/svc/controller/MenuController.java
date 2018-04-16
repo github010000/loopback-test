@@ -116,6 +116,7 @@ public class MenuController {
 			rtn.putAll(blockblock);
 		} else {
 			rtn.put("blocks", null);
+			rtn.put("result", "9998");
 			rtn.put("block_count", "0");
 		}
 			// 카운트 넣어주기 

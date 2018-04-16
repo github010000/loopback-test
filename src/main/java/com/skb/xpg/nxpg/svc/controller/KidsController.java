@@ -179,7 +179,7 @@ public class KidsController {
 		// 값 불러오기
 		String map = kidsService.getMenulfthomemapping(ver, param);
 		// 조회값 없음
-		if (map == null) {
+		if (map == null || map.isEmpty()) {
 			rtn.put("result", "9998");
 		}
 		// 성공
