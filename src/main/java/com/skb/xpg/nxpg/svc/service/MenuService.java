@@ -235,46 +235,57 @@ public class MenuService {
 			List<Object> monthList = CastUtil.StringToJsonList(redisClient.hget("block_month", param.get("menu_stb_svc_id")));
 			
 			List<Map<String, Object>> user_month = new ArrayList<Map<String, Object>>();
-			for (Object month : monthList) {
-				Map<String, Object> tempMonth = CastUtil.getObjectToMap(month);
-				if (tempMonth.get("prd_prc_id") != null) {
-					String tm = tempMonth.get("prd_prc_id") + "";
-					if (param.get("prd_prc_id_lst").contains(tm)) {
-						List<Map<String, Object>> lowrank = CastUtil.getObjectToMapList(tempMonth.get("low_rank_products"));
-						if (lowrank == null || lowrank.size() < 1) {
-							user_month.add(tempMonth);
-						} else {
-							for (Map<String, Object> low : lowrank) {
-								user_month.add(low);
+			if (monthList != null) {
+				for (Object month : monthList) {
+					Map<String, Object> tempMonth = CastUtil.getObjectToMap(month);
+					if (tempMonth.get("prd_prc_id") != null) {
+						String tm = tempMonth.get("prd_prc_id") + "";
+						if (param.get("prd_prc_id_lst").contains(tm)) {
+							List<Map<String, Object>> lowrank = CastUtil.getObjectToMapList(tempMonth.get("low_rank_products"));
+							if (lowrank == null || lowrank.size() < 1) {
+								user_month.add(tempMonth);
+							} else {
+								for (Map<String, Object> low : lowrank) {
+									user_month.add(low);
+								}
 							}
+//							blockblock.put("block_count", blockblock.get("total_count"));
+//							blockblock.remove("total_count");
 						}
-//						blockblock.put("block_count", blockblock.get("total_count"));
-//						blockblock.remove("total_count");
 					}
 				}
-			}
-			
-			for (Map<String, Object> month_item : user_month) {
-				blockblock = CastUtil.StringToJsonMap(redisClient.hget("block_block", month_item.get("menu_id") + ""));
-				if (blockblock != null && !blockblock.isEmpty()) {
-					List<Map<String, Object>> blocks = CastUtil.getObjectToMapList(blockblock.get("blocks"));
-					DateUtil.getCompare(blocks, "dist_fr_dt", "dist_to_dt", false);
-					
-					newBlocks.addAll(blocks);
+				
+				for (Map<String, Object> month_item : user_month) {
+					blockblock = CastUtil.StringToJsonMap(redisClient.hget("block_block", month_item.get("menu_id") + ""));
+					if (blockblock != null && !blockblock.isEmpty()) {
+						List<Map<String, Object>> blocks = CastUtil.getObjectToMapList(blockblock.get("blocks"));
+						DateUtil.getCompare(blocks, "dist_fr_dt", "dist_to_dt", false);
+						
+						newBlocks.addAll(blocks);
+					}
 				}
+				
+				if (user_month.size() > 0) {
+					rtn.put("result", "0000");
+					if (bigbanner != null) {
+						rtn.putAll(bigbanner);
+					}
+					rtn.put("blocks", newBlocks);
+					rtn.put("block_count", newBlocks.size());
+					rtn.put("month", user_month);
+				} else {
+					rtn.put("result", "9995");
+					rtn.put("reason", "상품ID 올바르지 않음");
+				}
+				
+			} else {
+
+				rtn.put("result", "9998");
 			}
 			
 			
 			// 성공
-			rtn.put("result", "0000");
-			if (bigbanner != null) {
-				rtn.putAll(bigbanner);
-			}
-			if (newBlocks != null) {
-				rtn.put("blocks", newBlocks);
-				rtn.put("block_count", newBlocks.size());
-			}
-			rtn.put("month", user_month);
+			
 			
 			
 			// 카운트 넣어주기 
