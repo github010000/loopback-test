@@ -42,7 +42,7 @@ public class RestClient {
 		
 		
 		HttpResponse response;
-		BufferedReader rd;
+		BufferedReader rd = null;
 		StringBuffer result = new StringBuffer();
 		try {
 			response = client.execute(request);
@@ -59,12 +59,16 @@ public class RestClient {
 			LogUtil.error(e1.getStackTrace(), "", "", "", "", "", "");
 		} catch (IOException e1) {
 			LogUtil.error(e1.getStackTrace(), "", "", "", "", "", "");
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
 		} catch (UnsupportedOperationException e) {
-			LogUtil.error(e.getStackTrace(), "", "", "", "", "", "");
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LogUtil.error(e.getStackTrace(), "", "", "", "", "", "");
+		} finally {
+			try {
+				rd.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				LogUtil.error(e.getStackTrace(), "", "", "", "", "", "");
+			}
 		}
 		
 		return result.toString();

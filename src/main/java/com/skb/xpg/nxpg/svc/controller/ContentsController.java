@@ -42,10 +42,10 @@ public class ContentsController {
 			return rtn;
 		}
 		
-		if ((param.get("search_type").equals("1") && StrUtil.isEmpty(param.get("epsd_id")))
-			|| (param.get("search_type").equals("2") && StrUtil.isEmpty(param.get("epsd_rslu_id")))
-			|| (param.get("search_type").equals("3") && StrUtil.isEmpty(param.get("sris_id")) && StrUtil.isEmpty(param.get("epsd_id")))
-			) {
+		if (("1").equals(param.get("search_type")) && StrUtil.isEmpty(param.get("epsd_id"))
+			|| ("2").equals(param.get("search_type")) && StrUtil.isEmpty(param.get("epsd_rslu_id"))
+			|| ("3").equals(param.get("search_type")) && StrUtil.isEmpty(param.get("sris_id")) && StrUtil.isEmpty(param.get("epsd_id")))
+			{
 			rtn.put("result", "9999");
 			rtn.put("reason", "search_type에 맞는 param입력 요망");
 			return rtn;

@@ -225,14 +225,15 @@ public class CwService {
 			for(Map<String, Object>temp:resultList ) {
 				List<Map<String, Object>>resultGridList = new ArrayList<Map<String,Object>>();
 				Map<String, Object> resultMap = new HashMap<String, Object>();
-				List<String>tempIdList = (List<String>) temp.get("idList");
+				List<String> tempIdList = CastUtil.getObjectToListString(temp.get("idList"));
+//			List<String>tempIdList = (List<String>) temp.get("idList");
 				if(tempIdList != null) {
 					for(String dataGrp:tempIdList) {
 						String [] idNblockId = dataGrp.split("\\|");
 						
 						String epsd_rslu_id = idNblockId[0];
 						String trackId = idNblockId[1];
-						
+
 						Map<String, Object> gridData = new HashMap<String, Object>();
 						Map<String, Object> cidInfo = CastUtil.StringToJsonMap(redisClient.hget("contents_cidinfo",epsd_rslu_id));
 						if(cidInfo != null) {
@@ -240,11 +241,11 @@ public class CwService {
 							String sris_id = CastUtil.getObjectToString(cidInfo.get("sris_id"));
 //							String epsd_id = (String) cidInfo.get("epsd_id");
 //							String sris_id = (String) cidInfo.get("sris_id");
-							
+						
 							Map<String, Object> contentInfo = CastUtil.StringToJsonMap(redisClient.hget("synopsis_contents",sris_id));
 							Map<String, Object> srisInfo = CastUtil.StringToJsonMap(redisClient.hget("synopsis_srisInfo",epsd_id));
 							if(contentInfo != null && srisInfo != null) {
-								
+							
 								gridData.put("poster_filename_h", srisInfo.get("epsd_poster_filename_h"));
 								gridData.put("sris_id", srisInfo.get("sris_id"));
 								gridData.put("poster_filename_v", srisInfo.get("epsd_poster_filename_v"));
@@ -253,7 +254,7 @@ public class CwService {
 								gridData.put("adlt_lvl_cd", srisInfo.get("adlt_lvl_cd"));
 								gridData.put("title", srisInfo.get("sub_title"));//? 뭘 써야할지...						
 								gridData.put("trackId", trackId);//? 뭘 써야할지...						
-								
+							
 								resultGridList.add(gridData);
 							}
 						}
@@ -266,13 +267,13 @@ public class CwService {
 				resultMap.put("sub_title", temp.get("blockTitle"));
 				resultMap.put("block_cnt", resultGridList.size());
 				resultMap.put("cw_call_id", objMap.get("cw_call_id"));
-	
-				
+
+			
 				cwGrid.add(resultMap);
 				resultMap = new HashMap<String, Object>();
-				
+			
 			}
-		}else {
+		} else {
 			cwGrid=null;
 		}
 		
@@ -307,7 +308,8 @@ public class CwService {
 			for(Map<String, Object>temp:resultList ) {
 				List<Map<String, Object>>resultRelationList = new ArrayList<Map<String,Object>>();
 				Map<String, Object> resultMap = new HashMap<String, Object>();
-				List<String>tempIdList = (List<String>) temp.get("idList");
+				List<String> tempIdList = CastUtil.getObjectToListString(temp.get("idList"));
+//				List<String>tempIdList = (List<String>) temp.get("idList");
 				if(tempIdList != null) {
 					for(String dataGrp:tempIdList) {
 						String [] idNblockId = dataGrp.split("\\|");
@@ -369,10 +371,12 @@ public class CwService {
 	
 	public void getCwData(Map<String, Object> objMap, List<Map<String, Object>> resultList) {
 		
-		List<Map<String, Object>> sections = (List<Map<String, Object>>) objMap.get("sections");
+		List<Map<String, Object>> sections = CastUtil.getObjectToMapList(objMap.get("sections"));
+//		List<Map<String, Object>> sections = (List<Map<String, Object>>) objMap.get("sections");
 		
 		//단일섹션은 응답값이 다르므로 담는 변수를 따로 둔다.
-		List<Map<String, Object>> oneSecBlocks = (List<Map<String, Object>>) objMap.get("blocks");
+		List<Map<String, Object>> oneSecBlocks = CastUtil.getObjectToMapList(objMap.get("blocks"));
+//		List<Map<String, Object>> oneSecBlocks = (List<Map<String, Object>>) objMap.get("blocks");
 		
 		Map<String, Object> result = new HashMap<String, Object>(); 
 		
@@ -382,7 +386,9 @@ public class CwService {
 		if(sections != null) {
 			for(Map<String, Object>sectionMap:sections) {
 				List<Map<String, Object>> blocks = null;
-				blocks = (List<Map<String, Object>>) sectionMap.get("blocks");
+				blocks = CastUtil.getObjectToMapList(objMap.get("blocks"));
+//				blocks = (List<Map<String, Object>>) sectionMap.get("blocks");
+				
 				if(blocks != null) {
 					for(Map<String, Object>blockMap:blocks) {
 						//데이터 생성 로직
@@ -417,10 +423,12 @@ public class CwService {
 	
 	public void makeItem(Map<String, Object>temp, Map<String, Object> result, List<String> idList) {
 		List<Map<String, Object>> items = null;
-		items = (List<Map<String, Object>>) temp.get("items");
+		items = CastUtil.getObjectToMapList(temp.get("items"));
+//		items = (List<Map<String, Object>>) temp.get("items");
 		if(items != null) {
 			for(Map<String, Object>itemMap:items) {
-				Map<String, Object> itemIds = (Map<String, Object>) itemMap.get("itemIds");
+				Map<String, Object> itemIds = CastUtil.getObjectToMap(itemMap.get("itemsIds")); 
+//				Map<String, Object> itemIds = (Map<String, Object>) itemMap.get("itemIds");
 				String contentId = CastUtil.getObjectToString(itemIds.get("CW"));
 				String trackId = CastUtil.getObjectToString(itemIds.get("trackId"));
 //				String contentId = (String) itemIds.get("CW");
@@ -435,85 +443,6 @@ public class CwService {
 		result.put("idList",idList);
 	}	
 	
-	
-	
-//	public void  restMatching() {
-//		
-//		
-//		Map<String,List<Object>> codePeopleMap = new HashMap<String, List<Object>>();
-//		codePeopleMap.put(DIRECTOR, new ArrayList<Object>() );
-//		codePeopleMap.put(ACTOR, new ArrayList<Object>() );
-//		
-//		List<String> code = new ArrayList<String>();
-//		List<String> person = new ArrayList<String>();
-//		
-//		String regex="(prs_role_cd)\"[\\s]*:[\\s]*\\[*\"([^\"]+)\"\\]*";
-//		Pattern ptn = Pattern.compile(regex); 
-//		Matcher matcher = ptn.matcher(/*actorString 배우 및 감독*/); 
-//		while(matcher.find()){
-//			code.add(matcher.group(2));
-//		}
-//		
-//		String regexNm="(prs_nm)\"[\\s]*:[\\s]*\\[*\"([^\"]+)\"\\]*";
-//		Pattern ptnNm = Pattern.compile(regexNm); 
-//		Matcher matcherNm = ptnNm.matcher(/*actorString 배우 및 감독*/); 
-//		while(matcherNm.find()){
-//			person.add(matcherNm.group(2));
-//		}
-//		
-//		System.out.println("RestTemplateSvc.restMatching() " + code.toString() + person.toString() ) ;
-//		
-//		
-//		// codePeopleMap 에 Director, Actor 별로 분기하여 List에 담기 위한 작업 loop
-//		int i = 0;
-//		for( String cdx : code ) {
-//			
-//			switch (cdx) {
-//				case "00": // Director
-//					codePeopleMap.get(DIRECTOR).add(person.get(i));
-//					break;
-//					
-//				case "10": // Actor 
-//					codePeopleMap.get(ACTOR).add(person.get(i));
-//					break;
-//	
-//				default:
-//					codePeopleMap.get(DIRECTOR).add(person.get(i));
-//					break;
-//			}
-//			
-//			i++;
-//		}
-//		
-//		String[] peoples = {"#Actor1# 출연 영화","#Director2# 연출 영화","#Actor2# 출연 영화","#Director1# 연출 영화"};
-//		
-//		// people ["#Actor1# 출연 영화","#Director2# 연출 영화","#Actor2# 출연 영화","#Director1# 연출 영화"];
-//		for( String man: peoples) {
-//			System.out.println( repalceData( man, codePeopleMap) );
-//		}
-//		
-//	}
-//	
-//	private String repalceData( String man, Map<String,List<Object>> codePeopleMap ) {
-//		
-//		man = man.replaceAll("\\#", ""); // # 없애버리기 
-//		
-//		if( man.startsWith(ACTOR) ) {  // Actor로 시작하는거
-//			return getReturnData( man, ACTOR, codePeopleMap);
-//			
-//		}else if( man.startsWith(DIRECTOR) ) { // Director로 시작하는거
-//			return getReturnData( man, DIRECTOR, codePeopleMap);
-//		}
-//		return "";
-//	}
-//	
-//	public String getReturnData(String man, String type, Map<String,List<Object>> codePeopleMap  ) {
-//	
-//		String pos = StringUtils.defaultIfEmpty( man.split(" ")[0].replace(type, ""), "" );
-//		int cnt = Integer.parseInt( pos.equals("") ? "1" : pos );
-//		return man.replace(type+pos, codePeopleMap.get(type).get(cnt-1).toString() );
-//	}
-//	
 //	public String makeRelationTitle(String blockTitle, String epsd_id) {
 //
 ////		String titleKey = "";

@@ -95,4 +95,11 @@ public class CastUtil {
 		
 	}	
 	
+	@SuppressWarnings("unchecked")
+	public static List<String> getObjectToListString(Object obj) {
+		if (obj != null && obj instanceof List<?>) {
+			List<String> map = (List<String>) obj;
+			return map;
+		} else return null;
+	}
 }

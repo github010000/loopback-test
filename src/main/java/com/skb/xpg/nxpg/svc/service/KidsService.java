@@ -69,7 +69,6 @@ public class KidsService {
 			String redisData = redisClient.hget("menu_kidsGnb", param.get("menu_stb_svc_id"));
 			String kidsMenu = "";
 			// 살아있는 동화
-			String kidszGnbCd = "70";
 			
 			if(!"".equals(redisData) && redisData != null) {
 				List<Object> kidsMenuGnb = CastUtil.StringToJsonList(redisData);	
@@ -77,7 +76,7 @@ public class KidsService {
 				
 				for(Map<String, Object> kids : data) {
 		           // 살아있는 동화 최상위 메뉴 ID 가져오기
-		           if(kids.get("kidsz_gnb_cd").equals(kidszGnbCd)){
+		           if(("70").equals(kids.get("kidsz_gnb_cd"))){
 		        	   kidsMenu = CastUtil.getObjectToString(kids.get("menu_id"));
 //		        	   kidsMenu = (String) kids.get("menu_id"); 
 		        	   break;
