@@ -44,7 +44,7 @@ public class ContentsService {
 
 				epsd_rslu_id = param.get("epsd_rslu_id");
 
-				Map<String, Object> mapping = CastUtil.StringToJsonMap(redisClient.hget("contents_cidinfo", epsd_rslu_id));
+				Map<String, Object> mapping = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.CONTENTS_CIDINFO, epsd_rslu_id));
 				sris_id = mapping.get("sris_id") + "";
 				epsd_id = mapping.get("epsd_id") + "";
 			} 
@@ -60,7 +60,7 @@ public class ContentsService {
 			if (sris != null) {
 				if ("Y".equals(param.get("yn_recent")) && sris != null && "01".equals(sris.get("sris_typ_cd"))) {
 
-					String series = redisClient.hget("synopsis_sris", sris_id);
+					String series = redisClient.hget(NXPGCommon.SYNOPSIS_SRIS, sris_id);
 					if (series != null && !series.isEmpty()) {
 						String last_epsd_id = "";
 						Pattern p = Pattern.compile(".*epsd_id\":\"([^\"]+)\"");
@@ -124,11 +124,11 @@ public class ContentsService {
 	//IF-NXPG-010
 	public Map<String, Object> getContentsCommerce(String ver, Map<String, String> param) {
 		try {
-			Map<String, Object> commerce = CastUtil.StringToJsonMap(redisClient.hget("synopsis_commerce", param.get("sris_id")));
+			Map<String, Object> commerce = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.SYNOPSIS_COMMERCE, param.get("sris_id")));
 			
-			commerce.put("info_id", CastUtil.StringToJsonMap(redisClient.hget("contents_phrase", commerce.get("info_id").toString())));
-			commerce.put("delivery_info_id", CastUtil.StringToJsonMap(redisClient.hget("contents_phrase", commerce.get("delivery_info_id").toString())));
-			commerce.put("refund_info_id", CastUtil.StringToJsonMap(redisClient.hget("contents_phrase", commerce.get("refund_info_id").toString())));
+			commerce.put("info_id", CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.CONTENTS_PHRASE, commerce.get("info_id").toString())));
+			commerce.put("delivery_info_id", CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.CONTENTS_PHRASE, commerce.get("delivery_info_id").toString())));
+			commerce.put("refund_info_id", CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.CONTENTS_PHRASE, commerce.get("refund_info_id").toString())));
 			return commerce;
 		} catch (Exception e) {
 			LogUtil.error(e.getStackTrace(), param.get("IF"), "", "", param.get("stb_id"), "", "");
@@ -182,7 +182,7 @@ public class ContentsService {
 	//IF-NXPG-025
 	public Object getContentsSeries(String sris_id) {
 		try {
-			Map<String, Object> temp = CastUtil.StringToJsonMap(redisClient.hget("synopsis_sris", sris_id));
+			Map<String, Object> temp = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.SYNOPSIS_SRIS, sris_id));
 			return temp.get("episodes");
 		} catch (Exception e) {
 			LogUtil.error(e.getStackTrace(), "", "", "", "", "", "");
@@ -193,7 +193,7 @@ public class ContentsService {
 	//IF-NXPG-013
 	public void getContentsCorner(Map<String, Object> contents, String epsd_id) {
 		try {
-			String redisData = redisClient.hget("contents_corner", epsd_id);
+			String redisData = redisClient.hget(NXPGCommon.CONTENTS_CORNER, epsd_id);
 			Map <String, Object> redisMap = null;
 			if(redisData!=null&&!"".equals(redisData)) {
 				redisMap = CastUtil.StringToJsonMap(redisData);
@@ -211,7 +211,7 @@ public class ContentsService {
 	//IF-NXPG-013
 	public Map<String, Object> getCornerGather(String ver, Map<String, String> param) {
 		try {
-			return CastUtil.StringToJsonMap(redisClient.hget("corner_gather", param.get("cnr_grp_id")));
+			return CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.CONTENTS_GATHER, param.get("cnr_grp_id")));
 		} catch (Exception e) {
 			LogUtil.error(e.getStackTrace(), param.get("IF"), "", "", param.get("stb_id"), "", "");
 			return null;
@@ -221,7 +221,7 @@ public class ContentsService {
 	//IF-NXPG-014
 	public List getContentsGwsynop(String ver, Map<String, String> param) {
 		try {
-			return CastUtil.StringToJsonList(redisClient.hget("synopsis_gateway", param.get("sris_id")));
+			return CastUtil.StringToJsonList(redisClient.hget(NXPGCommon.SYNOPSIS_GATEWAY, param.get("sris_id")));
 		} catch (Exception e) {
 			LogUtil.error(e.getStackTrace(), param.get("IF"), "", "", param.get("stb_id"), "", "");
 			return null;
@@ -252,7 +252,7 @@ public class ContentsService {
 	public Map<String, Object> getContentsReview(String ver, Map<String, String> param) {
 		
 		try {
-			String redisData = redisClient.hget("contents_review", param.get("sris_id"));
+			String redisData = redisClient.hget(NXPGCommon.CONTENTS_REVIEW, param.get("sris_id"));
 			Map<String, Object> root = null;
 			if (redisData != null && !"".equals(redisData)) {
 				root = CastUtil.StringToJsonMap(redisData);
@@ -299,7 +299,7 @@ public class ContentsService {
 	//IF-NXPG-01?
 	public void getContentsReview(Map<String, Object> contents, String sris_id) {
 		try {
-			String redisData = redisClient.hget("contents_review", sris_id);
+			String redisData = redisClient.hget(NXPGCommon.CONTENTS_REVIEW, sris_id);
 			Map<String, Object> root = null;
 			if (redisData != null && !"".equals(redisData)) {
 				root = CastUtil.StringToJsonMap(redisData);
@@ -334,7 +334,7 @@ public class ContentsService {
 	//IF-NXPG-01?
 	public Map<String, Object> getPeopleInfo(String ver, Map<String, String> param) {
 		try {
-			return CastUtil.StringToJsonMap(redisClient.hget("people_info", param.get("prs_id")));
+			return CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.PEOPLE_INFO, param.get("prs_id")));
 		} catch (Exception e) {
 			LogUtil.error(e.getStackTrace(), param.get("IF"), "", "", param.get("stb_id"), "", "");
 			return null;

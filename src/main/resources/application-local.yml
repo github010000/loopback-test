@@ -84,6 +84,11 @@ spring:
     host: localhost
     port: 6379
     password: null
+second:
+  redis:
+    host: localhost
+    port: 6379
+    password: null
 management:
   security:
     enabled: false

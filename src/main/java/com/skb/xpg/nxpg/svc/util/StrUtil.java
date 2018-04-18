@@ -52,6 +52,7 @@ public class StrUtil {
 		Matcher matcher = ptn.matcher(replaceStr); 
 		while(matcher.find()){ 
 			result=matcher.group(1);
+			break;
 		}
 		
 		return result;

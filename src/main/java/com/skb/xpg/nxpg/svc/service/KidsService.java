@@ -7,6 +7,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.skb.xpg.nxpg.svc.common.NXPGCommon;
 import com.skb.xpg.nxpg.svc.redis.RedisClient;
 import com.skb.xpg.nxpg.svc.util.CastUtil;
 import com.skb.xpg.nxpg.svc.util.DateUtil;
@@ -23,10 +24,10 @@ public class KidsService {
 	// IF-NXPG-101
 	public List getMenuKzchar(String ver, Map<String, String> param) {
 		try {
-			List<Object> kzchar = CastUtil.StringToJsonList(redisClient.hget("menu_kidsGnb", param.get("menu_stb_svc_id")));
+			List<Object> kzchar = CastUtil.StringToJsonList(redisClient.hget(NXPGCommon.MENU_KIDSGNB, param.get("menu_stb_svc_id")));
 			DateUtil.getCompareObject(kzchar, "dist_fr_dt", "dist_to_dt", false);
 			
-			return CastUtil.StringToJsonList(redisClient.hget("menu_kidsCharacter", param.get("menu_stb_svc_id")));
+			return CastUtil.StringToJsonList(redisClient.hget(NXPGCommon.MENU_KIDSCHARACTER, param.get("menu_stb_svc_id")));
 		} catch (Exception e) {
 			LogUtil.error(e.getStackTrace(), param.get("IF"), "", "", param.get("stb_id"), "", "");
 			return null;
@@ -35,7 +36,7 @@ public class KidsService {
 	// IF-NXPG-102
 	public void getMenuKzgnb(Map<String, Object> rtn, Map<String, String> param) {
 		try {
-			String version = StringUtils.defaultIfEmpty(redisClient.hget("version", "menu_kidsGnb"), "");
+			String version = StringUtils.defaultIfEmpty(redisClient.hget(NXPGCommon.VERSION, "menu_kidsGnb"), "");
 			rtn.put("version", version);
 			
 			if (version != null && param.containsKey("version")
@@ -44,7 +45,7 @@ public class KidsService {
 				rtn.put("result", "0000");
 			} else {
 				
-				List<Object> kzgnb = CastUtil.StringToJsonList(redisClient.hget("menu_kidsGnb", param.get("menu_stb_svc_id")));
+				List<Object> kzgnb = CastUtil.StringToJsonList(redisClient.hget(NXPGCommon.MENU_KIDSGNB, param.get("menu_stb_svc_id")));
 				
 				if (kzgnb == null) {
 					rtn.put("result", "9998");
@@ -66,7 +67,7 @@ public class KidsService {
 	// IF-NXPG-401
 	public String getMenulfthomemapping(String ver, Map<String, String> param) {
 		try {
-			String redisData = redisClient.hget("menu_kidsGnb", param.get("menu_stb_svc_id"));
+			String redisData = redisClient.hget(NXPGCommon.MENU_KIDSGNB, param.get("menu_stb_svc_id"));
 			String kidsMenu = "";
 			// 살아있는 동화
 			
@@ -93,7 +94,7 @@ public class KidsService {
 	// IF-NXPG-403
 	public void getContentsLftsynop(Map<String, Object> rtn, Map<String, String> param) {
 		try {
-			Map<String, Object> synop = CastUtil.StringToJsonMap(redisClient.hget("synopsis_liveChildStory", param.get("epsd_id")));
+			Map<String, Object> synop = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.SYNOPSIS_LIVECHILDSTORY, param.get("epsd_id")));
 			
 			contentsService.getContentsCorner(synop, param.get("epsd_id"));
 			

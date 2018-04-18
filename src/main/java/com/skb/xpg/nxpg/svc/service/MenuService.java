@@ -50,7 +50,7 @@ public class MenuService {
 	// IF-NXPG-001
 	public void getMenuGnb(String ver, Map<String, String> param, Map<String, Object> rtn) {
 		try {
-			String version = StringUtils.defaultIfEmpty(redisClient.hget("version", NXPGCommon.MENU_GNB), "");
+			String version = StringUtils.defaultIfEmpty(redisClient.hget(NXPGCommon.VERSION, NXPGCommon.MENU_GNB), "");
 			
 			if (version != null && param.containsKey("version")
 					&& !version.isEmpty() && param.get("version").compareTo(version) >= 0) {
@@ -89,7 +89,7 @@ public class MenuService {
 	public void getMenuAll(String ver, Map<String, String> param, Map<String, Object> rtn) {
 		try {
 
-			String version = StringUtils.defaultIfEmpty(redisClient.hget("version",NXPGCommon.MENU_ALL), "");
+			String version = StringUtils.defaultIfEmpty(redisClient.hget(NXPGCommon.VERSION,NXPGCommon.MENU_ALL), "");
 			
 			if (version != null && param.containsKey("version")
 					&& !version.isEmpty() && param.get("version").compareTo(version) >= 0) {
@@ -130,7 +130,7 @@ public class MenuService {
 	public Map<String, Object> getBlockBigBanner(String ver, Map<String, String> param) {
 		try {
 //			System.out.println("11111 ::: " + param.get("menu_stb_svc_id") +  "_" + param.get("menu_id"));
-			Map<String, Object> bigbanner = CastUtil.StringToJsonMap(redisClient.hget("big_banner", param.get("menu_stb_svc_id") + "_" + param.get("menu_id")));
+			Map<String, Object> bigbanner = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.BIG_BANNER, param.get("menu_stb_svc_id") + "_" + param.get("menu_id")));
 			
 			List<Map<String, Object>> banners = CastUtil.getObjectToMapList(bigbanner.get("banners"));
 			DateUtil.getCompare(banners, "dist_fr_dt", "dist_to_dt", false);
@@ -149,7 +149,7 @@ public class MenuService {
 	public Map<String, Object> getBlockBlock(String ver, Map<String, String> param) {
 		try {
 			
-			Map<String, Object> blockblock = CastUtil.StringToJsonMap(redisClient.hget("block_block", param.get("menu_stb_svc_id") + "_" + param.get("menu_id")));
+			Map<String, Object> blockblock = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.BLOCK_BLOCK, param.get("menu_stb_svc_id") + "_" + param.get("menu_id")));
 			
 			if (blockblock != null && blockblock.get("blocks") != null) {
 				List<Map<String, Object>> blocks = CastUtil.getObjectToMapList(blockblock.get("blocks"));
@@ -216,23 +216,22 @@ public class MenuService {
 	
 	// IF-NXPG-003
 	public Map<String, Object> getGridBanner(String menu_id) {
-		return CastUtil.StringToJsonMap(redisClient.hget("grid_banner", menu_id));
+		return CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.GRID_BANNER, menu_id));
 	}
 	
 	// IF-NXPG-005
 	public void getBlockMonth(Map<String, Object> rtn, Map<String, String> param) {
 		try {
-			Map<String, Object> bigbanner = CastUtil.StringToJsonMap(redisClient.hget("big_banner", param.get("menu_stb_svc_id") + "_" + param.get("menu_id")));
+			Map<String, Object> bigbanner = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.BIG_BANNER, param.get("menu_stb_svc_id") + "_" + param.get("menu_id")));
 			
 			Map<String, Object> blockblock = null;
-//			Map<String, Object> blockblock = CastUtil.StringToJsonMap((String) redisClient.hget("block_block", param.get("menu_id")));
 			
 			List<Map<String, Object>> newBlocks = new ArrayList<Map<String, Object>>();
 			
 			List<Map<String, Object>> banners = CastUtil.getObjectToMapList(bigbanner.get("banners"));
 			DateUtil.getCompare(banners, "dist_fr_dt", "dist_to_dt", false);
 			
-			List<Object> monthList = CastUtil.StringToJsonList(redisClient.hget("block_month", param.get("menu_stb_svc_id")));
+			List<Object> monthList = CastUtil.StringToJsonList(redisClient.hget(NXPGCommon.BLOCK_MONTH, param.get("menu_stb_svc_id")));
 			
 			List<Map<String, Object>> user_month = new ArrayList<Map<String, Object>>();
 			if (monthList != null) {
@@ -256,7 +255,7 @@ public class MenuService {
 				}
 				
 				for (Map<String, Object> month_item : user_month) {
-					blockblock = CastUtil.StringToJsonMap(redisClient.hget("block_block", month_item.get("menu_id") + ""));
+					blockblock = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.BLOCK_BLOCK, month_item.get("menu_id") + ""));
 					if (blockblock != null && !blockblock.isEmpty()) {
 						List<Map<String, Object>> blocks = CastUtil.getObjectToMapList(blockblock.get("blocks"));
 						DateUtil.getCompare(blocks, "dist_fr_dt", "dist_to_dt", false);
@@ -307,7 +306,7 @@ public class MenuService {
 		Map<String, Object> keyAndValue;
 		
 		String cwparam = "";
-
+		
 		keyAndValue = CastUtil.getObjectToMap(cw.get("userpage"));
 					
 		String path = keyAndValue.get("uri").toString();

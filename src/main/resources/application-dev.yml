@@ -82,6 +82,11 @@ spring:
     host: 10.10.113.8
     port: 6379
     password: eera9eizohxiengaF9iemai3zuc4oogh
+second:
+  redis:
+    host: 10.10.113.8
+    port: 6379
+    password: eera9eizohxiengaF9iemai3zuc4oogh
 management:
   security:
     enabled: false

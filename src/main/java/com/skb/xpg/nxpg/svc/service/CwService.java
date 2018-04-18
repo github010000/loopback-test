@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -102,6 +106,9 @@ public class CwService {
 			String contentId = StrUtil.getRegexString(regex, contentInfo);
 			param.put("con_id", contentId);
 			
+			
+			
+			
 			String type = CastUtil.getString(param.get("type"));
 //			String type = (String)param.get("type");
 			
@@ -129,6 +136,14 @@ public class CwService {
 				temp = cwCall("getonepage", param);
 				break;
 			}
+			
+			if(temp == null) {
+				return null;
+			}
+			
+			String regexTitle = "\"sub_title\"[\\s]*:[\\s]*\"([^\"]+)\"";
+			String contentTitle = StrUtil.getRegexString(regexTitle, contentInfo);
+			temp.put("contentTitle", contentTitle);
 			
 			resultList = makeCwRelation(temp, epsd_id);
 			result.put("status_code", temp.get("status_code"));
@@ -192,8 +207,7 @@ public class CwService {
 //		System.out.println(cwparam);
 		String rest = null;
 		rest = restClient.getRestUri(cwBaseUrl + path, cwUser, cwPassword, cwparam);
-
-
+		
 		//응답값 확인
 		String restregex="\"code\"[\\s]*:[\\s]*([0-9]*)";
 		String codeValue = StrUtil.getRegexString(restregex, rest);
@@ -210,7 +224,7 @@ public class CwService {
 		
 	}
 	
-	
+	//CW 추천그리드 생성로직
 	public List<Map<String, Object>> makeCwGrid(Map<String, Object> objMap) {
 		
 		List<Map<String, Object>> resultList = new ArrayList<Map<String,Object>>();
@@ -235,15 +249,15 @@ public class CwService {
 						String trackId = idNblockId[1];
 
 						Map<String, Object> gridData = new HashMap<String, Object>();
-						Map<String, Object> cidInfo = CastUtil.StringToJsonMap(redisClient.hget("contents_cidinfo",epsd_rslu_id));
+						Map<String, Object> cidInfo = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.CONTENTS_CIDINFO,epsd_rslu_id));
 						if(cidInfo != null) {
 							String epsd_id = CastUtil.getObjectToString(cidInfo.get("epsd_id"));
 							String sris_id = CastUtil.getObjectToString(cidInfo.get("sris_id"));
 //							String epsd_id = (String) cidInfo.get("epsd_id");
 //							String sris_id = (String) cidInfo.get("sris_id");
 						
-							Map<String, Object> contentInfo = CastUtil.StringToJsonMap(redisClient.hget("synopsis_contents",sris_id));
-							Map<String, Object> srisInfo = CastUtil.StringToJsonMap(redisClient.hget("synopsis_srisInfo",epsd_id));
+							Map<String, Object> contentInfo = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.SYNOPSIS_CONTENTS,sris_id));
+							Map<String, Object> srisInfo = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.SYNOPSIS_SRISINFO,epsd_id));
 							if(contentInfo != null && srisInfo != null) {
 							
 								gridData.put("poster_filename_h", srisInfo.get("epsd_poster_filename_h"));
@@ -277,10 +291,10 @@ public class CwService {
 			cwGrid=null;
 		}
 		
-		
 		return cwGrid;
 	}
 	
+	//CW 연관콘텐츠 생성로직
 	public List makeCwRelation(Map<String, Object> objMap, String param_epsd_id) {
 		
 		List<Map<String, Object>> resultList = new ArrayList<Map<String,Object>>();
@@ -290,19 +304,7 @@ public class CwService {
 		
 		//데이터 가공로직 시작
 		List cwRelation = null;
-		
-		//TODO 진입한 콘텐츠의 인물정보 가져오기
-//		String prnInfo = (String)redisClient.hget("contents_people","CE0001270830");
-//		
-//		String regex="(peoples)\"[\\s]*:[\\s]*(.*)\\]";
-////		String regex="(peoples)\"[\\s]*:[\\s]*\\[(.*)\\]";
-//		Pattern ptn = Pattern.compile(regex); 
-//		Matcher matcher = ptn.matcher(prnInfo); 
-//		while(matcher.find()){
-//			System.out.println(matcher.group(2));
-//		}
-//		
-//		System.out.println(resultList);
+
 		if(resultList!=null && resultList.size()>0) {
 			cwRelation = new ArrayList<Map<String,Object>>();
 			for(Map<String, Object>temp:resultList ) {
@@ -318,15 +320,15 @@ public class CwService {
 						String trackId = idNblockId[1];
 						
 						Map<String, Object> relationData = new HashMap<String, Object>();
-						Map<String, Object> cidInfo = CastUtil.StringToJsonMap(redisClient.hget("contents_cidinfo",epsd_rslu_id));
+						Map<String, Object> cidInfo = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.CONTENTS_CIDINFO,epsd_rslu_id));
 						if(cidInfo!=null) {
 							String epsd_id = CastUtil.getObjectToString(cidInfo.get("epsd_id"));
 							String sris_id = CastUtil.getObjectToString(cidInfo.get("sris_id"));
 //							String epsd_id = (String) cidInfo.get("epsd_id");
 //							String sris_id = (String) cidInfo.get("sris_id");
 							
-							Map<String, Object> contentInfo = CastUtil.StringToJsonMap(redisClient.hget("synopsis_contents",sris_id));
-							Map<String, Object> srisInfo = CastUtil.StringToJsonMap(redisClient.hget("synopsis_srisInfo",epsd_id));
+							Map<String, Object> contentInfo = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.SYNOPSIS_CONTENTS,sris_id));
+							Map<String, Object> srisInfo = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.SYNOPSIS_SRISINFO,epsd_id));
 							if(contentInfo != null && srisInfo != null) {
 								relationData.put("poster_filename_h", srisInfo.get("epsd_poster_filename_h"));
 								relationData.put("sris_id", srisInfo.get("sris_id"));
@@ -342,14 +344,18 @@ public class CwService {
 						}
 					}
 				}
-	//			makeRelationTitle((String) temp.get("blockTitle"), (String)objMap.get("epsd_id"));
+				String sub_title=CastUtil.getObjectToString(temp.get("blockTitle"));
+				String content_title=CastUtil.getObjectToString(objMap.get("contentTitle"));
+				if(sub_title != null && !sub_title.isEmpty()) {
+					sub_title = restMatching(param_epsd_id, sub_title, content_title);
+				}
 				
 				resultMap.put("sectionId", temp.get("sectionId"));
 				resultMap.put("session_id", objMap.get("sessionId"));
 				resultMap.put("btrack_id", objMap.get("trackId"));
 				resultMap.put("block", resultRelationList);
 				resultMap.put("t_cnt", resultRelationList.size()+"");
-				resultMap.put("sub_title", temp.get("blockTitle"));
+				resultMap.put("sub_title", sub_title);
 				resultMap.put("cw_call_id", objMap.get("cw_call_id"));
 				
 				cwRelation.add(resultMap);
@@ -357,7 +363,7 @@ public class CwService {
 			}
 		}else {
 			
-			String srisInfo = redisClient.hget("synopsis_srisInfo",param_epsd_id);
+			String srisInfo = redisClient.hget(NXPGCommon.SYNOPSIS_SRISINFO,param_epsd_id);
 			String regexRelation = "\\\"relation_contents\\\"[\\s]*:[\\s]*(\\[\\{.*?\\}\\])";
 			String relationData = StrUtil.getRegexString(regexRelation, srisInfo);
 			if(relationData != null && !"".equals(relationData)) {
@@ -368,15 +374,15 @@ public class CwService {
 		return cwRelation;
 	}
 	
-	
+	//CW API에서 데이터 추출 (con_id등)
 	public void getCwData(Map<String, Object> objMap, List<Map<String, Object>> resultList) {
 		
 		List<Map<String, Object>> sections = CastUtil.getObjectToMapList(objMap.get("sections"));
-//		List<Map<String, Object>> sections = (List<Map<String, Object>>) objMap.get("sections");
 		
 		//단일섹션은 응답값이 다르므로 담는 변수를 따로 둔다.
 		List<Map<String, Object>> oneSecBlocks = CastUtil.getObjectToMapList(objMap.get("blocks"));
-//		List<Map<String, Object>> oneSecBlocks = (List<Map<String, Object>>) objMap.get("blocks");
+		
+
 		
 		Map<String, Object> result = new HashMap<String, Object>(); 
 		
@@ -385,10 +391,9 @@ public class CwService {
 		
 		if(sections != null) {
 			for(Map<String, Object>sectionMap:sections) {
-				List<Map<String, Object>> blocks = null;
-				blocks = CastUtil.getObjectToMapList(objMap.get("blocks"));
-//				blocks = (List<Map<String, Object>>) sectionMap.get("blocks");
 				
+				List<Map<String, Object>> blocks = null;
+				blocks = CastUtil.getObjectToMapList(sectionMap.get("blocks"));
 				if(blocks != null) {
 					for(Map<String, Object>blockMap:blocks) {
 						//데이터 생성 로직
@@ -421,18 +426,15 @@ public class CwService {
 		}
 	}
 	
+	//중복로직 분리
 	public void makeItem(Map<String, Object>temp, Map<String, Object> result, List<String> idList) {
 		List<Map<String, Object>> items = null;
 		items = CastUtil.getObjectToMapList(temp.get("items"));
-//		items = (List<Map<String, Object>>) temp.get("items");
 		if(items != null) {
 			for(Map<String, Object>itemMap:items) {
-				Map<String, Object> itemIds = CastUtil.getObjectToMap(itemMap.get("itemsIds")); 
-//				Map<String, Object> itemIds = (Map<String, Object>) itemMap.get("itemIds");
+				Map<String, Object> itemIds = CastUtil.getObjectToMap(itemMap.get("itemIds")); 
 				String contentId = CastUtil.getObjectToString(itemIds.get("CW"));
-				String trackId = CastUtil.getObjectToString(itemIds.get("trackId"));
-//				String contentId = (String) itemIds.get("CW");
-//				String trackId = (String) itemMap.get("trackId");
+				String trackId = CastUtil.getObjectToString(itemMap.get("trackId"));
 				idList.add(contentId+"|"+trackId);
 			}
 		}
@@ -443,73 +445,86 @@ public class CwService {
 		result.put("idList",idList);
 	}	
 	
-//	public String makeRelationTitle(String blockTitle, String epsd_id) {
-//
-////		String titleKey = "";
-////		String subTitle = "";
-////
-////		List<String> tokenList = new ArrayList<String>();
-////		
-////		//연관콘텐츠 제목 추출
-////		StringTokenizer tokens = new StringTokenizer(blockTitle, "#");
-////		
-////		while(tokens.hasMoreTokens()){
-////			tokenList.add(tokens.nextToken());
-////		}
-////		
-////
-////		titleKey = tokenList.get(0);		//#으로 붙어있는 단어들중 맨 앞단어를 사용
-////		titleKey = titleKey.toUpperCase();
-////		
-////		if(tokenList.size()>1) {
-////			subTitle = tokenList.get(1);
-////		}
-//		
-//		
-//		String prnInfo = (String) redisClient.hget("contents_people","CE0001270830");
-//
-//		List<String> code = new ArrayList<String>();
-//		List<String> person = new ArrayList<String>();
-//		
-//		
-//		String aa = "#Director# 출연 영화";
-//		int i = 2;
-//		
-//		
-//		
-////		[00,00,10,10,10,10]
-////		[ccc,aaa,ddd,cc,vvv,nnn]
-//				
-//		String regex="(prs_role_cd)\"[\\s]*:[\\s]*\\[*\"([^\"]+)\"\\]*";
-//		Pattern ptn = Pattern.compile(regex); 
-//		Matcher matcher = ptn.matcher(prnInfo); 
-//		while(matcher.find()){
-//			code.add(matcher.group(2));
-//		}
-//		
-//		String regexNm="(prs_nm)\"[\\s]*:[\\s]*\\[*\"([^\"]+)\"\\]*";
-//		Pattern ptnNm = Pattern.compile(regexNm); 
-//		Matcher matcherNm = ptnNm.matcher(prnInfo); 
-//		while(matcherNm.find()){
-//			person.add(matcherNm.group(2));
-//		}
-//		
-//		
-////		int actIdx  = 0;
-////		int dicIdx = 0;
-////		
-////		for( String str : code  ) {
-////			
-////			if ( "")
-////			
-////			aa.replace("Actor"+String.valueOf(i), person.get(i) );
-////		}
-//		
-//		
-//		
-//		return "";
-//				
-//		
-//		
-//	}
+	
+	
+	//연관콘텐츠 제목 생성로직
+	public String restMatching(String epsd_id, String sub_title, String content_title) {
+		
+		String actorString = CastUtil.getObjectToString(redisClient.hget(NXPGCommon.CONTENTS_PEOPLE, epsd_id));
+		
+		Map<String,List<Object>> codePeopleMap = new HashMap<String, List<Object>>();
+		codePeopleMap.put("Director", new ArrayList<Object>() );
+		codePeopleMap.put("Actor", new ArrayList<Object>() );
+		
+		List<String> code = new ArrayList<String>();
+		List<String> person = new ArrayList<String>();
+		
+		String regex="(prs_role_cd)\"[\\s]*:[\\s]*\\[*\"([^\"]+)\"\\]*";
+		Pattern ptn = Pattern.compile(regex); 
+		Matcher matcher = ptn.matcher(actorString); 
+		while(matcher.find()){
+			code.add(matcher.group(2));
+		}
+		
+		String regexNm="(prs_nm)\"[\\s]*:[\\s]*\\[*\"([^\"]+)\"\\]*";
+		Pattern ptnNm = Pattern.compile(regexNm); 
+		Matcher matcherNm = ptnNm.matcher(actorString); 
+		while(matcherNm.find()){
+			person.add(matcherNm.group(2));
+		}
+		
+//		System.out.println("RestTemplateSvc.restMatching() " + code.toString() + person.toString() ) ;
+		
+		
+		// codePeopleMap 에 Director, Actor 별로 분기하여 List에 담기 위한 작업 loop
+		int i = 0;
+		for( String cdx : code ) {
+			
+			switch (cdx) {
+				case "00": // Director
+					codePeopleMap.get("Director").add(person.get(i));
+					break;
+					
+				case "01": // Actor 
+					codePeopleMap.get("Actor").add(person.get(i));
+					break;
+	
+				default:
+					codePeopleMap.get("Director").add(person.get(i));
+					break;
+			}
+			
+			i++;
+		}
+		
+		return repalceData( sub_title, codePeopleMap, content_title);
+		
+	}
+	
+	private String repalceData( String man, Map<String,List<Object>> codePeopleMap, String content_title ) {
+		
+		if(man != null && !man.isEmpty()) {
+			man = man.replaceAll("\\#", ""); // # 없애버리기 
+			if( man.startsWith("Actor") ) {  // Actor로 시작하는거
+				return getReturnData( man, "Actor", codePeopleMap);
+				
+			}else if( man.startsWith("Director") ) { // Director로 시작하는거
+				return getReturnData( man, "Director", codePeopleMap);
+			}else if( man.startsWith("Collection") ) {// Collection으로 시작하는거
+				return man.replaceAll("Collection", content_title);
+			}else {
+				return man;
+			}
+		}
+		return "연관 콘텐츠";
+	}
+	
+	public String getReturnData(String man, String type, Map<String,List<Object>> codePeopleMap  ) {
+	
+		String pos = StringUtils.defaultIfEmpty( man.split(" ")[0].replace(type, ""), "" );
+		int cnt = Integer.parseInt( pos.equals("") ? "1" : pos );
+		return man.replace(type+pos, codePeopleMap.get(type).get(cnt-1).toString() );
+	}
+
+
 }

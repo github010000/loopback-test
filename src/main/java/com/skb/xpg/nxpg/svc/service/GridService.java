@@ -61,7 +61,7 @@ public class GridService {
 	// IF-NXPG-007
 	public Map<String, Object> getGridEvent(String ver, Map<String, String> param) {
 		try {
-			Map<String, Object> gridBanner = CastUtil.StringToJsonMap(redisClient.hget("grid_banner", param.get("menu_stb_svc_id") + "_" + param.get("menu_id")));
+			Map<String, Object> gridBanner = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.GRID_BANNER, param.get("menu_stb_svc_id") + "_" + param.get("menu_id")));
 
 			List<Map<String, Object>> banners = null;
 			if (gridBanner.get("banners") != null) {
