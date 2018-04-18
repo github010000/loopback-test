@@ -40,7 +40,7 @@ public class PrimarySingleConfiguration {
 	}
 
     @Primary
-	@Bean(name = "primaryJedisConnectionFactory")
+	@Bean(name = "primaryRedisScript")
 	public RedisScript<String> testScript() {
 		DefaultRedisScript<String> redisScript = new DefaultRedisScript<String>();
 		redisScript.setScriptText("local aa = redis.call('HGET', KEYS[1], ARGV[1]) "
@@ -51,7 +51,7 @@ public class PrimarySingleConfiguration {
 	}
 
     @Primary
-	@Bean(name = "primaryJedisConnectionFactory")
+	@Bean(name = "primaryRedisTemplate")
 	public RedisTemplate<String, Object> redisTemplate() {
 		try {
 			StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
