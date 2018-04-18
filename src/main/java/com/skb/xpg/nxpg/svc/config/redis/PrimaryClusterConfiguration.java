@@ -25,10 +25,10 @@ import redis.clients.jedis.exceptions.JedisConnectionException;
 @Profile({"stg", "prd-suy", "prd-ssu"})
 public class PrimaryClusterConfiguration {
 	
-    @Value("${services.redis.host}")
+    @Value("${spring.redis.host}")
     private String redisclusterNodes;
     
-    @Value("${services.redis.password}")
+    @Value("${spring.redis.password}")
     private String redisPassword;
 
     @Value("${services.redis.connection.timeout}")
