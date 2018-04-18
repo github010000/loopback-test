@@ -20,7 +20,7 @@ user:
     menu_stb_svc_id: UI50_BSUHD2
   cw:
     baseurl: http://skb-devph2-cwall.contentwise.tv
-    fullsection: 
+    fullsection:
       uri: /parallelApi/v6/CW/ux/{cw_call_id}/page
       param: sessionId,trackId,{param},itemType
       nxpgparam: session_id,track_id,{param},itemType
@@ -45,33 +45,33 @@ user:
     user: admin
     password: admin
     block:
-      cmpgn_apl_to_dt: 
-      cmpgn_nm: 
+      cmpgn_apl_to_dt: null
+      cmpgn_nm: null
       is_leaf: Y
-      cmpgn_fr_dt: 
+      cmpgn_fr_dt: null
       dist_to_dt: null
-      menu_nm_exps_yn: 
-      menu_id: 
+      menu_nm_exps_yn: null
+      menu_id: null
       gnb_typ_cd: null
-      scn_mthd_cd: 
+      scn_mthd_cd: null
       dist_fr_dt: null
-      cmpgn_to_dt: 
-      menu_exps_prop_cd: 
-      cmpgn_itlk_typ_cd: 
-      blk_typ_cd: "30"
-      exps_mthd_cd: "10"
-      svc_prop_cd: 
-      chrtr_menu_cat_cd: 
-      cmpgn_apl_fr_dt: 
-      call_typ_cd: 
-      cmpgn_id: 
-      call_url: 
-      menu_expl: 
-      menu_nm: 
-      pst_exps_typ_cd: 
+      cmpgn_to_dt: null
+      menu_exps_prop_cd: null
+      cmpgn_itlk_typ_cd: null
+      blk_typ_cd: '30'
+      exps_mthd_cd: '10'
+      svc_prop_cd: null
+      chrtr_menu_cat_cd: null
+      cmpgn_apl_fr_dt: null
+      call_typ_cd: null
+      cmpgn_id: null
+      call_url: null
+      menu_expl: null
+      menu_nm: null
+      pst_exps_typ_cd: null
       lim_lvl_yn: N
       menus: null
-    calltypcd: "22"
+    calltypcd: '22'
 spring:
   http:
     encoding:
@@ -87,6 +87,12 @@ second:
     host: 10.10.123.8:6379,10.10.123.9:6379,10.10.123.10:6379,10.10.123.11:6379,10.10.123.12:6379,10.10.123.13:6379
     port: 6379
     password: xaetahgeki4lieB7Ouz9ieju4bahyeiC
+services:
+  redis:
+    connection:
+      timeout: 400
+    redirection:
+      count: 1
 management:
   security:
     enabled: false
