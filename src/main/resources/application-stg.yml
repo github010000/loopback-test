@@ -40,8 +40,38 @@ user:
       uri: /v6/CW/ux/{cw_call_id}/page/section
       param: sectionId,sessionId,trackId,{param},itemType
       nxpgparam: section_id,session_id,track_id,{param},itemType
+    userpage:
+      uri: /v6/CW/users/{stb_id}
     user: admin
     password: admin
+    block:
+      cmpgn_apl_to_dt: 
+      cmpgn_nm: 
+      is_leaf: Y
+      cmpgn_fr_dt: 
+      dist_to_dt: null
+      menu_nm_exps_yn: 
+      menu_id: 
+      gnb_typ_cd: null
+      scn_mthd_cd: 
+      dist_fr_dt: null
+      cmpgn_to_dt: 
+      menu_exps_prop_cd: 
+      cmpgn_itlk_typ_cd: 
+      blk_typ_cd: "30"
+      exps_mthd_cd: "10"
+      svc_prop_cd: 
+      chrtr_menu_cat_cd: 
+      cmpgn_apl_fr_dt: 
+      call_typ_cd: 
+      cmpgn_id: 
+      call_url: 
+      menu_expl: 
+      menu_nm: 
+      pst_exps_typ_cd: 
+      lim_lvl_yn: N
+      menus: null
+    calltypcd: "22"
 spring:
   http:
     encoding:
@@ -49,9 +79,14 @@ spring:
   jackson:
     default-property-inclusion: NON_NULL
   redis:
-    host: 10.10.113.8
+    host: 10.10.123.8:6379,10.10.123.9:6379,10.10.123.10:6379,10.10.123.11:6379,10.10.123.12:6379,10.10.123.13:6379
     port: 6379
-    password: eera9eizohxiengaF9iemai3zuc4oogh
+    password: xaetahgeki4lieB7Ouz9ieju4bahyeiC
+second:
+  redis:
+    host: 10.10.123.8:6379,10.10.123.9:6379,10.10.123.10:6379,10.10.123.11:6379,10.10.123.12:6379,10.10.123.13:6379
+    port: 6379
+    password: xaetahgeki4lieB7Ouz9ieju4bahyeiC
 management:
   security:
     enabled: false
@@ -59,4 +94,4 @@ zuul:
   routes:
     ge:
       path: /ge/**
-      url: http://10.10.113.12:8080
+      url: http://10.10.123.39:8080
