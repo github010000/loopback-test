@@ -28,8 +28,8 @@ public class RedisClient {
 	@Autowired
 	private RedisTemplate<String, Object> redisTemplate;
 
-	@Autowired
-	private RedisScript<String> redisScript;
+//	@Autowired
+//	private RedisScript<String> redisScript;
 	
 	public void set(String key, Object value) {
 		redisTemplate.opsForValue().set(key, value);
@@ -93,10 +93,10 @@ public class RedisClient {
 		return results;
 	}
 	
-	public String luaget(List<String> keys, Object... args) {
-		String rtn = redisTemplate.execute(redisScript, keys, args);
-		return rtn;
-	}
+//	public String luaget(List<String> keys, Object... args) {
+//		String rtn = redisTemplate.execute(redisScript, keys, args);
+//		return rtn;
+//	}
 
 	public Map<String, Object> hgetMap(String key, String field) {
 		Map<String, Object> obj = null;
