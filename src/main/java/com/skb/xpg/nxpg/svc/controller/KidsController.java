@@ -207,9 +207,7 @@ public class KidsController {
 			param.put("menu_stb_svc_id", defaults.get("menu_stb_svc_id"));
 		}
 		
-		if (StrUtil.isEmpty(param.get("menu_stb_svc_id")) || StrUtil.isEmpty(param.get("menu_id"))
-				|| StrUtil.isEmpty(param.get("sris_id")) || StrUtil.isEmpty(param.get("epsd_id"))
-				|| StrUtil.isEmpty(param.get("stb_id"))) {
+		if (StrUtil.isEmpty(param.get("menu_stb_svc_id")) || StrUtil.isEmpty(param.get("epsd_id"))) {
 			rtn.put("result", "9999");
 			return rtn;
 		}

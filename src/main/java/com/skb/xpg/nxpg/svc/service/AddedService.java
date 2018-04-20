@@ -20,7 +20,7 @@ public class AddedService {
     // IF-NXPG-013
     public Object getAddedEpg(String ver,  Map<String, String> param) {
     	try {
-    		return CastUtil.StringToJsonList(redisClient.hget(NXPGCommon.EPG_INFO, "epg")).get(0);
+    		return CastUtil.StringToJsonList(redisClient.hget(NXPGCommon.EPG_INFO, "epg"));
     	} catch (Exception e) {
     		LogUtil.error(e.getStackTrace(), param.get("IF"), "", "", param.get("stb_id"), "", "");
             return null;
@@ -29,7 +29,7 @@ public class AddedService {
     // IF-NXPG-017
     public Object getAddedGenre(String ver, Map<String, String> param) {
         try {
-            return CastUtil.StringToJsonList(redisClient.hget(NXPGCommon.GENRE_INFO, "genre")).get(0);
+            return CastUtil.StringToJsonList(redisClient.hget(NXPGCommon.GENRE_INFO, "genre"));
         } catch (Exception e) {
         	LogUtil.error(e.getStackTrace(), param.get("IF"), "", "", param.get("stb_id"), "", "");
             return null;

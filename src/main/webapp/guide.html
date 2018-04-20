@@ -73,10 +73,14 @@
 	</ul>
 </body>
 <script>
+	var g_poc = "BSUHD2";
+	
+
 	$(document).ready(function() {
+		
 		$.ajax({    
 			type : "GET",
-			url : "/v5/menu/gnb?menu_stb_svc_id=UI50_BSUHD2&IF=IF-NXPG-001&stb_id=1234",
+			url : "/v5/menu/gnb?menu_stb_svc_id=" + g_poc + "&IF=IF-NXPG-001&stb_id=1234",
 			success : function(args) {
 				
 				for (var r in args.menus) {
@@ -95,7 +99,7 @@
 		
 		$.ajax({    
 			type : "GET",
-			url : "/v5/menu/block?menu_stb_svc_id=UI50_BSUHD2&IF=IF-NXPG-003&stb_id=1234&menu_id=" + menu_id,
+			url : "/v5/menu/block?menu_stb_svc_id=" + g_poc + "&IF=IF-NXPG-003&stb_id=1234&menu_id=" + menu_id,
 			success : function(args) {
 				$("#block").empty();
 				var temp = "";
@@ -133,12 +137,12 @@
 			var id = $(this).attr("id");
 			$.ajax({    
 				type : "GET",
-				url : "/v5/grid/grid?menu_stb_svc_id=UI50_BSUHD2&IF=IF-NXPG-006&stb_id=2345&page_no=1&page_cnt=20&menu_id=" + id,
+				url : "/v5/grid/grid?menu_stb_svc_id=" + g_poc + "&IF=IF-NXPG-006&stb_id=2345&page_no=1&page_cnt=20&menu_id=" + id,
 				success : function(args) {
 					//$(this).empty();
 					
 					for (var r in args.contents) {
-						$("#" + id).append("<div><a href='#'>" + args.contents[r].title + "</a><span>" + args.contents[r].epsd_id + "</span></div>");
+						$("#" + id).append("<div><a href='/synop.html?epsd_id="+args.contents[r].epsd_id+"'>" + args.contents[r].title + "</a><span>" + args.contents[r].epsd_id + "</span></div>");
 						//$("#" + id).append("<li><a href='#'>asdf</a></li>");
 					}
 					

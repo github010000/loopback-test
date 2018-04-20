@@ -164,7 +164,7 @@ public class MenuService {
 					Map<String, Object> map = CastUtil.getObjectToMap(iterator.next());
 
 					//CW menu로 대체한다.
-					if(cw.get("calltypcd").equals(map.get("call_typ_cd"))) {
+					if(cw.get("scnmthdcd").equals(map.get("scn_mthd_cd"))) {
 						
 						iterator.remove(); //CW를 호출하는 맵파일은 삭제한다.
 						i++; //블럭 카운트를 맞추기 위해 삭제한 개수만큼 증가

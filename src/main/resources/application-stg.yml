@@ -71,7 +71,7 @@ user:
       pst_exps_typ_cd: null
       lim_lvl_yn: N
       menus: null
-    calltypcd: '22'
+    scnmthdcd: "502"
 spring:
   http:
     encoding:

@@ -21,18 +21,20 @@ public class LogUtil {
 
 	public static void error(StackTraceElement[] elements, String interfaceId, String transactionType, String transactionId, String stbId, String extName, String data) {
 		String logLevel = "Error";
-		Logger logger;
+		Logger logger = LoggerFactory.getLogger(elements[0].getClassName());;
 		if (elements != null && elements.length > 0) {
 			for (int iterator = 1; iterator <= elements.length; iterator++) {
-				logger = LoggerFactory.getLogger(elements[iterator - 1].getClassName());
+//				logger = LoggerFactory.getLogger(elements[iterator - 1].getClassName());
 				if (logger != null) {
 					logger.error(getLogString(logLevel, interfaceId, transactionType, 
 							transactionId, stbId, extName, /*"BACH", null,*/
 							elements[iterator - 1].getMethodName() + "(" + elements[iterator - 1].getLineNumber()
 									+ ")"));
 				}
+				break;
 			}
 		}
+//		logger.error(elements.toString());
 	}
 	
 	public static void debug(String className, String interfaceId, String transactionType, String transactionId, String stbId, String extName, String data) {

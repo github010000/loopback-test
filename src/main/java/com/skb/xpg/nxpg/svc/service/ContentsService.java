@@ -126,9 +126,14 @@ public class ContentsService {
 		try {
 			Map<String, Object> commerce = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.SYNOPSIS_COMMERCE, param.get("sris_id")));
 			
-			commerce.put("info_id", CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.CONTENTS_PHRASE, commerce.get("info_id").toString())));
-			commerce.put("delivery_info_id", CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.CONTENTS_PHRASE, commerce.get("delivery_info_id").toString())));
-			commerce.put("refund_info_id", CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.CONTENTS_PHRASE, commerce.get("refund_info_id").toString())));
+			if (commerce.containsKey("info_id"))
+				commerce.put("info_id", CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.CONTENTS_PHRASE, commerce.get("info_id").toString())));
+			if (commerce.containsKey("delivery_info_id"))
+				commerce.put("delivery_info_id", CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.CONTENTS_PHRASE, commerce.get("delivery_info_id").toString())));
+			if (commerce.containsKey("refund_info_id"))
+				commerce.put("refund_info_id", CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.CONTENTS_PHRASE, commerce.get("refund_info_id").toString())));
+			if (commerce.containsKey("clause_info_id"))
+				commerce.put("clause_info_id", CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.CONTENTS_PHRASE, commerce.get("clause_info_id").toString())));
 			return commerce;
 		} catch (Exception e) {
 			LogUtil.error(e.getStackTrace(), param.get("IF"), "", "", param.get("stb_id"), "", "");
@@ -183,7 +188,10 @@ public class ContentsService {
 	public Object getContentsSeries(String sris_id) {
 		try {
 			Map<String, Object> temp = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.SYNOPSIS_SRIS, sris_id));
-			return temp.get("episodes");
+			if (temp != null && temp.get("episodes") != null) {
+				return temp.get("episodes");
+			}
+			return null;
 		} catch (Exception e) {
 			LogUtil.error(e.getStackTrace(), "", "", "", "", "", "");
 			return null;
@@ -219,9 +227,9 @@ public class ContentsService {
 	}	
 	
 	//IF-NXPG-014
-	public List getContentsGwsynop(String ver, Map<String, String> param) {
+	public Map<String, Object> getContentsGwsynop(String ver, Map<String, String> param) {
 		try {
-			return CastUtil.StringToJsonList(redisClient.hget(NXPGCommon.SYNOPSIS_GATEWAY, param.get("sris_id")));
+			return CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.SYNOPSIS_GATEWAY, param.get("sris_id")));
 		} catch (Exception e) {
 			LogUtil.error(e.getStackTrace(), param.get("IF"), "", "", param.get("stb_id"), "", "");
 			return null;

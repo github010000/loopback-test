@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta>
+	<title>NXPG Service</title>
+	<script src="jquery-3.2.1.min.js"></script>
+	<style>
+		.Oval {
+		  width: 36px;
+		  height: 36px;
+		  opacity: 0.6;
+		  border: solid 2px #aaaaaa;
+		  border-radius:60%;
+		}
+		#watchLevel {
+		  font-family: SpoqaHanSans;
+		  font-size: 22px;
+		  font-weight: bold;
+		  font-style: normal;
+		  font-stretch: normal;
+		  line-height: 1;
+		  letter-spacing: -1px;
+		  text-align: center;
+		  color: #aaaaaa;
+		}
+		#snssCts{
+		  width: 984px;
+		  height: 144px;
+		  font-family: SKBtvOTF;
+		  font-size: 34px;
+		  font-weight: bold;
+		  font-style: normal;
+		  font-stretch: normal;
+		  line-height: 1.41;
+		  letter-spacing: -1px;
+		  text-align: left;
+		  color: #000000;
+		  margin: 70px 0px 5px 115px;
+		  overflow: hidden;
+		  text-overflow: ellipsis;
+		  display: -webkit-box;
+		  word-wrap:break-word; 
+		  -webkit-line-clamp: 3; /* 라인수 */
+		  -webkit-box-orient: vertical;
+		}
+		#Rectangle-10 {
+		  width: 750px;
+		  height: 250px;
+		  margin: 5px 0px 30px 115px;
+		  object-fit: contain;
+		  vertical-align:bottom; 
+		  display:table-cell;
+		}
+		
+		#synopInfo{
+		  margin: 30px 0px 0px 115px;
+		  font-family: SKBtvOTF;
+		  font-size: 26px;
+		  font-weight: 500;
+		  font-style: normal;
+		  font-stretch: normal;
+		  line-height: 1.46;
+		  letter-spacing: normal;
+		  text-align: left;
+		  color: #000000;
+		}
+		
+		#actorList{
+		  margin: 5px 0px 0px 115px;
+		  font-family: SKBtvOTF;
+		  font-size: 26px;
+		  font-weight: 500;
+		  font-style: normal;
+		  font-stretch: normal;
+		  line-height: 1.46;
+		  letter-spacing: normal;
+		  text-align: left;
+		  color: #000000;
+		}
+		
+		#title {
+		  width: 1000px;
+		  height: 100px;
+		  font-family: SKBtvOTF;
+		  font-size: 88px;
+		  font-weight: bold;
+		  font-style: normal;
+		  font-stretch: normal;
+		  line-height: 1.14;
+		  letter-spacing: normal;
+		  text-align: left;
+		  color: #000000;
+		  display:inline-block;
+		  margin: 0px 0px 5px 115px;
+		}
+		
+		#cntData{
+		  margin: 21px 0px 5px 115px;
+		  width: 950px;
+		  height: 120px;
+		  font-family: SKBtvOTF;
+		  font-size: 28px;
+		  font-weight: 500;
+		  font-style: normal;
+		  font-stretch: normal;
+		  line-height: 1.43;
+		  letter-spacing: normal;
+		  text-align: left;
+		  color: #000000;
+		  overflow: hidden;
+		  text-overflow: ellipsis;
+		  display: -webkit-box;
+		  word-wrap:break-word; 
+		  -webkit-line-clamp: 3; /* 라인수 */
+		  -webkit-box-orient: vertical;
+		}
+	</style>
+</head>
+<body>
+	<div>
+		<p id=snssCts></p>
+		<div id=Rectangle-10></div>
+		<div id=synopInfo></div>
+		<div id=actorList></div>
+		<div id=cntData></div><span><a href='#'>더보기</a></span>
+	</div>
+</body>
+<script>
+	$(document).ready(function() {
+		$.urlParam = function(name){
+		    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+		    if (results==null){
+		       return null;
+		    }
+		    else{
+		       return results[1] || 0;
+		    }
+		}
+		getSynop($.urlParam('epsd_id'));
+	});
+	
+	function getSynop(epsd_id){
+		$.ajax({    
+			type : "GET",
+			url : "/v5/contents/synopsis?menu_stb_svc_id=UI50_BSUHD2&search_type=1&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&menu_id=A000002200&yn_recent=Y&IF=IF-NXPG-010&epsd_id="+epsd_id,
+			success : function(args) {
+				console.log(args)
+			
+				//	snss_cts = "<p>"+args.contents.epsd_snss_cts+"</p>"
+				//이벤트 코멘트 	
+				$("#snssCts").append(args.contents.epsd_snss_cts);
+				
+				//제목
+				title = "<div id=title>"+args.contents.title
+				title += "<span> "+args.contents.sris_id+"</span>";
+				title +="</div>"
+				$("#Rectangle-10").append(title);
+				
+				//콘텐츠 정보
+				//콘텐츠 정보-시청등급
+				if(args.contents.wat_lvl_cd==="0"){
+					info="<span class='Oval'>all</span>"
+				}else{
+					info="<span class='Oval' id='watchLevel'>"+args.contents.wat_lvl_cd+"</span>"
+				}
+				//콘텐츠 정보-화질
+				if(args.contents.rslu_typ_cd==="30"){
+					info+="<span> UHD</span>"
+				}else if(args.contents.rslu_typ_cd==="20"){
+					info+="<span> HD</span>"
+				}else{
+					info+="<span> SD</span>"
+				}
+				//콘텐츠 정보-개봉일
+				if(!(args.contents.open_yr === "")){
+					info+="<span> | "+args.contents.open_yr+"</span>";
+				}
+				//콘텐츠 정보-플레이타임
+				info+="<span> | "+args.contents.play_tms_val+"분</span>";
+				//콘텐츠 정보-음질
+				if(args.contents.snd_typ_cd==="1"){
+					info+="<span> | STEREO</span>"
+				}else if(args.contents.snd_typ_cd==="2"){
+					info+="<span> | DOLBY </span>"
+				}else{
+					info+="<span> | ATMOS </span>"
+				}
+				//콘텐츠 정보-다국어여부
+				for (var r in args.contents.epsd_rslu_info) {
+					console.log(args.contents.epsd_rslu_info[r].mtx_capt_yn);
+					if(!(args.contents.epsd_rslu_info[r].max_capt_yn === "" || !(args.contents.epsd_rslu_info[r].max_capt_yn))){
+						info+="<span> | 다국어 </span>"
+						break;
+					}
+				}
+				//콘텐츠 정보-옥수수 여부
+				if(args.contents.nscrn_yn==="Y"){
+					info+="<span> | OKSUSU</span>"
+				}
+				$("#synopInfo").append(info);
+				
+				//등장인물
+				people="<span> 감독 "+args.contents.director+" </span>";
+				people+="<span> | 주연 "+args.contents.actor+" </span>";
+				
+				$("#actorList").append(people);
+				
+			}
+		});
+	}
+
+</script>

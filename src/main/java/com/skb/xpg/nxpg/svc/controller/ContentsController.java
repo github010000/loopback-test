@@ -109,7 +109,7 @@ public class ContentsController {
 		}
 
 		// 값 불러오기
-		List<Map<String, Object>> resultMap = contentsService.getContentsGwsynop(ver, param);
+		Map<String, Object> resultMap = contentsService.getContentsGwsynop(ver, param);
 		// 조회값 없음
 		if (resultMap == null) {
 			rtn.put("result", "9998");
@@ -117,7 +117,7 @@ public class ContentsController {
 		// 성공
 		else {
 			rtn.put("result", "0000");
-			rtn.put("menus", resultMap);
+			rtn.put("package", resultMap);
 		}
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
 		return rtn;
@@ -149,7 +149,7 @@ public class ContentsController {
 		// 성공
 		else {
 			rtn.put("result", "0000");
-			rtn.put("menus", resultMap);
+			rtn.put("commerce", resultMap);
 		}
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
 		return rtn;
