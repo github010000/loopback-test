@@ -110,7 +110,7 @@
 		
 		$.ajax({    
 			type : "GET",
-			url : "/v5/menu/block?menu_stb_svc_id=" + g_poc + "&IF=IF-NXPG-003&stb_id=1234&menu_id=" + menu_id,
+			url : "/v5/menu/block?menu_stb_svc_id=" +  $.urlParam('poc') + "&IF=IF-NXPG-003&stb_id=1234&menu_id=" + menu_id,
 			success : function(args) {
 				$("#block").empty();
 				var temp = "";
@@ -148,7 +148,7 @@
 			var id = $(this).attr("id");
 			$.ajax({    
 				type : "GET",
-				url : "/v5/grid/grid?menu_stb_svc_id=" + g_poc + "&IF=IF-NXPG-006&stb_id=2345&page_no=1&page_cnt=20&menu_id=" + id,
+				url : "/v5/grid/grid?menu_stb_svc_id=" +  $.urlParam('poc') + "&IF=IF-NXPG-006&stb_id=2345&page_no=1&page_cnt=20&menu_id=" + id,
 				success : function(args) {
 					//$(this).empty();
 					
