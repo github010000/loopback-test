@@ -62,7 +62,8 @@
 	</style>
 </head>
 <body>
-	<b>GNB (001)</b>
+	<b>GNB (001)</b><br>
+	<h2 id="whatPoc"></h2>
 	<ul id="gnb">
 		
 	</ul>
@@ -73,15 +74,25 @@
 	</ul>
 </body>
 <script>
-	var g_poc = "BSUHD2";
-	
 
 	$(document).ready(function() {
 		
+		$.urlParam = function(name){
+		    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+		    if (results==null){
+		       return null;
+		    }
+		    else{
+		       return results[1] || 0;
+		    }
+		}
+		
 		$.ajax({    
 			type : "GET",
-			url : "/v5/menu/gnb?menu_stb_svc_id=" + g_poc + "&IF=IF-NXPG-001&stb_id=1234",
+			url : "/v5/menu/gnb?menu_stb_svc_id=" + $.urlParam('poc') + "&IF=IF-NXPG-001&stb_id=1234",
 			success : function(args) {
+				
+				$("#whatPoc").append($.urlParam('poc'));
 				
 				for (var r in args.menus) {
 					$("#gnb").append("<li><a href='#'>" + args.menus[r].menu_nm + "</a><span>" + args.menus[r].menu_id + "</span></li>");

@@ -93,12 +93,13 @@ public class CwService {
 		String epsd_id = CastUtil.getString(param.get("epsd_id"));
 //		String epsd_id = (String)param.get("epsd_id");
 		param.put("itemType", "VIDEO_CONTENT");
-		Map<String, Object> result = new HashMap<String, Object>();
-		List<Map<String, Object>> resultList = null;
+		Map<String, Object> result = null;
+		List resultList = null;
 
 		String contentInfo = redisClient.hget(NXPGCommon.SYNOPSIS_SRISINFO,epsd_id);
 		
 		if(contentInfo != null) {
+			result = new HashMap<String, Object>();
 			
 			
 			//시리즈아이디, 에피소드아이디 추출로직
@@ -151,10 +152,23 @@ public class CwService {
 				result.put("relation", resultList);
 				result.put("size", resultList.size()+"");
 			}else {
-				result = null;
+				//CW 연동로직에 데이터가 없을 경우 
+				result.put("status_code", "0002");
+				String srisInfo = redisClient.hget(NXPGCommon.SYNOPSIS_SRISINFO,epsd_id);
+				String regexRelation = "\\\"relation_contents\\\"[\\s]*:[\\s]*(\\[\\{.*?\\}\\])";
+				String relationData = StrUtil.getRegexString(regexRelation, srisInfo);
+				if(relationData != null && !"".equals(relationData)) {
+					resultList = CastUtil.StringToJsonList(relationData);
+				}
+				
+				if(resultList!= null && !resultList.isEmpty()) {
+					result.put("relation", resultList);
+					result.put("size", resultList.size()+"");
+				}else {
+					result = null;
+				}
 			}
 		}
-		
 		
 		return result;
 		
@@ -207,7 +221,7 @@ public class CwService {
 //		System.out.println(cwparam);
 		String rest = null;
 		rest = restClient.getRestUri(cwBaseUrl + path, cwUser, cwPassword, cwparam);
-		
+
 		//응답값 확인
 		String restregex="\"code\"[\\s]*:[\\s]*([0-9]*)";
 		String codeValue = StrUtil.getRegexString(restregex, rest);
@@ -240,7 +254,6 @@ public class CwService {
 				List<Map<String, Object>>resultGridList = new ArrayList<Map<String,Object>>();
 				Map<String, Object> resultMap = new HashMap<String, Object>();
 				List<String> tempIdList = CastUtil.getObjectToListString(temp.get("idList"));
-//			List<String>tempIdList = (List<String>) temp.get("idList");
 				if(tempIdList != null) {
 					for(String dataGrp:tempIdList) {
 						String [] idNblockId = dataGrp.split("\\|");
@@ -252,22 +265,12 @@ public class CwService {
 						Map<String, Object> cidInfo = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.CONTENTS_CIDINFO,epsd_rslu_id));
 						if(cidInfo != null) {
 							String epsd_id = CastUtil.getObjectToString(cidInfo.get("epsd_id"));
-							String sris_id = CastUtil.getObjectToString(cidInfo.get("sris_id"));
-//							String epsd_id = (String) cidInfo.get("epsd_id");
-//							String sris_id = (String) cidInfo.get("sris_id");
-						
-							Map<String, Object> contentInfo = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.SYNOPSIS_CONTENTS,sris_id));
-							Map<String, Object> srisInfo = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.SYNOPSIS_SRISINFO,epsd_id));
-							if(contentInfo != null && srisInfo != null) {
+							Map<String, Object> gridInfo = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.GRID_CONTENTS_ITEM,epsd_id));
 							
-								gridData.put("poster_filename_h", srisInfo.get("epsd_poster_filename_h"));
-								gridData.put("sris_id", srisInfo.get("sris_id"));
-								gridData.put("poster_filename_v", srisInfo.get("epsd_poster_filename_v"));
-								gridData.put("sris_nm", contentInfo.get("title"));
-								gridData.put("epsd_id", srisInfo.get("epsd_id"));
-								gridData.put("adlt_lvl_cd", srisInfo.get("adlt_lvl_cd"));
-								gridData.put("title", srisInfo.get("sub_title"));//? 뭘 써야할지...						
-								gridData.put("trackId", trackId);//? 뭘 써야할지...						
+							if(gridInfo != null && !gridInfo.isEmpty()) {
+							
+								gridData.putAll(gridInfo);
+								gridData.put("track_id", trackId);//? 뭘 써야할지...						
 							
 								resultGridList.add(gridData);
 							}
@@ -305,14 +308,15 @@ public class CwService {
 		//데이터 가공로직 시작
 		List cwRelation = null;
 
-		if(resultList!=null && resultList.size()>0) {
+		int i = 0;
+		if(resultList!=null && !resultList.isEmpty()) {
 			cwRelation = new ArrayList<Map<String,Object>>();
 			for(Map<String, Object>temp:resultList ) {
 				List<Map<String, Object>>resultRelationList = new ArrayList<Map<String,Object>>();
 				Map<String, Object> resultMap = new HashMap<String, Object>();
 				List<String> tempIdList = CastUtil.getObjectToListString(temp.get("idList"));
 //				List<String>tempIdList = (List<String>) temp.get("idList");
-				if(tempIdList != null) {
+				if(tempIdList != null && !tempIdList.isEmpty()) {
 					for(String dataGrp:tempIdList) {
 						String [] idNblockId = dataGrp.split("\\|");
 						
@@ -323,26 +327,23 @@ public class CwService {
 						Map<String, Object> cidInfo = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.CONTENTS_CIDINFO,epsd_rslu_id));
 						if(cidInfo!=null) {
 							String epsd_id = CastUtil.getObjectToString(cidInfo.get("epsd_id"));
-							String sris_id = CastUtil.getObjectToString(cidInfo.get("sris_id"));
 //							String epsd_id = (String) cidInfo.get("epsd_id");
 //							String sris_id = (String) cidInfo.get("sris_id");
-							
-							Map<String, Object> contentInfo = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.SYNOPSIS_CONTENTS,sris_id));
-							Map<String, Object> srisInfo = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.SYNOPSIS_SRISINFO,epsd_id));
-							if(contentInfo != null && srisInfo != null) {
-								relationData.put("poster_filename_h", srisInfo.get("epsd_poster_filename_h"));
-								relationData.put("sris_id", srisInfo.get("sris_id"));
-								relationData.put("poster_filename_v", srisInfo.get("epsd_poster_filename_v"));
-								relationData.put("sris_nm", contentInfo.get("title"));
-								relationData.put("epsd_id", srisInfo.get("epsd_id"));
-								relationData.put("adlt_lvl_cd", srisInfo.get("adlt_lvl_cd"));
-								relationData.put("title", srisInfo.get("sub_title"));//? 뭘 써야할지...						
+							Map<String, Object> contentInfo = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.GRID_CONTENTS_ITEM,epsd_id));
+
+//							Map<String, Object> contentInfo = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.SYNOPSIS_CONTENTS,sris_id));
+//							Map<String, Object> srisInfo = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.SYNOPSIS_SRISINFO,epsd_id));
+							if(contentInfo != null && !contentInfo.isEmpty()) {
+								relationData.putAll(contentInfo);//? 뭘 써야할지...						
 								relationData.put("track_id", trackId);						
 								
 								resultRelationList.add(relationData);
 							}
 						}
 					}
+				}else {
+					//아이템이 없을 경우 카운트 추가
+					i++;
 				}
 				String sub_title=CastUtil.getObjectToString(temp.get("blockTitle"));
 				String content_title=CastUtil.getObjectToString(objMap.get("contentTitle"));
@@ -361,14 +362,12 @@ public class CwService {
 				cwRelation.add(resultMap);
 				resultMap = new HashMap<String, Object>();
 			}
-		}else {
 			
-			String srisInfo = redisClient.hget(NXPGCommon.SYNOPSIS_SRISINFO,param_epsd_id);
-			String regexRelation = "\\\"relation_contents\\\"[\\s]*:[\\s]*(\\[\\{.*?\\}\\])";
-			String relationData = StrUtil.getRegexString(regexRelation, srisInfo);
-			if(relationData != null && !"".equals(relationData)) {
-				cwRelation = CastUtil.StringToJsonList(relationData);
-			}
+		}
+		
+		//CW status가 0 이었지만, 데이터가 하나도 없었을 경우 처리로직
+		if(i==resultList.size()) {
+			cwRelation = null;
 		}
 		
 		return cwRelation;
@@ -452,51 +451,52 @@ public class CwService {
 		
 		String actorString = CastUtil.getObjectToString(redisClient.hget(NXPGCommon.CONTENTS_PEOPLE, epsd_id));
 		
-		Map<String,List<Object>> codePeopleMap = new HashMap<String, List<Object>>();
-		codePeopleMap.put("Director", new ArrayList<Object>() );
-		codePeopleMap.put("Actor", new ArrayList<Object>() );
-		
-		List<String> code = new ArrayList<String>();
-		List<String> person = new ArrayList<String>();
-		
-		String regex="(prs_role_cd)\"[\\s]*:[\\s]*\\[*\"([^\"]+)\"\\]*";
-		Pattern ptn = Pattern.compile(regex); 
-		Matcher matcher = ptn.matcher(actorString); 
-		while(matcher.find()){
-			code.add(matcher.group(2));
-		}
-		
-		String regexNm="(prs_nm)\"[\\s]*:[\\s]*\\[*\"([^\"]+)\"\\]*";
-		Pattern ptnNm = Pattern.compile(regexNm); 
-		Matcher matcherNm = ptnNm.matcher(actorString); 
-		while(matcherNm.find()){
-			person.add(matcherNm.group(2));
-		}
-		
-//		System.out.println("RestTemplateSvc.restMatching() " + code.toString() + person.toString() ) ;
-		
-		
-		// codePeopleMap 에 Director, Actor 별로 분기하여 List에 담기 위한 작업 loop
-		int i = 0;
-		for( String cdx : code ) {
+		Map<String,List<Object>> codePeopleMap = null;
+		if(actorString != null && !actorString.isEmpty()) {
+			codePeopleMap = new HashMap<String, List<Object>>();
+			codePeopleMap.put("Director", new ArrayList<Object>() );
+			codePeopleMap.put("Actor", new ArrayList<Object>() );
 			
-			switch (cdx) {
-				case "00": // Director
-					codePeopleMap.get("Director").add(person.get(i));
-					break;
-					
-				case "01": // Actor 
-					codePeopleMap.get("Actor").add(person.get(i));
-					break;
-	
-				default:
-					codePeopleMap.get("Director").add(person.get(i));
-					break;
+			List<String> code = new ArrayList<String>();
+			List<String> person = new ArrayList<String>();
+			String regex="(prs_role_cd)\"[\\s]*:[\\s]*\\[*\"([^\"]+)\"\\]*";
+			Pattern ptn = Pattern.compile(regex); 
+			Matcher matcher = ptn.matcher(actorString); 
+			while(matcher.find()){
+				code.add(matcher.group(2));
 			}
 			
-			i++;
-		}
+			String regexNm="(prs_nm)\"[\\s]*:[\\s]*\\[*\"([^\"]+)\"\\]*";
+			Pattern ptnNm = Pattern.compile(regexNm); 
+			Matcher matcherNm = ptnNm.matcher(actorString); 
+			while(matcherNm.find()){
+				person.add(matcherNm.group(2));
+			}
+			
+//			System.out.println("RestTemplateSvc.restMatching() " + code.toString() + person.toString() ) ;
+			
+			
+			// codePeopleMap 에 Director, Actor 별로 분기하여 List에 담기 위한 작업 loop
+			int i = 0;
+			for( String cdx : code ) {
+				
+				switch (cdx) {
+					case "00": // Director
+						codePeopleMap.get("Director").add(person.get(i));
+						break;
+						
+					case "01": // Actor 
+						codePeopleMap.get("Actor").add(person.get(i));
+						break;
 		
+					default:
+						codePeopleMap.get("Director").add(person.get(i));
+						break;
+				}
+				
+				i++;
+			}
+		}
 		return repalceData( sub_title, codePeopleMap, content_title);
 		
 	}
@@ -521,9 +521,13 @@ public class CwService {
 	
 	public String getReturnData(String man, String type, Map<String,List<Object>> codePeopleMap  ) {
 	
-		String pos = StringUtils.defaultIfEmpty( man.split(" ")[0].replace(type, ""), "" );
-		int cnt = Integer.parseInt( pos.equals("") ? "1" : pos );
-		return man.replace(type+pos, codePeopleMap.get(type).get(cnt-1).toString() );
+		if(codePeopleMap!=null && !codePeopleMap.isEmpty()) {
+			String pos = StringUtils.defaultIfEmpty( man.split(" ")[0].replace(type, ""), "" );
+			int cnt = Integer.parseInt( pos.equals("") ? "1" : pos );
+			return man.replace(type+pos, codePeopleMap.get(type).get(cnt-1).toString() );
+		}else {
+			return "연관콘텐츠";
+		}
 	}
 
 

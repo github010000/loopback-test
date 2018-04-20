@@ -35,6 +35,7 @@ public class NXPGCommon {
 	public static final String PEOPLE_INFO  = "people_info";
 	public static final String MENU_KIDSGNB  = "menu_kidsGnb";
 	public static final String MENU_KIDSCHARACTER  = "menu_kidsCharacter";
+	public static final String GRID_CONTENTS_ITEM  = "grid_contents_item";
 	public static final String VERSION  = "version";
 
 	
