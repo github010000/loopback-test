@@ -129,7 +129,7 @@ public class MenuService {
 	// IF-NXPG-003
 	public Map<String, Object> getBlockBigBanner(String ver, Map<String, String> param) {
 		try {
-//			System.out.println("11111 ::: " + param.get("menu_stb_svc_id") +  "_" + param.get("menu_id"));
+			System.out.println("11111 ::: " + param.get("menu_stb_svc_id") +  "_" + param.get("menu_id"));
 			Map<String, Object> bigbanner = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.BIG_BANNER, param.get("menu_stb_svc_id") + "_" + param.get("menu_id")));
 			
 			List<Map<String, Object>> banners = CastUtil.getObjectToMapList(bigbanner.get("banners"));

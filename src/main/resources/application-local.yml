@@ -78,10 +78,8 @@ spring:
       charset: UTF-8
   jackson:
     default-property-inclusion: NON_NULL
-#    generator:
-#      write-numbers-as-strings: true
   redis:
-    host: localhost
+    host: 1.155.123.11
     port: 6379
     password: null
 second:

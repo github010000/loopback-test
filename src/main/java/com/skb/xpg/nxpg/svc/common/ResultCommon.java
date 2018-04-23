@@ -10,9 +10,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ResultCommon {
-
-	@Value("${spring.redis.host}")
-	private static String redisHost;
 	
 	public static final List<String> commonFields;
 	static {
@@ -33,6 +30,5 @@ public class ResultCommon {
 		reason.put("9001", "입력 파라미터 오류");
 		reason.put("9999", "기타 에러");
 		reason.put("0000", "성공");
-		reason.put("1111", redisHost);
 	}
 }

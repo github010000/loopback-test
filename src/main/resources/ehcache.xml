@@ -3,9 +3,17 @@
 	xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd"
 	updateCheck="false">
 	<diskStore path="java.io.tmpdir" />
-	<cache name="findMemberCache" maxEntriesLocalHeap="10000"
-		maxEntriesLocalDisk="1000" eternal="false" diskSpoolBufferSizeMB="20"
-		timeToIdleSeconds="300" timeToLiveSeconds="600"
+	
+	<cache name="errorCache" maxEntriesLocalHeap="1"
+		maxEntriesLocalDisk="1" eternal="false" diskSpoolBufferSizeMB="20"
+		timeToIdleSeconds="0" timeToLiveSeconds="20"
+		memoryStoreEvictionPolicy="LFU" transactionalMode="off">
+		<persistence strategy="localTempSwap" />
+	</cache>
+
+	<cache name="redisCache" maxEntriesLocalHeap="10000"
+		maxEntriesLocalDisk="10000" eternal="false" diskSpoolBufferSizeMB="20"
+		timeToIdleSeconds="10" timeToLiveSeconds="30"
 		memoryStoreEvictionPolicy="LFU" transactionalMode="off">
 		<persistence strategy="localTempSwap" />
 	</cache>

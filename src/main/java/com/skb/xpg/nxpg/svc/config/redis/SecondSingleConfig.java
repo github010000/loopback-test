@@ -34,7 +34,7 @@ public class SecondSingleConfig {
 		factory.setPort(redisPort);
 		factory.setPassword(password);
 		factory.setUsePool(true);
-		factory.setTimeout(0);
+		factory.setTimeout(50);
 		return factory;
 	}
 

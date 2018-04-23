@@ -38,6 +38,28 @@ public class NXPGCommon {
 	public static final String GRID_CONTENTS_ITEM  = "grid_contents_item";
 	public static final String VERSION  = "version";
 
+	public static boolean useFirstRedis = true;
 	
+	public static int redisErrorCount = 0;
+
+	public static boolean isUseFirstRedis() {
+		return useFirstRedis;
+	}
+
+	public static void switchUseRedis() {
+		NXPGCommon.useFirstRedis = !NXPGCommon.useFirstRedis;
+	}
+	
+	public static int getRedisErrorCount() {
+		return redisErrorCount;
+	}
+
+	public static void setRedisErrorCount(int redisErrorCount) {
+		NXPGCommon.redisErrorCount = redisErrorCount;
+	}
+
+	public static void initRedisErrorCount() {
+		NXPGCommon.redisErrorCount = 0;
+	}
 	
 }

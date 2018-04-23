@@ -9,6 +9,7 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.Cursor;
@@ -19,17 +20,25 @@ import org.springframework.data.redis.core.ScanOptions;
 import org.springframework.data.redis.core.SessionCallback;
 import org.springframework.data.redis.core.query.SortQuery;
 import org.springframework.data.redis.core.query.SortQueryBuilder;
-import org.springframework.data.redis.core.script.RedisScript;
 import org.springframework.stereotype.Service;
+
+import com.skb.xpg.nxpg.svc.common.NXPGCommon;
+import com.skb.xpg.nxpg.svc.service.CacheService;
+import com.skb.xpg.nxpg.svc.util.LogUtil;
 
 @Service
 public class RedisClient {
 
 	@Autowired
+	@Qualifier("primaryRedisTemplate")
 	private RedisTemplate<String, Object> redisTemplate;
 
-//	@Autowired
-//	private RedisScript<String> redisScript;
+	@Autowired
+	@Qualifier("secondRedisTemplate")
+	private RedisTemplate<String, Object> secondRedisTemplate;
+
+	@Autowired
+	CacheService cacheService;
 	
 	public void set(String key, Object value) {
 		redisTemplate.opsForValue().set(key, value);
@@ -71,8 +80,25 @@ public class RedisClient {
 
 	public String hget(String key, String field) {
 		Object obj = null;
+		
+		if (NXPGCommon.isUseFirstRedis()) {
+			try {
+				obj = redisTemplate.<String, Object>opsForHash().get(key, field);
+			} catch (Exception e) {
+				LogUtil.error(e.getStackTrace(), "", "", "", "", "", "");
+				cacheService.addErrorCountAfterChangeRedis();
+				obj = secondRedisTemplate.<String, Object>opsForHash().get(key, field);
+			}
+		} else {
+			try {
+				obj = secondRedisTemplate.<String, Object>opsForHash().get(key, field);
+			} catch (Exception e) {
+				LogUtil.error(e.getStackTrace(), "", "", "", "", "", "");
+				cacheService.addErrorCountAfterChangeRedis();
+				obj = redisTemplate.<String, Object>opsForHash().get(key, field);
+			}
+		}
 
-		obj = redisTemplate.<String, Object>opsForHash().get(key, field);
 		if(obj != null && obj instanceof String) {
 			return (String) obj;
 		} else return null;

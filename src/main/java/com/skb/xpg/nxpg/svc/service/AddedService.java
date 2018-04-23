@@ -39,15 +39,15 @@ public class AddedService {
     // IF-NXPG-018
 	public void getRealTimeChannel(Map<String, Object> rtn) {
 //		Map<String, Object> result = (Map<String, Object>)redisClient.hget(XpgCommon.NXTCHANNELRATING, XpgCommon.NXTCHANNELRATING);
-		List<Object> rating = null;
+		Map<String, Object> rating = null;
 		String json = redisClient.hget(NXPGCommon.CHANNEL_RATING, "channel_rating");
 		if(json instanceof String){
-			rating = CastUtil.StringToJsonList(json);
+			rating = CastUtil.StringToJsonMap(json);
 		}
 		if (rating != null) {
+			rtn.putAll(rating);
 			rtn.put("result", "0000");
 			rtn.put("reason", "");
-			rtn.put("rating", rating);
 		} else {
 			rtn.put("result", "9999");
 			rtn.put("reason", "실시간 채널순위 데이터가 없습니다.");
