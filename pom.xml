@@ -135,11 +135,6 @@
 			<artifactId>commons-io</artifactId>
 			<version>1.3.2</version>
 		</dependency>
-	    <!-- <dependency>
-	        <groupId>org.springframework.cloud</groupId>
-	        <artifactId>spring-cloud-starter-zipkin</artifactId>
-	    </dependency> -->
-		<!-- https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple -->
 		<dependency>
 		    <groupId>com.github.cliftonlabs</groupId>
 		    <artifactId>json-simple</artifactId>
@@ -167,9 +162,7 @@
         <dependency>
 		    <groupId>org.apache.httpcomponents</groupId>
 		    <artifactId>httpclient</artifactId>
-		    
 		</dependency>
-		
 		<dependency>
 		    <groupId>net.sf.ehcache</groupId>
 		    <artifactId>ehcache</artifactId>
@@ -203,9 +196,9 @@
 		</plugins>
 	</build> -->
 	<scm>
-    	<connection>scm:git:http://bitbucket.skbroadband.com/scm/skbbgplxpg/xpg-nxpg-svc.git</connection>
-	    <developerConnection>scm:git:http://bitbucket.skbroadband.com/scm/skbbgplxpg/xpg-nxpg-svc.git</developerConnection>
-	    <url>http://bitbucket.skbroadband.com/scm/skbbgplxpg/xpg-nxpg-svc</url>
+    	<connection>scm:git:http://bitbucket.skbroadband.com/scm/xpg/xpg-nxpg-svc.git</connection>
+	    <developerConnection>scm:git:http://bitbucket.skbroadband.com/scm/xpg/xpg-nxpg-svc.git</developerConnection>
+	    <url>http://bitbucket.skbroadband.com/scm/xpg/xpg-nxpg-svc</url>
 	    <tag>0.0.1</tag>
 	</scm>
 
@@ -364,8 +357,8 @@
 						<artifactId>maven-surefire-plugin</artifactId>
 						<configuration>
 							<includes>
-								<include>com/skb/xpg/cntm/svc/unittest/**/*Tests.java</include>
-								<include>com/skb/xpg/cntm/svc/unittest/**/*Test.java</include>
+								<include>com/skb/xpg/nxpg/svc/unittest/**/*Tests.java</include>
+								<include>com/skb/xpg/nxpg/svc/unittest/**/*Test.java</include>
 							</includes>
 						</configuration>
 					</plugin>
