@@ -4,13 +4,13 @@ spring:
 
 ---
 spring:
-  profiles: local, dev, stg
+  profiles: local
   cloud:
     config:
       enabled: false
 ---
 spring:
-  profiles: prd
+  profiles: prd, dev, stg
   cloud:
     config:
       uri: https://common-config-server-dev.skb-suy-dev01.mybluemix.net/

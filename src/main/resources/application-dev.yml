@@ -76,8 +76,6 @@ spring:
   http:
     encoding:
       charset: UTF-8
-  jackson:
-    default-property-inclusion: NON_NULL
   redis:
     host: 10.10.113.8
     port: 6379

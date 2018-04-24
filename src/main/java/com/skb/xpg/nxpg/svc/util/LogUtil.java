@@ -23,7 +23,8 @@ public class LogUtil {
 			if (logger != null) {
 				logger.error(getLogString(logLevel, interfaceId, transactionType, 
 					transactionId, stbId, extName, /*"BACH", null,*/
-					elements[0].getClassName() + " - " + elements[0].getMethodName() + "(" + elements[0].getLineNumber() + ")"));
+					elements[0].toString() + " - " + elements[0].getMethodName() + "(" + elements[0].getLineNumber() + ")"));
+				
 				logger.error(getLogString(logLevel, interfaceId, transactionType, 
 						transactionId, stbId, extName, /*"BACH", null,*/
 						elements[0].getClassName() + " - " + elements[1].getMethodName() + "(" + elements[1].getLineNumber() + ")"));

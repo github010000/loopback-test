@@ -138,11 +138,13 @@ public class MenuService {
 //			System.out.println("11111 ::: " + param.get("menu_stb_svc_id") +  "_" + param.get("menu_id"));
 			Map<String, Object> bigbanner = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.BIG_BANNER, param.get("menu_stb_svc_id") + "_" + param.get("menu_id")));
 			
-			List<Map<String, Object>> banners = CastUtil.getObjectToMapList(bigbanner.get("banners"));
-			DateUtil.getCompare(banners, "dist_fr_dt", "dist_to_dt", false);
-			doSegment(banners, param.get("bnr_seg_id"), "cmpgn_id");
-			bigbanner.put("banner_count", bigbanner.get("total_count"));
-			bigbanner.remove("total_count");
+			if (bigbanner != null && bigbanner.get("banners") != null) {
+				List<Map<String, Object>> banners = CastUtil.getObjectToMapList(bigbanner.get("banners"));
+				DateUtil.getCompare(banners, "dist_fr_dt", "dist_to_dt", false);
+				doSegment(banners, param.get("bnr_seg_id"), "cmpgn_id");
+				bigbanner.put("banner_count", bigbanner.get("total_count"));
+				bigbanner.remove("total_count");
+			}
 			
 			return bigbanner;
 		} catch (Exception e) {
@@ -348,6 +350,7 @@ public class MenuService {
 				if (menu.containsKey("menu_cd")) {
 					menu.remove("menu_cd");
 				}
+				
 				
 				if (menu.containsKey(field_campaign) && menu.get(field_campaign) != null) {
 					if (!StrUtil.isEmpty(menu.get(field_campaign).toString()) && segmentId.contains(menu.get(field_campaign) + "")) {
