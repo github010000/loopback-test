@@ -9,37 +9,28 @@ public class LogUtil {
 	
 	private static Logger logger = LoggerFactory.getLogger(LogUtil.class.getName());
 
-	public static void info(String className, String interfaceId, String transactionType, String transactionId, String stbId, String extName, String data) {
+	public static void info(String interfaceId, String hostName, String hostIp, String transactionType, String transactionId, String stbId, String extName, String data) {
 		String logLevel = "info";
 		if (logger != null) {
-			logger.info(getLogString(logLevel, interfaceId, transactionType, transactionId, stbId, extName, data));
+			logger.info(getLogString(logLevel, hostName, hostIp, interfaceId, transactionType, transactionId, stbId, extName, data));
 		}
 	}
 
-	public static void error(StackTraceElement[] elements, String interfaceId, String transactionType, String transactionId, String stbId, String extName, String data) {
-		String logLevel = "Error";
-		if (elements != null && elements.length > 0) {
-			
-			if (logger != null) {
-				logger.error(getLogString(logLevel, interfaceId, transactionType, 
-					transactionId, stbId, extName, /*"BACH", null,*/
-					elements[0].toString() + " - " + elements[0].getMethodName() + "(" + elements[0].getLineNumber() + ")"));
-				
-				logger.error(getLogString(logLevel, interfaceId, transactionType, 
-						transactionId, stbId, extName, /*"BACH", null,*/
-						elements[0].getClassName() + " - " + elements[1].getMethodName() + "(" + elements[1].getLineNumber() + ")"));
-			}
+	public static void error(String hostName, String hostIp, String interfaceId, String transactionType, String transactionId, String stbId, String extName, String data) {
+		String logLevel = "error";
+		if (logger != null) {
+			logger.error(getLogString(logLevel, hostName, hostIp, interfaceId, transactionType, transactionId, stbId, extName, data));
 		}
 	}
 	
-	public static void debug(String className, String interfaceId, String transactionType, String transactionId, String stbId, String extName, String data) {
+	public static void debug(String hostName, String hostIp, String interfaceId, String transactionType, String transactionId, String stbId, String extName, String data) {
 		String logLevel = "debug";
 		if (logger != null) {
-			logger.debug(getLogString(logLevel, interfaceId, transactionType, transactionId, stbId, extName, data));
+			logger.debug(getLogString(logLevel, hostName, hostIp, interfaceId, transactionType, transactionId, stbId, extName, data));
 		}
 	}
 
-	private static String getLogString(String logLevel, String interfaceId, String transactionType, String transactionId, String stbId, String extName, String data) {
+	private static String getLogString(String logLevel, String hostName, String hostIp, String interfaceId, String transactionType, String transactionId, String stbId, String extName, String data) {
 		String log = "";
 		String serviceName = "xpg-svc";
 		
@@ -50,10 +41,21 @@ public class LogUtil {
 			log += "|NULL";
 		else
 			log += "|" + logLevel;
+		
+		if (hostName == null)
+			log += "|NULL";
+		else
+			log += "|" + hostName;
+		if (hostIp == null)
+			log += "|NULL";
+		else
+			log += "|" + hostIp;
+		
 		if (interfaceId == null)
 			log += "|NULL";
 		else
 			log += "|" + interfaceId;
+		
 		if (transactionType == null)
 			log += "|NULL";
 		else

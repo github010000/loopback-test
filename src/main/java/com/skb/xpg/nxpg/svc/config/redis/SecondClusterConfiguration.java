@@ -82,7 +82,7 @@ public class SecondClusterConfiguration {
 			return redisTemplate;
 
 		} catch (JedisConnectionException e) {
-			LogUtil.error(e.getStackTrace(), "", "", "", "", "", "");
+			LogUtil.error("", "", "", "", "", "", "", e.toString());
 			return null;
 		}
 	}

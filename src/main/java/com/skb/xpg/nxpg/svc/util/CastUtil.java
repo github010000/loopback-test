@@ -49,7 +49,7 @@ public class CastUtil {
 				rtn = Integer.parseInt(str);
 			} catch (NumberFormatException e) {
 				rtn = 0;
-				LogUtil.error(e.getStackTrace(), "", "", "", "", "", "");
+				LogUtil.error("", "", "", "", "", "", "", e.toString());
 			}
 		}
 		return rtn;
@@ -62,7 +62,7 @@ public class CastUtil {
 				rtn = Long.parseLong(str);
 			} catch (NumberFormatException e) {
 				rtn = 0;
-				LogUtil.error(e.getStackTrace(), "", "", "", "", "", "");
+				LogUtil.error("", "", "", "", "", "", "", e.toString());
 			}
 		}
 		return rtn;

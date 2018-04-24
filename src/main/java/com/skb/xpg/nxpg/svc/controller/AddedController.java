@@ -3,16 +3,19 @@ package com.skb.xpg.nxpg.svc.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.skb.xpg.nxpg.svc.common.ResultCommon;
 import com.skb.xpg.nxpg.svc.config.Properties;
 import com.skb.xpg.nxpg.svc.service.AddedService;
 import com.skb.xpg.nxpg.svc.util.DateUtil;
-import com.skb.xpg.nxpg.svc.util.StrUtil;
+import com.skb.xpg.nxpg.svc.util.LogUtil;
 
 @RestController
 @RequestMapping(value = "/{ver}", produces = "application/json; charset=utf-8")
@@ -25,7 +28,7 @@ public class AddedController {
     
     // IF-NXPG-013
     @RequestMapping(value = "/added/epg")
-    public Map<String, Object> getAddedEpg(@PathVariable String ver, @RequestParam Map<String, String> param) {
+    public Map<String, Object> getAddedEpg(HttpServletRequest req, @PathVariable String ver, @RequestParam Map<String, String> param) {
         String IF = param.get("IF");
 
 		Map<String, Object> result = properties.getResults();
@@ -42,7 +45,12 @@ public class AddedController {
 //        }
         
         // 값 불러오기 
-        Object resultMap = epgService.getAddedEpg(ver, param);
+        Object resultMap = null;
+        try {
+        	resultMap = epgService.getAddedEpg(ver, param);
+        } catch (Exception e) {
+        	LogUtil.error(req.getRemoteHost(), req.getRemoteAddr(), IF, "REQ", "", param.get("stb_id"), "", e.toString());
+        }
         // 조회값 없음
         if (resultMap == null) {
             rtn.put("result", "9998");
@@ -52,13 +60,15 @@ public class AddedController {
             rtn.put("result", "0000");
             rtn.put("channel", resultMap);
         }
+        rtn.put("reason", ResultCommon.reason.get(rtn.get("result")));
+        
         rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
         return rtn;
     }
     
     // IF-NXPG-017
     @RequestMapping(value = "/added/epggenre")
-    public Map<String, Object> getAddedGenre(@PathVariable String ver, @RequestParam Map<String, String> param) {
+    public Map<String, Object> getAddedGenre(HttpServletRequest req, @PathVariable String ver, @RequestParam Map<String, String> param) {
         String IF = param.get("IF");
 
 		Map<String, Object> result = properties.getResults();
@@ -75,7 +85,12 @@ public class AddedController {
 //        }
         
         // 값 불러오기 
-        Object resultMap = epgService.getAddedGenre(ver, param);
+        Object resultMap = null;
+        try {
+        	resultMap = epgService.getAddedGenre(ver, param);
+        } catch (Exception e) {
+        	LogUtil.error(req.getRemoteHost(), req.getRemoteAddr(), IF, "REQ", "", param.get("stb_id"), "", e.toString());
+        }
         // 조회값 없음
         if (resultMap == null) {
             rtn.put("result", "9998");
@@ -85,13 +100,15 @@ public class AddedController {
             rtn.put("result", "0000");
             rtn.put("channel", resultMap);
         }
+        
+        rtn.put("reason", ResultCommon.reason.get(rtn.get("result")));
         rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
         return rtn;
     }
     
     // IF-NXPG-018
     @RequestMapping(value = "/added/realtimechannel")
-    public Map<String, Object> getRealTimeChannel(@PathVariable String ver, @RequestParam Map<String, String> param) {
+    public Map<String, Object> getRealTimeChannel(HttpServletRequest req, @PathVariable String ver, @RequestParam Map<String, String> param) {
         String IF = param.get("IF");
 
 		Map<String, Object> result = properties.getResults();
@@ -108,8 +125,14 @@ public class AddedController {
 //        }
         
         // 값 불러오기 
-        epgService.getRealTimeChannel(rtn);
-        
+        try {
+        	epgService.getRealTimeChannel(rtn);
+        } catch (Exception e) {
+        	LogUtil.error(req.getRemoteHost(), req.getRemoteAddr(), IF, "REQ", "", param.get("stb_id"), "", e.toString());
+        	rtn.put("result", "9997");
+        }
+
+        rtn.put("reason", ResultCommon.reason.get(rtn.get("result")));
         rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
         return rtn;
     }

@@ -1,0 +1,27 @@
+spring:
+  http:
+    encoding:
+      charset: UTF-8
+  redis:
+    host: 10.11.13.10:6379,10.11.13.11:6379,10.11.13.12:6379,10.11.13.13:6379,10.11.13.14:6379,10.11.13.15:6379
+    port: 6379
+    password: vai2Ree1hiy0aifeeGhuoxaethoujuw3
+second:
+  redis:
+    host: 10.10.13.10:6379,10.10.13.11:6379,10.10.13.12:6379,10.10.13.13:6379,10.10.13.14:6379,10.10.13.15:6379
+    port: 6379
+    password: vai2Ree1hiy0aifeeGhuoxaethoujuw3
+services:
+  redis:
+    connection:
+      timeout: 400
+    redirection:
+      count: 1
+management:
+  security:
+    enabled: false
+zuul:
+  routes:
+    ge:
+      path: /ge/**
+      url: http://10.11.13.41:8080

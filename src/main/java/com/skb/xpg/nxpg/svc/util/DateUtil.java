@@ -40,7 +40,7 @@ public class DateUtil {
 			return formatter.format(dd);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
-			LogUtil.error(e.getStackTrace(), "", "", "", "", "", "");
+			LogUtil.error("", "", "", "", "", "", "", e.toString());
 		}
 		return "";
 	}
@@ -64,7 +64,7 @@ public class DateUtil {
 	
 	public static String getYYYYMMDDhhmmssms() {
 		Locale currLocale = new Locale("KOREAN","KOREA");  
-		String pattern = "yyyyMMddHHmmssms";
+		String pattern = "yyyy-MM-dd HH:mm:ss.ms";
 		SimpleDateFormat formatter = new SimpleDateFormat(pattern, currLocale);
 
 		return formatter.format(new Date());
@@ -114,7 +114,7 @@ public class DateUtil {
 			}
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
-			LogUtil.error(e.getStackTrace(), "", "", "", "", "", "");
+			LogUtil.error("", "", "", "", "", "", "", e.toString());
 		}
 
 		if (strTime == null || date.before(strTime)) {

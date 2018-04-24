@@ -37,7 +37,7 @@ public class RestClient {
 			request.addHeader("Authorization", "Basic " + encoding);
 		} catch (UnsupportedEncodingException e2) {
 			// TODO Auto-generated catch block
-			LogUtil.error(e2.getStackTrace(), "", "", "", "", "", "");
+			LogUtil.error("", "", "", "", "", "", "",e2.toString());
 		}
 		
 		
@@ -56,18 +56,18 @@ public class RestClient {
 			}
 		} catch (ClientProtocolException e1) {
 			// TODO Auto-generated catch block
-			LogUtil.error(e1.getStackTrace(), "", "", "", "", "", "");
+			LogUtil.error("", "", "", "", "", "", "",e1.toString());
 		} catch (IOException e1) {
-			LogUtil.error(e1.getStackTrace(), "", "", "", "", "", "");
+			LogUtil.error("", "", "", "", "", "", "",e1.toString());
 		} catch (UnsupportedOperationException e) {
 			// TODO Auto-generated catch block
-			LogUtil.error(e.getStackTrace(), "", "", "", "", "", "");
+			LogUtil.error("", "", "", "", "", "", "",e.toString());
 		} finally {
 			try {
 				rd.close();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
-				LogUtil.error(e.getStackTrace(), "", "", "", "", "", "");
+				LogUtil.error("", "", "", "", "", "", "",e.toString());
 			}
 		}
 		
@@ -136,7 +136,7 @@ public class RestClient {
 
 				json = apacheGet(builder.build().encode().toUri().toString());
 			} catch (RestClientException e) {
-				LogUtil.error(e.getStackTrace(), "", "", "", "", "", "");
+				LogUtil.error("", "", "", "", "", "", "",e.toString());
 			}
 		}
 		

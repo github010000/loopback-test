@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.skb.xpg.nxpg.svc.common.ResultCommon;
 import com.skb.xpg.nxpg.svc.config.Properties;
 import com.skb.xpg.nxpg.svc.service.CwService;
 import com.skb.xpg.nxpg.svc.util.DateUtil;
@@ -41,6 +42,7 @@ public class CwController {
 				|| StrUtil.isEmpty(param.get("stb_id")) || StrUtil.isEmpty(param.get("cw_call_id"))
 				|| StrUtil.isEmpty(param.get("type"))) {
 			rtn.put("result", "9999");
+			rtn.put("reason", ResultCommon.reason.get(rtn.get("result")));
 			return rtn;
 		}
 		
@@ -57,7 +59,9 @@ public class CwController {
 			rtn.put("grid", resultMap.get("grid"));
 			rtn.put("total_count", resultMap.get("size"));
 		}
+		
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
+		rtn.put("reason", ResultCommon.reason.get(rtn.get("result")));
 		return rtn;
 	}
 	
@@ -76,6 +80,7 @@ public class CwController {
 				|| StrUtil.isEmpty(param.get("epsd_rslu_id")) || StrUtil.isEmpty(param.get("epsd_id"))
 				|| StrUtil.isEmpty(param.get("cw_call_id")) || StrUtil.isEmpty(param.get("type"))) {
 			rtn.put("result", "9999");
+			rtn.put("reason", ResultCommon.reason.get(rtn.get("result")));
 			return rtn;
 		}
 		
@@ -101,6 +106,8 @@ public class CwController {
 				rtn.put("related_info", null);
 			}
 		}
+		
+		rtn.put("reason", ResultCommon.reason.get(rtn.get("result")));
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
 		return rtn;
 	}
