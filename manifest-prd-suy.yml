@@ -12,5 +12,5 @@ applications:
     - prd-xpg-common-zipkin
     - prd-xpg-common-auto-scaling
   env:
-    SPRING_PROFILES_ACTIVE: prd
+    SPRING_PROFILES_ACTIVE: prd,suy
     JBP_CONFIG_SPRING_AUTO_RECONFIGURATION: '{enabled: false}'
