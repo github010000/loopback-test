@@ -4,7 +4,7 @@ spring:
 
 ---
 spring:
-  profiles: local, prd, dev, stg
+  profiles: local, prd, dev, stg, suy, ssu
   cloud:
     config:
       enabled: false
