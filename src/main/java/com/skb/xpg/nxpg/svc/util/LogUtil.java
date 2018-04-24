@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class LogUtil {
 	
-	private static Logger logger = LoggerFactory.getLogger(LogUtil.class.getName());;
+	private static Logger logger = LoggerFactory.getLogger(LogUtil.class.getName());
 
 	public static void info(String className, String interfaceId, String transactionType, String transactionId, String stbId, String extName, String data) {
 		String logLevel = "info";
@@ -23,10 +23,10 @@ public class LogUtil {
 			if (logger != null) {
 				logger.error(getLogString(logLevel, interfaceId, transactionType, 
 					transactionId, stbId, extName, /*"BACH", null,*/
-					elements[0].getMethodName() + "(" + elements[0].getLineNumber() + ")"));
+					elements[0].getClassName() + " - " + elements[0].getMethodName() + "(" + elements[0].getLineNumber() + ")"));
 				logger.error(getLogString(logLevel, interfaceId, transactionType, 
 						transactionId, stbId, extName, /*"BACH", null,*/
-						elements[1].getMethodName() + "(" + elements[1].getLineNumber() + ")"));
+						elements[0].getClassName() + " - " + elements[1].getMethodName() + "(" + elements[1].getLineNumber() + ")"));
 			}
 		}
 	}

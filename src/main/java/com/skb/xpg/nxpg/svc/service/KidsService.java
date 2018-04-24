@@ -22,16 +22,39 @@ public class KidsService {
 	ContentsService contentsService;
 	
 	// IF-NXPG-101
-	public List getMenuKzchar(String ver, Map<String, String> param) {
+	public void getMenuKzchar(Map<String, Object> rtn, Map<String, String> param) {
+		
 		try {
-			List<Object> kzchar = CastUtil.StringToJsonList(redisClient.hget(NXPGCommon.MENU_KIDSGNB, param.get("menu_stb_svc_id")));
-			DateUtil.getCompareObject(kzchar, "dist_fr_dt", "dist_to_dt", false);
+			String version = StringUtils.defaultIfEmpty(redisClient.hget(NXPGCommon.VERSION, NXPGCommon.MENU_KIDSCHARACTER), "");
+			rtn.put("version", version);
 			
-			return CastUtil.StringToJsonList(redisClient.hget(NXPGCommon.MENU_KIDSCHARACTER, param.get("menu_stb_svc_id")));
+			if (version != null && param.containsKey("version") && !version.isEmpty()
+					&& CastUtil.getStringToInteger(param.get("version")) >= CastUtil.getStringToInteger(version)) {
+				rtn.put("reason", "최신버전");
+				rtn.put("result", "0000");
+			} else {
+				
+				List<Object> kzgnb = CastUtil.StringToJsonList(redisClient.hget(NXPGCommon.MENU_KIDSCHARACTER, param.get("menu_stb_svc_id")));
+				
+				if (kzgnb == null) {
+					rtn.put("result", "9998");
+				} else {
+					DateUtil.getCompareObject(kzgnb, "dist_fr_dt", "dist_to_dt", false);
+					
+					rtn.put("result", "0000");
+					rtn.put("menus", kzgnb);
+					// 카운트 넣어주기
+					if (kzgnb != null) {
+						rtn.put("total_count", kzgnb.size());
+					}
+				}
+			}
 		} catch (Exception e) {
+			rtn.put("result", "9997");
 			LogUtil.error(e.getStackTrace(), param.get("IF"), "", "", param.get("stb_id"), "", "");
-			return null;
 		}
+		
+		
 	}
 	// IF-NXPG-102
 	public void getMenuKzgnb(Map<String, Object> rtn, Map<String, String> param) {
@@ -39,8 +62,8 @@ public class KidsService {
 			String version = StringUtils.defaultIfEmpty(redisClient.hget(NXPGCommon.VERSION, "menu_kidsGnb"), "");
 			rtn.put("version", version);
 			
-			if (version != null && param.containsKey("version")
-					&& !version.isEmpty() && param.get("version").compareTo(version) >= 0) {
+			if (version != null && param.containsKey("version") && !version.isEmpty()
+					&& CastUtil.getStringToInteger(param.get("version")) >= CastUtil.getStringToInteger(version)) {
 				rtn.put("reason", "최신버전");
 				rtn.put("result", "0000");
 			} else {
@@ -61,6 +84,7 @@ public class KidsService {
 				}
 			}
 		} catch (Exception e) {
+			rtn.put("result", "9997");
 			LogUtil.error(e.getStackTrace(), param.get("IF"), "", "", param.get("stb_id"), "", "");
 		}
 	}
@@ -119,6 +143,7 @@ public class KidsService {
 			}
 			
 		} catch (Exception e) {
+			rtn.put("result", "9997");
 			LogUtil.error(e.getStackTrace(), param.get("IF"), "", "", param.get("stb_id"), "", "");
 			
 		}

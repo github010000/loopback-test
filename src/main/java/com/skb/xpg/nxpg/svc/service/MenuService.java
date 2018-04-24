@@ -1,7 +1,10 @@
 package com.skb.xpg.nxpg.svc.service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -21,6 +24,7 @@ import com.skb.xpg.nxpg.svc.rest.RestClient;
 import com.skb.xpg.nxpg.svc.util.CastUtil;
 import com.skb.xpg.nxpg.svc.util.DateUtil;
 import com.skb.xpg.nxpg.svc.util.LogUtil;
+import com.skb.xpg.nxpg.svc.util.StrUtil;
 
 @Service
 public class MenuService {
@@ -52,8 +56,8 @@ public class MenuService {
 		try {
 			String version = StringUtils.defaultIfEmpty(redisClient.hget(NXPGCommon.VERSION, NXPGCommon.MENU_GNB), "");
 			
-			if (version != null && param.containsKey("version")
-					&& !version.isEmpty() && param.get("version").compareTo(version) >= 0) {
+			if (version != null && param.containsKey("version") && !version.isEmpty()
+					&& CastUtil.getStringToInteger(param.get("version")) >= CastUtil.getStringToInteger(version)) {
 				rtn.put("reason", "최신버전");
 				rtn.put("result", "0000");
 				rtn.put("version", version);
@@ -81,6 +85,7 @@ public class MenuService {
 				}
 			}
 		} catch (Exception e) {
+			rtn.put("result", "9997");
 			LogUtil.error(e.getStackTrace(), param.get("IF"), "", "", param.get("stb_id"), "", "");
 		}
 	}
@@ -91,8 +96,8 @@ public class MenuService {
 
 			String version = StringUtils.defaultIfEmpty(redisClient.hget(NXPGCommon.VERSION,NXPGCommon.MENU_ALL), "");
 			
-			if (version != null && param.containsKey("version")
-					&& !version.isEmpty() && param.get("version").compareTo(version) >= 0) {
+			if (version != null && param.containsKey("version") && !version.isEmpty()
+					&& CastUtil.getStringToInteger(param.get("version")) >= CastUtil.getStringToInteger(version)) {
 				rtn.put("reason", "최신버전");
 				rtn.put("result", "0000");
 				rtn.put("version", version);
@@ -122,6 +127,7 @@ public class MenuService {
 			
 			
 		} catch (Exception e) {
+			rtn.put("result", "9997");
 			LogUtil.error(e.getStackTrace(), param.get("IF"), "", "", param.get("stb_id"), "", "");
 		}
 	}
@@ -129,12 +135,12 @@ public class MenuService {
 	// IF-NXPG-003
 	public Map<String, Object> getBlockBigBanner(String ver, Map<String, String> param) {
 		try {
-			System.out.println("11111 ::: " + param.get("menu_stb_svc_id") +  "_" + param.get("menu_id"));
+//			System.out.println("11111 ::: " + param.get("menu_stb_svc_id") +  "_" + param.get("menu_id"));
 			Map<String, Object> bigbanner = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.BIG_BANNER, param.get("menu_stb_svc_id") + "_" + param.get("menu_id")));
 			
 			List<Map<String, Object>> banners = CastUtil.getObjectToMapList(bigbanner.get("banners"));
 			DateUtil.getCompare(banners, "dist_fr_dt", "dist_to_dt", false);
-			
+			doSegment(banners, param.get("bnr_seg_id"), "cmpgn_id");
 			bigbanner.put("banner_count", bigbanner.get("total_count"));
 			bigbanner.remove("total_count");
 			
@@ -145,7 +151,7 @@ public class MenuService {
 		}
 	}
 	
-	// IF-NXPG-004
+	// IF-NXPG-003
 	public Map<String, Object> getBlockBlock(String ver, Map<String, String> param) {
 		try {
 			
@@ -154,6 +160,7 @@ public class MenuService {
 			if (blockblock != null && blockblock.get("blocks") != null) {
 				List<Map<String, Object>> blocks = CastUtil.getObjectToMapList(blockblock.get("blocks"));
 				DateUtil.getCompare(blocks, "dist_fr_dt", "dist_to_dt", false);
+				doSegment(blocks, param.get("seg_id"), "cmpgn_id");
 				List<Map<String, Object>>cwResult = new ArrayList<Map<String,Object>>();
 				Map<String, Object> cw = properties.getCw();
 				
@@ -193,6 +200,7 @@ public class MenuService {
 					Map<String, Object> gridbanner = getGridBanner(param.get("menu_stb_svc_id") + "_" + map.get("menu_id").toString());
 					map.put("menus", null);
 					if (gridbanner != null) {
+						doSegment(CastUtil.getObjectToMapList(gridbanner.get("banners")), param.get("seg_id"), "cmpgn_id");
 						map.put("menus", gridbanner.get("banners"));
 					}
 				}
@@ -291,7 +299,7 @@ public class MenuService {
 //				if (bigbanner != null) rtn.put("total_count", bigbanner.size());
 			
 		} catch (Exception e) {
-			rtn.put("result", "9999");
+			rtn.put("result", "9997");
 			LogUtil.error(e.getStackTrace(), param.get("IF"), "", "", param.get("stb_id"), "", "");
 			
 		}
@@ -328,6 +336,30 @@ public class MenuService {
 //		System.out.println(menuData.toString());
 		
 		return menuData;
+	}
+	
+	
+	public void doSegment(List<Map<String, Object>> menuList, String segmentId, String field_campaign) {
+		// menu_cd 제거
+		List<Map<String, Object>> deleteListInner = new ArrayList<Map<String, Object>>();
+		
+		if (menuList != null && segmentId != null) {
+			for (Map<String, Object> menu : menuList) {
+				if (menu.containsKey("menu_cd")) {
+					menu.remove("menu_cd");
+				}
+				
+				if (menu.containsKey(field_campaign) && menu.get(field_campaign) != null) {
+					if (!StrUtil.isEmpty(menu.get(field_campaign).toString()) && segmentId.contains(menu.get(field_campaign) + "")) {
+						deleteListInner.add(menu);
+					}
+				}
+			}
+			
+			for (Map<String, Object> del : deleteListInner) {
+				menuList.remove(del);
+			}
+		}
 	}
 	
 }

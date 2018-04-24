@@ -18,6 +18,9 @@ public class GridService {
 
 	@Autowired
 	private RedisClient redisClient;
+
+	@Autowired
+	private MenuService menuService;
 	
 	// IF-NXPG-006
 	public Map<String, Object> getGrid(String ver, Map<String, String> param) {
@@ -42,6 +45,9 @@ public class GridService {
 	            endNo = (endNo > tCount) ? tCount : endNo;
 //	            System.out.println("PAGE INFO pageNo : " + pageNo + ", pageCnt : " + pageCnt + ", startNo : " + startNo + ", endNo : " + endNo );
 	            gList = new ArrayList<Map<String, Object>>();
+	            
+	            menuService.doSegment(gridList, param.get("seg_id"), "cmpgn_id");
+	            
 	            for (Map<String, Object> grid : gridList.subList(startNo, endNo)) {
 	            	checkBadge(grid);
 	            	gList.add(grid);
