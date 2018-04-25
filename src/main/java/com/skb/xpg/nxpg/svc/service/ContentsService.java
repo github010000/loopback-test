@@ -101,10 +101,11 @@ public class ContentsService {
 					}
 				}
 			}
-			
+
 			sris.put("series_info", getContentsSeries(sris_id));
 			sris.put("session_id",  CastUtil.getString(param.get("session_id")));
 			sris.put("track_id", CastUtil.getString(param.get("track_id")));
+			sris.put("menu_id", CastUtil.getString(param.get("cur_menu")));
 			rtn.put("result", "0000");
 			rtn.put("contents", sris);
 
