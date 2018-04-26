@@ -71,6 +71,7 @@ public class ContentsService {
 					
 					if (!last_epsd_id.isEmpty()) {
 						epsd_id = last_epsd_id;
+						epsd = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.SYNOPSIS_SRISINFO, epsd_id));
 					}
 				}
 			}
