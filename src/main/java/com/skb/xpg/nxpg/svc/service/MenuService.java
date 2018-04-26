@@ -178,11 +178,13 @@ public class MenuService {
 					
 				}
 				
-				Map<String, Object> gridbanner = getGridBanner(param.get("menu_stb_svc_id") + "_" + map.get("menu_id").toString());
 				map.put("menus", null);
-				if (gridbanner != null) {
-					doSegment(CastUtil.getObjectToMapList(gridbanner.get("banners")), param.get("seg_id"), "cmpgn_id");
-					map.put("menus", gridbanner.get("banners"));
+				if ("20".equals(map.get("blk_typ_cd"))) {
+					Map<String, Object> gridbanner = getGridBanner(param.get("menu_stb_svc_id") + "_" + map.get("menu_id").toString());
+					if (gridbanner != null) {
+						doSegment(CastUtil.getObjectToMapList(gridbanner.get("banners")), param.get("seg_id"), "cmpgn_id");
+						map.put("menus", gridbanner.get("banners"));
+					}
 				}
 			}
 			
