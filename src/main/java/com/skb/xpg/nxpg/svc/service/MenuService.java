@@ -164,7 +164,7 @@ public class MenuService {
 							keyAndValue = CastUtil.getObjectToMap(cw.get("block"));
 							Map<String, Object> cwRtn = new HashMap<String, Object>();
 							cwRtn.putAll(keyAndValue);
-							String [] menuNtitle = temp.split("\\|");
+							String [] menuNtitle = temp.split("\\@");
 							cwRtn.put("menu_id", menuNtitle[0]);
 							cwRtn.put("menu_nm", menuNtitle[1]);
 							cwRtn.put("dist_to_dt", null);
