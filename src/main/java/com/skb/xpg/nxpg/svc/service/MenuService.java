@@ -214,8 +214,12 @@ public class MenuService {
 		
 		List<Map<String, Object>> newBlocks = new ArrayList<Map<String, Object>>();
 		
-		List<Map<String, Object>> banners = CastUtil.getObjectToMapList(bigbanner.get("banners"));
-		DateUtil.getCompare(banners, "dist_fr_dt", "dist_to_dt", false);
+		List<Map<String, Object>> banners = null;
+		if (bigbanner != null) {
+			banners = CastUtil.getObjectToMapList(bigbanner.get("banners"));
+			DateUtil.getCompare(banners, "dist_fr_dt", "dist_to_dt", false);
+		}
+//		List<Map<String, Object>> banners = CastUtil.getObjectToMapList(bigbanner.get("banners"));
 		
 		List<Object> monthList = CastUtil.StringToJsonList(redisClient.hget(NXPGCommon.BLOCK_MONTH, param.get("menu_stb_svc_id")));
 		

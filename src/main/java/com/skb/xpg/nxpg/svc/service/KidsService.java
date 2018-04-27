@@ -106,12 +106,12 @@ public class KidsService {
 	public void getContentsLftsynop(Map<String, Object> rtn, Map<String, String> param) throws Exception {
 		Map<String, Object> synop = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.SYNOPSIS_LIVECHILDSTORY, param.get("epsd_id")));
 		
-		contentsService.getContentsCorner(synop, param.get("epsd_id"));
-		
 		if (synop == null) {
 			rtn.put("result", "9998");
 			rtn.put("contents", null);
 		} else {
+			contentsService.getContentsCorner(synop, param.get("epsd_id"));
+			
 			if (synop.containsKey("sris_id") && synop.get("sris_id") != null) {
 				Map<String, Object> purchares = contentsService.getContentsPurchares(synop.get("sris_id").toString());
 				if (purchares != null && purchares.get("products") != null) {
