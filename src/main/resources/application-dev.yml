@@ -93,3 +93,8 @@ zuul:
     ge:
       path: /ge/**
       url: http://10.10.113.12:8080
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS}|xpg-nxpg-svc|%msg%n"
+  level:
+    root: info, error
