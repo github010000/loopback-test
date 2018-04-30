@@ -9,68 +9,63 @@ public class LogUtil {
 	
 	private static Logger logger = LoggerFactory.getLogger(LogUtil.class.getName());
 
-	public static void info(String interfaceId, String hostName, String hostIp, String transactionType, String transactionId, String stbId, String extName, String data) {
-		String logLevel = "info";
+	public static void info(String interfaceId, String transactionType, String transactionId, String stbId, String extName, String data) {
 		if (logger != null) {
-			logger.info(getLogString(logLevel, hostName, hostIp, interfaceId, transactionType, transactionId, stbId, extName, data));
+			logger.info(getLogString(interfaceId, transactionType, transactionId, stbId, extName, data));
 		}
 	}
 
-	public static void error(String hostName, String hostIp, String interfaceId, String transactionType, String transactionId, String stbId, String extName, String data) {
-		String logLevel = "error";
+	public static void error(String interfaceId, String transactionType, String transactionId, String stbId, String extName, String data) {
 		if (logger != null) {
-			logger.error(getLogString(logLevel, hostName, hostIp, interfaceId, transactionType, transactionId, stbId, extName, data));
+			logger.error(getLogString(interfaceId, transactionType, transactionId, stbId, extName, data));
 		}
 	}
 	
-	public static void debug(String hostName, String hostIp, String interfaceId, String transactionType, String transactionId, String stbId, String extName, String data) {
-		String logLevel = "debug";
+	public static void debug(String interfaceId, String transactionType, String transactionId, String stbId, String extName, String data) {
 		if (logger != null) {
-			logger.debug(getLogString(logLevel, hostName, hostIp, interfaceId, transactionType, transactionId, stbId, extName, data));
+			logger.debug(getLogString(interfaceId, transactionType, transactionId, stbId, extName, data));
 		}
 	}
 
-	private static String getLogString(String logLevel, String hostName, String hostIp, String interfaceId, String transactionType, String transactionId, String stbId, String extName, String data) {
+	private static String getLogString(String interfaceId, String transactionType, String transactionId, String stbId, String extName, String data) {
 		String log = "";
-		String serviceName = "xpg-svc";
 		
-		log = DateUtil.getYYYYMMDDhhmmssms();
 		
-		log += "|" + serviceName;
-		if (logLevel == null)
-			log += "|NULL";
-		else
-			log += "|" + logLevel;
+		// HostName
+		log += "xpg-nxpg";
+		// HostIP
+		log += "|0";
 		
-		if (hostName == null)
-			log += "|NULL";
-		else
-			log += "|" + hostName;
-		if (hostIp == null)
-			log += "|NULL";
-		else
-			log += "|" + hostIp;
+//		
+//		if (hostName == null)
+//			log += "|NULL";
+//		else
+//			log += "|" + hostName;
+//		if (hostIp == null)
+//			log += "|NULL";
+//		else
+//			log += "|" + hostIp;
 		
-		if (interfaceId == null)
+		if (interfaceId == null || interfaceId.isEmpty())
 			log += "|NULL";
 		else
 			log += "|" + interfaceId;
 		
-		if (transactionType == null)
+		if (transactionType == null || transactionType.isEmpty())
 			log += "|NULL";
 		else
 			log += "|" + transactionType;
-		if (transactionId == null)
+		if (transactionId == null || transactionId.isEmpty())
 			log += "|NULL";
 		else
 			log += "|" + transactionId;// 트랜잭션 아이디 
-		if (stbId == null) {
+		if (stbId == null || stbId.isEmpty()) {
 			log += "|NULL";
 		} else {
 			stbId = stbId.replaceAll("\\{", "").replaceAll("\\}", "");
 			log += "|" + stbId;
 		}
-		if (extName == null) {
+		if (extName == null || extName.isEmpty()) {
 			log += "|NULL";
 		} else {
 			log += "|" + extName;

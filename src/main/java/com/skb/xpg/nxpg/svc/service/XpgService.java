@@ -94,7 +94,7 @@ public class XpgService {
 		    }
 		    
 		} catch (ScriptException | NullPointerException e) {
-			LogUtil.error("", "", "", "", "", "", "", e.toString());
+			LogUtil.error("", "", "", "", "", e.toString());
 		}
 		
 	}

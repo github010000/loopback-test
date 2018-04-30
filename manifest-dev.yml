@@ -11,5 +11,5 @@ applications:
     - dev-xpg-common-syslog
     - dev-xpg-common-zipkin
   env:
-    SPRING_PROFILES_ACTIVE: dev
+    SPRING_PROFILES_ACTIVE: dev,suy
     JBP_CONFIG_SPRING_AUTO_RECONFIGURATION: '{enabled: false}'

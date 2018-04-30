@@ -63,7 +63,7 @@ public class SecondSingleConfig {
 			return redisTemplate;
 
 		} catch (JedisConnectionException e) {
-			LogUtil.error("", "", "", "", "", "", "", e.toString());
+			LogUtil.error("", "", "", "", "", e.toString());
 			return null;
 		}
 	}

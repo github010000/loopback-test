@@ -59,7 +59,7 @@ public class ContentsController {
 		try {
 			contentsService.getSynopsisContents(rtn, param);
 		} catch (Exception e) {
-			LogUtil.error(req.getRemoteHost(), req.getRemoteAddr(), IF, "REQ", "", param.get("stb_id"), "", e.toString());
+			LogUtil.error(IF, "REQ", "", param.get("stb_id"), "", e.toString());
 			rtn.put("result", "9997");
 		}
 		
@@ -92,7 +92,7 @@ public class ContentsController {
 		try {
 			resultMap = contentsService.getContentsPeople(ver, param);
 		} catch (Exception e) {
-			LogUtil.error(req.getRemoteHost(), req.getRemoteAddr(), IF, "REQ", "", param.get("stb_id"), "", e.toString());	
+			LogUtil.error(IF, "REQ", "", param.get("stb_id"), "", e.toString());	
 		}
 		
 		// 조회값 없음
@@ -133,7 +133,7 @@ public class ContentsController {
 		try {
 			resultMap = contentsService.getContentsGwsynop(ver, param);
 		} catch (Exception e) {
-			LogUtil.error(req.getRemoteHost(), req.getRemoteAddr(), IF, "REQ", "", param.get("stb_id"), "", e.toString());
+			LogUtil.error(IF, "REQ", "", param.get("stb_id"), "", e.toString());
 		}
 		
 		// 조회값 없음
@@ -174,7 +174,7 @@ public class ContentsController {
 		try {
 			resultMap = contentsService.getContentsCommerce(ver, param);
 		} catch (Exception e) {
-			LogUtil.error(req.getRemoteHost(), req.getRemoteAddr(), IF, "REQ", "", param.get("stb_id"), "", e.toString());
+			LogUtil.error(IF, "REQ", "", param.get("stb_id"), "", e.toString());
 		}
 		
 		// 조회값 없음
@@ -216,7 +216,7 @@ public class ContentsController {
 		try {
 			resultMap = contentsService.getCornerGather(ver, param);
 		} catch (Exception e) {
-			LogUtil.error(req.getRemoteHost(), req.getRemoteAddr(), IF, "REQ", "", param.get("stb_id"), "", e.toString());
+			LogUtil.error(IF, "REQ", "", param.get("stb_id"), "", e.toString());
 		}
 		
 		// 조회값 없음
@@ -258,7 +258,7 @@ public class ContentsController {
 		try {
 			resultMap = contentsService.getContentsVodList(ver, param);
 		} catch (Exception e) {
-			LogUtil.error(req.getRemoteHost(), req.getRemoteAddr(), IF, "REQ", "", param.get("stb_id"), "", e.toString());
+			LogUtil.error(IF, "REQ", "", param.get("stb_id"), "", e.toString());
 		}
 		
 		// 조회값 없음
@@ -302,7 +302,7 @@ public class ContentsController {
 		try {
 			resultMap = contentsService.getContentsReview(ver, param);
 		} catch (Exception e) {
-			LogUtil.error(req.getRemoteHost(), req.getRemoteAddr(), IF, "REQ", "", param.get("stb_id"), "", e.toString());
+			LogUtil.error(IF, "REQ", "", param.get("stb_id"), "", e.toString());
 		}
 		
 		// 조회값 없음
@@ -343,7 +343,7 @@ public class ContentsController {
 		try {
 			resultMap = contentsService.getPeopleInfo(ver, param);
 		} catch (Exception e) {
-			LogUtil.error(req.getRemoteHost(), req.getRemoteAddr(), IF, "REQ", "", param.get("stb_id"), "", e.toString());
+			LogUtil.error(IF, "REQ", "", param.get("stb_id"), "", e.toString());
 		}
 		
 		// 조회값 없음

@@ -1,6 +1,7 @@
 package com.skb.xpg.nxpg.svc.service;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -28,6 +29,8 @@ public class ContentsService {
 		String sris_id = "", epsd_id = "", epsd_rslu_id = "";
 		Map<String, Object> sris = null;
 		Map<String, Object> epsd = null;
+		String rslu_type = CastUtil.getString(param.get("rslu_type"));
+		
 		if ("3".equals(param.get("search_type"))) {
 			
 			sris_id = param.get("sris_id");
@@ -75,6 +78,18 @@ public class ContentsService {
 					}
 				}
 			}
+			List<Map<String, Object>> epsd_rslu_info = CastUtil.getObjectToMapList(epsd.get("epsd_rslu_info"));
+			
+			for (Iterator<Map<String,Object>> iterator = epsd_rslu_info.iterator(); iterator.hasNext() ; ) {
+				Map<String, Object> map = CastUtil.getObjectToMap(iterator.next());
+				String rslu_typ_cd = CastUtil.getObjectToString(map.get("rslu_typ_cd"));
+				
+				//진입한 STB의 화질이 콘텐츠의 화질보다 낮을 경우 필터링.(상위 화질은 안보이게 한다.)
+				if(Integer.parseInt(rslu_typ_cd)>Integer.parseInt(rslu_type)) {
+					iterator.remove();
+				}
+			}
+			
 		}
 		
 

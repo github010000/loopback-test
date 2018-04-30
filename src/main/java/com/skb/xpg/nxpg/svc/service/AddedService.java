@@ -45,5 +45,6 @@ public class AddedService {
 		}
 		
 		rtn.put("reason", ResultCommon.reason.get(rtn.get("result")));
+		rtn.remove("ver");
 	}
 }

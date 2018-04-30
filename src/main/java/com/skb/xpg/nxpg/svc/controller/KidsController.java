@@ -53,7 +53,7 @@ public class KidsController {
 		try {
 			kidsService.getMenuKzchar(rtn, param);
 		} catch (Exception e) {
-			LogUtil.error(req.getRemoteHost(), req.getRemoteAddr(), IF, "REQ", "", param.get("stb_id"), "", e.toString());
+			LogUtil.error(IF, "REQ", "", param.get("stb_id"), "", e.toString());
 			rtn.put("result", "9997");
 			rtn.put("reason", ResultCommon.reason.get(rtn.get("result")));
 		}
@@ -92,7 +92,7 @@ public class KidsController {
 		try {
 			kidsService.getMenuKzgnb(rtn, param);
 		} catch (Exception e) {
-			LogUtil.error(req.getRemoteHost(), req.getRemoteAddr(), IF, "REQ", "", param.get("stb_id"), "", e.toString());
+			LogUtil.error(IF, "REQ", "", param.get("stb_id"), "", e.toString());
 			rtn.put("result", "9997");
 			rtn.put("reason", ResultCommon.reason.get(rtn.get("result")));
 		}
@@ -191,7 +191,7 @@ public class KidsController {
 		try {
 			map = kidsService.getMenulfthomemapping(ver, param);
 		} catch (Exception e) {
-			LogUtil.error(req.getRemoteHost(), req.getRemoteAddr(), IF, "REQ", "", param.get("stb_id"), "", e.toString());
+			LogUtil.error(IF, "REQ", "", param.get("stb_id"), "", e.toString());
 		}
 		
 		// 조회값 없음
@@ -236,7 +236,7 @@ public class KidsController {
 		try {
 			kidsService.getContentsLftsynop(rtn, param);
 		} catch (Exception e) {
-			LogUtil.error(req.getRemoteHost(), req.getRemoteAddr(), IF, "REQ", "", param.get("stb_id"), "", e.toString());
+			LogUtil.error(IF, "REQ", "", param.get("stb_id"), "", e.toString());
 			rtn.put("result", "9997");
 		}
 		

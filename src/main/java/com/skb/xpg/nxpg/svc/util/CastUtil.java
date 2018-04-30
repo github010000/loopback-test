@@ -1,11 +1,16 @@
 package com.skb.xpg.nxpg.svc.util;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.boot.json.GsonJsonParser;
 import org.springframework.boot.json.JacksonJsonParser;
 import org.springframework.stereotype.Component;
+
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
 
 @Component
 public class CastUtil {
@@ -49,7 +54,7 @@ public class CastUtil {
 				rtn = Integer.parseInt(str);
 			} catch (NumberFormatException e) {
 				rtn = 0;
-				LogUtil.error("", "", "", "", "", "", "", e.toString());
+				LogUtil.error("", "", "", "", "", e.toString());
 			}
 		}
 		return rtn;
@@ -62,7 +67,7 @@ public class CastUtil {
 				rtn = Long.parseLong(str);
 			} catch (NumberFormatException e) {
 				rtn = 0;
-				LogUtil.error("", "", "", "", "", "", "", e.toString());
+				LogUtil.error("", "", "", "", "", e.toString());
 			}
 		}
 		return rtn;
@@ -73,6 +78,15 @@ public class CastUtil {
 			JacksonJsonParser parser = new JacksonJsonParser();
 			List<Object> list = parser.parseList(json);
 			return list;
+		} else return null;
+	}
+
+	public static List<Map<String, Object>> StringToJsonListMap(String json) {
+		if (json != null) {	
+			Gson gson = new Gson();
+			Type type = new TypeToken<List<Map<String, Object>>>() {}.getType();
+			List<Map<String, Object>> data = gson.fromJson(json, type);
+			return data;
 		} else return null;
 	}
 	

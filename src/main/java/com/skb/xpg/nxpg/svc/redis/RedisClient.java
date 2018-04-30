@@ -85,7 +85,7 @@ public class RedisClient {
 			try {
 				obj = redisTemplate.<String, Object>opsForHash().get(key, field);
 			} catch (Exception e) {
-				LogUtil.error("", "", "", "", "", "", "", e.toString());
+				LogUtil.error("", "", "", "", "", e.toString());
 				cacheService.addErrorCountAfterChangeRedis();
 				obj = secondRedisTemplate.<String, Object>opsForHash().get(key, field);
 			}
@@ -93,7 +93,7 @@ public class RedisClient {
 			try {
 				obj = secondRedisTemplate.<String, Object>opsForHash().get(key, field);
 			} catch (Exception e) {
-				LogUtil.error("", "", "", "", "", "", "", e.toString());
+				LogUtil.error("", "", "", "", "", e.toString());
 				cacheService.addErrorCountAfterChangeRedis();
 				obj = redisTemplate.<String, Object>opsForHash().get(key, field);
 			}

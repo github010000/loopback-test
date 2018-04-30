@@ -53,7 +53,7 @@ public class MenuController {
 		try {
 			menuService.getMenuGnb(ver, param, rtn);
 		} catch (Exception e) {
-			LogUtil.error(req.getRemoteHost(), req.getRemoteAddr(), IF, "REQ", "", param.get("stb_id"), "", e.toString());
+			LogUtil.error(IF, "REQ", "", param.get("stb_id"), "", e.toString());
 			rtn.put("result", "9997");
 			rtn.put("reason", ResultCommon.reason.get(rtn.get("result")));
 		}
@@ -87,7 +87,7 @@ public class MenuController {
 		try {
 			menuService.getMenuAll(ver, param, rtn);
 		} catch (Exception e) {
-			LogUtil.error(req.getRemoteHost(), req.getRemoteAddr(), IF, "REQ", "", param.get("stb_id"), "", e.toString());
+			LogUtil.error(IF, "REQ", "", param.get("stb_id"), "", e.toString());
 			rtn.put("result", "9997");
 			rtn.put("reason", ResultCommon.reason.get(rtn.get("result")));
 		}
@@ -124,14 +124,14 @@ public class MenuController {
 		try {
 			blockblock = menuService.getBlockBlock(ver, param);
 		} catch (Exception e) {
-			LogUtil.error(req.getRemoteHost(), req.getRemoteAddr(), IF, "REQ", "", param.get("stb_id"), "", e.toString());
+			LogUtil.error(IF, "REQ", "", param.get("stb_id"), "", e.toString());
 		}
 		// 조회값 없음
 
 		try {
 			bigbanner = menuService.getBlockBigBanner(ver, param);
 		} catch (Exception e) {
-			LogUtil.error(req.getRemoteHost(), req.getRemoteAddr(), IF, "REQ", "", param.get("stb_id"), "", e.toString());
+			LogUtil.error(IF, "REQ", "", param.get("stb_id"), "", e.toString());
 		}
 		
 		rtn.put("result", "0000");
@@ -168,7 +168,7 @@ public class MenuController {
 		rtn.put("IF", IF);
 		rtn.put("request_time", DateUtil.getYYYYMMDDhhmmss());
 
-		if (StrUtil.isEmpty(param.get("prd_prc_id_lst")) || param.get("prd_prc_id_lst").isEmpty()) {
+		if (StrUtil.isEmpty(param.get("prd_prc_id_lst")) || param.get("prd_prc_id_lst").isEmpty() || param.get("menu_id").isEmpty()) {
 			rtn.put("result", "9999");
 		} else {
 			if (StrUtil.isEmpty(param.get("menu_stb_svc_id"))) {
@@ -179,7 +179,7 @@ public class MenuController {
 			try {
 				menuService.getBlockMonth(rtn, param);
 			} catch (Exception e) {
-				LogUtil.error(req.getRemoteHost(), req.getRemoteAddr(), IF, "REQ", "", param.get("stb_id"), "", e.toString());
+				LogUtil.error(IF, "REQ", "", param.get("stb_id"), "", e.toString());
 				rtn.put("result", "9997");
 			}
 		}

@@ -1,5 +1,7 @@
 package com.skb.xpg.nxpg.svc.service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +14,7 @@ import com.skb.xpg.nxpg.svc.common.ResultCommon;
 import com.skb.xpg.nxpg.svc.redis.RedisClient;
 import com.skb.xpg.nxpg.svc.util.CastUtil;
 import com.skb.xpg.nxpg.svc.util.DateUtil;
+import com.skb.xpg.nxpg.svc.util.GridComparator;
 
 @Service
 public class KidsService {
@@ -23,7 +26,9 @@ public class KidsService {
 	
 	// IF-NXPG-101
 	public void getMenuKzchar(Map<String, Object> rtn, Map<String, String> param) throws Exception {
-		String version = StringUtils.defaultIfEmpty(redisClient.hget(NXPGCommon.VERSION, NXPGCommon.MENU_KIDSCHARACTER), "");
+		String version = StringUtils.defaultIfEmpty(redisClient.hget(NXPGCommon.VERSION, NXPGCommon.MENU_KIDSCHARACTER + "_" + param.get("menu_stb_svc_id")), "");
+		String order_type=CastUtil.getString(param.get("order_type"));
+		
 		rtn.put("version", version);
 		
 		if (version != null && param.containsKey("version") && !version.isEmpty()
@@ -32,12 +37,25 @@ public class KidsService {
 			rtn.put("result", "0000");
 		} else {
 			
-			List<Object> kzgnb = CastUtil.StringToJsonList(redisClient.hget(NXPGCommon.MENU_KIDSCHARACTER, param.get("menu_stb_svc_id")));
+			List<Map<String, Object>> kzgnb = CastUtil.StringToJsonListMap(redisClient.hget(NXPGCommon.MENU_KIDSCHARACTER, param.get("menu_stb_svc_id")));
+					
 			
 			if (kzgnb == null) {
 				rtn.put("result", "9998");
 			} else {
-				DateUtil.getCompareObject(kzgnb, "dist_fr_dt", "dist_to_dt", false);
+				DateUtil.getCompare(kzgnb, "dist_fr_dt", "dist_to_dt", false);
+				
+				// 그리드 타이틀 정렬 처리
+				List<Map<String, Object>> mCopyGrids = null;
+				try {
+					if(!"".equals(order_type)) {
+						mCopyGrids = new ArrayList<Map<String, Object>>(kzgnb);
+						
+						Collections.sort(mCopyGrids, new GridComparator(order_type, true));
+						kzgnb = mCopyGrids;
+					}
+				}
+				catch(Exception e){}
 				
 				rtn.put("result", "0000");
 				rtn.put("menus", kzgnb);
@@ -52,7 +70,7 @@ public class KidsService {
 	
 	// IF-NXPG-102
 	public void getMenuKzgnb(Map<String, Object> rtn, Map<String, String> param) throws Exception {
-		String version = StringUtils.defaultIfEmpty(redisClient.hget(NXPGCommon.VERSION, "menu_kidsGnb"), "");
+		String version = StringUtils.defaultIfEmpty(redisClient.hget(NXPGCommon.VERSION, NXPGCommon.MENU_KIDSGNB + "_" + param.get("menu_stb_svc_id")), "");
 		rtn.put("version", version);
 		
 		if (version != null && param.containsKey("version") && !version.isEmpty()

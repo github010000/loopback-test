@@ -57,7 +57,7 @@ public class GridController {
 		try {
 			resultMap = gridService.getGrid(ver, param);
 		} catch (Exception e) {
-			LogUtil.error(req.getRemoteHost(), req.getRemoteAddr(), IF, "REQ", "", param.get("stb_id"), "", e.toString());
+			LogUtil.error(IF, "REQ", "", param.get("stb_id"), "", e.toString());
 		}
 		
 		// 조회값 없음
@@ -97,7 +97,7 @@ public class GridController {
 		try {
 			resultMap = gridService.getGridEvent(ver, param);
 		} catch (Exception e) {
-			LogUtil.error(req.getRemoteHost(), req.getRemoteAddr(), IF, "REQ", "", param.get("stb_id"), "", e.toString());
+			LogUtil.error(IF, "REQ", "", param.get("stb_id"), "", e.toString());
 		}
 		
 		// 조회값 없음

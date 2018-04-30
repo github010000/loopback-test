@@ -50,7 +50,7 @@ public class MenuService {
 	
 	// IF-NXPG-001
 	public void getMenuGnb(String ver, Map<String, String> param, Map<String, Object> rtn) throws Exception {
-		String version = StringUtils.defaultIfEmpty(redisClient.hget(NXPGCommon.VERSION, NXPGCommon.MENU_GNB), "");
+		String version = StringUtils.defaultIfEmpty(redisClient.hget(NXPGCommon.VERSION, NXPGCommon.MENU_GNB + "_" + param.get("menu_stb_svc_id")), "");
 		
 		if (version != null && param.containsKey("version") && !version.isEmpty()
 				&& CastUtil.getStringToInteger(param.get("version")) >= CastUtil.getStringToInteger(version)) {
@@ -85,7 +85,7 @@ public class MenuService {
 	
 	// IF-NXPG-002
 	public void getMenuAll(String ver, Map<String, String> param, Map<String, Object> rtn) throws Exception {
-		String version = StringUtils.defaultIfEmpty(redisClient.hget(NXPGCommon.VERSION,NXPGCommon.MENU_ALL), "");
+		String version = StringUtils.defaultIfEmpty(redisClient.hget(NXPGCommon.VERSION,NXPGCommon.MENU_ALL + "_" + param.get("menu_stb_svc_id")), "");
 		
 		if (version != null && param.containsKey("version") && !version.isEmpty()
 				&& CastUtil.getStringToInteger(param.get("version")) >= CastUtil.getStringToInteger(version)) {
@@ -143,9 +143,13 @@ public class MenuService {
 			DateUtil.getCompare(blocks, "dist_fr_dt", "dist_to_dt", false);
 			doSegment(blocks, param.get("seg_id"), "cmpgn_id");
 			List<Map<String, Object>>cwResult = new ArrayList<Map<String,Object>>();
+			List<Map<String, Object>>deleteList = new ArrayList<Map<String,Object>>();
 			Map<String, Object> cw = properties.getCw();
 			
 			int i = 0;
+
+			int j = 0;
+			List<Integer> which = new ArrayList<Integer>();
 			
 			for (Iterator<Map<String,Object>> iterator = blocks.iterator(); iterator.hasNext() ; ) {
 //				for (Object block : blocks) {
@@ -153,6 +157,7 @@ public class MenuService {
 
 				//CW menu로 대체한다.
 				if(cw.get("scnmthdcd").equals(map.get("scn_mthd_cd"))) {
+					which.add(j);
 					
 					iterator.remove(); //CW를 호출하는 맵파일은 삭제한다.
 					i++; //블럭 카운트를 맞추기 위해 삭제한 개수만큼 증가
@@ -164,32 +169,58 @@ public class MenuService {
 							keyAndValue = CastUtil.getObjectToMap(cw.get("block"));
 							Map<String, Object> cwRtn = new HashMap<String, Object>();
 							cwRtn.putAll(keyAndValue);
-							String [] menuNtitle = temp.split("\\@");
-							cwRtn.put("menu_id", menuNtitle[0]);
-							cwRtn.put("menu_nm", menuNtitle[1]);
-							cwRtn.put("dist_to_dt", null);
-							cwRtn.put("gnb_typ_cd", null);
-							cwRtn.put("dist_fr_dt", null);
-							cwRtn.put("menus", null);
 							
-							cwResult.add(cwRtn);
+							if( temp.contains("\\|") ) {
+								temp.replaceAll("\\|", "\\@");
+							}
+							
+							String [] menuNtitle = temp.split("\\@");
+							
+							//그리드 콘텐츠에 존재하면서 만료일이 넘지 않은 경우 메뉴를 노출시킨다. 이외에는 노출시키지 않음
+							String cwPerGridStr = (String)redisClient.hget(NXPGCommon.GRID_CONTENTS, menuNtitle[0]);
+							
+							if(cwPerGridStr != null && !cwPerGridStr.isEmpty()) {
+								List<Object> cwPerGrid = CastUtil.StringToJsonList(cwPerGridStr);
+								List<Map<String, Object>> data = (List<Map<String, Object>>) CastUtil.getObjectToMapList(cwPerGrid);
+								DateUtil.getCompare(data, "dist_fr_dt", "dist_to_dt", true);
+								if(data != null && !data.isEmpty()) {
+									cwRtn.put("menu_id", menuNtitle[0]);
+									cwRtn.put("menu_nm", menuNtitle[1]);
+									cwRtn.put("dist_to_dt", null);
+									cwRtn.put("gnb_typ_cd", null);
+									cwRtn.put("dist_fr_dt", null);
+									cwRtn.put("menus", null);
+									
+									cwResult.add(cwRtn);
+								}
+							}
 						}
 					}
-					
+					j += menuData.size()-1;
+					j++;
 				}
 				
 				map.put("menus", null);
 				if ("20".equals(map.get("blk_typ_cd"))) {
+
 					Map<String, Object> gridbanner = getGridBanner(param.get("menu_stb_svc_id") + "_" + map.get("menu_id").toString());
 					if (gridbanner != null) {
+						DateUtil.getCompare(CastUtil.getObjectToMapList(gridbanner.get("banners")), "dist_fr_dt", "dist_to_dt", true);
 						doSegment(CastUtil.getObjectToMapList(gridbanner.get("banners")), param.get("seg_id"), "cmpgn_id");
 						map.put("menus", gridbanner.get("banners"));
+					} else {
+						deleteList.add(map);
 					}
 				}
 			}
 			
-			for(Map<String, Object>temp:cwResult) {
-				blocks.add(temp);
+			for(Integer temp:which) {
+				blocks.addAll(temp, cwResult);
+			}
+			
+			//005에서 데이터 없으면 삭제.
+			for (Map<String, Object> del : deleteList) {
+				blocks.remove(del);
 			}
 			
 			double totalCount = (double)blockblock.get("total_count");
@@ -256,6 +287,7 @@ public class MenuService {
 			
 			if (user_month.size() > 0) {
 				rtn.put("result", "0000");
+				rtn.put("banners", null);
 				if (bigbanner != null) {
 					rtn.putAll(bigbanner);
 				}
@@ -313,6 +345,18 @@ public class MenuService {
 		List<Map<String, Object>> deleteListInner = new ArrayList<Map<String, Object>>();
 		
 		if (menuList != null && segmentId != null) {
+			
+			// segmentId 10개까지만 가지고 오게 끔 처리
+			String[] segmentIdList = segmentId.split(",");
+			for(int i = 0; i < segmentIdList.length; i++) {
+				if (i == 10) break;
+				if (i == 0) 
+					segmentId = segmentIdList[i];
+				else
+					segmentId += "," + segmentIdList[i];
+			}
+			segmentId = segmentId.substring(0, segmentId.indexOf(",", 10));
+			
 			for (Map<String, Object> menu : menuList) {
 				if (menu.containsKey("menu_cd")) {
 					menu.remove("menu_cd");

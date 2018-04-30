@@ -43,6 +43,9 @@ public class CwService {
 	@Qualifier("cwPassword")
 	private String cwPassword;
 	
+	@Autowired
+	private GridService gridService;
+	
 	
 	public Map<String, Object> cwGetGrid(String ver, Map<String, String> param) {
 		
@@ -74,6 +77,9 @@ public class CwService {
 				temp = cwCall("getonepage", param);
 				break;
 		}
+		if(temp != null) {
+			temp.put("type", type);
+		}
 		
 		resultList = makeCwGrid(temp);
 		result.put("status_code", temp.get("status_code"));
@@ -91,6 +97,7 @@ public class CwService {
 		
 		//기존 콘텐츠 아이디 추출
 		String epsd_id = CastUtil.getString(param.get("epsd_id"));
+		String cw_call_id = CastUtil.getString(param.get("cw_call_id"));
 //		String epsd_id = (String)param.get("epsd_id");
 		param.put("itemType", "VIDEO_CONTENT");
 		Map<String, Object> result = null;
@@ -115,33 +122,58 @@ public class CwService {
 			
 			Map<String, Object> temp = null;
 			
-			switch (type) {
-			
-			case "section":
-				param.put("retrieveSections", "NONE");
-				temp = cwCall("onlysection", param);
-				break;
-			case "multi":
-				temp = cwCall("multisection", param);
-				break;
-			case "all":
-				temp = cwCall("fullsection", param);
-				break;
-			case "onepage":
-				temp = cwCall("getonepage", param);
-				break;
-			case "onesection":
-				temp = cwCall("getonesection", param);
-				break;
-			default:
-				temp = cwCall("getonepage", param);
-				break;
+			//cw_call_id가 안들어오면 CW는 호출하지 않는다.
+			if(cw_call_id != null && !cw_call_id.isEmpty()) {
+				
+				switch (type) {
+				
+				case "section":
+					param.put("retrieveSections", "NONE");
+					temp = cwCall("onlysection", param);
+					break;
+				case "multi":
+					temp = cwCall("multisection", param);
+					break;
+				case "all":
+					temp = cwCall("fullsection", param);
+					break;
+				case "onepage":
+					temp = cwCall("getonepage", param);
+					break;
+				case "onesection":
+					temp = cwCall("getonesection", param);
+					break;
+				default:
+					temp = cwCall("getonepage", param);
+					break;
+				}
 			}
 			
+			
+			//파라미터가 안넘어 왔거나 temp값이 없을 시 처리
 			if(temp == null) {
-				return null;
+				//CW 연동로직에 데이터가 없을 경우 
+				result.put("status_code", "9999");
+				String srisInfo = redisClient.hget(NXPGCommon.SYNOPSIS_SRISINFO,epsd_id);
+				String regexRelation = "\\\"relation_contents\\\"[\\s]*:[\\s]*(\\[\\{.*?\\}\\])";
+				String relationData = StrUtil.getRegexString(regexRelation, srisInfo);
+				if(relationData != null && !"".equals(relationData)) {
+					resultList = CastUtil.StringToJsonList(relationData);
+				}
+				
+				if(resultList!= null && !resultList.isEmpty()) {
+					result.put("relation", resultList);
+					result.put("size", resultList.size()+"");
+				}else {
+					result = null;
+				}
+				
+				return result;
 			}
 			
+			if(temp != null) {
+				temp.put("type", type);
+			}
 			String regexTitle = "\"sub_title\"[\\s]*:[\\s]*\"([^\"]+)\"";
 			String contentTitle = StrUtil.getRegexString(regexTitle, contentInfo);
 			temp.put("contentTitle", contentTitle);
@@ -243,6 +275,8 @@ public class CwService {
 		
 		List<Map<String, Object>> resultList = new ArrayList<Map<String,Object>>();
 		
+		String type = CastUtil.getObjectToString(objMap.get("type"));
+		
 		//데이터 추출 메소드
 		getCwData(objMap, resultList);
 
@@ -269,6 +303,8 @@ public class CwService {
 							
 							if(gridInfo != null && !gridInfo.isEmpty()) {
 							
+								gridService.checkBadge(gridInfo);
+
 								gridData.putAll(gridInfo);
 								gridData.put("track_id", trackId);//? 뭘 써야할지...						
 							
@@ -285,8 +321,13 @@ public class CwService {
 				resultMap.put("block_cnt", resultGridList.size());
 				resultMap.put("cw_call_id", objMap.get("cw_call_id"));
 
-			
-				cwGrid.add(resultMap);
+				if(type.equals("all")) {
+					if(resultGridList.size()>0) {
+						cwGrid.add(resultMap);
+					}
+				}else {
+					cwGrid.add(resultMap);	//type이 all 이 아닌 애들
+				}
 				resultMap = new HashMap<String, Object>();
 			
 			}
@@ -301,6 +342,8 @@ public class CwService {
 	public List makeCwRelation(Map<String, Object> objMap, String param_epsd_id) {
 		
 		List<Map<String, Object>> resultList = new ArrayList<Map<String,Object>>();
+		
+		String type = CastUtil.getObjectToString(objMap.get("type"));
 		
 		//데이터 추출 메소드
 		getCwData(objMap, resultList);
@@ -327,13 +370,11 @@ public class CwService {
 						Map<String, Object> cidInfo = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.CONTENTS_CIDINFO,epsd_rslu_id));
 						if(cidInfo!=null) {
 							String epsd_id = CastUtil.getObjectToString(cidInfo.get("epsd_id"));
-//							String epsd_id = (String) cidInfo.get("epsd_id");
-//							String sris_id = (String) cidInfo.get("sris_id");
 							Map<String, Object> contentInfo = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.GRID_CONTENTS_ITEM,epsd_id));
 
-//							Map<String, Object> contentInfo = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.SYNOPSIS_CONTENTS,sris_id));
-//							Map<String, Object> srisInfo = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.SYNOPSIS_SRISINFO,epsd_id));
 							if(contentInfo != null && !contentInfo.isEmpty()) {
+								gridService.checkBadge(contentInfo);
+								
 								relationData.putAll(contentInfo);//? 뭘 써야할지...						
 								relationData.put("track_id", trackId);						
 								
@@ -359,7 +400,13 @@ public class CwService {
 				resultMap.put("sub_title", sub_title);
 				resultMap.put("cw_call_id", objMap.get("cw_call_id"));
 				
-				cwRelation.add(resultMap);
+				if(type.equals("all")) {
+					if(resultRelationList.size()>0) {
+						cwRelation.add(resultMap);
+					}
+				}else {
+					cwRelation.add(resultMap);	//type이 all 이 아닌 애들
+				}
 				resultMap = new HashMap<String, Object>();
 			}
 			
@@ -381,6 +428,7 @@ public class CwService {
 		//단일섹션은 응답값이 다르므로 담는 변수를 따로 둔다.
 		List<Map<String, Object>> oneSecBlocks = CastUtil.getObjectToMapList(objMap.get("blocks"));
 		
+		String type = CastUtil.getObjectToString(objMap.get("type"));
 
 		
 		Map<String, Object> result = new HashMap<String, Object>(); 
@@ -400,11 +448,14 @@ public class CwService {
 						idList = new ArrayList<String>();
 					}
 				}
-				//응답값에 sectionId가 없으면 multisection이 호출된 것이다.
-				if(sectionMap.get("sectionId")!=null) {
+				//응답값에 sectionId가 있으면 multisection이 호출된 것이다.
+				if(type.equals("all")) {
 					//전체 섹션(all), 단일page(onepage) 처리 로직
 					result.put("sectionId", sectionMap.get("sectionId"));
-					resultList.add(result);
+					
+					if(result.get("idList") !=null) {
+						resultList.add(result);
+					}
 					result = new HashMap<String, Object>();
 				}else {	
 					//멀티섹션(multi) 처리 로직
@@ -441,7 +492,11 @@ public class CwService {
 		result.put("sectionId", temp.get("blockId"));
 		result.put("sessionId", temp.get("sessionId"));
 		result.put("btrackId", temp.get("trackId"));
-		result.put("idList",idList);
+		if(idList != null && idList.size()>0) {
+			result.put("idList",idList);
+		}else {
+			result.put("idList",null);
+		}
 	}	
 	
 	

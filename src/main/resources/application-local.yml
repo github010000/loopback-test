@@ -79,6 +79,9 @@ second:
 management:
   security:
     enabled: false
+endpoints:
+  restart:
+    enabled: true
 zuul:
   routes:
     ge:

@@ -78,9 +78,10 @@ public class CwController {
 		rtn.put("IF", IF);
 		if (StrUtil.isEmpty(param.get("menu_stb_svc_id")) || StrUtil.isEmpty(param.get("menu_id"))
 				|| StrUtil.isEmpty(param.get("epsd_rslu_id")) || StrUtil.isEmpty(param.get("epsd_id"))
-				|| StrUtil.isEmpty(param.get("cw_call_id")) || StrUtil.isEmpty(param.get("type"))) {
+				|| StrUtil.isEmpty(param.get("type"))) {
 			rtn.put("result", "9999");
 			rtn.put("reason", ResultCommon.reason.get(rtn.get("result")));
+			rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
 			return rtn;
 		}
 		

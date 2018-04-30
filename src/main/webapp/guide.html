@@ -153,6 +153,29 @@
 					//$(this).empty();
 					
 					for (var r in args.contents) {
+						$("#" + id).append("<div id='" + args.contents[r].epsd_id + "'><a href='/synop.html?epsd_id="+args.contents[r].epsd_id+"'>" + args.contents[r].title + "</a><span>" + args.contents[r].epsd_id + "</span></div>");
+						//$("#" + id).append("<li><a href='#'>asdf</a></li>");
+					}
+					
+				}
+			});
+		});
+
+		goSynop();
+	}
+	
+	function goSynop() {
+		
+		var tempArray = new Array();
+		$("#block div div div").each(function(){
+			var id = $(this).attr("id");
+			$.ajax({    
+				type : "GET",
+				url : "/v5/contents/synopsis?menu_stb_svc_id=UI50_BSUHD2&search_type=1&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&menu_id=A000002200&yn_recent=Y&IF=IF-NXPG-010&epsd_id=" + id,
+				success : function(args) {
+					//$(this).empty();
+					
+					for (var r in args.contents) {
 						$("#" + id).append("<div><a href='/synop.html?epsd_id="+args.contents[r].epsd_id+"'>" + args.contents[r].title + "</a><span>" + args.contents[r].epsd_id + "</span></div>");
 						//$("#" + id).append("<li><a href='#'>asdf</a></li>");
 					}
