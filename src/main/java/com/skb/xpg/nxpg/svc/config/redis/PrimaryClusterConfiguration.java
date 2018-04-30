@@ -22,7 +22,7 @@ import redis.clients.jedis.JedisPoolConfig;
 import redis.clients.jedis.exceptions.JedisConnectionException;
 
 @Configuration
-@Profile({"stg", "prd-suy", "prd-ssu"})
+@Profile({"stg", "suy", "ssu"})
 public class PrimaryClusterConfiguration {
 	
     @Value("${spring.redis.host}")
