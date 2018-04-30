@@ -85,7 +85,8 @@ public class ContentsService {
 				String rslu_typ_cd = CastUtil.getObjectToString(map.get("rslu_typ_cd"));
 				
 				//진입한 STB의 화질이 콘텐츠의 화질보다 낮을 경우 필터링.(상위 화질은 안보이게 한다.)
-				if(Integer.parseInt(rslu_typ_cd)>Integer.parseInt(rslu_type)) {
+				if (rslu_type != null && !rslu_type.isEmpty()
+						&& CastUtil.getStringToInteger(rslu_typ_cd) > CastUtil.getStringToInteger(rslu_type)) {
 					iterator.remove();
 				}
 			}
