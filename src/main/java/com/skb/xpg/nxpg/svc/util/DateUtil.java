@@ -32,7 +32,7 @@ public class DateUtil {
 		return formatter.format(new Date());
 	}
 	
-	public static String getAddDate(String date, int hour) {
+	public static String getAddDate(String date, int day) {
 		Locale currLocale = new Locale("KOREAN","KOREA");  
 		String pattern = "yyyyMMddHHmmss";
 		SimpleDateFormat formatter = new SimpleDateFormat(pattern, currLocale);
@@ -41,7 +41,7 @@ public class DateUtil {
 			
 			Calendar c = Calendar.getInstance();
 	        c.setTime(time);
-	        c.add(Calendar.HOUR, hour);
+	        c.add(Calendar.DATE, day);
 			
 	        Date dd = c.getTime();
 
@@ -60,7 +60,7 @@ public class DateUtil {
 		
 		String today = formatter.format(new Date());
 		
-		if (start.matches("[0-9]{8}") && end.matches("[0-9]{8}")) {
+		if (start.matches("[0-9]+") && end.matches("[0-9]+")) {
 			
 			if (today.compareTo(start) >= 0 && today.compareTo(end) <= 0) {
 				return true;

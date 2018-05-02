@@ -112,32 +112,32 @@ public class GridService {
 		
 		if (grid.containsKey("sris_dist_fir_svc_dt")) sris_dist_fir_svc_dt = grid.get("sris_dist_fir_svc_dt") + "";
 		if (grid.containsKey("epsd_dist_fir_svc_dt")) epsd_dist_fir_svc_dt = grid.get("epsd_dist_fir_svc_dt") + "";
-		if (grid.containsKey("icon_exps_fr_dy")) icon_exps_fr_dy = grid.get("icon_exps_fr_dy") + "";
-		if (grid.containsKey("icon_exps_to_dy")) icon_exps_to_dy = grid.get("icon_exps_to_dy") + "";
+		if (grid.containsKey("icon_exps_fr_dt")) icon_exps_fr_dy = grid.get("icon_exps_fr_dt") + "";
+		if (grid.containsKey("icon_exps_to_dt")) icon_exps_to_dy = grid.get("icon_exps_to_dt") + "";
 		if (grid.containsKey("rslu_typ_cd")) rslu_typ_cd = grid.get("rslu_typ_cd") + "";
 		
 		if ("01".equals(grid.get("synon_typ_cd"))) {
 			
-			if ("024".equals(meta_typ_cd) && !sris_dist_fir_svc_dt.isEmpty() && DateUtil.getAddDate(sris_dist_fir_svc_dt, 7).compareTo(DateUtil.getYYYYMMDDhhmmss2()) <= 0) {
+			if ("024".equals(meta_typ_cd) && !sris_dist_fir_svc_dt.isEmpty() && DateUtil.getAddDate(sris_dist_fir_svc_dt, 7).compareTo(DateUtil.getYYYYMMDDhhmmss2()) >= 0) {
 				result = "sale";
 			} else if ("024".equals(meta_typ_cd) && "0".equals(sale_prc)) {
 				result = "free";
 			} else if ("024".equals(meta_typ_cd)) {
 				result = "";
 			} else {
-				if ("할인".equals(badge_typ_nm) && DateUtil.doCompareSingle(icon_exps_fr_dy, icon_exps_to_dy, "yyyyMMdd")) {
+				if ("할인".equals(badge_typ_nm) && DateUtil.doCompareSingle(icon_exps_fr_dy, icon_exps_to_dy, "yyyyMMddHHmmss")) {
 					result = "sale";
-				} else if ("이벤트".equals(badge_typ_nm) && DateUtil.doCompareSingle(icon_exps_fr_dy, icon_exps_to_dy, "yyyyMMdd")) {
+				} else if ("이벤트".equals(badge_typ_nm) && DateUtil.doCompareSingle(icon_exps_fr_dy, icon_exps_to_dy, "yyyyMMddHHmmss")) {
 					result = "event";
-				} else if (!sris_dist_fir_svc_dt.isEmpty() && DateUtil.getAddDate(sris_dist_fir_svc_dt, 7).compareTo(DateUtil.getYYYYMMDDhhmmss2()) <= 0) {
+				} else if (!sris_dist_fir_svc_dt.isEmpty() && DateUtil.getAddDate(sris_dist_fir_svc_dt, 7).compareTo(DateUtil.getYYYYMMDDhhmmss2()) >= 0) {
 					result = "new";
 				} else if ("0".equals(sale_prc)) {
 					result = "free";
-				} else if (!epsd_dist_fir_svc_dt.isEmpty() && DateUtil.getAddDate(epsd_dist_fir_svc_dt, 1).compareTo(DateUtil.getYYYYMMDDhhmmss2()) <= 0) {
+				} else if (!epsd_dist_fir_svc_dt.isEmpty() && DateUtil.getAddDate(epsd_dist_fir_svc_dt, 1).compareTo(DateUtil.getYYYYMMDDhhmmss2()) >= 0) {
 					result = "up";
 				} else if ("Y".equals(cacbro_yn)) {
 					result = "rest";
-				} else if ("독점".equals(badge_typ_nm) && DateUtil.doCompareSingle(icon_exps_fr_dy, icon_exps_to_dy, "yyyyMMdd")) {
+				} else if ("독점".equals(badge_typ_nm) && DateUtil.doCompareSingle(icon_exps_fr_dy, icon_exps_to_dy, "yyyyMMddHHmmss")) {
 					result = "monopoly";
 				} else if ("35".equals(rslu_typ_cd)) {
 					//HDR
@@ -148,22 +148,22 @@ public class GridService {
 				}
 			}
 		} else if ("02".equals(grid.get("synon_typ_cd"))) {
-			if ("024".equals(meta_typ_cd) && !epsd_dist_fir_svc_dt.isEmpty() && DateUtil.getAddDate(epsd_dist_fir_svc_dt, 7).compareTo(DateUtil.getYYYYMMDDhhmmss2()) <= 0) {
+			if ("024".equals(meta_typ_cd) && !epsd_dist_fir_svc_dt.isEmpty() && DateUtil.getAddDate(epsd_dist_fir_svc_dt, 7).compareTo(DateUtil.getYYYYMMDDhhmmss2()) >= 0) {
 				result = "sale";
 			} else if ("024".equals(meta_typ_cd) && "0".equals(sale_prc)) {
 				result = "free";
 			} else if ("024".equals(meta_typ_cd)) {
 				result = "";
 			} else {
-				if ("할인".equals(badge_typ_nm) && DateUtil.doCompareSingle(icon_exps_fr_dy, icon_exps_to_dy, "yyyyMMdd")) {
+				if ("할인".equals(badge_typ_nm) && DateUtil.doCompareSingle(icon_exps_fr_dy, icon_exps_to_dy, "yyyyMMddHHmmss")) {
 					result = "sale";
-				} else if ("이벤트".equals(badge_typ_nm) && DateUtil.doCompareSingle(icon_exps_fr_dy, icon_exps_to_dy, "yyyyMMdd")) {
+				} else if ("이벤트".equals(badge_typ_nm) && DateUtil.doCompareSingle(icon_exps_fr_dy, icon_exps_to_dy, "yyyyMMddHHmmss")) {
 					result = "event";
-				} else if (!epsd_dist_fir_svc_dt.isEmpty() && DateUtil.getAddDate(epsd_dist_fir_svc_dt, 3).compareTo(DateUtil.getYYYYMMDDhhmmss2()) <= 0) {
+				} else if (!epsd_dist_fir_svc_dt.isEmpty() && DateUtil.getAddDate(epsd_dist_fir_svc_dt, 3).compareTo(DateUtil.getYYYYMMDDhhmmss2()) >= 0) {
 					result = "new";
 				} else if ("0".equals(sale_prc)) {
 					result = "free";
-				} else if ("독점".equals(badge_typ_nm) && DateUtil.doCompareSingle(icon_exps_fr_dy, icon_exps_to_dy, "yyyyMMdd")) {
+				} else if ("독점".equals(badge_typ_nm) && DateUtil.doCompareSingle(icon_exps_fr_dy, icon_exps_to_dy, "yyyyMMddHHmmss")) {
 					result = "monopoly";
 				} else if ("35".equals(rslu_typ_cd)) {
 					//HDR
@@ -176,11 +176,11 @@ public class GridService {
 			
 		} else {
 			if (!"024".equals(meta_typ_cd)) {
-				if ("할인".equals(badge_typ_nm) && DateUtil.doCompareSingle(icon_exps_fr_dy, icon_exps_to_dy, "yyyyMMdd")) {
+				if ("할인".equals(badge_typ_nm) && DateUtil.doCompareSingle(icon_exps_fr_dy, icon_exps_to_dy, "yyyyMMddHHmmss")) {
 					result = "sale";
-				} else if ("이벤트".equals(badge_typ_nm) && DateUtil.doCompareSingle(icon_exps_fr_dy, icon_exps_to_dy, "yyyyMMdd")) {
+				} else if ("이벤트".equals(badge_typ_nm) && DateUtil.doCompareSingle(icon_exps_fr_dy, icon_exps_to_dy, "yyyyMMddHHmmss")) {
 					result = "event";
-				} else if ("독점".equals(badge_typ_nm) && DateUtil.doCompareSingle(icon_exps_fr_dy, icon_exps_to_dy, "yyyyMMdd")) {
+				} else if ("독점".equals(badge_typ_nm) && DateUtil.doCompareSingle(icon_exps_fr_dy, icon_exps_to_dy, "yyyyMMddHHmmss")) {
 					result = "monopoly";
 				}
 			}
