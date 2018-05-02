@@ -56,18 +56,18 @@ public class RestClient {
 			}
 		} catch (ClientProtocolException e1) {
 			// TODO Auto-generated catch block
-			LogUtil.error("", "", "", "", "",e1.toString());
+			LogUtil.error("", "", "", "", "CW",e1.toString());
 		} catch (IOException e1) {
-			LogUtil.error("", "", "", "", "",e1.toString());
+			LogUtil.error("", "", "", "", "CW",e1.toString());
 		} catch (UnsupportedOperationException e) {
 			// TODO Auto-generated catch block
-			LogUtil.error("", "", "", "", "",e.toString());
+			LogUtil.error("", "", "", "", "CW",e.toString());
 		} finally {
 			try {
 				rd.close();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
-				LogUtil.error("", "", "", "", "",e.toString());
+				LogUtil.error("", "", "", "", "CW",e.toString());
 			}
 		}
 		
@@ -136,7 +136,7 @@ public class RestClient {
 
 				json = apacheGet(builder.build().encode().toUri().toString());
 			} catch (RestClientException e) {
-				LogUtil.error("", "", "", "", "",e.toString());
+				LogUtil.error("", "", "", "", "CW",e.toString());
 			}
 		}
 		

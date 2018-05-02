@@ -140,65 +140,72 @@ public class MenuService {
 		
 		if (blockblock != null && blockblock.get("blocks") != null) {
 			List<Map<String, Object>> blocks = CastUtil.getObjectToMapList(blockblock.get("blocks"));
+			List<Map<String, Object>>cwResult = new ArrayList<Map<String,Object>>();
 			DateUtil.getCompare(blocks, "dist_fr_dt", "dist_to_dt", false);
 			doSegment(blocks, param.get("seg_id"), "cmpgn_id");
-			List<Map<String, Object>>cwResult = new ArrayList<Map<String,Object>>();
 			List<Map<String, Object>>deleteList = new ArrayList<Map<String,Object>>();
 			Map<String, Object> cw = properties.getCw();
 			
-			int i = 0;
-
-			int j = 0;
-			List<Integer> which = new ArrayList<Integer>();
+			boolean firstCW = false;
+			int j = 0; //502가 편성된 위치 찾기 용
+			int k = 0; //cw추가된 메뉴 계산용
+			
+			Map<Integer,List<Map<String, Object>>> whichMap = new HashMap<Integer, List<Map<String, Object>>>();
 			
 			for (Iterator<Map<String,Object>> iterator = blocks.iterator(); iterator.hasNext() ; ) {
-//				for (Object block : blocks) {
+				cwResult = new ArrayList<Map<String,Object>>();
 				Map<String, Object> map = CastUtil.getObjectToMap(iterator.next());
 
 				//CW menu로 대체한다.
 				if(cw.get("scnmthdcd").equals(map.get("scn_mthd_cd"))) {
-					which.add(j);
+					
+					System.out.println("502 in");
 					
 					iterator.remove(); //CW를 호출하는 맵파일은 삭제한다.
-					i++; //블럭 카운트를 맞추기 위해 삭제한 개수만큼 증가
+					k++;
 					
-					List<String> menuData = cwCall(param);
-					Map<String, Object> keyAndValue;
-					if (menuData != null) {
-						for(String temp:menuData) {
-							keyAndValue = CastUtil.getObjectToMap(cw.get("block"));
-							Map<String, Object> cwRtn = new HashMap<String, Object>();
-							cwRtn.putAll(keyAndValue);
-							
-							if( temp.contains("\\|") ) {
-								temp.replaceAll("\\|", "\\@");
-							}
-							
-							String [] menuNtitle = temp.split("\\@");
-							
-							//그리드 콘텐츠에 존재하면서 만료일이 넘지 않은 경우 메뉴를 노출시킨다. 이외에는 노출시키지 않음
-							String cwPerGridStr = (String)redisClient.hget(NXPGCommon.GRID_CONTENTS, menuNtitle[0]);
-							
-							if(cwPerGridStr != null && !cwPerGridStr.isEmpty()) {
-								List<Object> cwPerGrid = CastUtil.StringToJsonList(cwPerGridStr);
-								List<Map<String, Object>> data = (List<Map<String, Object>>) CastUtil.getObjectToMapList(cwPerGrid);
-								DateUtil.getCompare(data, "dist_fr_dt", "dist_to_dt", true);
-								if(data != null && !data.isEmpty()) {
-									cwRtn.put("menu_id", menuNtitle[0]);
-									cwRtn.put("menu_nm", menuNtitle[1]);
-									cwRtn.put("dist_to_dt", null);
-									cwRtn.put("gnb_typ_cd", null);
-									cwRtn.put("dist_fr_dt", null);
-									cwRtn.put("menus", null);
+					if(!firstCW) {
+						List<String> menuData = cwCall(param);
+						Map<String, Object> keyAndValue;
+						if (menuData != null) {
+							for(String temp:menuData) {
+								keyAndValue = CastUtil.getObjectToMap(cw.get("block"));
+								Map<String, Object> cwRtn = new HashMap<String, Object>();
+								cwRtn.putAll(keyAndValue);
+								
+								temp=temp.replaceAll("\\|", "\\@");
+								
+								String [] menuNtitle = temp.split("\\@");
+								
+								//그리드 콘텐츠에 존재하면서 만료일이 넘지 않은 경우 메뉴를 노출시킨다. 이외에는 노출시키지 않음
+								String cwPerGridStr = (String)redisClient.hget(NXPGCommon.GRID_CONTENTS, menuNtitle[0]);
+								
+								if(cwPerGridStr != null && !cwPerGridStr.isEmpty()) {
+									List<Map<String,Object>> cwPerGrid = null;
+									Map<String ,Object> cwPerMap = null;
+									cwPerMap = CastUtil.StringToJsonMap(cwPerGridStr);
+									cwPerGrid = CastUtil.getObjectToMapList(cwPerMap.get("contents"));
+									List<Map<String, Object>> data = (List<Map<String, Object>>) CastUtil.getObjectToMapList(cwPerGrid);
+									DateUtil.getCompare(data, "dist_fr_dt", "dist_to_dt", true);
+									if(data != null && !data.isEmpty()) {
+										cwRtn.put("menu_id", menuNtitle[0]);
+										cwRtn.put("menu_nm", menuNtitle[1]);
+										cwRtn.put("dist_to_dt", null);
+										cwRtn.put("gnb_typ_cd", null);
+										cwRtn.put("dist_fr_dt", null);
+										cwRtn.put("menus", null);
+										
+										cwResult.add(cwRtn);
+									}
 									
-									cwResult.add(cwRtn);
+									whichMap.put(j, cwResult);
 								}
 							}
 						}
-						j += menuData.size()-1;
+						firstCW = true;
 					}
 				}
-				j++;
+				j++;	//502 위치 찾기 용
 				
 				map.put("menus", null);
 				if ("20".equals(map.get("blk_typ_cd"))) {
@@ -214,18 +221,27 @@ public class MenuService {
 				}
 			}
 			
-			for(Integer temp:which) {
-				blocks.addAll(temp, cwResult);
+			double totalCount = (double)blockblock.get("total_count");
+			
+			for( int o = 0 ; o<blocks.size(); o++) {
+				if( whichMap.containsKey(o)) {
+					blocks.addAll(o, whichMap.get(o));
+					
+					totalCount += whichMap.get(o).size();
+				}
 			}
 			
 			//005에서 데이터 없으면 삭제.
 			for (Map<String, Object> del : deleteList) {
-				blocks.remove(del);
+				if( blocks.contains(del)) {
+					blocks.remove(del);
+					k++;
+				}
 			}
 			
-			double totalCount = (double)blockblock.get("total_count");
+			//double totalCount = (double)blockblock.get("total_count");
 			
-			blockblock.put("block_count", totalCount + cwResult.size()-i);
+			blockblock.put("block_count", totalCount - k);
 			blockblock.remove("total_count");
 		}
 		

@@ -124,6 +124,7 @@ public class MenuController {
 		try {
 			blockblock = menuService.getBlockBlock(ver, param);
 		} catch (Exception e) {
+			e.printStackTrace();
 			LogUtil.error(IF, "REQ", "", param.get("stb_id"), "", e.toString());
 		}
 		// 조회값 없음

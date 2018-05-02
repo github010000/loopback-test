@@ -75,9 +75,13 @@ public class CastUtil {
 	
 	public static List<Object> StringToJsonList(String json) {
 		if (json != null) {	
-			JacksonJsonParser parser = new JacksonJsonParser();
-			List<Object> list = parser.parseList(json);
-			return list;
+			try {
+				JacksonJsonParser parser = new JacksonJsonParser();
+				List<Object> list = parser.parseList(json);
+				return list;	
+			} catch (Exception e) {
+				return null;
+			}
 		} else return null;
 	}
 
