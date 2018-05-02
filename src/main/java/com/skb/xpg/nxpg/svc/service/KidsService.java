@@ -32,7 +32,7 @@ public class KidsService {
 		rtn.put("version", version);
 		
 		if (version != null && param.containsKey("version") && !version.isEmpty()
-				&& CastUtil.getStringToInteger(param.get("version")) >= CastUtil.getStringToInteger(version)) {
+				&& CastUtil.getStringToLong(param.get("version")) >= CastUtil.getStringToLong(version)) {
 			rtn.put("reason", "최신버전");
 			rtn.put("result", "0000");
 		} else {
@@ -74,7 +74,7 @@ public class KidsService {
 		rtn.put("version", version);
 		
 		if (version != null && param.containsKey("version") && !version.isEmpty()
-				&& CastUtil.getStringToInteger(param.get("version")) >= CastUtil.getStringToInteger(version)) {
+				&& CastUtil.getStringToLong(param.get("version")) >= CastUtil.getStringToLong(version)) {
 			rtn.put("reason", "최신버전");
 			rtn.put("result", "0000");
 		} else {

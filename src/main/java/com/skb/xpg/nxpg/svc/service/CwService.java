@@ -17,6 +17,7 @@ import com.skb.xpg.nxpg.svc.config.Properties;
 import com.skb.xpg.nxpg.svc.redis.RedisClient;
 import com.skb.xpg.nxpg.svc.rest.RestClient;
 import com.skb.xpg.nxpg.svc.util.CastUtil;
+import com.skb.xpg.nxpg.svc.util.LogUtil;
 import com.skb.xpg.nxpg.svc.util.StrUtil;
 
 @Service
@@ -74,21 +75,25 @@ public class CwService {
 				temp = cwCall("getonesection", param);
 				break;
 			default:
-				temp = cwCall("getonepage", param);
+				temp = cwCall("fullsection", param);
 				break;
 		}
 		if(temp != null) {
 			temp.put("type", type);
-		}
-		
-		resultList = makeCwGrid(temp);
-		result.put("status_code", temp.get("status_code"));
-		if(resultList != null) {
-			result.put("grid", resultList);
-			result.put("size", resultList.size()+"");
+			resultList = makeCwGrid(temp);
+			result.put("status_code", temp.get("status_code"));
+			if(resultList != null && resultList.size()>0) {
+				result.put("grid", resultList);
+				result.put("size", resultList.size()+"");
+			}else {
+				LogUtil.error("IF-NXPG-009", "", "", "", "CW", "CW Data is null or item list size is 0");
+				result = null;
+			}
 		}else {
+			LogUtil.error("IF-NXPG-009", "", "", "", "CW", "CW API return null");
 			result = null;
 		}
+		
 		return result;
 		
 	}
@@ -144,7 +149,7 @@ public class CwService {
 					temp = cwCall("getonesection", param);
 					break;
 				default:
-					temp = cwCall("getonepage", param);
+					temp = cwCall("fullsection", param);
 					break;
 				}
 			}
@@ -152,8 +157,8 @@ public class CwService {
 			
 			//파라미터가 안넘어 왔거나 temp값이 없을 시 처리
 			if(temp == null) {
-				//CW 연동로직에 데이터가 없을 경우 
-				result.put("status_code", "9999");
+				LogUtil.error("IF-NXPG-012", "", "", "", "CW", "CW API return null");
+				result.put("status_code", "0002");
 				String srisInfo = redisClient.hget(NXPGCommon.SYNOPSIS_SRISINFO,epsd_id);
 				String regexRelation = "\\\"relation_contents\\\"[\\s]*:[\\s]*(\\[\\{.*?\\}\\])";
 				String relationData = StrUtil.getRegexString(regexRelation, srisInfo);
@@ -180,11 +185,12 @@ public class CwService {
 			
 			resultList = makeCwRelation(temp, epsd_id);
 			result.put("status_code", temp.get("status_code"));
-			if(resultList != null) {
+			if(resultList != null && resultList.size()>0) {
 				result.put("relation", resultList);
 				result.put("size", resultList.size()+"");
 			}else {
 				//CW 연동로직에 데이터가 없을 경우 
+				LogUtil.error("IF-NXPG-012", "", "", "", "CW", "CW Data is null or item list size is 0");
 				result.put("status_code", "0002");
 				String srisInfo = redisClient.hget(NXPGCommon.SYNOPSIS_SRISINFO,epsd_id);
 				String regexRelation = "\\\"relation_contents\\\"[\\s]*:[\\s]*(\\[\\{.*?\\}\\])";
@@ -200,6 +206,8 @@ public class CwService {
 					result = null;
 				}
 			}
+		}else {
+			LogUtil.error("IF-NXPG-012", "", "", "", "NCMS", "content data is null. epsd_id: "+epsd_id);
 		}
 		
 		return result;
@@ -209,7 +217,7 @@ public class CwService {
 	//API 호출 메소드
 	public Map<String, Object> cwCall(String type, Map<String, String> param){
 
-		Map<String, Object> objMap;
+		Map<String, Object> objMap = null;
 		Map<String, Object> cw = properties.getCw();
 		Map<String, Object> keyAndValue;
 		
@@ -253,18 +261,22 @@ public class CwService {
 //		System.out.println(cwparam);
 		String rest = null;
 		rest = restClient.getRestUri(cwBaseUrl + path, cwUser, cwPassword, cwparam);
-
-		//응답값 확인
-		String restregex="\"code\"[\\s]*:[\\s]*([0-9]*)";
-		String codeValue = StrUtil.getRegexString(restregex, rest);
-
-		objMap = CastUtil.StringToJsonMap(rest);
-		if("0".equals(codeValue)) {
-			objMap.put("status_code", "0000");
-			objMap.put("cw_call_id", param.get("cw_call_id"));
-			objMap.put("epsd_id", param.get("epsd_id"));
-		}else {
-			objMap.put("status_code", "0002");
+		if(rest != null && !rest.isEmpty()) {
+			//응답값 확인
+			String restregex="\"code\"[\\s]*:[\\s]*([0-9]*)";
+			String codeValue = StrUtil.getRegexString(restregex, rest);
+	
+			objMap = CastUtil.StringToJsonMap(rest);
+			if(objMap!=null && !objMap.isEmpty()) {
+				if("0".equals(codeValue)) {
+					objMap.put("status_code", "0000");
+					objMap.put("cw_call_id", param.get("cw_call_id"));
+					objMap.put("epsd_id", param.get("epsd_id"));
+				}else {
+					objMap.put("status_code", "0002");
+					LogUtil.error("", "", "", param.get("user"), "CW", "CW code is "+codeValue+". CW Data is null");
+				}
+			}
 		}
 		return objMap;
 		
@@ -282,7 +294,8 @@ public class CwService {
 
 		//데이터 가공로직 시작
 		List<Map<String, Object>>cwGrid = new ArrayList<Map<String,Object>>();
-		
+
+		int i = 0;
 		if(resultList != null && resultList.size()>0) {
 			for(Map<String, Object>temp:resultList ) {
 				List<Map<String, Object>>resultGridList = new ArrayList<Map<String,Object>>();
@@ -306,11 +319,15 @@ public class CwService {
 								gridService.checkBadge(gridInfo);
 
 								gridData.putAll(gridInfo);
-								gridData.put("track_id", trackId);//? 뭘 써야할지...						
-							
+								gridData.put("track_id", trackId);
 								resultGridList.add(gridData);
 							}
 						}
+					}
+				}else {
+					//아이템이 없을 경우 카운트 추가
+					if(!type.equals("section")) {
+						i++;
 					}
 				}
 				resultMap.put("sectionId", temp.get("sectionId"));
@@ -321,7 +338,7 @@ public class CwService {
 				resultMap.put("block_cnt", resultGridList.size());
 				resultMap.put("cw_call_id", objMap.get("cw_call_id"));
 
-				if(type.equals("all")) {
+				if(type.equals("all") || type.equals("onesection")) {
 					if(resultGridList.size()>0) {
 						cwGrid.add(resultMap);
 					}
@@ -329,10 +346,16 @@ public class CwService {
 					cwGrid.add(resultMap);	//type이 all 이 아닌 애들
 				}
 				resultMap = new HashMap<String, Object>();
-			
+
 			}
 		} else {
 			cwGrid=null;
+		}
+		
+		//CW status가 0 이었지만, 데이터가 하나도 없었을 경우 처리로직
+		if(i==resultList.size()) {
+			LogUtil.error("IF-NXPG-009", "", "", "", "CW", "No Exist Match Data. CW code: 0");
+			cwGrid = null;
 		}
 		
 		return cwGrid;
@@ -340,6 +363,7 @@ public class CwService {
 	
 	//CW 연관콘텐츠 생성로직
 	public List makeCwRelation(Map<String, Object> objMap, String param_epsd_id) {
+		
 		
 		List<Map<String, Object>> resultList = new ArrayList<Map<String,Object>>();
 		
@@ -350,7 +374,7 @@ public class CwService {
 		
 		//데이터 가공로직 시작
 		List cwRelation = null;
-
+		
 		int i = 0;
 		if(resultList!=null && !resultList.isEmpty()) {
 			cwRelation = new ArrayList<Map<String,Object>>();
@@ -384,7 +408,9 @@ public class CwService {
 					}
 				}else {
 					//아이템이 없을 경우 카운트 추가
-					i++;
+					if(!type.equals("section")) {
+						i++;
+					}
 				}
 				String sub_title=CastUtil.getObjectToString(temp.get("blockTitle"));
 				String content_title=CastUtil.getObjectToString(objMap.get("contentTitle"));
@@ -400,7 +426,7 @@ public class CwService {
 				resultMap.put("sub_title", sub_title);
 				resultMap.put("cw_call_id", objMap.get("cw_call_id"));
 				
-				if(type.equals("all")) {
+				if(type.equals("all") || type.equals("onesection")) {
 					if(resultRelationList.size()>0) {
 						cwRelation.add(resultMap);
 					}
@@ -414,6 +440,7 @@ public class CwService {
 		
 		//CW status가 0 이었지만, 데이터가 하나도 없었을 경우 처리로직
 		if(i==resultList.size()) {
+			LogUtil.error("IF-NXPG-012", "", "", "", "CW", "No Exist Match Data. CW code: 0");
 			cwRelation = null;
 		}
 		
@@ -436,9 +463,12 @@ public class CwService {
 		List<String> idList = new ArrayList<String>();
 		
 		
-		if(sections != null) {
+		
+		switch(type) {
+		
+		case "all": case "onepage":
 			for(Map<String, Object>sectionMap:sections) {
-				
+
 				List<Map<String, Object>> blocks = null;
 				blocks = CastUtil.getObjectToMapList(sectionMap.get("blocks"));
 				if(blocks != null) {
@@ -448,32 +478,35 @@ public class CwService {
 						idList = new ArrayList<String>();
 					}
 				}
-				//응답값에 sectionId가 있으면 multisection이 호출된 것이다.
-				if(type.equals("all")) {
-					//전체 섹션(all), 단일page(onepage) 처리 로직
-					result.put("sectionId", sectionMap.get("sectionId"));
-					
-					if(result.get("idList") !=null) {
-						resultList.add(result);
-					}
-					result = new HashMap<String, Object>();
-				}else {	
-					//멀티섹션(multi) 처리 로직
-					makeItem(sectionMap, result, idList);
-					idList = new ArrayList<String>();
+				result.put("sectionId", sectionMap.get("sectionId"));
+
+				if( !( type.equals("all") && result.get("idList") == null ) ) {
 					resultList.add(result);
-					result = new HashMap<String, Object>();
 				}
+				result = new HashMap<String, Object>();
 			}
-		}else if(oneSecBlocks != null) {
-			//단일section(onesection) 처리 로직
+			break;
+			
+		case "multi": case "section":
+			for(Map<String, Object>sectionMap:sections) {
+				result.put("sectionId", sectionMap.get("sectionId"));
+				makeItem(sectionMap, result, idList);
+				idList = new ArrayList<String>();
+				resultList.add(result);
+				result = new HashMap<String, Object>();
+			}
+			break;
+			
+		case "onesection":
 			for(Map<String, Object>temp:oneSecBlocks) {
 				makeItem(temp, result, idList);
 				idList = new ArrayList<String>();
 				resultList.add(result);
 				result = new HashMap<String, Object>();
 			}
+			break;
 		}
+
 	}
 	
 	//중복로직 분리
@@ -489,7 +522,9 @@ public class CwService {
 			}
 		}
 		result.put("blockTitle",temp.get("blockLabel"));
-		result.put("sectionId", temp.get("blockId"));
+		if(temp.containsKey("blockId") && temp.get("blockId")!=null) {
+			result.put("sectionId", temp.get("blockId"));
+		}
 		result.put("sessionId", temp.get("sessionId"));
 		result.put("btrackId", temp.get("trackId"));
 		if(idList != null && idList.size()>0) {
@@ -527,8 +562,6 @@ public class CwService {
 			while(matcherNm.find()){
 				person.add(matcherNm.group(2));
 			}
-			
-//			System.out.println("RestTemplateSvc.restMatching() " + code.toString() + person.toString() ) ;
 			
 			
 			// codePeopleMap 에 Director, Actor 별로 분기하여 List에 담기 위한 작업 loop

@@ -3,16 +3,17 @@ package com.skb.xpg.nxpg.svc.service;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.skb.xpg.nxpg.svc.cache.CacheRepository;
 import com.skb.xpg.nxpg.svc.common.NXPGCommon;
+import com.skb.xpg.nxpg.svc.util.LogUtil;
 
 @Service
 public class CacheService {
 	
-	@Autowired
-	private CacheRepository cacheRepository;
+//	@Autowired
+//	private CacheRepository cacheRepository;
 //	
 //	@Cacheable(value = "findMemberCache", key="#name")
 //	private Long getErrorDate(String name) {
@@ -22,19 +23,50 @@ public class CacheService {
 //		return dt.getTime();
 //	}
 	
-	public boolean addErrorCountAfterChangeRedis() {
-		long diff = new Date().getTime() - cacheRepository.redisErrorCache();
-		long diffSeconds = diff / 1000;
-		if (diffSeconds <= 10) {
-			NXPGCommon.redisErrorCount++;
-			if (NXPGCommon.redisErrorCount > 10) {
-				NXPGCommon.switchUseRedis();
-				NXPGCommon.redisErrorCount = 0;
-				return true;
-			}
-		} else {
-			NXPGCommon.redisErrorCount = 0;
+	private long startTime = 0;
+	private int redisErrorCount;
+	
+	@Value("${second.redis.switching-milisecond}")
+	private double switchingTime;
+	
+	public int getErrorCount() {
+		return redisErrorCount;
+	}
+	
+	public int addErrorCountAfterChangeRedis() {
+		if (startTime == 0) {
+			startTime = System.nanoTime();
 		}
-		return false;
+		long now_time = System.nanoTime();
+		double difference = (now_time - startTime) / 1e6;
+		
+		if (difference <= switchingTime) {
+			
+			redisErrorCount++;
+			if (redisErrorCount > 10) {
+				LogUtil.info("", "", "", "", "", "REDIS SWITCH");
+				NXPGCommon.switchUseRedis();
+				redisErrorCount = 0;
+			}
+			
+		} else {
+			redisErrorCount = 0;
+			startTime = System.nanoTime();
+		}
+//		System.out.println("asdf_" + redisErrorCount);
+		return redisErrorCount;
+//		long diff = new Date().getTime() - cacheRepository.redisErrorCache();
+//		long diffSeconds = diff / 1000;
+//		if (diffSeconds <= 10) {
+//			NXPGCommon.redisErrorCount++;
+//			if (NXPGCommon.redisErrorCount > 10) {
+//				NXPGCommon.switchUseRedis();
+//				NXPGCommon.redisErrorCount = 0;
+//				return true;
+//			}
+//		} else {
+//			NXPGCommon.redisErrorCount = 0;
+//		}
+//		return false;
 	}
 }

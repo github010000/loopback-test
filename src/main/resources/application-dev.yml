@@ -72,6 +72,9 @@ user:
       lim_lvl_yn: N
       menus: null
     scnmthdcd: "502"
+    socktimeout: 300
+    conntimeout: 300
+    connreqtimeout: 300
 spring:
   http:
     encoding:
@@ -85,6 +88,7 @@ second:
     host: 10.10.113.8
     port: 6379
     password: eera9eizohxiengaF9iemai3zuc4oogh
+    switching-milisecond: 500
 management:
   security:
     enabled: false

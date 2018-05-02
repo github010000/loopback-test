@@ -53,7 +53,7 @@ public class MenuService {
 		String version = StringUtils.defaultIfEmpty(redisClient.hget(NXPGCommon.VERSION, NXPGCommon.MENU_GNB + "_" + param.get("menu_stb_svc_id")), "");
 		
 		if (version != null && param.containsKey("version") && !version.isEmpty()
-				&& CastUtil.getStringToInteger(param.get("version")) >= CastUtil.getStringToInteger(version)) {
+				&& CastUtil.getStringToLong(param.get("version")) >= CastUtil.getStringToLong(version)) {
 			rtn.put("reason", "최신버전");
 			rtn.put("result", "0000");
 			rtn.put("version", version);
@@ -88,7 +88,7 @@ public class MenuService {
 		String version = StringUtils.defaultIfEmpty(redisClient.hget(NXPGCommon.VERSION,NXPGCommon.MENU_ALL + "_" + param.get("menu_stb_svc_id")), "");
 		
 		if (version != null && param.containsKey("version") && !version.isEmpty()
-				&& CastUtil.getStringToInteger(param.get("version")) >= CastUtil.getStringToInteger(version)) {
+				&& CastUtil.getStringToLong(param.get("version")) >= CastUtil.getStringToLong(version)) {
 			rtn.put("reason", "최신버전");
 			rtn.put("result", "0000");
 			rtn.put("version", version);

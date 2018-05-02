@@ -9,19 +9,26 @@ import java.util.Base64;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.client.support.BasicAuthorizationInterceptor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.skb.xpg.nxpg.svc.config.Properties;
+import com.skb.xpg.nxpg.svc.util.CastUtil;
 import com.skb.xpg.nxpg.svc.util.LogUtil;
 
 @Service
 public class RestClient {
 
+	@Autowired
+	private Properties properties;
+	
 	private RestTemplate restTemplate;
 	
 	public String cwUrl = "";
@@ -30,6 +37,15 @@ public class RestClient {
 	public String apacheGet(String url) {
 		HttpClient client = HttpClientBuilder.create().build();
 		HttpGet request = new HttpGet(url);
+
+		RequestConfig requestConfig = RequestConfig.custom()
+		          .setSocketTimeout(CastUtil.getObjectToInteger(properties.getCw().get("socktimeout")))
+		          .setConnectTimeout(CastUtil.getObjectToInteger(properties.getCw().get("conntimeout")))
+		          .setConnectionRequestTimeout(CastUtil.getObjectToInteger(properties.getCw().get("connreqtimeout")))
+		          .build();
+
+		request.setConfig(requestConfig);
+		
 		
 		String encoding;
 		try {
@@ -64,7 +80,7 @@ public class RestClient {
 			LogUtil.error("", "", "", "", "CW",e.toString());
 		} finally {
 			try {
-				rd.close();
+				if(rd!=null) rd.close();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				LogUtil.error("", "", "", "", "CW",e.toString());

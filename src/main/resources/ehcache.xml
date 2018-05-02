@@ -6,7 +6,7 @@
 	
 	<cache name="errorCache" maxEntriesLocalHeap="1"
 		maxEntriesLocalDisk="1" eternal="false" diskSpoolBufferSizeMB="20"
-		timeToIdleSeconds="0" timeToLiveSeconds="20"
+		timeToIdleSeconds="0" timeToLiveSeconds="1"
 		memoryStoreEvictionPolicy="LFU" transactionalMode="off">
 		<persistence strategy="localTempSwap" />
 	</cache>

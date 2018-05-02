@@ -40,8 +40,6 @@ public class NXPGCommon {
 
 	public static boolean useFirstRedis = true;
 	
-	public static int redisErrorCount = 0;
-
 	public static boolean isUseFirstRedis() {
 		return useFirstRedis;
 	}
@@ -49,17 +47,5 @@ public class NXPGCommon {
 	public static void switchUseRedis() {
 		NXPGCommon.useFirstRedis = !NXPGCommon.useFirstRedis;
 	}
-	
-	public static int getRedisErrorCount() {
-		return redisErrorCount;
-	}
 
-	public static void setRedisErrorCount(int redisErrorCount) {
-		NXPGCommon.redisErrorCount = redisErrorCount;
-	}
-
-	public static void initRedisErrorCount() {
-		NXPGCommon.redisErrorCount = 0;
-	}
-	
 }

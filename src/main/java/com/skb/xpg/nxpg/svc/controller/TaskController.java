@@ -29,7 +29,7 @@ public class TaskController {
 	@RequestMapping(value = "/task/stat")
 	public Map<String, Object> getStat(@PathVariable String ver) {
 		Map<String, Object> rtn = new HashMap<String, Object>();
-		rtn.put("error_count", NXPGCommon.getRedisErrorCount());
+		rtn.put("error_count", cacheService.getErrorCount());
 		rtn.put("active_profile", activeProfile);
 		
 		if (activeProfile.contains("suy") && NXPGCommon.isUseFirstRedis()) {
@@ -58,8 +58,8 @@ public class TaskController {
 	@RequestMapping(value = "/task/adderror")
 	public Map<String, Object> addError(@PathVariable String ver) {
 		Map<String, Object> rtn = new HashMap<String, Object>();
-		cacheService.addErrorCountAfterChangeRedis();
-		rtn.put("error_count", NXPGCommon.getRedisErrorCount());
+		
+		rtn.put("error_count", cacheService.addErrorCountAfterChangeRedis());
 		rtn.put("first_redis", NXPGCommon.isUseFirstRedis());
 		rtn.put("active_profile", activeProfile);
 		

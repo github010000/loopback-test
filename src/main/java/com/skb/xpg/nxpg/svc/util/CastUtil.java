@@ -60,6 +60,20 @@ public class CastUtil {
 		return rtn;
 	}
 
+	public static int getObjectToInteger(Object obj) {
+		int rtn = 0;
+		
+		if (obj != null && obj instanceof Integer) {
+			try {
+				rtn = Integer.parseInt(obj.toString());
+			} catch (NumberFormatException e) {
+				rtn = 0;
+				LogUtil.error("", "", "", "", "", e.toString());
+			}
+		}
+		return rtn;
+	}
+	
 	public static Long getStringToLong(String str) {
 		long rtn = 0;
 		if (str != null & str.matches("[0-9]+")) {

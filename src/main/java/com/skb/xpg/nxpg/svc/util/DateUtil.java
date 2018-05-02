@@ -18,7 +18,7 @@ public class DateUtil {
 	
 	public static String getYYYYMMDDhhmmss() {
 		Locale currLocale = new Locale("KOREAN","KOREA");  
-		String pattern = "yyyyMMddHHmmssms";
+		String pattern = "yyyyMMddHHmmssSSS";
 		SimpleDateFormat formatter = new SimpleDateFormat(pattern, currLocale);
 
 		return formatter.format(new Date());
