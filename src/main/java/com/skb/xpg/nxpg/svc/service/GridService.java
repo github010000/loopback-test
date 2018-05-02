@@ -118,7 +118,7 @@ public class GridService {
 		
 		if ("01".equals(grid.get("synon_typ_cd"))) {
 			
-			if ("024".equals(meta_typ_cd) && !sris_dist_fir_svc_dt.isEmpty() && DateUtil.getAddDate(sris_dist_fir_svc_dt, 7).compareTo(DateUtil.getYYYYMMDDhhmmss()) <= 0) {
+			if ("024".equals(meta_typ_cd) && !sris_dist_fir_svc_dt.isEmpty() && DateUtil.getAddDate(sris_dist_fir_svc_dt, 7).compareTo(DateUtil.getYYYYMMDDhhmmss2()) <= 0) {
 				result = "sale";
 			} else if ("024".equals(meta_typ_cd) && "0".equals(sale_prc)) {
 				result = "free";
@@ -129,11 +129,11 @@ public class GridService {
 					result = "sale";
 				} else if ("이벤트".equals(badge_typ_nm) && DateUtil.doCompareSingle(icon_exps_fr_dy, icon_exps_to_dy, "yyyyMMdd")) {
 					result = "event";
-				} else if (!sris_dist_fir_svc_dt.isEmpty() && DateUtil.getAddDate(sris_dist_fir_svc_dt, 7).compareTo(DateUtil.getYYYYMMDDhhmmss()) <= 0) {
+				} else if (!sris_dist_fir_svc_dt.isEmpty() && DateUtil.getAddDate(sris_dist_fir_svc_dt, 7).compareTo(DateUtil.getYYYYMMDDhhmmss2()) <= 0) {
 					result = "new";
 				} else if ("0".equals(sale_prc)) {
 					result = "free";
-				} else if (!epsd_dist_fir_svc_dt.isEmpty() && DateUtil.getAddDate(epsd_dist_fir_svc_dt, 1).compareTo(DateUtil.getYYYYMMDDhhmmss()) <= 0) {
+				} else if (!epsd_dist_fir_svc_dt.isEmpty() && DateUtil.getAddDate(epsd_dist_fir_svc_dt, 1).compareTo(DateUtil.getYYYYMMDDhhmmss2()) <= 0) {
 					result = "up";
 				} else if ("Y".equals(cacbro_yn)) {
 					result = "rest";
@@ -148,7 +148,7 @@ public class GridService {
 				}
 			}
 		} else if ("02".equals(grid.get("synon_typ_cd"))) {
-			if ("024".equals(meta_typ_cd) && !epsd_dist_fir_svc_dt.isEmpty() && DateUtil.getAddDate(epsd_dist_fir_svc_dt, 7).compareTo(DateUtil.getYYYYMMDDhhmmss()) <= 0) {
+			if ("024".equals(meta_typ_cd) && !epsd_dist_fir_svc_dt.isEmpty() && DateUtil.getAddDate(epsd_dist_fir_svc_dt, 7).compareTo(DateUtil.getYYYYMMDDhhmmss2()) <= 0) {
 				result = "sale";
 			} else if ("024".equals(meta_typ_cd) && "0".equals(sale_prc)) {
 				result = "free";
@@ -159,7 +159,7 @@ public class GridService {
 					result = "sale";
 				} else if ("이벤트".equals(badge_typ_nm) && DateUtil.doCompareSingle(icon_exps_fr_dy, icon_exps_to_dy, "yyyyMMdd")) {
 					result = "event";
-				} else if (!epsd_dist_fir_svc_dt.isEmpty() && DateUtil.getAddDate(epsd_dist_fir_svc_dt, 3).compareTo(DateUtil.getYYYYMMDDhhmmss()) <= 0) {
+				} else if (!epsd_dist_fir_svc_dt.isEmpty() && DateUtil.getAddDate(epsd_dist_fir_svc_dt, 3).compareTo(DateUtil.getYYYYMMDDhhmmss2()) <= 0) {
 					result = "new";
 				} else if ("0".equals(sale_prc)) {
 					result = "free";

@@ -24,6 +24,14 @@ public class DateUtil {
 		return formatter.format(new Date());
 	}
 	
+	public static String getYYYYMMDDhhmmss2() {
+		Locale currLocale = new Locale("KOREAN","KOREA");  
+		String pattern = "yyyyMMddHHmmss";
+		SimpleDateFormat formatter = new SimpleDateFormat(pattern, currLocale);
+
+		return formatter.format(new Date());
+	}
+	
 	public static String getAddDate(String date, int hour) {
 		Locale currLocale = new Locale("KOREAN","KOREA");  
 		String pattern = "yyyyMMddHHmmss";
