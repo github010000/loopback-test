@@ -159,7 +159,6 @@ public class MenuService {
 				//CW menu로 대체한다.
 				if(cw.get("scnmthdcd").equals(map.get("scn_mthd_cd"))) {
 					
-					System.out.println("502 in");
 					
 					iterator.remove(); //CW를 호출하는 맵파일은 삭제한다.
 					k++;
@@ -239,7 +238,6 @@ public class MenuService {
 				}
 			}
 			
-			//double totalCount = (double)blockblock.get("total_count");
 			
 			blockblock.put("block_count", totalCount - k);
 			blockblock.remove("total_count");
