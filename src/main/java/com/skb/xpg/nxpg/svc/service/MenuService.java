@@ -59,7 +59,7 @@ public class MenuService {
 			rtn.put("version", version);
 		} else {
 			String redisData = redisClient.hget(NXPGCommon.MENU_GNB, param.get("menu_stb_svc_id"));
-			if (!"".equals(redisData) && redisData != null) {
+			if ( redisData != null && !"".equals(redisData)) {
 				List<Object> menugnb = CastUtil.StringToJsonList(redisData);
 				List<Map<String, Object>> data = CastUtil.getObjectToMapList(menugnb);
 				DateUtil.getCompare(data, "dist_fr_dt", "dist_to_dt", true);
@@ -94,7 +94,7 @@ public class MenuService {
 			rtn.put("version", version);
 		} else {
 			String redisData = redisClient.hget(NXPGCommon.MENU_ALL, param.get("menu_stb_svc_id"));
-			if(!"".equals(redisData) && redisData != null) {
+			if(redisData != null && !"".equals(redisData)) {
 				List<Object> menuall = CastUtil.StringToJsonList(redisData);
 				List<Map<String, Object>> data = (List<Map<String, Object>>) CastUtil.getObjectToMapList(menuall);
 				DateUtil.getCompare(data, "dist_fr_dt", "dist_to_dt", true);
@@ -195,10 +195,10 @@ public class MenuService {
 								}
 							}
 						}
+						j += menuData.size()-1;
 					}
-					j += menuData.size()-1;
-					j++;
 				}
+				j++;
 				
 				map.put("menus", null);
 				if ("20".equals(map.get("blk_typ_cd"))) {
@@ -326,16 +326,24 @@ public class MenuService {
 		String rest = null;
 		rest = restClient.getRestUri(cwBaseUrl + path, cwUser, cwPassword, cwparam);
 		
-		
-		//시리즈아이디, 에피소드아이디 추출로직
-		String regexMenuId="\\\"MenuIdPreferred\\\"[\\s]*:[\\s]*\\[\"(.*?)\"\\],";
-		Pattern ptn = Pattern.compile(regexMenuId); 
-		Matcher matcher = ptn.matcher(rest); 
-		while(matcher.find()){
-			menuData = Arrays.asList((matcher.group(1)).split("\\,"));
-			break;
+		//응답값 확인
+		String restregex="\"code\"[\\s]*:[\\s]*([0-9]*)";
+		String codeValue = StrUtil.getRegexString(restregex, rest);
+
+		if("0".equals(codeValue)) {
+			//시리즈아이디, 에피소드아이디 추출로직
+			String regexMenuId="\\\"MenuIdPreferred\\\"[\\s]*:[\\s]*\\[\"(.*?)\"\\],";
+			Pattern ptn = Pattern.compile(regexMenuId); 
+			Matcher matcher = ptn.matcher(rest); 
+			while(matcher.find()){
+				menuData = Arrays.asList((matcher.group(1)).split("\\,"));
+				break;
+			}
+		}else {
+			menuData = null;
 		}
-//		System.out.println(menuData.toString());
+		
+		
 		
 		return menuData;
 	}

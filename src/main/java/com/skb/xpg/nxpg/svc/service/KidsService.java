@@ -103,7 +103,7 @@ public class KidsService {
 		String kidsMenu = "";
 		// 살아있는 동화
 		
-		if(!"".equals(redisData) && redisData != null) {
+		if(redisData != null && !"".equals(redisData)) {
 			List<Object> kidsMenuGnb = CastUtil.StringToJsonList(redisData);	
 			List<Map<String, Object>> data = (List<Map<String, Object>>) CastUtil.getObjectToMapList(kidsMenuGnb);
 			
