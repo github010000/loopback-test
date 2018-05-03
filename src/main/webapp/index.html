@@ -32,7 +32,7 @@
 		<li>IF-NXPG-009 / <a href="#" id="u009">CW연동 그리드</a></li>
 		<li>IF-NXPG-010 / <a href="#" id="u010">시놉시스 search_type 1</a></li>
 		<li>IF-NXPG-010 / <a href="#" id="s001">시놉시스 search_type 2</a></li>
-		<li>IF-NXPG-010 / <a href="#" id="s002">시놉시스 search_type 3 (연관컨텐츠, 코너 정보 있음)</a></li>
+		<!-- <li>IF-NXPG-010 / <a href="#" id="s002">시놉시스 search_type 3 (연관컨텐츠, 코너 정보 있음)</a></li> -->
 
 		<li>IF-NXPG-011 / <a href="#" id="u011">인물정보</a></li>
 		<li>IF-NXPG-012 / <a href="#" id="u012">CW연관콘텐츠</a></li>
@@ -61,7 +61,7 @@
 
 var u001 = "/v5/menu/gnb?menu_stb_svc_id=UI50_BSUHD2&IF=IF-NXPG-001&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D"
 var u002 = "/v5/menu/all?menu_stb_svc_id=UI50_BSUHD2&IF=IF-NXPG-002&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D"
-var u003 = "/v5/menu/block?menu_stb_svc_id=UI50_BSUHD2&menu_id=NM1000018172&IF=IF-NXPG-003&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D"
+var u003 = "/v5/menu/block?menu_stb_svc_id=UI50_BSUHD2&menu_id=NM1000000400&IF=IF-NXPG-003&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D"
 //var u004 = "/v5/menu/monthinfo?menu_stb_svc_id=UI50_BSUHD2&prd_prc_id=P0001&IF=IF-NXPG-004&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D"
 var u005 = "/v5/menu/month?menu_stb_svc_id=UI50_BSUHD2&menu_id=NM1000018172&IF=IF-NXPG-005&prd_prc_id_lst=1476793,1649234&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D"
 var u006 = "/v5/grid/grid?menu_stb_svc_id=UI50_BSUHD2&menu_id=NM1000018231&IF=IF-NXPG-006&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&page_no=1&page_cnt=20"
@@ -98,7 +98,7 @@ $("a").click(function(){
 	//}
 	//alert(url);
 	//location.href = urlname;
-	eval("location.href = " + urlname);
+	eval("opener.location.href = " + urlname);
 	//&con_id=%7BA2AB675D-1B04-11E6-B49C-5702654CECC8%7D
 	//&mst_id=%7BD3E94229-1B03-11E6-B49C-5702654CECC8%7D
 })

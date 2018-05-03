@@ -10,6 +10,8 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Service;
 
 import com.skb.xpg.nxpg.svc.common.NXPGCommon;
@@ -21,6 +23,7 @@ import com.skb.xpg.nxpg.svc.util.LogUtil;
 import com.skb.xpg.nxpg.svc.util.StrUtil;
 
 @Service
+@RefreshScope
 public class CwService {
 	
 	@Autowired
@@ -31,10 +34,16 @@ public class CwService {
 	
 	@Autowired
 	private RestClient restClient;
+
 	
-	@Autowired
-	@Qualifier("cwBaseUrl")
+//	@Autowired
+//	@Qualifier("cwBaseUrl")
+//	private String cwBaseUrl;
+	@Value("${user.cw.baseurl}")
 	private String cwBaseUrl;
+
+	@Value("${user.cw.switch}")
+	private boolean cwSwitch;
 	
 	@Autowired
 	@Qualifier("cwUser")
@@ -56,7 +65,8 @@ public class CwService {
 		List<Map<String, Object>> resultList = null;
 		Map<String, Object> temp = null;
 		
-		switch (type) {
+		if(cwSwitch) {
+			switch (type) {
 			
 			case "section":
 				param.put("retrieveSections", "NONE");
@@ -77,7 +87,9 @@ public class CwService {
 			default:
 				temp = cwCall("fullsection", param);
 				break;
+			}
 		}
+		
 		if(temp != null) {
 			temp.put("type", type);
 			resultList = makeCwGrid(temp);
@@ -90,7 +102,7 @@ public class CwService {
 				result = null;
 			}
 		}else {
-			LogUtil.error("IF-NXPG-009", "", "", "", "CW", "CW API return null");
+			LogUtil.error("IF-NXPG-009", "", "", "", "CW", "CW API return null. switch value: "+cwSwitch);
 			result = null;
 		}
 		
@@ -126,38 +138,38 @@ public class CwService {
 //			String type = (String)param.get("type");
 			
 			Map<String, Object> temp = null;
-			
-			//cw_call_id가 안들어오면 CW는 호출하지 않는다.
-			if(cw_call_id != null && !cw_call_id.isEmpty()) {
-				
-				switch (type) {
-				
-				case "section":
-					param.put("retrieveSections", "NONE");
-					temp = cwCall("onlysection", param);
-					break;
-				case "multi":
-					temp = cwCall("multisection", param);
-					break;
-				case "all":
-					temp = cwCall("fullsection", param);
-					break;
-				case "onepage":
-					temp = cwCall("getonepage", param);
-					break;
-				case "onesection":
-					temp = cwCall("getonesection", param);
-					break;
-				default:
-					temp = cwCall("fullsection", param);
-					break;
+			if(cwSwitch) {
+				//cw_call_id가 안들어오면 CW는 호출하지 않는다.
+				if(cw_call_id != null && !cw_call_id.isEmpty()) {
+					
+					switch (type) {
+					
+					case "section":
+						param.put("retrieveSections", "NONE");
+						temp = cwCall("onlysection", param);
+						break;
+					case "multi":
+						temp = cwCall("multisection", param);
+						break;
+					case "all":
+						temp = cwCall("fullsection", param);
+						break;
+					case "onepage":
+						temp = cwCall("getonepage", param);
+						break;
+					case "onesection":
+						temp = cwCall("getonesection", param);
+						break;
+					default:
+						temp = cwCall("fullsection", param);
+						break;
+					}
 				}
 			}
 			
-			
 			//파라미터가 안넘어 왔거나 temp값이 없을 시 처리
 			if(temp == null) {
-				LogUtil.error("IF-NXPG-012", "", "", "", "CW", "CW API return null");
+				LogUtil.error("IF-NXPG-012", "", "", "", "CW", "CW API return null switch value: "+cwSwitch);
 				result.put("status_code", "0002");
 				String srisInfo = redisClient.hget(NXPGCommon.SYNOPSIS_SRISINFO,epsd_id);
 				String regexRelation = "\\\"relation_contents\\\"[\\s]*:[\\s]*(\\[\\{.*?\\}\\])";
@@ -342,7 +354,11 @@ public class CwService {
 				
 				resultMap.put("sectionId", temp.get("sectionId"));
 				resultMap.put("session_id", objMap.get("sessionId"));
-				resultMap.put("btrack_id", objMap.get("trackId"));
+				if(objMap.containsKey("trackId") && objMap.get("trackId")!= null && !"".equals(objMap.get("trackId"))) {
+					resultMap.put("btrack_id", objMap.get("trackId"));
+				}else {
+					resultMap.put("btrack_id", temp.get("btrackId"));
+				}
 				resultMap.put("block", resultGridList);
 				resultMap.put("sub_title", temp.get("blockTitle"));
 				resultMap.put("block_cnt", resultGridList.size());
@@ -432,7 +448,11 @@ public class CwService {
 				
 				resultMap.put("sectionId", temp.get("sectionId"));
 				resultMap.put("session_id", objMap.get("sessionId"));
-				resultMap.put("btrack_id", objMap.get("trackId"));
+				if(temp.containsKey("trackId") && temp.get("trackId")!=null && !"".equals(temp.get("trackId"))) {
+					resultMap.put("btrack_id", temp.get("trackId"));
+				}else {
+					resultMap.put("btrack_id", temp.get("btrackId"));
+				}
 				resultMap.put("block", resultRelationList);
 				resultMap.put("t_cnt", resultRelationList.size()+"");
 				resultMap.put("sub_title", sub_title);
@@ -498,6 +518,7 @@ public class CwService {
 					}
 				}
 				result.put("sectionId", sectionMap.get("sectionId"));
+				result.put("trackId", objMap.get("trackId"));
 
 				if( !( type.equals("all") && result.get("idList") == null ) ) {
 					resultList.add(result);
@@ -509,6 +530,7 @@ public class CwService {
 		case "multi": case "section":
 			for(Map<String, Object>sectionMap:sections) {
 				result.put("sectionId", sectionMap.get("sectionId"));
+				result.put("trackId", objMap.get("trackId"));
 				makeItem(sectionMap, result, idList);
 				idList = new ArrayList<String>();
 				resultList.add(result);
@@ -518,6 +540,7 @@ public class CwService {
 			
 		case "onesection":
 			for(Map<String, Object>temp:oneSecBlocks) {
+				result.put("trackId", objMap.get("trackId"));
 				makeItem(temp, result, idList);
 				idList = new ArrayList<String>();
 				resultList.add(result);
@@ -525,7 +548,6 @@ public class CwService {
 			}
 			break;
 		}
-
 	}
 	
 	//중복로직 분리

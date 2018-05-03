@@ -189,9 +189,11 @@ public class MenuService {
 									if(data != null && !data.isEmpty()) {
 										cwRtn.put("menu_id", menuNtitle[0]);
 										cwRtn.put("menu_nm", menuNtitle[1]);
-										cwRtn.put("dist_to_dt", null);
-										cwRtn.put("gnb_typ_cd", null);
-										cwRtn.put("dist_fr_dt", null);
+										cwRtn.put("dist_to_dt", map.get("dist_to_dt"));
+										cwRtn.put("gnb_typ_cd", map.get("gnb_typ_cd"));
+										cwRtn.put("dist_fr_dt", map.get("dist_fr_dt"));
+										cwRtn.put("menu_nm_exps_yn", map.get("menu_nm_exps_yn"));
+										cwRtn.put("scn_mthd_cd", "10");
 										cwRtn.put("menus", null);
 										
 										cwResult.add(cwRtn);

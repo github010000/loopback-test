@@ -38,12 +38,12 @@ user:
       cmpgn_nm: 
       is_leaf: Y
       cmpgn_fr_dt: 
-      dist_to_dt: null
+      dist_to_dt: 
       menu_nm_exps_yn: 
       menu_id: 
-      gnb_typ_cd: null
+      gnb_typ_cd: 
       scn_mthd_cd: 
-      dist_fr_dt: null
+      dist_fr_dt: 
       cmpgn_to_dt: 
       menu_exps_prop_cd: 
       cmpgn_itlk_typ_cd: 
@@ -64,6 +64,7 @@ user:
     socktimeout: 300
     conntimeout: 300
     connreqtimeout: 300
+    switch: true
 spring:
   http:
     encoding:
