@@ -366,27 +366,25 @@ public class MenuService {
 		// menu_cd 제거
 		List<Map<String, Object>> deleteListInner = new ArrayList<Map<String, Object>>();
 		
-		if (menuList != null && segmentId != null) {
+		if (menuList != null && segmentId != null && !segmentId.isEmpty()) {
 			
 			// segmentId 10개까지만 가지고 오게 끔 처리
 			String[] segmentIdList = segmentId.split(",");
 			for(int i = 0; i < segmentIdList.length; i++) {
 				if (i == 10) break;
-				if (i == 0) 
-					segmentId = segmentIdList[i];
-				else
-					segmentId += "," + segmentIdList[i];
+				segmentId += "," + segmentIdList[i];
 			}
-			segmentId = segmentId.substring(0, segmentId.indexOf(",", 10));
+			if (segmentId.length() > 0) {
+				segmentId = segmentId.substring(1);
+			}
 			
 			for (Map<String, Object> menu : menuList) {
 				if (menu.containsKey("menu_cd")) {
 					menu.remove("menu_cd");
 				}
 				
-				
 				if (menu.containsKey(field_campaign) && menu.get(field_campaign) != null) {
-					if (!StrUtil.isEmpty(menu.get(field_campaign).toString()) && segmentId.contains(menu.get(field_campaign) + "")) {
+					if (!StrUtil.isEmpty(menu.get(field_campaign) + "") && !segmentId.contains(menu.get(field_campaign) + "")) {
 						deleteListInner.add(menu);
 					}
 				}

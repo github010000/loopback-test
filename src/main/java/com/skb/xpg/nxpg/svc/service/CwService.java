@@ -296,6 +296,8 @@ public class CwService {
 		List<Map<String, Object>>cwGrid = new ArrayList<Map<String,Object>>();
 
 		int i = 0;
+		boolean checkFirstBlock = true;
+		
 		if(resultList != null && resultList.size()>0) {
 			for(Map<String, Object>temp:resultList ) {
 				List<Map<String, Object>>resultGridList = new ArrayList<Map<String,Object>>();
@@ -330,6 +332,14 @@ public class CwService {
 						i++;
 					}
 				}
+				
+				//onepage호출시 첫번쨰 블록에 데이터가 없으면 리턴
+				if(type.equals("onepage") && checkFirstBlock && resultGridList.size()<=0) {
+					LogUtil.error("IF-NXPG-009", "", "", "", "NCMS", "No Exist Match Data. CW code: 0");
+					checkFirstBlock=false;
+					return null;
+				}
+				
 				resultMap.put("sectionId", temp.get("sectionId"));
 				resultMap.put("session_id", objMap.get("sessionId"));
 				resultMap.put("btrack_id", objMap.get("trackId"));
@@ -376,6 +386,8 @@ public class CwService {
 		List cwRelation = null;
 		
 		int i = 0;
+		boolean checkFirstBlock = true;		
+		
 		if(resultList!=null && !resultList.isEmpty()) {
 			cwRelation = new ArrayList<Map<String,Object>>();
 			for(Map<String, Object>temp:resultList ) {
@@ -425,6 +437,13 @@ public class CwService {
 				resultMap.put("t_cnt", resultRelationList.size()+"");
 				resultMap.put("sub_title", sub_title);
 				resultMap.put("cw_call_id", objMap.get("cw_call_id"));
+				
+				//onepage호출시 첫번쨰 블록에 데이터가 없으면 리턴
+				if(type.equals("onepage") && checkFirstBlock && resultRelationList.size()<=0) {
+					LogUtil.error("IF-NXPG-012", "", "", "", "NCMS", "No Exist Match Data. CW code: 0");
+					checkFirstBlock=false;
+					return null;
+				}
 				
 				if(type.equals("all") || type.equals("onesection")) {
 					if(resultRelationList.size()>0) {
