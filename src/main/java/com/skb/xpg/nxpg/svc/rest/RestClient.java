@@ -39,13 +39,19 @@ public class RestClient {
 		HttpGet request = new HttpGet(url);
 
 		RequestConfig requestConfig = RequestConfig.custom()
-		          .setSocketTimeout(CastUtil.getObjectToInteger(properties.getCw().get("socktimeout")))
-		          .setConnectTimeout(CastUtil.getObjectToInteger(properties.getCw().get("conntimeout")))
-		          .setConnectionRequestTimeout(CastUtil.getObjectToInteger(properties.getCw().get("connreqtimeout")))
+		          .setSocketTimeout(10)
+		          .setConnectTimeout(10)
+		          .setConnectionRequestTimeout(10)
 		          .build();
 
 		request.setConfig(requestConfig);
 		
+		try {
+			Thread.sleep(CastUtil.getObjectToInteger(properties.getCw().get("socktimeout")));
+		} catch (InterruptedException e3) {
+			// TODO Auto-generated catch block
+			e3.printStackTrace();
+		}
 		
 		String encoding;
 		try {

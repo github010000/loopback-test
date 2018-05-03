@@ -61,7 +61,7 @@ user:
       lim_lvl_yn: N
       menus: null
     scnmthdcd: "502"
-    socktimeout: 300
+    socktimeout: 2000
     conntimeout: 300
     connreqtimeout: 300
     switch: true
