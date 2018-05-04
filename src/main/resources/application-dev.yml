@@ -87,9 +87,9 @@ spring:
     password: eera9eizohxiengaF9iemai3zuc4oogh
 second:
   redis:
-    host: 10.10.113.8
+    host: 10.10.113.47
     port: 6379
-    password: eera9eizohxiengaF9iemai3zuc4oogh
+    password: eera9eizohxiengaF9iemai3zuc4oogz
     switching-milisecond: 500
 management:
   security:
