@@ -2,6 +2,7 @@ package com.skb.xpg.nxpg.svc.service;
 
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +32,7 @@ public class AddedService {
 //		Map<String, Object> result = (Map<String, Object>)redisClient.hget(XpgCommon.NXTCHANNELRATING, XpgCommon.NXTCHANNELRATING);
 		Map<String, Object> rating = null;
 		String json = redisClient.hget(NXPGCommon.CHANNEL_RATING, "channel_rating");
+		String version = StringUtils.defaultIfEmpty(redisClient.hget(NXPGCommon.VERSION, NXPGCommon.CHANNEL_RATING), "0");
 		if(json instanceof String){
 			rating = CastUtil.StringToJsonMap(json);
 		}
@@ -38,6 +40,7 @@ public class AddedService {
 		if (rating != null) {
 			rtn.putAll(rating);
 			rtn.put("result", "0000");
+			rtn.put("version", version);
 //			rtn.put("reason", "");
 		} else {
 			rtn.put("result", "9999");

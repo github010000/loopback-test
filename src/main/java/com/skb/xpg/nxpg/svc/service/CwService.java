@@ -42,7 +42,7 @@ public class CwService {
 	@Value("${user.cw.baseurl}")
 	private String cwBaseUrl;
 
-	@Value("${user.cw.switch}")
+	@Value("${user.cwswitch}")
 	private boolean cwSwitch;
 	
 	@Autowired
