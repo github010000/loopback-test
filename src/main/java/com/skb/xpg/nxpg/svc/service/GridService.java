@@ -36,7 +36,8 @@ public class GridService {
 		
 		DateUtil.getCompare(gridList, "svc_fr_dt", "svc_to_dt", false);
 		
-		
+
+		int currentCount = 0;
 		int tCount = 0;
 		if(gridList != null) {
 			
@@ -63,6 +64,7 @@ public class GridService {
 			}
 			
 			tCount = gridList.size();
+			currentCount = tCount;
 			int pageNo = CastUtil.getStringToInteger(param.get("page_no"));
             int pageCnt = CastUtil.getStringToInteger(param.get("page_cnt"));
             
@@ -81,7 +83,7 @@ public class GridService {
             tCount = gList.size();
 		}
 		gridMap.put("contents", gList);
-		gridMap.put("total_count", tCount);
+		gridMap.put("total_count", currentCount);
 		
 		return gridMap;
 	}
