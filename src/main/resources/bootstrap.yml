@@ -1,7 +1,6 @@
 spring:
   application:
     name: xpg-nxpg-svc
-
 ---
 spring:
   profiles: local
@@ -10,7 +9,13 @@ spring:
       enabled: false
 ---
 spring:
-  profiles: prd, dev, stg, prdsuy, prdssu
+  profiles: prd, dev, stg
   cloud:
     config:
       uri: https://common-config-server-dev.skb-suy-dev01.mybluemix.net/
+---
+spring:
+  profiles: prdsuy, prdssu
+  cloud:
+    config:
+      uri: http://common-config-server.skb-suy-prd01.mybluemix.net/
