@@ -80,8 +80,7 @@ public class ContentsController {
 		rtn.put("IF", IF);
 		rtn.put("request_time", DateUtil.getYYYYMMDDhhmmss());
 
-		if (StrUtil.isEmpty(param.get("menu_stb_svc_id")) || StrUtil.isEmpty(param.get("menu_id"))
-				|| StrUtil.isEmpty(param.get("prs_id"))) {
+		if (StrUtil.isEmpty(param.get("prs_id"))) {
 			rtn.put("result", "9999");
 			rtn.put("reason", ResultCommon.reason.get(rtn.get("result")));
 			return rtn;
@@ -163,7 +162,7 @@ public class ContentsController {
 		rtn.put("IF", IF);
 		rtn.put("request_time", DateUtil.getYYYYMMDDhhmmss());
 
-		if (StrUtil.isEmpty(param.get("menu_stb_svc_id")) || StrUtil.isEmpty(param.get("sris_id"))) {
+		if (StrUtil.isEmpty(param.get("sris_id"))) {
 			rtn.put("result", "9999");
 			rtn.put("reason", ResultCommon.reason.get(rtn.get("result")));
 			return rtn;
