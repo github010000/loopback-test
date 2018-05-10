@@ -149,10 +149,15 @@ public class MenuController {
 			rtn.putAll(blockblock);
 			rtn.put("banners", null);
 			rtn.put("banner_count", "0");
+
+		} else if (blockblock == null) {
 			
-		} else {
 			rtn.put("blocks", null);
 			rtn.put("block_count", "0");
+			rtn.putAll(bigbanner);
+			
+		} else {
+			rtn.putAll(blockblock);
 			rtn.putAll(bigbanner);
 		}
 		
