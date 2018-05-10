@@ -348,7 +348,7 @@ public class MenuService {
 
 		if("0".equals(codeValue)) {
 			//시리즈아이디, 에피소드아이디 추출로직
-			String regexMenuId="\\\"MenuIdPreferred\\\"[\\s]*:[\\s]*\\[\"(.*?)\"\\],";
+			String regexMenuId="\\\"MenuIdPreferred\\\"[\\s]*:[\\s]*\\[\"(.*?)\"\\]";
 			Pattern ptn = Pattern.compile(regexMenuId); 
 			Matcher matcher = ptn.matcher(rest); 
 			while(matcher.find()){

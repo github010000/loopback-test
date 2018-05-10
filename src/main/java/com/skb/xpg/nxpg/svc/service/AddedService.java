@@ -43,7 +43,7 @@ public class AddedService {
 			rtn.put("version", version);
 //			rtn.put("reason", "");
 		} else {
-			rtn.put("result", "9999");
+			rtn.put("result", "9998");
 //			rtn.put("reason", "실시간 채널순위 데이터가 없습니다.");
 		}
 		
