@@ -136,19 +136,30 @@ public class MenuController {
 		}
 		
 		rtn.put("result", "0000");
-		if (bigbanner != null) {
-			rtn.putAll(bigbanner);
-		} else {
+		if (bigbanner == null && blockblock == null) {
+
+			rtn.put("result", "9998");
+			rtn.put("blocks", null);
+			rtn.put("block_count", "0");
 			rtn.put("banners", null);
 			rtn.put("banner_count", "0");
-		}
-		if (blockblock != null) {
+			
+		} else if (bigbanner == null) {
+
 			rtn.putAll(blockblock);
+			rtn.put("banners", null);
+			rtn.put("banner_count", "0");
+			
 		} else {
 			rtn.put("blocks", null);
-			rtn.put("result", "9998");
 			rtn.put("block_count", "0");
+			rtn.putAll(bigbanner);
 		}
+		
+//		if (blockblock != null) {
+//			rtn.putAll(blockblock);
+//		} else {
+//		}
 			// 카운트 넣어주기 
 //			if (bigbanner != null) rtn.put("total_count", bigbanner.size());
 
