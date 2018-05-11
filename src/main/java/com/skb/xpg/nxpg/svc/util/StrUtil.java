@@ -47,12 +47,17 @@ public class StrUtil {
 	public static String getRegexString(String regex, String replaceStr) {
 		
 		String result = "";
-		
-		Pattern ptn = Pattern.compile(regex); 
-		Matcher matcher = ptn.matcher(replaceStr); 
-		while(matcher.find()){ 
-			result=matcher.group(1);
-			break;
+		Pattern ptn = null;
+		Matcher matcher = null;
+		ptn = Pattern.compile(regex); 
+		if (ptn != null) {
+			matcher = ptn.matcher(replaceStr); 
+			if (matcher != null) {
+				while(matcher.find()){ 
+					result=matcher.group(1);
+					break;
+				}
+			}
 		}
 		
 		return result;

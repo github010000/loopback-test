@@ -45,7 +45,7 @@ public class KidsController {
 		rtn.put("IF", IF);
 		rtn.put("request_time", DateUtil.getYYYYMMDDhhmmss());
 	
-		if (StrUtil.isEmpty(param.get("menu_stb_svc_id"))) {
+		if (defaults != null && StrUtil.isEmpty(param.get("menu_stb_svc_id"))) {
 			param.put("menu_stb_svc_id", defaults.get("menu_stb_svc_id"));
 		}
 	
@@ -78,7 +78,7 @@ public class KidsController {
 		rtn.put("IF", IF);
 		rtn.put("request_time", DateUtil.getYYYYMMDDhhmmss());
 	
-		if (StrUtil.isEmpty(param.get("menu_stb_svc_id"))) {
+		if (defaults != null && StrUtil.isEmpty(param.get("menu_stb_svc_id"))) {
 			param.put("menu_stb_svc_id", defaults.get("menu_stb_svc_id"));
 		}
 		
@@ -175,7 +175,7 @@ public class KidsController {
 		rtn.put("IF", IF);
 		rtn.put("request_time", DateUtil.getYYYYMMDDhhmmss());
 		
-		if (StrUtil.isEmpty(param.get("menu_stb_svc_id"))) {
+		if (defaults != null && StrUtil.isEmpty(param.get("menu_stb_svc_id"))) {
 			param.put("menu_stb_svc_id", defaults.get("menu_stb_svc_id"));
 		}
 		
@@ -221,7 +221,7 @@ public class KidsController {
 		rtn.put("IF", IF);
 		rtn.put("request_time", DateUtil.getYYYYMMDDhhmmss());
 		
-		if (StrUtil.isEmpty(param.get("menu_stb_svc_id"))) {
+		if (defaults != null && StrUtil.isEmpty(param.get("menu_stb_svc_id"))) {
 			param.put("menu_stb_svc_id", defaults.get("menu_stb_svc_id"));
 		}
 		

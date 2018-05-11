@@ -223,7 +223,7 @@ public class MenuService {
 				}
 			}
 			
-			double totalCount = (double)blockblock.get("total_count");
+			int totalCount = (int)blockblock.get("total_count");
 			
 			for( int o = 0 ; o<blocks.size(); o++) {
 				if( whichMap.containsKey(o)) {

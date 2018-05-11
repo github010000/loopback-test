@@ -61,8 +61,10 @@ public class RestClient {
 		BufferedReader rd = null;
 		StringBuffer result = new StringBuffer();
 		try {
+			if(client == null) return null;
 			response = client.execute(request);
 //			System.out.println("Response Code : "  + response.getStatusLine().getStatusCode());
+			if (response==null) return null;
 			rd = new BufferedReader(
 					new InputStreamReader(response.getEntity().getContent()));
 			

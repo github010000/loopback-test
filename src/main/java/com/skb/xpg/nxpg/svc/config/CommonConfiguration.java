@@ -62,9 +62,10 @@ public class CommonConfiguration {
 					profile += "," + p; 
 				}
 			}
-		}
-		if (!profile.isEmpty() && profile.length() > 1) {
-			profile.substring(1);
+		
+			if (!profile.isEmpty() && profile.length() > 1) {
+				profile.substring(1);
+			}
 		}
 		return profile;
 	}

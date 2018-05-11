@@ -123,7 +123,7 @@ public class GridService {
 		
 		if ("01".equals(grid.get("synon_typ_cd"))) {
 			
-			if ("024".equals(meta_typ_cd) && !sris_dist_fir_svc_dt.isEmpty() && DateUtil.getAddDate(sris_dist_fir_svc_dt, 7).compareTo(DateUtil.getYYYYMMDDhhmmss2()) >= 0) {
+			if ("024".equals(meta_typ_cd) && sris_dist_fir_svc_dt != null && !sris_dist_fir_svc_dt.isEmpty() && DateUtil.getAddDate(sris_dist_fir_svc_dt, 7).compareTo(DateUtil.getYYYYMMDDhhmmss2()) >= 0) {
 				result = "sale";
 			} else if ("024".equals(meta_typ_cd) && "0".equals(sale_prc)) {
 				result = "free";
@@ -138,7 +138,7 @@ public class GridService {
 					result = "new";
 				} else if ("0".equals(sale_prc)) {
 					result = "free";
-				} else if (!epsd_dist_fir_svc_dt.isEmpty() && DateUtil.getAddDate(epsd_dist_fir_svc_dt, 1).compareTo(DateUtil.getYYYYMMDDhhmmss2()) >= 0) {
+				} else if (epsd_dist_fir_svc_dt != null && !epsd_dist_fir_svc_dt.isEmpty() && DateUtil.getAddDate(epsd_dist_fir_svc_dt, 1).compareTo(DateUtil.getYYYYMMDDhhmmss2()) >= 0) {
 					result = "up";
 				} else if ("Y".equals(cacbro_yn)) {
 					result = "rest";

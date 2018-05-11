@@ -186,37 +186,35 @@ public class CwService {
 				}
 				
 				return result;
-			}
-			
-			if(temp != null) {
-				temp.put("type", type);
-			}
-			String regexTitle = "\"sub_title\"[\\s]*:[\\s]*\"([^\"]+)\"";
-			String contentTitle = StrUtil.getRegexString(regexTitle, contentInfo);
-			temp.put("contentTitle", contentTitle);
-			
-			resultList = makeCwRelation(temp, epsd_id);
-			if(resultList != null && resultList.size()>0) {
-				result.put("status_code", temp.get("status_code"));
-				result.put("relation", resultList);
-				result.put("size", resultList.size()+"");
 			}else {
-				result.put("status_code", temp.get("status_code"));
-				//CW 연동로직에 데이터가 없을 경우 
-				LogUtil.error("IF-NXPG-012", "", "", "", "CW", "CW Data is null or item list size is 0");
-				result.put("status_code", "0002");
-				String srisInfo = redisClient.hget(NXPGCommon.SYNOPSIS_SRISINFO,epsd_id);
-				String regexRelation = "\\\"relation_contents\\\"[\\s]*:[\\s]*(\\[\\{.*?\\}\\])";
-				String relationData = StrUtil.getRegexString(regexRelation, srisInfo);
-				if(relationData != null && !"".equals(relationData)) {
-					resultList = CastUtil.StringToJsonList(relationData);
-				}
+				temp.put("type", type);
+				String regexTitle = "\"sub_title\"[\\s]*:[\\s]*\"([^\"]+)\"";
+				String contentTitle = StrUtil.getRegexString(regexTitle, contentInfo);
+				temp.put("contentTitle", contentTitle);
 				
-				if(resultList!= null && !resultList.isEmpty()) {
+				resultList = makeCwRelation(temp, epsd_id);
+				if(resultList != null && resultList.size()>0) {
+					result.put("status_code", temp.get("status_code"));
 					result.put("relation", resultList);
 					result.put("size", resultList.size()+"");
 				}else {
-					result = null;
+					result.put("status_code", temp.get("status_code"));
+					//CW 연동로직에 데이터가 없을 경우 
+					LogUtil.error("IF-NXPG-012", "", "", "", "CW", "CW Data is null or item list size is 0");
+					result.put("status_code", "0002");
+					String srisInfo = redisClient.hget(NXPGCommon.SYNOPSIS_SRISINFO,epsd_id);
+					String regexRelation = "\\\"relation_contents\\\"[\\s]*:[\\s]*(\\[\\{.*?\\}\\])";
+					String relationData = StrUtil.getRegexString(regexRelation, srisInfo);
+					if(relationData != null && !"".equals(relationData)) {
+						resultList = CastUtil.StringToJsonList(relationData);
+					}
+					
+					if(resultList!= null && !resultList.isEmpty()) {
+						result.put("relation", resultList);
+						result.put("size", resultList.size()+"");
+					}else {
+						result = null;
+					}
 				}
 			}
 		}else {
@@ -567,8 +565,8 @@ public class CwService {
 				}
 				result.put("sectionId", sectionMap.get("sectionId"));
 				result.put("trackId", objMap.get("trackId"));
-
-				if( !( type.equals("all") && result.get("idList") == null ) ) {
+				if(type == null) type="all";
+				if( !("all".equals(type) && result.get("idList") == null ) ) {
 					resultList.add(result);
 				}
 				result = new HashMap<String, Object>();
@@ -583,10 +581,12 @@ public class CwService {
 		items = CastUtil.getObjectToMapList(temp.get("items"));
 		if(items != null) {
 			for(Map<String, Object>itemMap:items) {
-				Map<String, Object> itemIds = CastUtil.getObjectToMap(itemMap.get("itemIds")); 
-				String contentId = CastUtil.getObjectToString(itemIds.get("CW"));
-				String trackId = CastUtil.getObjectToString(itemMap.get("trackId"));
-				idList.add(contentId+"|"+trackId);
+				Map<String, Object> itemIds = CastUtil.getObjectToMap(itemMap.get("itemIds"));
+				if(itemIds!=null) {
+					String contentId = CastUtil.getObjectToString(itemIds.get("CW"));
+					String trackId = CastUtil.getObjectToString(itemMap.get("trackId"));
+					idList.add(contentId+"|"+trackId);
+				}
 			}
 		}
 		result.put("blockTitle",temp.get("blockLabel"));
@@ -619,14 +619,22 @@ public class CwService {
 			List<String> person = new ArrayList<String>();
 			String regex="(prs_role_cd)\"[\\s]*:[\\s]*\\[*\"([^\"]+)\"\\]*";
 			Pattern ptn = Pattern.compile(regex); 
+			if (ptn == null) return null;
+			
 			Matcher matcher = ptn.matcher(actorString); 
+			if (matcher == null) return null;
+			
 			while(matcher.find()){
 				code.add(matcher.group(2));
 			}
 			
 			String regexNm="(prs_nm)\"[\\s]*:[\\s]*\\[*\"([^\"]+)\"\\]*";
 			Pattern ptnNm = Pattern.compile(regexNm); 
+			if (ptnNm == null) return null;
+			
 			Matcher matcherNm = ptnNm.matcher(actorString); 
+			if (matcherNm == null) return null;
+			
 			while(matcherNm.find()){
 				person.add(matcherNm.group(2));
 			}
@@ -679,7 +687,8 @@ public class CwService {
 	
 		if(codePeopleMap!=null && !codePeopleMap.isEmpty()) {
 			String pos = StringUtils.defaultIfEmpty( man.split(" ")[0].replace(type, ""), "" );
-			int cnt = Integer.parseInt( pos.equals("") ? "1" : pos );
+			if (pos==null) pos = "";
+			int cnt = CastUtil.getStringToInteger(pos.equals("") ? "1" : pos);
 			return man.replace(type+pos, codePeopleMap.get(type).get(cnt-1).toString() );
 		}else {
 			return "연관콘텐츠";
