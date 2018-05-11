@@ -44,7 +44,7 @@ public class ControllerTest extends BaseControllerTest {
 	
 	String u001 = "/v5/menu/gnb?menu_stb_svc_id=UI50_BSUHD2&IF=IF-NXPG-001&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D";
 	String u002 = "/v5/menu/all?menu_stb_svc_id=UI50_BSUHD2&IF=IF-NXPG-002&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D";
-	String u003 = "/v5/menu/block?menu_stb_svc_id=UI50_BSUHD2&menu_id=NM1000000400&IF=IF-NXPG-003&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D";
+	String u003 = "/v5/menu/block?menu_stb_svc_id=UI50_BSUHD2&menu_id=NM1000000300&IF=IF-NXPG-003&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D";
 	String u005 = "/v5/menu/month?menu_stb_svc_id=UI50_BSUHD2&menu_id=NM1000018172&IF=IF-NXPG-005&prd_prc_id_lst=3240009&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D";
 	String u006 = "/v5/grid/grid?menu_stb_svc_id=UI50_BSUHD2&menu_id=NM1000018613&IF=IF-NXPG-006&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&page_no=1&page_cnt=20";
 	String u007 = "/v5/grid/event?menu_stb_svc_id=UI50_BSUHD2&menu_id=NM1000020226&IF=IF-NXPG-007&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D";
