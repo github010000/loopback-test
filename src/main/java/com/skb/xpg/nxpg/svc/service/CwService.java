@@ -169,6 +169,7 @@ public class CwService {
 			
 			//파라미터가 안넘어 왔거나 temp값이 없을 시 처리
 			if(temp == null) {
+				if(result == null) return result = null;
 				LogUtil.error("IF-NXPG-012", "", "", "", "CW", "CW API return null switch value: "+cwSwitch);
 				result.put("status_code", "0002");
 				String srisInfo = redisClient.hget(NXPGCommon.SYNOPSIS_SRISINFO,epsd_id);
@@ -187,6 +188,7 @@ public class CwService {
 				
 				return result;
 			}else {
+				if(result == null) return result = null;
 				temp.put("type", type);
 				String regexTitle = "\"sub_title\"[\\s]*:[\\s]*\"([^\"]+)\"";
 				String contentTitle = StrUtil.getRegexString(regexTitle, contentInfo);

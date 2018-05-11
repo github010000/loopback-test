@@ -23,11 +23,11 @@ public class CacheService {
 //		return dt.getTime();
 //	}
 	
-	private float startTime = 0;
+	private long startTime = 0;
 	private int redisErrorCount;
 	
 	@Value("${second.redis.switching-milisecond}")
-	private float switchingTime;
+	private long switchingTime;
 	
 	public int getErrorCount() {
 		return redisErrorCount;
@@ -37,10 +37,10 @@ public class CacheService {
 		if (startTime == 0) {
 			startTime = System.nanoTime();
 		}
-		float now_time = System.nanoTime();
-		float difference = (now_time - startTime) / (float) 1e6;
+		double now_time = System.nanoTime();
+		double difference = now_time - startTime;
 		
-		if (difference <= switchingTime) {
+		if (difference <= (switchingTime * 1000000)) {
 			
 			redisErrorCount++;
 			if (redisErrorCount > 10) {
