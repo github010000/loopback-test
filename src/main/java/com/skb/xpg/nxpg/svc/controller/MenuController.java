@@ -40,7 +40,7 @@ public class MenuController {
 		rtn.put("IF", IF);
 		rtn.put("request_time", DateUtil.getYYYYMMDDhhmmss());
 		
-		if (StrUtil.isEmpty(param.get("menu_stb_svc_id"))) {
+		if (defaults != null && StrUtil.isEmpty(param.get("menu_stb_svc_id"))) {
 			param.put("menu_stb_svc_id", defaults.get("menu_stb_svc_id"));
 		}
 		
@@ -74,7 +74,7 @@ public class MenuController {
 		rtn.put("IF", IF);
 		rtn.put("request_time", DateUtil.getYYYYMMDDhhmmss());
 
-		if (StrUtil.isEmpty(param.get("menu_stb_svc_id"))) {
+		if (defaults != null && StrUtil.isEmpty(param.get("menu_stb_svc_id"))) {
 			param.put("menu_stb_svc_id", defaults.get("menu_stb_svc_id"));
 		}
 		
@@ -108,7 +108,7 @@ public class MenuController {
 		rtn.put("IF", IF);
 		rtn.put("request_time", DateUtil.getYYYYMMDDhhmmss());
 		
-		if (StrUtil.isEmpty(param.get("menu_stb_svc_id"))) {
+		if (defaults != null && StrUtil.isEmpty(param.get("menu_stb_svc_id"))) {
 			param.put("menu_stb_svc_id", defaults.get("menu_stb_svc_id"));
 		}
 		
@@ -124,7 +124,6 @@ public class MenuController {
 		try {
 			blockblock = menuService.getBlockBlock(ver, param);
 		} catch (Exception e) {
-			e.printStackTrace();
 			LogUtil.error(IF, "REQ", "", param.get("stb_id"), "", e.toString());
 		}
 		// 조회값 없음
@@ -188,7 +187,7 @@ public class MenuController {
 		if (StrUtil.isEmpty(param.get("prd_prc_id_lst")) || param.get("prd_prc_id_lst").isEmpty() || param.get("menu_id").isEmpty()) {
 			rtn.put("result", "9999");
 		} else {
-			if (StrUtil.isEmpty(param.get("menu_stb_svc_id"))) {
+			if (defaults != null && StrUtil.isEmpty(param.get("menu_stb_svc_id"))) {
 				param.put("menu_stb_svc_id", defaults.get("menu_stb_svc_id"));
 			}
 			

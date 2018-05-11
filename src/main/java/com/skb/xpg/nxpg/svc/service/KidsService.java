@@ -15,6 +15,7 @@ import com.skb.xpg.nxpg.svc.redis.RedisClient;
 import com.skb.xpg.nxpg.svc.util.CastUtil;
 import com.skb.xpg.nxpg.svc.util.DateUtil;
 import com.skb.xpg.nxpg.svc.util.GridComparator;
+import com.skb.xpg.nxpg.svc.util.LogUtil;
 
 @Service
 public class KidsService {
@@ -55,7 +56,9 @@ public class KidsService {
 						kzgnb = mCopyGrids;
 					}
 				}
-				catch(Exception e){}
+				catch(Exception e){
+					LogUtil.error("IF-NXPG-101", "", "", "", "getMenuKzchar", e.toString());
+				}
 				
 				rtn.put("result", "0000");
 				rtn.put("menus", kzgnb);

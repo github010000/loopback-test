@@ -24,7 +24,7 @@ public class CastUtil {
 	
 	@SuppressWarnings("unchecked")
 	public static Map<String, Object> getObjectToMap(Object obj) {
-		if (obj != null && obj instanceof Map<?, ?>) {
+		if (obj != null && obj instanceof Map) {
 			Map<String, Object> map = (Map<String, Object>) obj;
 			return map;
 		} else return null;
@@ -32,7 +32,7 @@ public class CastUtil {
 	
 	@SuppressWarnings("unchecked")
 	public static Map<String, String> getObjectToMapStringString(Object obj) {
-		if (obj != null && obj instanceof Map<?, ?>) {
+		if (obj != null && obj instanceof Map) {
 			Map<String, String> mapStringString = (Map<String, String>) obj;
 			return mapStringString;
 		} else return null;
@@ -40,7 +40,7 @@ public class CastUtil {
 
 	@SuppressWarnings("unchecked")
 	public static List<Map<String, Object>> getObjectToMapList(Object obj) {
-		if (obj != null && obj instanceof List<?>) {
+		if (obj != null && obj instanceof List) {
 			List<Map<String, Object>> list = (List<Map<String, Object>>) obj;
 			return list;
 		} else return null;
@@ -94,6 +94,7 @@ public class CastUtil {
 				List<Object> list = parser.parseList(json);
 				return list;	
 			} catch (Exception e) {
+				LogUtil.error("", "", "", "", "", e.toString());
 				return null;
 			}
 		} else return null;
@@ -129,7 +130,7 @@ public class CastUtil {
 	
 	@SuppressWarnings("unchecked")
 	public static List<String> getObjectToListString(Object obj) {
-		if (obj != null && obj instanceof List<?>) {
+		if (obj != null && obj instanceof List) {
 			List<String> map = (List<String>) obj;
 			return map;
 		} else return null;

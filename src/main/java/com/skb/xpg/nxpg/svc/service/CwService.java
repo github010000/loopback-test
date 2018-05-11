@@ -196,11 +196,12 @@ public class CwService {
 			temp.put("contentTitle", contentTitle);
 			
 			resultList = makeCwRelation(temp, epsd_id);
-			result.put("status_code", temp.get("status_code"));
 			if(resultList != null && resultList.size()>0) {
+				result.put("status_code", temp.get("status_code"));
 				result.put("relation", resultList);
 				result.put("size", resultList.size()+"");
 			}else {
+				result.put("status_code", temp.get("status_code"));
 				//CW 연동로직에 데이터가 없을 경우 
 				LogUtil.error("IF-NXPG-012", "", "", "", "CW", "CW Data is null or item list size is 0");
 				result.put("status_code", "0002");
@@ -234,9 +235,13 @@ public class CwService {
 		Map<String, Object> keyAndValue;
 		
 		String cwparam = "";
-
+		
+		if (cw == null) return null;
+		
 		keyAndValue = CastUtil.getObjectToMap(cw.get(type));
-					
+		
+		if(keyAndValue == null) return null;
+		
 		String path = keyAndValue.get("uri").toString();
 		String requestparam = keyAndValue.get("param").toString();
 		String nxpgparam = keyAndValue.get("nxpgparam").toString();
@@ -259,14 +264,14 @@ public class CwService {
 		String[] arrRequestParam = requestparam.split(",");
 		String[] arrNxpgParam = nxpgparam.split(",");
 		
-		if (arrRequestParam != null) {
+		if (arrRequestParam != null && arrNxpgParam != null) {
 			for (int a = 0; a < arrNxpgParam.length; a++) {
 				if (!arrRequestParam[a].isEmpty()) {
 					cwparam += ";" + arrRequestParam[a] + "|" + param.get(arrNxpgParam[a]);
 				}
 			}
 		}
-		if (!cwparam.isEmpty() && cwparam.length() > 1) {
+		if (cwparam!=null && !cwparam.isEmpty() && cwparam.length() > 1) {
 			cwparam = cwparam.substring(1);
 		}
 		
@@ -340,13 +345,13 @@ public class CwService {
 					}
 				}else {
 					//아이템이 없을 경우 카운트 추가
-					if(!type.equals("section")) {
+					if(type != null && !"section".equals(type)) {
 						i++;
 					}
 				}
 				
 				//onepage호출시 첫번쨰 블록에 데이터가 없으면 리턴
-				if(type.equals("onepage") && checkFirstBlock && resultGridList.size()<=0) {
+				if(type != null && "onepage".equals(type) && checkFirstBlock && resultGridList.size()<=0) {
 					LogUtil.error("IF-NXPG-009", "", "", "", "NCMS", "No Exist Match Data. CW code: 0");
 					checkFirstBlock=false;
 					return null;
@@ -364,7 +369,7 @@ public class CwService {
 				resultMap.put("block_cnt", resultGridList.size());
 				resultMap.put("cw_call_id", objMap.get("cw_call_id"));
 
-				if(type.equals("all") || type.equals("onesection")) {
+				if("all".equals(type) || "onesection".equals(type)) {
 					if(resultGridList.size()>0) {
 						cwGrid.add(resultMap);
 					}
@@ -436,7 +441,7 @@ public class CwService {
 					}
 				}else {
 					//아이템이 없을 경우 카운트 추가
-					if(!type.equals("section")) {
+					if(!"section".equals(type)) {
 						i++;
 					}
 				}
@@ -459,13 +464,13 @@ public class CwService {
 				resultMap.put("cw_call_id", objMap.get("cw_call_id"));
 				
 				//onepage호출시 첫번쨰 블록에 데이터가 없으면 리턴
-				if(type.equals("onepage") && checkFirstBlock && resultRelationList.size()<=0) {
+				if("onepage".equals(type) && checkFirstBlock && resultRelationList.size()<=0) {
 					LogUtil.error("IF-NXPG-012", "", "", "", "NCMS", "No Exist Match Data. CW code: 0");
 					checkFirstBlock=false;
 					return null;
 				}
 				
-				if(type.equals("all") || type.equals("onesection")) {
+				if("all".equals(type) || "onesection".equals(type)) {
 					if(resultRelationList.size()>0) {
 						cwRelation.add(resultMap);
 					}
@@ -520,7 +525,7 @@ public class CwService {
 				result.put("sectionId", sectionMap.get("sectionId"));
 				result.put("trackId", objMap.get("trackId"));
 
-				if( !( type.equals("all") && result.get("idList") == null ) ) {
+				if( !( "all".equals(type) && result.get("idList") == null ) ) {
 					resultList.add(result);
 				}
 				result = new HashMap<String, Object>();
@@ -544,6 +549,28 @@ public class CwService {
 				makeItem(temp, result, idList);
 				idList = new ArrayList<String>();
 				resultList.add(result);
+				result = new HashMap<String, Object>();
+			}
+			break;
+			
+		default :
+			for(Map<String, Object>sectionMap:sections) {
+
+				List<Map<String, Object>> blocks = null;
+				blocks = CastUtil.getObjectToMapList(sectionMap.get("blocks"));
+				if(blocks != null) {
+					for(Map<String, Object>blockMap:blocks) {
+						//데이터 생성 로직
+						makeItem(blockMap, result, idList);
+						idList = new ArrayList<String>();
+					}
+				}
+				result.put("sectionId", sectionMap.get("sectionId"));
+				result.put("trackId", objMap.get("trackId"));
+
+				if( !( type.equals("all") && result.get("idList") == null ) ) {
+					resultList.add(result);
+				}
 				result = new HashMap<String, Object>();
 			}
 			break;

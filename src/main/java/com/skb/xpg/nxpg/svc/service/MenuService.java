@@ -210,8 +210,7 @@ public class MenuService {
 				
 				map.put("menus", null);
 				
-				if (("20".equals(map.get("blk_typ_cd")))
-						|| ("70".equals(map.get("blk_typ_cd"))) && "Y".equals(map.get("is_leaf"))) {
+				if ("20".equals(map.get("blk_typ_cd")) && "N".equals(map.get("is_leaf"))) {
 
 					Map<String, Object> gridbanner = getGridBanner(param.get("menu_stb_svc_id") + "_" + map.get("menu_id").toString());
 					if (gridbanner != null) {
@@ -335,8 +334,13 @@ public class MenuService {
 		
 		String cwparam = "";
 		
+		if (cw == null) {
+			return null;
+		}
 		keyAndValue = CastUtil.getObjectToMap(cw.get("userpage"));
-					
+		if (keyAndValue == null) {
+			return null;
+		}
 		String path = keyAndValue.get("uri").toString();
 		String regex = "\\{(.*?)\\}";
 		path = path.replaceAll(regex, param.get("stb_id"));
@@ -352,10 +356,15 @@ public class MenuService {
 			//시리즈아이디, 에피소드아이디 추출로직
 			String regexMenuId="\\\"MenuIdPreferred\\\"[\\s]*:[\\s]*\\[\"(.*?)\"\\]";
 			Pattern ptn = Pattern.compile(regexMenuId); 
-			Matcher matcher = ptn.matcher(rest); 
-			while(matcher.find()){
-				menuData = Arrays.asList((matcher.group(1)).split("\\,"));
-				break;
+			if (ptn != null) {
+				Matcher matcher = ptn.matcher(rest); 
+				if (matcher != null) {
+
+					while(matcher.find()){
+						menuData = Arrays.asList((matcher.group(1)).split("\\,"));
+						break;
+					}
+				}
 			}
 		}else {
 			menuData = null;
@@ -374,11 +383,16 @@ public class MenuService {
 			
 			// segmentId 10개까지만 가지고 오게 끔 처리
 			String[] segmentIdList = segmentId.split(",");
+			
+			if (segmentIdList == null) {
+				return;
+			}
+			
 			for(int i = 0; i < segmentIdList.length; i++) {
 				if (i == 10) break;
 				segmentId += "," + segmentIdList[i];
 			}
-			if (segmentId.length() > 0) {
+			if (segmentId != null && segmentId.length() > 0) {
 				segmentId = segmentId.substring(1);
 			}
 			

@@ -14,6 +14,7 @@ import com.skb.xpg.nxpg.svc.redis.RedisClient;
 import com.skb.xpg.nxpg.svc.util.CastUtil;
 import com.skb.xpg.nxpg.svc.util.DateUtil;
 import com.skb.xpg.nxpg.svc.util.GridComparator;
+import com.skb.xpg.nxpg.svc.util.LogUtil;
 
 @Service
 public class GridService {
@@ -51,7 +52,9 @@ public class GridService {
 					gridList = mCopyGrids;
 				}
 			}
-			catch(Exception e){}
+			catch(Exception e){
+				LogUtil.error("IF-NXPG-006", "", "", "", "getGrid", e.toString());
+			}
 			
 			for (Iterator<Map<String,Object>> iterator = gridList.iterator(); iterator.hasNext() ; ) {
 				Map<String, Object> map = CastUtil.getObjectToMap(iterator.next());
