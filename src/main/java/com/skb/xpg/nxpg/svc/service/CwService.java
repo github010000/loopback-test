@@ -188,14 +188,14 @@ public class CwService {
 				
 				return result;
 			}else {
-				if(result == null) return result = null;
+//				if(result == null) return null;
 				temp.put("type", type);
 				String regexTitle = "\"sub_title\"[\\s]*:[\\s]*\"([^\"]+)\"";
 				String contentTitle = StrUtil.getRegexString(regexTitle, contentInfo);
 				temp.put("contentTitle", contentTitle);
 				
 				resultList = makeCwRelation(temp, epsd_id);
-				if(resultList != null && resultList.size()>0 && temp.get("status_code") != null) {
+				if(result != null && resultList != null && resultList.size()>0 && temp.get("status_code") != null) {
 					result.put("status_code", temp.get("status_code"));
 					result.put("relation", resultList);
 					result.put("size", resultList.size()+"");
