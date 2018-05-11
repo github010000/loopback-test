@@ -209,7 +209,9 @@ public class MenuService {
 				j++;	//502 위치 찾기 용
 				
 				map.put("menus", null);
-				if ("20".equals(map.get("blk_typ_cd"))) {
+				
+				if (("20".equals(map.get("blk_typ_cd")) && "Y".equals(map.get("is_leaf")))
+						|| ("70".equals(map.get("blk_typ_cd"))) && "Y".equals(map.get("is_leaf"))) {
 
 					Map<String, Object> gridbanner = getGridBanner(param.get("menu_stb_svc_id") + "_" + map.get("menu_id").toString());
 					if (gridbanner != null) {
