@@ -37,41 +37,25 @@
 		<json.path.assert>2.3.0</json.path.assert>
 		<spring.boot.starter>1.5.4.RELEASE</spring.boot.starter>
 	    <spring.boot.starter.log4j2>1.5.4.RELEASE</spring.boot.starter.log4j2>
-			
-		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+		
+        <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
         <sonar.language>java</sonar.language>
 
-		<!-- AppQ 접속 URL 입력 -->
 		<sonar.host.url>http://appq.skbroadband.com</sonar.host.url>
 	
-		<!-- test coverage 산출을 위한 plugin 선택 -->
 		<sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
 	
-		<!-- biz source 경로 -->
 		<sonar.sources>src/main/java</sonar.sources>
 	
-		<!-- test source 경로 -->
 		<sonar.tests>src/test/java</sonar.tests>
 	
-		<!-- 컴파일 된 biz source 경로 -->
 		<sonar.java.binaries>target/classes</sonar.java.binaries>
 	
-		<!-- 컴파일 된 test source 경로 -->
 		<sonar.java.test.binaries>target/test-classes</sonar.java.test.binaries>
-	
-		<!-- sonarqube 분석에 사용될 workspace. 따로 지정하지 않으면 target 경로를 사용합니다 -->
-		<!--sonar.working.directory>${project.basedir}/target</sonar.working.directory -->
-	
-		<!-- junit report 경로 (surefire 플러그인에 따로 arg를 주지 않으면 아래와 같은 경로에 생성됨) -->
 		<sonar.junit.reportsPath>${project.basedir}/target/surefire-reports</sonar.junit.reportsPath>
-	
-		<!-- jacoco integragion test coverage report 경로. jacoco-maven-plugin의 agent-for-ut 
-			설정 안에 있는 destFile 경로와 일치하면 됩니다 -->
 		<sonar.jacoco.reportPath>${project.basedir}/target/jacoco-unit.exec</sonar.jacoco.reportPath>
-	
-		<!-- jacoco unit test coverage report 경로. jacoco-maven-plugin의 agent-for-it 
-			설정 안에 있는 destFile 경로와 일치하면 됩니다 -->
 		<sonar.jacoco.itReportPath>${project.basedir}/target/jacoco-it.exec</sonar.jacoco.itReportPath>
+		
 	</properties>
 
 	<dependencies>
@@ -288,6 +272,12 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
+            
+            <plugin>
+			    <groupId>org.sonarsource.scanner.maven</groupId>
+			    <artifactId>sonar-maven-plugin</artifactId>
+			    <version>3.3.0.603</version>
+			</plugin>
             <!-- integragion test의 verify 수행 -->
             <!-- plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -357,7 +347,6 @@
 						<artifactId>maven-surefire-plugin</artifactId>
 						<configuration>
 							<includes>
-								<include>com/skb/xpg/nxpg/svc/unittest/**/*Tests.java</include>
 								<include>com/skb/xpg/nxpg/svc/unittest/**/*Test.java</include>
 							</includes>
 						</configuration>
