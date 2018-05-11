@@ -394,7 +394,7 @@ public class ControllerTest extends BaseControllerTest {
 	public void get102_normal_success() throws JSONException {
 		headers.add("Content-Type", "application/json;charset=utf-8");
 		headers.add("Accept", "application/json;charset=utf-8");
-		String RequestData = "";
+		String RequestData = u102;
 		String expected = "0000";
 		HttpEntity<String> entity = new HttpEntity<String>(null, headers);
 		ResponseEntity<String> response = restTemplate.exchange(createURLWithPort(RequestData), HttpMethod.GET, entity,
@@ -413,7 +413,7 @@ public class ControllerTest extends BaseControllerTest {
 	public void get401_normal_success() throws JSONException {
 		headers.add("Content-Type", "application/json;charset=utf-8");
 		headers.add("Accept", "application/json;charset=utf-8");
-		String RequestData = "";
+		String RequestData = u401;
 		String expected = "0000";
 		HttpEntity<String> entity = new HttpEntity<String>(null, headers);
 		ResponseEntity<String> response = restTemplate.exchange(createURLWithPort(RequestData), HttpMethod.GET, entity,
@@ -446,467 +446,467 @@ public class ControllerTest extends BaseControllerTest {
 		}
 		assertEquals(200, response.getStatusCodeValue());
 	}
-	
-	@Test
-	public void get001_abnormal_success() throws JSONException {
-		headers.add("Content-Type", "application/json;charset=utf-8");
-		headers.add("Accept", "application/json;charset=utf-8");
-		String RequestData = "";
-		String expected = "9998";
-		HttpEntity<String> entity = new HttpEntity<String>(null, headers);
-		ResponseEntity<String> response = restTemplate.exchange(createURLWithPort(RequestData), HttpMethod.GET, entity,
-				String.class);
-		if (null != response) {
-			System.out.println(response);
-		}
-		try {
-			JSONObject obj = new JSONObject(response.getBody());
-			if (expected.equals(obj.getString("result")) == false) {
-				System.out.println("Fail");
-			}
-		} catch (Exception e) {
-			System.out.println(e.toString());
-		}
-	}
-
-	@Test
-	public void get002_abnormal_success() throws JSONException {
-		headers.add("Content-Type", "application/json;charset=utf-8");
-		headers.add("Accept", "application/json;charset=utf-8");
-		String RequestData = "";
-		String expected = "9998";
-		HttpEntity<String> entity = new HttpEntity<String>(null, headers);
-		ResponseEntity<String> response = restTemplate.exchange(createURLWithPort(RequestData), HttpMethod.GET, entity,
-				String.class);
-		if (null != response) {
-			System.out.println(response);
-		}
-		try {
-			JSONObject obj = new JSONObject(response.getBody());
-			if (expected.equals(obj.getString("result")) == false) {
-				System.out.println("Fail");
-			}
-		} catch (Exception e) {
-			System.out.println(e.toString());
-		}
-	}
-
-	@Test
-	public void get003_abnormal_success() throws JSONException {
-		headers.add("Content-Type", "application/json;charset=utf-8");
-		headers.add("Accept", "application/json;charset=utf-8");
-		String RequestData = "";
-		String expected = "9998";
-		HttpEntity<String> entity = new HttpEntity<String>(null, headers);
-		ResponseEntity<String> response = restTemplate.exchange(createURLWithPort(RequestData), HttpMethod.GET, entity,
-				String.class);
-		if (null != response) {
-			System.out.println(response);
-		}
-		try {
-			JSONObject obj = new JSONObject(response.getBody());
-			if (expected.equals(obj.getString("result")) == false) {
-				System.out.println("Fail");
-			}
-		} catch (Exception e) {
-			System.out.println(e.toString());
-		}
-	}
-
-	@Test
-	public void get005_abnormal_success() throws JSONException {
-		headers.add("Content-Type", "application/json;charset=utf-8");
-		headers.add("Accept", "application/json;charset=utf-8");
-		String RequestData = "";
-		String expected = "9998";
-		HttpEntity<String> entity = new HttpEntity<String>(null, headers);
-		ResponseEntity<String> response = restTemplate.exchange(createURLWithPort(RequestData), HttpMethod.GET, entity,
-				String.class);
-		if (null != response) {
-			System.out.println(response);
-		}
-		try {
-			JSONObject obj = new JSONObject(response.getBody());
-			if (expected.equals(obj.getString("result")) == false) {
-				System.out.println("Fail");
-			}
-		} catch (Exception e) {
-			System.out.println(e.toString());
-		}
-	}
-
-	@Test
-	public void get006_abnormal_success() throws JSONException {
-		headers.add("Content-Type", "application/json;charset=utf-8");
-		headers.add("Accept", "application/json;charset=utf-8");
-		String RequestData = "";
-		String expected = "9998";
-		HttpEntity<String> entity = new HttpEntity<String>(null, headers);
-		ResponseEntity<String> response = restTemplate.exchange(createURLWithPort(RequestData), HttpMethod.GET, entity,
-				String.class);
-		if (null != response) {
-			System.out.println(response);
-		}
-		try {
-			JSONObject obj = new JSONObject(response.getBody());
-			if (expected.equals(obj.getString("result")) == false) {
-				System.out.println("Fail");
-			}
-		} catch (Exception e) {
-			System.out.println(e.toString());
-		}
-	}
-
-	@Test
-	public void get007_abnormal_success() throws JSONException {
-		headers.add("Content-Type", "application/json;charset=utf-8");
-		headers.add("Accept", "application/json;charset=utf-8");
-		String RequestData = "";
-		String expected = "9998";
-		HttpEntity<String> entity = new HttpEntity<String>(null, headers);
-		ResponseEntity<String> response = restTemplate.exchange(createURLWithPort(RequestData), HttpMethod.GET, entity,
-				String.class);
-		if (null != response) {
-			System.out.println(response);
-		}
-		try {
-			JSONObject obj = new JSONObject(response.getBody());
-			if (expected.equals(obj.getString("result")) == false) {
-				System.out.println("Fail");
-			}
-		} catch (Exception e) {
-			System.out.println(e.toString());
-		}
-	}
-
-	@Test
-	public void get008_abnormal_success() throws JSONException {
-		headers.add("Content-Type", "application/json;charset=utf-8");
-		headers.add("Accept", "application/json;charset=utf-8");
-		String RequestData = "";
-		String expected = "9998";
-		HttpEntity<String> entity = new HttpEntity<String>(null, headers);
-		ResponseEntity<String> response = restTemplate.exchange(createURLWithPort(RequestData), HttpMethod.GET, entity,
-				String.class);
-		if (null != response) {
-			System.out.println(response);
-		}
-		try {
-			JSONObject obj = new JSONObject(response.getBody());
-			if (expected.equals(obj.getString("result")) == false) {
-				System.out.println("Fail");
-			}
-		} catch (Exception e) {
-			System.out.println(e.toString());
-		}
-	}
-
-	@Test
-	public void get009_abnormal_success() throws JSONException {
-		headers.add("Content-Type", "application/json;charset=utf-8");
-		headers.add("Accept", "application/json;charset=utf-8");
-		String RequestData = "";
-		String expected = "9998";
-		HttpEntity<String> entity = new HttpEntity<String>(null, headers);
-		ResponseEntity<String> response = restTemplate.exchange(createURLWithPort(RequestData), HttpMethod.GET, entity,
-				String.class);
-		if (null != response) {
-			System.out.println(response);
-		}
-		try {
-			JSONObject obj = new JSONObject(response.getBody());
-			if (expected.equals(obj.getString("result")) == false) {
-				System.out.println("Fail");
-			}
-		} catch (Exception e) {
-			System.out.println(e.toString());
-		}
-	}
-
-	@Test
-	public void get010_abnormal_success() throws JSONException {
-		headers.add("Content-Type", "application/json;charset=utf-8");
-		headers.add("Accept", "application/json;charset=utf-8");
-		String RequestData = "";
-		String expected = "9998";
-		HttpEntity<String> entity = new HttpEntity<String>(null, headers);
-		ResponseEntity<String> response = restTemplate.exchange(createURLWithPort(RequestData), HttpMethod.GET, entity,
-				String.class);
-		if (null != response) {
-			System.out.println(response);
-		}
-		try {
-			JSONObject obj = new JSONObject(response.getBody());
-			if (expected.equals(obj.getString("result")) == false) {
-				System.out.println("Fail");
-			}
-		} catch (Exception e) {
-			System.out.println(e.toString());
-		}
-	}
-
-	@Test
-	public void get011_abnormal_success() throws JSONException {
-		headers.add("Content-Type", "application/json;charset=utf-8");
-		headers.add("Accept", "application/json;charset=utf-8");
-		String RequestData = "";
-		String expected = "9998";
-		HttpEntity<String> entity = new HttpEntity<String>(null, headers);
-		ResponseEntity<String> response = restTemplate.exchange(createURLWithPort(RequestData), HttpMethod.GET, entity,
-				String.class);
-		if (null != response) {
-			System.out.println(response);
-		}
-		try {
-			JSONObject obj = new JSONObject(response.getBody());
-			if (expected.equals(obj.getString("result")) == false) {
-				System.out.println("Fail");
-			}
-		} catch (Exception e) {
-			System.out.println(e.toString());
-		}
-	}
-
-	@Test
-	public void get012_abnormal_success() throws JSONException {
-		headers.add("Content-Type", "application/json;charset=utf-8");
-		headers.add("Accept", "application/json;charset=utf-8");
-		String RequestData = "";
-		String expected = "9998";
-		HttpEntity<String> entity = new HttpEntity<String>(null, headers);
-		ResponseEntity<String> response = restTemplate.exchange(createURLWithPort(RequestData), HttpMethod.GET, entity,
-				String.class);
-		if (null != response) {
-			System.out.println(response);
-		}
-		try {
-			JSONObject obj = new JSONObject(response.getBody());
-			if (expected.equals(obj.getString("result")) == false) {
-				System.out.println("Fail");
-			}
-		} catch (Exception e) {
-			System.out.println(e.toString());
-		}
-	}
-
-	@Test
-	public void get013_abnormal_success() throws JSONException {
-		headers.add("Content-Type", "application/json;charset=utf-8");
-		headers.add("Accept", "application/json;charset=utf-8");
-		String RequestData = "";
-		String expected = "9998";
-		HttpEntity<String> entity = new HttpEntity<String>(null, headers);
-		ResponseEntity<String> response = restTemplate.exchange(createURLWithPort(RequestData), HttpMethod.GET, entity,
-				String.class);
-		if (null != response) {
-			System.out.println(response);
-		}
-		try {
-			JSONObject obj = new JSONObject(response.getBody());
-			if (expected.equals(obj.getString("result")) == false) {
-				System.out.println("Fail");
-			}
-		} catch (Exception e) {
-			System.out.println(e.toString());
-		}
-	}
-
-	@Test
-	public void get014_abnormal_success() throws JSONException {
-		headers.add("Content-Type", "application/json;charset=utf-8");
-		headers.add("Accept", "application/json;charset=utf-8");
-		String RequestData = "";
-		String expected = "9998";
-		HttpEntity<String> entity = new HttpEntity<String>(null, headers);
-		ResponseEntity<String> response = restTemplate.exchange(createURLWithPort(RequestData), HttpMethod.GET, entity,
-				String.class);
-		if (null != response) {
-			System.out.println(response);
-		}
-		try {
-			JSONObject obj = new JSONObject(response.getBody());
-			if (expected.equals(obj.getString("result")) == false) {
-				System.out.println("Fail");
-			}
-		} catch (Exception e) {
-			System.out.println(e.toString());
-		}
-	}
-
-	@Test
-	public void get015_abnormal_success() throws JSONException {
-		headers.add("Content-Type", "application/json;charset=utf-8");
-		headers.add("Accept", "application/json;charset=utf-8");
-		String RequestData = "";
-		String expected = "9998";
-		HttpEntity<String> entity = new HttpEntity<String>(null, headers);
-		ResponseEntity<String> response = restTemplate.exchange(createURLWithPort(RequestData), HttpMethod.GET, entity,
-				String.class);
-		if (null != response) {
-			System.out.println(response);
-		}
-		try {
-			JSONObject obj = new JSONObject(response.getBody());
-			if (expected.equals(obj.getString("result")) == false) {
-				System.out.println("Fail");
-			}
-		} catch (Exception e) {
-			System.out.println(e.toString());
-		}
-	}
-
-	@Test
-	public void get016_abnormal_success() throws JSONException {
-		headers.add("Content-Type", "application/json;charset=utf-8");
-		headers.add("Accept", "application/json;charset=utf-8");
-		String RequestData = "";
-		String expected = "9998";
-		HttpEntity<String> entity = new HttpEntity<String>(null, headers);
-		ResponseEntity<String> response = restTemplate.exchange(createURLWithPort(RequestData), HttpMethod.GET, entity,
-				String.class);
-		if (null != response) {
-			System.out.println(response);
-		}
-		try {
-			JSONObject obj = new JSONObject(response.getBody());
-			if (expected.equals(obj.getString("result")) == false) {
-				System.out.println("Fail");
-			}
-		} catch (Exception e) {
-			System.out.println(e.toString());
-		}
-	}
-
-	@Test
-	public void get017_abnormal_success() throws JSONException {
-		headers.add("Content-Type", "application/json;charset=utf-8");
-		headers.add("Accept", "application/json;charset=utf-8");
-		String RequestData = "";
-		String expected = "9998";
-		HttpEntity<String> entity = new HttpEntity<String>(null, headers);
-		ResponseEntity<String> response = restTemplate.exchange(createURLWithPort(RequestData), HttpMethod.GET, entity,
-				String.class);
-		if (null != response) {
-			System.out.println(response);
-		}
-		try {
-			JSONObject obj = new JSONObject(response.getBody());
-			if (expected.equals(obj.getString("result")) == false) {
-				System.out.println("Fail");
-			}
-		} catch (Exception e) {
-			System.out.println(e.toString());
-		}
-	}
-
-	@Test
-	public void get018_abnormal_success() throws JSONException {
-		headers.add("Content-Type", "application/json;charset=utf-8");
-		headers.add("Accept", "application/json;charset=utf-8");
-		String RequestData = "";
-		String expected = "9998";
-		HttpEntity<String> entity = new HttpEntity<String>(null, headers);
-		ResponseEntity<String> response = restTemplate.exchange(createURLWithPort(RequestData), HttpMethod.GET, entity,
-				String.class);
-		if (null != response) {
-			System.out.println(response);
-		}
-		try {
-			JSONObject obj = new JSONObject(response.getBody());
-			if (expected.equals(obj.getString("result")) == false) {
-				System.out.println("Fail");
-			}
-		} catch (Exception e) {
-			System.out.println(e.toString());
-		}
-	}
-
-	@Test
-	public void get101_abnormal_success() throws JSONException {
-		headers.add("Content-Type", "application/json;charset=utf-8");
-		headers.add("Accept", "application/json;charset=utf-8");
-		String RequestData = "";
-		String expected = "9998";
-		HttpEntity<String> entity = new HttpEntity<String>(null, headers);
-		ResponseEntity<String> response = restTemplate.exchange(createURLWithPort(RequestData), HttpMethod.GET, entity,
-				String.class);
-		if (null != response) {
-			System.out.println(response);
-		}
-		try {
-			JSONObject obj = new JSONObject(response.getBody());
-			if (expected.equals(obj.getString("result")) == false) {
-				System.out.println("Fail");
-			}
-		} catch (Exception e) {
-			System.out.println(e.toString());
-		}
-	}
-
-	@Test
-	public void get102_abnormal_success() throws JSONException {
-		headers.add("Content-Type", "application/json;charset=utf-8");
-		headers.add("Accept", "application/json;charset=utf-8");
-		String RequestData = "";
-		String expected = "9998";
-		HttpEntity<String> entity = new HttpEntity<String>(null, headers);
-		ResponseEntity<String> response = restTemplate.exchange(createURLWithPort(RequestData), HttpMethod.GET, entity,
-				String.class);
-		if (null != response) {
-			System.out.println(response);
-		}
-		try {
-			JSONObject obj = new JSONObject(response.getBody());
-			if (expected.equals(obj.getString("result")) == false) {
-				System.out.println("Fail");
-			}
-		} catch (Exception e) {
-			System.out.println(e.toString());
-		}
-	}
-
-	@Test
-	public void get401_abnormal_success() throws JSONException {
-		headers.add("Content-Type", "application/json;charset=utf-8");
-		headers.add("Accept", "application/json;charset=utf-8");
-		String RequestData = "";
-		String expected = "9998";
-		HttpEntity<String> entity = new HttpEntity<String>(null, headers);
-		ResponseEntity<String> response = restTemplate.exchange(createURLWithPort(RequestData), HttpMethod.GET, entity,
-				String.class);
-		if (null != response) {
-			System.out.println(response);
-		}
-		try {
-			JSONObject obj = new JSONObject(response.getBody());
-			if (expected.equals(obj.getString("result")) == false) {
-				System.out.println("Fail");
-			}
-		} catch (Exception e) {
-			System.out.println(e.toString());
-		}
-	}
-
-	@Test
-	public void get403_abnormal_success() throws JSONException {
-		headers.add("Content-Type", "application/json;charset=utf-8");
-		headers.add("Accept", "application/json;charset=utf-8");
-		String RequestData = "";
-		String expected = "9998";
-		HttpEntity<String> entity = new HttpEntity<String>(null, headers);
-		ResponseEntity<String> response = restTemplate.exchange(createURLWithPort(RequestData), HttpMethod.GET, entity,
-				String.class);
-		if (null != response) {
-			System.out.println(response);
-		}
-		try {
-			JSONObject obj = new JSONObject(response.getBody());
-			if (expected.equals(obj.getString("result")) == false) {
-				System.out.println("Fail");
-			}
-		} catch (Exception e) {
-			System.out.println(e.toString());
-		}
-	}
+//	
+//	@Test
+//	public void get001_abnormal_success() throws JSONException {
+//		headers.add("Content-Type", "application/json;charset=utf-8");
+//		headers.add("Accept", "application/json;charset=utf-8");
+//		String RequestData = "";
+//		String expected = "9998";
+//		HttpEntity<String> entity = new HttpEntity<String>(null, headers);
+//		ResponseEntity<String> response = restTemplate.exchange(createURLWithPort(RequestData), HttpMethod.GET, entity,
+//				String.class);
+//		if (null != response) {
+//			System.out.println(response);
+//		}
+//		try {
+//			JSONObject obj = new JSONObject(response.getBody());
+//			if (expected.equals(obj.getString("result")) == false) {
+//				System.out.println("Fail");
+//			}
+//		} catch (Exception e) {
+//			System.out.println(e.toString());
+//		}
+//	}
+//
+//	@Test
+//	public void get002_abnormal_success() throws JSONException {
+//		headers.add("Content-Type", "application/json;charset=utf-8");
+//		headers.add("Accept", "application/json;charset=utf-8");
+//		String RequestData = "";
+//		String expected = "9998";
+//		HttpEntity<String> entity = new HttpEntity<String>(null, headers);
+//		ResponseEntity<String> response = restTemplate.exchange(createURLWithPort(RequestData), HttpMethod.GET, entity,
+//				String.class);
+//		if (null != response) {
+//			System.out.println(response);
+//		}
+//		try {
+//			JSONObject obj = new JSONObject(response.getBody());
+//			if (expected.equals(obj.getString("result")) == false) {
+//				System.out.println("Fail");
+//			}
+//		} catch (Exception e) {
+//			System.out.println(e.toString());
+//		}
+//	}
+//
+//	@Test
+//	public void get003_abnormal_success() throws JSONException {
+//		headers.add("Content-Type", "application/json;charset=utf-8");
+//		headers.add("Accept", "application/json;charset=utf-8");
+//		String RequestData = "";
+//		String expected = "9998";
+//		HttpEntity<String> entity = new HttpEntity<String>(null, headers);
+//		ResponseEntity<String> response = restTemplate.exchange(createURLWithPort(RequestData), HttpMethod.GET, entity,
+//				String.class);
+//		if (null != response) {
+//			System.out.println(response);
+//		}
+//		try {
+//			JSONObject obj = new JSONObject(response.getBody());
+//			if (expected.equals(obj.getString("result")) == false) {
+//				System.out.println("Fail");
+//			}
+//		} catch (Exception e) {
+//			System.out.println(e.toString());
+//		}
+//	}
+//
+//	@Test
+//	public void get005_abnormal_success() throws JSONException {
+//		headers.add("Content-Type", "application/json;charset=utf-8");
+//		headers.add("Accept", "application/json;charset=utf-8");
+//		String RequestData = "";
+//		String expected = "9998";
+//		HttpEntity<String> entity = new HttpEntity<String>(null, headers);
+//		ResponseEntity<String> response = restTemplate.exchange(createURLWithPort(RequestData), HttpMethod.GET, entity,
+//				String.class);
+//		if (null != response) {
+//			System.out.println(response);
+//		}
+//		try {
+//			JSONObject obj = new JSONObject(response.getBody());
+//			if (expected.equals(obj.getString("result")) == false) {
+//				System.out.println("Fail");
+//			}
+//		} catch (Exception e) {
+//			System.out.println(e.toString());
+//		}
+//	}
+//
+//	@Test
+//	public void get006_abnormal_success() throws JSONException {
+//		headers.add("Content-Type", "application/json;charset=utf-8");
+//		headers.add("Accept", "application/json;charset=utf-8");
+//		String RequestData = "";
+//		String expected = "9998";
+//		HttpEntity<String> entity = new HttpEntity<String>(null, headers);
+//		ResponseEntity<String> response = restTemplate.exchange(createURLWithPort(RequestData), HttpMethod.GET, entity,
+//				String.class);
+//		if (null != response) {
+//			System.out.println(response);
+//		}
+//		try {
+//			JSONObject obj = new JSONObject(response.getBody());
+//			if (expected.equals(obj.getString("result")) == false) {
+//				System.out.println("Fail");
+//			}
+//		} catch (Exception e) {
+//			System.out.println(e.toString());
+//		}
+//	}
+//
+//	@Test
+//	public void get007_abnormal_success() throws JSONException {
+//		headers.add("Content-Type", "application/json;charset=utf-8");
+//		headers.add("Accept", "application/json;charset=utf-8");
+//		String RequestData = "";
+//		String expected = "9998";
+//		HttpEntity<String> entity = new HttpEntity<String>(null, headers);
+//		ResponseEntity<String> response = restTemplate.exchange(createURLWithPort(RequestData), HttpMethod.GET, entity,
+//				String.class);
+//		if (null != response) {
+//			System.out.println(response);
+//		}
+//		try {
+//			JSONObject obj = new JSONObject(response.getBody());
+//			if (expected.equals(obj.getString("result")) == false) {
+//				System.out.println("Fail");
+//			}
+//		} catch (Exception e) {
+//			System.out.println(e.toString());
+//		}
+//	}
+//
+//	@Test
+//	public void get008_abnormal_success() throws JSONException {
+//		headers.add("Content-Type", "application/json;charset=utf-8");
+//		headers.add("Accept", "application/json;charset=utf-8");
+//		String RequestData = "";
+//		String expected = "9998";
+//		HttpEntity<String> entity = new HttpEntity<String>(null, headers);
+//		ResponseEntity<String> response = restTemplate.exchange(createURLWithPort(RequestData), HttpMethod.GET, entity,
+//				String.class);
+//		if (null != response) {
+//			System.out.println(response);
+//		}
+//		try {
+//			JSONObject obj = new JSONObject(response.getBody());
+//			if (expected.equals(obj.getString("result")) == false) {
+//				System.out.println("Fail");
+//			}
+//		} catch (Exception e) {
+//			System.out.println(e.toString());
+//		}
+//	}
+//
+//	@Test
+//	public void get009_abnormal_success() throws JSONException {
+//		headers.add("Content-Type", "application/json;charset=utf-8");
+//		headers.add("Accept", "application/json;charset=utf-8");
+//		String RequestData = "";
+//		String expected = "9998";
+//		HttpEntity<String> entity = new HttpEntity<String>(null, headers);
+//		ResponseEntity<String> response = restTemplate.exchange(createURLWithPort(RequestData), HttpMethod.GET, entity,
+//				String.class);
+//		if (null != response) {
+//			System.out.println(response);
+//		}
+//		try {
+//			JSONObject obj = new JSONObject(response.getBody());
+//			if (expected.equals(obj.getString("result")) == false) {
+//				System.out.println("Fail");
+//			}
+//		} catch (Exception e) {
+//			System.out.println(e.toString());
+//		}
+//	}
+//
+//	@Test
+//	public void get010_abnormal_success() throws JSONException {
+//		headers.add("Content-Type", "application/json;charset=utf-8");
+//		headers.add("Accept", "application/json;charset=utf-8");
+//		String RequestData = "";
+//		String expected = "9998";
+//		HttpEntity<String> entity = new HttpEntity<String>(null, headers);
+//		ResponseEntity<String> response = restTemplate.exchange(createURLWithPort(RequestData), HttpMethod.GET, entity,
+//				String.class);
+//		if (null != response) {
+//			System.out.println(response);
+//		}
+//		try {
+//			JSONObject obj = new JSONObject(response.getBody());
+//			if (expected.equals(obj.getString("result")) == false) {
+//				System.out.println("Fail");
+//			}
+//		} catch (Exception e) {
+//			System.out.println(e.toString());
+//		}
+//	}
+//
+//	@Test
+//	public void get011_abnormal_success() throws JSONException {
+//		headers.add("Content-Type", "application/json;charset=utf-8");
+//		headers.add("Accept", "application/json;charset=utf-8");
+//		String RequestData = "";
+//		String expected = "9998";
+//		HttpEntity<String> entity = new HttpEntity<String>(null, headers);
+//		ResponseEntity<String> response = restTemplate.exchange(createURLWithPort(RequestData), HttpMethod.GET, entity,
+//				String.class);
+//		if (null != response) {
+//			System.out.println(response);
+//		}
+//		try {
+//			JSONObject obj = new JSONObject(response.getBody());
+//			if (expected.equals(obj.getString("result")) == false) {
+//				System.out.println("Fail");
+//			}
+//		} catch (Exception e) {
+//			System.out.println(e.toString());
+//		}
+//	}
+//
+//	@Test
+//	public void get012_abnormal_success() throws JSONException {
+//		headers.add("Content-Type", "application/json;charset=utf-8");
+//		headers.add("Accept", "application/json;charset=utf-8");
+//		String RequestData = "";
+//		String expected = "9998";
+//		HttpEntity<String> entity = new HttpEntity<String>(null, headers);
+//		ResponseEntity<String> response = restTemplate.exchange(createURLWithPort(RequestData), HttpMethod.GET, entity,
+//				String.class);
+//		if (null != response) {
+//			System.out.println(response);
+//		}
+//		try {
+//			JSONObject obj = new JSONObject(response.getBody());
+//			if (expected.equals(obj.getString("result")) == false) {
+//				System.out.println("Fail");
+//			}
+//		} catch (Exception e) {
+//			System.out.println(e.toString());
+//		}
+//	}
+//
+//	@Test
+//	public void get013_abnormal_success() throws JSONException {
+//		headers.add("Content-Type", "application/json;charset=utf-8");
+//		headers.add("Accept", "application/json;charset=utf-8");
+//		String RequestData = "";
+//		String expected = "9998";
+//		HttpEntity<String> entity = new HttpEntity<String>(null, headers);
+//		ResponseEntity<String> response = restTemplate.exchange(createURLWithPort(RequestData), HttpMethod.GET, entity,
+//				String.class);
+//		if (null != response) {
+//			System.out.println(response);
+//		}
+//		try {
+//			JSONObject obj = new JSONObject(response.getBody());
+//			if (expected.equals(obj.getString("result")) == false) {
+//				System.out.println("Fail");
+//			}
+//		} catch (Exception e) {
+//			System.out.println(e.toString());
+//		}
+//	}
+//
+//	@Test
+//	public void get014_abnormal_success() throws JSONException {
+//		headers.add("Content-Type", "application/json;charset=utf-8");
+//		headers.add("Accept", "application/json;charset=utf-8");
+//		String RequestData = "";
+//		String expected = "9998";
+//		HttpEntity<String> entity = new HttpEntity<String>(null, headers);
+//		ResponseEntity<String> response = restTemplate.exchange(createURLWithPort(RequestData), HttpMethod.GET, entity,
+//				String.class);
+//		if (null != response) {
+//			System.out.println(response);
+//		}
+//		try {
+//			JSONObject obj = new JSONObject(response.getBody());
+//			if (expected.equals(obj.getString("result")) == false) {
+//				System.out.println("Fail");
+//			}
+//		} catch (Exception e) {
+//			System.out.println(e.toString());
+//		}
+//	}
+//
+//	@Test
+//	public void get015_abnormal_success() throws JSONException {
+//		headers.add("Content-Type", "application/json;charset=utf-8");
+//		headers.add("Accept", "application/json;charset=utf-8");
+//		String RequestData = "";
+//		String expected = "9998";
+//		HttpEntity<String> entity = new HttpEntity<String>(null, headers);
+//		ResponseEntity<String> response = restTemplate.exchange(createURLWithPort(RequestData), HttpMethod.GET, entity,
+//				String.class);
+//		if (null != response) {
+//			System.out.println(response);
+//		}
+//		try {
+//			JSONObject obj = new JSONObject(response.getBody());
+//			if (expected.equals(obj.getString("result")) == false) {
+//				System.out.println("Fail");
+//			}
+//		} catch (Exception e) {
+//			System.out.println(e.toString());
+//		}
+//	}
+//
+//	@Test
+//	public void get016_abnormal_success() throws JSONException {
+//		headers.add("Content-Type", "application/json;charset=utf-8");
+//		headers.add("Accept", "application/json;charset=utf-8");
+//		String RequestData = "";
+//		String expected = "9998";
+//		HttpEntity<String> entity = new HttpEntity<String>(null, headers);
+//		ResponseEntity<String> response = restTemplate.exchange(createURLWithPort(RequestData), HttpMethod.GET, entity,
+//				String.class);
+//		if (null != response) {
+//			System.out.println(response);
+//		}
+//		try {
+//			JSONObject obj = new JSONObject(response.getBody());
+//			if (expected.equals(obj.getString("result")) == false) {
+//				System.out.println("Fail");
+//			}
+//		} catch (Exception e) {
+//			System.out.println(e.toString());
+//		}
+//	}
+//
+//	@Test
+//	public void get017_abnormal_success() throws JSONException {
+//		headers.add("Content-Type", "application/json;charset=utf-8");
+//		headers.add("Accept", "application/json;charset=utf-8");
+//		String RequestData = "";
+//		String expected = "9998";
+//		HttpEntity<String> entity = new HttpEntity<String>(null, headers);
+//		ResponseEntity<String> response = restTemplate.exchange(createURLWithPort(RequestData), HttpMethod.GET, entity,
+//				String.class);
+//		if (null != response) {
+//			System.out.println(response);
+//		}
+//		try {
+//			JSONObject obj = new JSONObject(response.getBody());
+//			if (expected.equals(obj.getString("result")) == false) {
+//				System.out.println("Fail");
+//			}
+//		} catch (Exception e) {
+//			System.out.println(e.toString());
+//		}
+//	}
+//
+//	@Test
+//	public void get018_abnormal_success() throws JSONException {
+//		headers.add("Content-Type", "application/json;charset=utf-8");
+//		headers.add("Accept", "application/json;charset=utf-8");
+//		String RequestData = "";
+//		String expected = "9998";
+//		HttpEntity<String> entity = new HttpEntity<String>(null, headers);
+//		ResponseEntity<String> response = restTemplate.exchange(createURLWithPort(RequestData), HttpMethod.GET, entity,
+//				String.class);
+//		if (null != response) {
+//			System.out.println(response);
+//		}
+//		try {
+//			JSONObject obj = new JSONObject(response.getBody());
+//			if (expected.equals(obj.getString("result")) == false) {
+//				System.out.println("Fail");
+//			}
+//		} catch (Exception e) {
+//			System.out.println(e.toString());
+//		}
+//	}
+//
+//	@Test
+//	public void get101_abnormal_success() throws JSONException {
+//		headers.add("Content-Type", "application/json;charset=utf-8");
+//		headers.add("Accept", "application/json;charset=utf-8");
+//		String RequestData = "";
+//		String expected = "9998";
+//		HttpEntity<String> entity = new HttpEntity<String>(null, headers);
+//		ResponseEntity<String> response = restTemplate.exchange(createURLWithPort(RequestData), HttpMethod.GET, entity,
+//				String.class);
+//		if (null != response) {
+//			System.out.println(response);
+//		}
+//		try {
+//			JSONObject obj = new JSONObject(response.getBody());
+//			if (expected.equals(obj.getString("result")) == false) {
+//				System.out.println("Fail");
+//			}
+//		} catch (Exception e) {
+//			System.out.println(e.toString());
+//		}
+//	}
+//
+//	@Test
+//	public void get102_abnormal_success() throws JSONException {
+//		headers.add("Content-Type", "application/json;charset=utf-8");
+//		headers.add("Accept", "application/json;charset=utf-8");
+//		String RequestData = "";
+//		String expected = "9998";
+//		HttpEntity<String> entity = new HttpEntity<String>(null, headers);
+//		ResponseEntity<String> response = restTemplate.exchange(createURLWithPort(RequestData), HttpMethod.GET, entity,
+//				String.class);
+//		if (null != response) {
+//			System.out.println(response);
+//		}
+//		try {
+//			JSONObject obj = new JSONObject(response.getBody());
+//			if (expected.equals(obj.getString("result")) == false) {
+//				System.out.println("Fail");
+//			}
+//		} catch (Exception e) {
+//			System.out.println(e.toString());
+//		}
+//	}
+//
+//	@Test
+//	public void get401_abnormal_success() throws JSONException {
+//		headers.add("Content-Type", "application/json;charset=utf-8");
+//		headers.add("Accept", "application/json;charset=utf-8");
+//		String RequestData = "";
+//		String expected = "9998";
+//		HttpEntity<String> entity = new HttpEntity<String>(null, headers);
+//		ResponseEntity<String> response = restTemplate.exchange(createURLWithPort(RequestData), HttpMethod.GET, entity,
+//				String.class);
+//		if (null != response) {
+//			System.out.println(response);
+//		}
+//		try {
+//			JSONObject obj = new JSONObject(response.getBody());
+//			if (expected.equals(obj.getString("result")) == false) {
+//				System.out.println("Fail");
+//			}
+//		} catch (Exception e) {
+//			System.out.println(e.toString());
+//		}
+//	}
+//
+//	@Test
+//	public void get403_abnormal_success() throws JSONException {
+//		headers.add("Content-Type", "application/json;charset=utf-8");
+//		headers.add("Accept", "application/json;charset=utf-8");
+//		String RequestData = "";
+//		String expected = "9998";
+//		HttpEntity<String> entity = new HttpEntity<String>(null, headers);
+//		ResponseEntity<String> response = restTemplate.exchange(createURLWithPort(RequestData), HttpMethod.GET, entity,
+//				String.class);
+//		if (null != response) {
+//			System.out.println(response);
+//		}
+//		try {
+//			JSONObject obj = new JSONObject(response.getBody());
+//			if (expected.equals(obj.getString("result")) == false) {
+//				System.out.println("Fail");
+//			}
+//		} catch (Exception e) {
+//			System.out.println(e.toString());
+//		}
+//	}
 
 }
