@@ -15,7 +15,7 @@ import com.skb.xpg.nxpg.svc.util.LogUtil;
 import redis.clients.jedis.exceptions.JedisConnectionException;
 
 @Configuration
-@Profile({"local", "dev"})
+@Profile({"local", "dev", "test"})
 public class SecondSingleConfig {
 
 	@Value("${second.redis.host}")
