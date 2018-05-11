@@ -14,13 +14,5 @@ public class ServiceTest extends BaseServiceTest {
 
 	}
 	
-	// 1. CNTM-001 (일반 시놉시스) 성공 
-	@Ignore
-	@Test	
-	public void getRecentContents_normal_success() {
-		// 입력 값 설정
-		
-    }
-
 	
 }

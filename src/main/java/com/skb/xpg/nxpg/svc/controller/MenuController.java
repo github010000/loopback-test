@@ -184,7 +184,7 @@ public class MenuController {
 		rtn.put("IF", IF);
 		rtn.put("request_time", DateUtil.getYYYYMMDDhhmmss());
 
-		if (StrUtil.isEmpty(param.get("prd_prc_id_lst")) || param.get("prd_prc_id_lst").isEmpty() || param.get("menu_id").isEmpty()) {
+		if (StrUtil.isEmpty(param.get("prd_prc_id_lst")) || StrUtil.isEmpty(param.get("menu_id"))) {
 			rtn.put("result", "9999");
 		} else {
 			if (defaults != null && StrUtil.isEmpty(param.get("menu_stb_svc_id"))) {
