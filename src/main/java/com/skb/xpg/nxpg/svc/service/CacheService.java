@@ -37,8 +37,8 @@ public class CacheService {
 		if (startTime == 0) {
 			startTime = System.nanoTime();
 		}
-		double now_time = System.nanoTime();
-		double difference = now_time - startTime;
+		long now_time = System.nanoTime();
+		long difference = now_time - startTime;
 		
 		if (difference <= (switchingTime * 1000000)) {
 			

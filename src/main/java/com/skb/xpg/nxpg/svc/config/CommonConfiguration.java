@@ -63,7 +63,7 @@ public class CommonConfiguration {
 				}
 			}
 		
-			if (!profile.isEmpty() && profile.length() > 1) {
+			if (profile != null && !profile.isEmpty() && profile.length() > 1) {
 				profile.substring(1);
 			}
 		}
