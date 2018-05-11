@@ -195,7 +195,7 @@ public class CwService {
 				temp.put("contentTitle", contentTitle);
 				
 				resultList = makeCwRelation(temp, epsd_id);
-				if(resultList != null && resultList.size()>0) {
+				if(resultList != null && resultList.size()>0 && temp.get("status_code") != null) {
 					result.put("status_code", temp.get("status_code"));
 					result.put("relation", resultList);
 					result.put("size", resultList.size()+"");
