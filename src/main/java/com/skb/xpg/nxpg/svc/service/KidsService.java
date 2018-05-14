@@ -140,6 +140,7 @@ public class KidsService {
 					DateUtil.getCompare(products, "prd_prc_fr_dt", "purc_wat_to_dt", true);
 					rtn.put("purchares", purchares.get("products"));
 				}
+				synop.put("menu_id", CastUtil.getString(param.get("cur_menu")));
 				rtn.put("result", "0000");
 				rtn.put("contents", synop);
 			} else {
