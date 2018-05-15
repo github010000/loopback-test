@@ -2,13 +2,14 @@
 applications:
 - name: xpg-nxpg-svc
   host: xpg-nxpg
-  memory: 1024M
+  memory: 2048M
   instances: 1
   buildpack: liberty-for-java
   path: ./defaultServer
   services:
     - prd-xpg-common-redis
     - prd-xpg-common-zipkin
+    - prd-xpg-common-syslog
     - prd-xpg-common-auto-scaling
   env:
     SPRING_PROFILES_ACTIVE: prdssu

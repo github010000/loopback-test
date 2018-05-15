@@ -46,8 +46,13 @@ public class ContentsService {
 			epsd_rslu_id = param.get("epsd_rslu_id");
 
 			Map<String, Object> mapping = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.CONTENTS_CIDINFO, epsd_rslu_id));
-			sris_id = mapping.get("sris_id") + "";
-			epsd_id = mapping.get("epsd_id") + "";
+			if (mapping != null) {
+				sris_id = mapping.get("sris_id") + "";
+				epsd_id = mapping.get("epsd_id") + "";
+			} else {
+				rtn.put("result", "9998");
+				return;
+			}
 		} 
 		
 		epsd = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.SYNOPSIS_SRISINFO, epsd_id));

@@ -114,6 +114,7 @@ public class CwService {
 		
 		//기존 콘텐츠 아이디 추출
 		String epsd_id = CastUtil.getString(param.get("epsd_id"));
+		String epsd_rslu_id = CastUtil.getString(param.get("epsd_rslu_id"));
 		String cw_call_id = CastUtil.getString(param.get("cw_call_id"));
 //		String epsd_id = (String)param.get("epsd_id");
 		param.put("itemType", "VIDEO_CONTENT");
@@ -129,9 +130,12 @@ public class CwService {
 			//시리즈아이디, 에피소드아이디 추출로직
 			String regex="\"epsd_rslu_id\"[\\s]*:[\\s]*\"([^\"]+)\"";
 			String contentId = StrUtil.getRegexString(regex, contentInfo);
-			param.put("con_id", contentId);
-			
-			
+
+			if(epsd_rslu_id != null && !epsd_rslu_id.isEmpty()) {
+				param.put("con_id", epsd_rslu_id);
+			}else {
+				param.put("con_id", contentId);
+			}
 			
 			
 			String type = CastUtil.getString(param.get("type"));
