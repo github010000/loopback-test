@@ -511,73 +511,81 @@ public class CwService {
 		List<String> idList = new ArrayList<String>();
 		
 		
+		if((sections != null && !sections.isEmpty()) || (oneSecBlocks != null && !oneSecBlocks.isEmpty())) {
+			
+			switch(type) {
+			
+			case "all": case "onepage":
+	//			if(sections!= null && !sections.isEmpty()) {
+					for(Map<String, Object>sectionMap:sections) {
 		
-		switch(type) {
+						List<Map<String, Object>> blocks = null;
+						blocks = CastUtil.getObjectToMapList(sectionMap.get("blocks"));
+						if(blocks != null) {
+							for(Map<String, Object>blockMap:blocks) {
+								//데이터 생성 로직
+								makeItem(blockMap, result, idList);
+								idList = new ArrayList<String>();
+							}
+						}
+						result.put("sectionId", sectionMap.get("sectionId"));
+						result.put("trackId", objMap.get("trackId"));
 		
-		case "all": case "onepage":
-			for(Map<String, Object>sectionMap:sections) {
-
-				List<Map<String, Object>> blocks = null;
-				blocks = CastUtil.getObjectToMapList(sectionMap.get("blocks"));
-				if(blocks != null) {
-					for(Map<String, Object>blockMap:blocks) {
-						//데이터 생성 로직
-						makeItem(blockMap, result, idList);
-						idList = new ArrayList<String>();
+						if( !( "all".equals(type) && result.get("idList") == null ) ) {
+							resultList.add(result);
+						}
+						result = new HashMap<String, Object>();
 					}
-				}
-				result.put("sectionId", sectionMap.get("sectionId"));
-				result.put("trackId", objMap.get("trackId"));
-
-				if( !( "all".equals(type) && result.get("idList") == null ) ) {
-					resultList.add(result);
-				}
-				result = new HashMap<String, Object>();
-			}
-			break;
-			
-		case "multi": case "section":
-			for(Map<String, Object>sectionMap:sections) {
-				result.put("sectionId", sectionMap.get("sectionId"));
-				result.put("trackId", objMap.get("trackId"));
-				makeItem(sectionMap, result, idList);
-				idList = new ArrayList<String>();
-				resultList.add(result);
-				result = new HashMap<String, Object>();
-			}
-			break;
-			
-		case "onesection":
-			for(Map<String, Object>temp:oneSecBlocks) {
-				result.put("trackId", objMap.get("trackId"));
-				makeItem(temp, result, idList);
-				idList = new ArrayList<String>();
-				resultList.add(result);
-				result = new HashMap<String, Object>();
-			}
-			break;
-			
-		default :
-			for(Map<String, Object>sectionMap:sections) {
-
-				List<Map<String, Object>> blocks = null;
-				blocks = CastUtil.getObjectToMapList(sectionMap.get("blocks"));
-				if(blocks != null) {
-					for(Map<String, Object>blockMap:blocks) {
-						//데이터 생성 로직
-						makeItem(blockMap, result, idList);
+	//			}
+				break;
+				
+			case "multi": case "section":
+	//			if(sections!= null && !sections.isEmpty()) {
+					for(Map<String, Object>sectionMap:sections) {
+						result.put("sectionId", sectionMap.get("sectionId"));
+						result.put("trackId", objMap.get("trackId"));
+						makeItem(sectionMap, result, idList);
 						idList = new ArrayList<String>();
+						resultList.add(result);
+						result = new HashMap<String, Object>();
 					}
+	//			}
+				break;
+				
+			case "onesection":
+	//			if(oneSecBlocks != null && !oneSecBlocks.isEmpty()) {
+					for(Map<String, Object>temp:oneSecBlocks) {
+						result.put("trackId", objMap.get("trackId"));
+						makeItem(temp, result, idList);
+						idList = new ArrayList<String>();
+						resultList.add(result);
+						result = new HashMap<String, Object>();
+					}
+	//			}
+				break;
+				
+			default :
+				for(Map<String, Object>sectionMap:sections) {
+	
+					List<Map<String, Object>> blocks = null;
+					blocks = CastUtil.getObjectToMapList(sectionMap.get("blocks"));
+					if(blocks != null) {
+						for(Map<String, Object>blockMap:blocks) {
+							//데이터 생성 로직
+							makeItem(blockMap, result, idList);
+							idList = new ArrayList<String>();
+						}
+					}
+					result.put("sectionId", sectionMap.get("sectionId"));
+					result.put("trackId", objMap.get("trackId"));
+					if(type == null) type="all";
+					if( !("all".equals(type) && result.get("idList") == null ) ) {
+						resultList.add(result);
+					}
+					result = new HashMap<String, Object>();
 				}
-				result.put("sectionId", sectionMap.get("sectionId"));
-				result.put("trackId", objMap.get("trackId"));
-				if(type == null) type="all";
-				if( !("all".equals(type) && result.get("idList") == null ) ) {
-					resultList.add(result);
-				}
-				result = new HashMap<String, Object>();
+				break;
 			}
-			break;
 		}
 	}
 	

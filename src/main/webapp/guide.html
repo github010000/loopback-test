@@ -153,7 +153,7 @@
 					//$(this).empty();
 					
 					for (var r in args.contents) {
-						$("#" + id).append("<div id='" + args.contents[r].epsd_id + "'><a href='/synop.html?epsd_id="+args.contents[r].epsd_id+"'>" + args.contents[r].title + "</a><span>" + args.contents[r].epsd_id + "</span></div>");
+						$("#" + id).append("<div id='" + args.contents[r].epsd_id + "'><a href='/synop.html?epsd_id="+args.contents[r].epsd_id+"&synon_typ_cd="+args.contents[r].synon_typ_cd+"'>" + args.contents[r].title + "</a><span>" + args.contents[r].epsd_id + "</span></div>");
 						//$("#" + id).append("<li><a href='#'>asdf</a></li>");
 					}
 					

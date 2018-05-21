@@ -184,7 +184,7 @@ public class MenuController {
 		rtn.put("IF", IF);
 		rtn.put("request_time", DateUtil.getYYYYMMDDhhmmss());
 
-		if (StrUtil.isEmpty(param.get("prd_prc_id_lst")) || StrUtil.isEmpty(param.get("menu_id"))) {
+		if ( StrUtil.isEmpty(param.get("menu_id"))) {
 			rtn.put("result", "9999");
 		} else {
 			if (defaults != null && StrUtil.isEmpty(param.get("menu_stb_svc_id"))) {
@@ -195,6 +195,7 @@ public class MenuController {
 			try {
 				menuService.getBlockMonth(rtn, param);
 			} catch (Exception e) {
+				e.printStackTrace();
 				LogUtil.error(IF, "REQ", "", param.get("stb_id"), "", e.toString());
 				rtn.put("result", "9997");
 			}

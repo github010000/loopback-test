@@ -255,10 +255,16 @@ public class MenuService {
 	}
 	
 	// IF-NXPG-005
+	/*
+	 * 1. IF-NXPG-003과 형태를 같게 맟추었음
+	 * 2. '고객님의 가입월정액' 메뉴의 'menus' 태그에 가입한 월정액 상품목록을 노출 (기존의 'month' 태그역할)
+	 * 3. 코드가 ''인 메뉴를 가입한 월정액의 대표그리드블록 (shcut_menu_id로 조회한 블록)으로 치환하여 노출. 
+	 * 4. 2번에서 노출된 월덩액상품은 필터링하여 다른 메뉴에 노출시키지 않는다.
+	 */
 	public void getBlockMonth(Map<String, Object> rtn, Map<String, String> param) throws Exception {
 		Map<String, Object> bigbanner = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.BIG_BANNER, param.get("menu_stb_svc_id") + "_" + param.get("menu_id")));
 		
-		Map<String, Object> blockblock = null;
+		Map<String, Object> shcutblockblock = null;
 		
 		List<Map<String, Object>> newBlocks = new ArrayList<Map<String, Object>>();
 		
@@ -269,52 +275,130 @@ public class MenuService {
 		}
 //		List<Map<String, Object>> banners = CastUtil.getObjectToMapList(bigbanner.get("banners"));
 		
-		List<Object> monthList = CastUtil.StringToJsonList(redisClient.hget(NXPGCommon.BLOCK_MONTH, param.get("menu_stb_svc_id")));
+		Map<String, Object> blockblock = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.BLOCK_BLOCK, param.get("menu_stb_svc_id") + "_" + param.get("menu_id")));
+
+		if (blockblock != null && blockblock.get("blocks") != null) {
+			
+			List<Map<String, Object>> blocks = CastUtil.getObjectToMapList(blockblock.get("blocks"));
+			DateUtil.getCompare(blocks, "dist_fr_dt", "dist_to_dt", false);
+			
+			Map<String, Boolean> exceptionPid = new HashMap<String, Boolean>();
 		
-		List<Map<String, Object>> user_month = new ArrayList<Map<String, Object>>();
-		if (monthList != null) {
-			for (Object month : monthList) {
-				Map<String, Object> tempMonth = CastUtil.getObjectToMap(month);
-				if (tempMonth.get("prd_prc_id") != null) {
-					String tm = tempMonth.get("prd_prc_id") + "";
-					if (param.get("prd_prc_id_lst").contains(tm)) {
-						List<Map<String, Object>> lowrank = CastUtil.getObjectToMapList(tempMonth.get("low_rank_products"));
-						if (lowrank == null || lowrank.size() < 1) {
-							user_month.add(tempMonth);
-						} else {
-							for (Map<String, Object> low : lowrank) {
-								user_month.add(low);
+			List<Object> monthList = CastUtil.StringToJsonList(redisClient.hget(NXPGCommon.BLOCK_MONTH, param.get("menu_stb_svc_id")));
+			System.out.println("monthList: "+monthList);
+			List<Map<String, Object>> user_month = new ArrayList<Map<String, Object>>();
+			if (monthList != null) {
+				for (Object month : monthList) {
+					Map<String, Object> tempMonth = CastUtil.getObjectToMap(month);
+					if (tempMonth.get("prd_prc_id") != null) {
+						String prd_prc_id = CastUtil.getObjectToString(tempMonth.get("prd_prc_id"));
+						if(param.get("prd_prc_id_lst").contains(prd_prc_id)) {
+							exceptionPid.put(prd_prc_id, true);
+						}
+						
+						String tm = tempMonth.get("prd_prc_id") + "";
+						if (param.get("prd_prc_id_lst").contains(tm)) {
+							List<Map<String, Object>> lowrank = CastUtil.getObjectToMapList(tempMonth.get("low_rank_products"));
+							
+							if (lowrank == null || lowrank.size() < 1) {
+								user_month.add(tempMonth);
+							} else {
+								for (Map<String, Object> low : lowrank) {
+									user_month.add(low);
+									String low_prd_prc_id=CastUtil.getObjectToString(low.get("prd_prc_id"));
+									exceptionPid.put(low_prd_prc_id, true);
+								}
+							}
+	//							blockblock.put("block_count", blockblock.get("total_count"));
+	//							blockblock.remove("total_count");
+						}
+					}
+				}
+				
+				System.out.println("user_month: "+user_month.toString());
+				
+				for (Map<String, Object> month_item : user_month) {
+					shcutblockblock = getGridBanner(param.get("menu_stb_svc_id") + "_" + month_item.get("shcut_menu_id") + "");
+					System.out.println("shcutblockblock: "+shcutblockblock);
+					if (shcutblockblock != null && !shcutblockblock.isEmpty()) {
+						List<Map<String, Object>> shcutblocks = CastUtil.getObjectToMapList(shcutblockblock.get("banners"));
+						DateUtil.getCompare(shcutblocks, "dist_fr_dt", "dist_to_dt", false);
+						if(shcutblocks != null && shcutblocks.size()>0) {
+							//mmtf_home_exps_yn (홈 노출여부)가 Y인 데이터만 노출한다.
+							for(Map<String,Object>temp:shcutblocks) {
+								String homeShowYn = CastUtil.getObjectToString(temp.get("mmtf_home_exps_yn"));
+								if("Y".equalsIgnoreCase(homeShowYn)) {
+									newBlocks.add(temp);
+								}
 							}
 						}
-//							blockblock.put("block_count", blockblock.get("total_count"));
-//							blockblock.remove("total_count");
 					}
 				}
 			}
+			Map<Integer,List<Map<String, Object>>> whichMap = new HashMap<Integer, List<Map<String, Object>>>();
 			
-			for (Map<String, Object> month_item : user_month) {
-				blockblock = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.BLOCK_BLOCK, month_item.get("menu_id") + ""));
-				if (blockblock != null && !blockblock.isEmpty()) {
-					List<Map<String, Object>> blocks = CastUtil.getObjectToMapList(blockblock.get("blocks"));
-					DateUtil.getCompare(blocks, "dist_fr_dt", "dist_to_dt", false);
+			int j = 0; 
+			for (Iterator<Map<String,Object>> iterator = blocks.iterator(); iterator.hasNext() ; ) {
+				
+				Map<String, Object> map = CastUtil.getObjectToMap(iterator.next());
+				map.put("menus", null);
+				
+				
+				if("btv020".equals(map.get("call_url"))) {
+					map.put("menus", user_month);
+				}
+				//test용(실제 구분코드 확인 필요)
+				if("505".equals(map.get("scn_mthd_cd"))) {
+					iterator.remove();
 					
-					newBlocks.addAll(blocks);
+					whichMap.put(j, newBlocks);
+				}
+				
+				j++;
+				
+				
+				if ("20".equals(map.get("blk_typ_cd")) && "N".equals(map.get("is_leaf"))) {
+					
+
+					Map<String, Object> gridbanner = getGridBanner(param.get("menu_stb_svc_id") + "_" + map.get("menu_id").toString());
+					if (gridbanner != null) {
+						List<Map<String,Object>> menubanners = CastUtil.getObjectToMapList(gridbanner.get("banners"));
+						
+						for(int i = 0; i<menubanners.size(); i++) {
+							Map<String, Object>temp = menubanners.get(i);
+							
+							if(temp.get("prd_prc_id") != null && !"".equals(temp.get("prd_prc_id"))){
+								if(exceptionPid.containsKey(temp.get("prd_prc_id"))) {
+									menubanners.remove(i);
+									i--;
+								}
+							}
+						}
+						
+						DateUtil.getCompare(menubanners, "dist_fr_dt", "dist_to_dt", true);
+						map.put("menus", menubanners);
+					} 
 				}
 			}
 			
-			if (user_month.size() > 0) {
+			for( int o = 0 ; o<blocks.size(); o++) {
+				if( whichMap.containsKey(o)) {
+					blocks.addAll(o, whichMap.get(o));
+				}
+			}
+			
+			if (blocks!=null && blocks.size() > 0) {
 				rtn.put("result", "0000");
 				rtn.put("banners", null);
 				if (bigbanner != null) {
 					rtn.putAll(bigbanner);
 				}
-				rtn.put("blocks", newBlocks);
-				rtn.put("block_count", newBlocks.size());
-				rtn.put("month", user_month);
+				rtn.put("blocks", blocks);
+				rtn.put("block_count", blocks.size());
+//					rtn.put("month", user_month);
 			} else {
-				rtn.put("result", "9995");
+				rtn.put("result", "9998");
 			}
-			
 		} else {
 			rtn.put("result", "9998");
 		}

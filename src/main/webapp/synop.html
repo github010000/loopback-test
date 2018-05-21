@@ -136,77 +136,104 @@
 		       return results[1] || 0;
 		    }
 		}
-		getSynop($.urlParam('epsd_id'));
+		getSynop($.urlParam('epsd_id'), $.urlParam('synon_typ_cd'));
 	});
 	
-	function getSynop(epsd_id){
+	function getSynop(epsd_id, synon_typ_cd){
 		$.ajax({    
 			type : "GET",
 			url : "/v5/contents/synopsis?menu_stb_svc_id=UI50_BSUHD2&search_type=1&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&menu_id=A000002200&yn_recent=Y&IF=IF-NXPG-010&epsd_id="+epsd_id,
 			success : function(args) {
 				console.log(args)
-			
-				//	snss_cts = "<p>"+args.contents.epsd_snss_cts+"</p>"
-				//이벤트 코멘트 	
-				$("#snssCts").append(args.contents.epsd_snss_cts);
 				
-				//제목
-				title = "<div id=title>"+args.contents.title
-				title += "<span> "+args.contents.sris_id+"</span>";
-				title +="</div>"
-				$("#Rectangle-10").append(title);
+				/****************************************
+				* 시놉을 구분하여 분기 (일반시놉, 게이트웨이, VOD+관련상품)
+				*****************************************
+				* + 진입할 시놉시스 유형 (synon_typ_cd)
+				*   - 01: 단편 시놉시스, 02: 시즌 시놉시스, 03: 게이트웨이 시놉시스, 04: VOD+관련상품 시놉시스
+				****************************************/
 				
-				//콘텐츠 정보
-				//콘텐츠 정보-시청등급
-				if(args.contents.wat_lvl_cd==="0"){
-					info="<span class='Oval'>all</span>"
-				}else{
-					info="<span class='Oval' id='watchLevel'>"+args.contents.wat_lvl_cd+"</span>"
-				}
-				//콘텐츠 정보-화질
-				if(args.contents.rslu_typ_cd==="30"){
-					info+="<span> UHD</span>"
-				}else if(args.contents.rslu_typ_cd==="20"){
-					info+="<span> HD</span>"
-				}else{
-					info+="<span> SD</span>"
-				}
-				//콘텐츠 정보-개봉일
-				if(!(args.contents.open_yr === "")){
-					info+="<span> | "+args.contents.open_yr+"</span>";
-				}
-				//콘텐츠 정보-플레이타임
-				info+="<span> | "+args.contents.play_tms_val+"분</span>";
-				//콘텐츠 정보-음질
-				if(args.contents.snd_typ_cd==="1"){
-					info+="<span> | STEREO</span>"
-				}else if(args.contents.snd_typ_cd==="2"){
-					info+="<span> | DOLBY </span>"
-				}else{
-					info+="<span> | ATMOS </span>"
-				}
-				//콘텐츠 정보-다국어여부
-				for (var r in args.contents.epsd_rslu_info) {
-					console.log(args.contents.epsd_rslu_info[r].mtx_capt_yn);
-					if(!(args.contents.epsd_rslu_info[r].max_capt_yn === "" || !(args.contents.epsd_rslu_info[r].max_capt_yn))){
-						info+="<span> | 다국어 </span>"
-						break;
+				if(synon_typ_cd=='01' || synon_typ_cd=='02') {	// 단편, 시즌
+					
+					//	snss_cts = "<p>"+args.contents.epsd_snss_cts+"</p>"
+					//이벤트 코멘트 	
+					$("#snssCts").append(args.contents.epsd_snss_cts);
+					
+					//제목
+					title = "<div id=title>"+args.contents.title
+					title += "<span> "+args.contents.sris_id+"</span>";
+					title +="</div>"
+					$("#Rectangle-10").append(title);
+					
+					//콘텐츠 정보
+					//콘텐츠 정보-시청등급
+					if(args.contents.wat_lvl_cd==="0"){
+						info="<span class='Oval'>all</span>"
+					}else{
+						info="<span class='Oval' id='watchLevel'>"+args.contents.wat_lvl_cd+"</span>"
 					}
-				}
-				//콘텐츠 정보-옥수수 여부
-				if(args.contents.nscrn_yn==="Y"){
-					info+="<span> | OKSUSU</span>"
-				}
-				$("#synopInfo").append(info);
+					//콘텐츠 정보-화질
+					if(args.contents.rslu_typ_cd==="30"){
+						info+="<span> UHD</span>"
+					}else if(args.contents.rslu_typ_cd==="20"){
+						info+="<span> HD</span>"
+					}else{
+						info+="<span> SD</span>"
+					}
+					//콘텐츠 정보-개봉일
+					if(!(args.contents.open_yr === "")){
+						info+="<span> | "+args.contents.open_yr+"</span>";
+					}
+					//콘텐츠 정보-플레이타임
+					info+="<span> | "+args.contents.play_tms_val+"분</span>";
+					//콘텐츠 정보-음질
+					if(args.contents.snd_typ_cd==="1"){
+						info+="<span> | STEREO</span>"
+					}else if(args.contents.snd_typ_cd==="2"){
+						info+="<span> | DOLBY </span>"
+					}else{
+						info+="<span> | ATMOS </span>"
+					}
+					//콘텐츠 정보-다국어여부
+					for (var r in args.contents.epsd_rslu_info) {
+						console.log(args.contents.epsd_rslu_info[r].mtx_capt_yn);
+						if(!(args.contents.epsd_rslu_info[r].max_capt_yn === "" || !(args.contents.epsd_rslu_info[r].max_capt_yn))){
+							info+="<span> | 다국어 </span>"
+							break;
+						}
+					}
+					//콘텐츠 정보-옥수수 여부
+					if(args.contents.nscrn_yn==="Y"){
+						info+="<span> | OKSUSU</span>"
+					}
+					$("#synopInfo").append(info);
+					
+					//등장인물
+					people="<span> 감독 "+args.contents.director+" </span>";
+					people+="<span> | 주연 "+args.contents.actor+" </span>";
+					
+					$("#actorList").append(people);
 				
-				//등장인물
-				people="<span> 감독 "+args.contents.director+" </span>";
-				people+="<span> | 주연 "+args.contents.actor+" </span>";
-				
-				$("#actorList").append(people);
+				}else if(synon_typ_cd=='03') {	// 게이트웨이 시놉시스
+					alert('게이트웨이');
+					all_empty();
+				}else if(synon_typ_cd=='04') {	// VOD+관련상품 시놉시스
+					alert('VOD+관련상품');
+					all_empty();
+				}
 				
 			}
 		});
+		
+		
+		// 초기화
+		function all_empty() {
+			$("#snssCts").empty();
+			$("#Rectangle-10").empty();
+			$("#synopInfo").empty();
+			$("#actorList").empty();
+			$("#cntData").empty();
+		}
 	}
 
 </script>
