@@ -291,7 +291,6 @@ public class MenuService {
 			}
 		
 			List<Object> monthList = CastUtil.StringToJsonList(redisClient.hget(NXPGCommon.BLOCK_MONTH, param.get("menu_stb_svc_id")));
-			System.out.println("monthList: "+monthList);
 			List<Map<String, Object>> user_month = new ArrayList<Map<String, Object>>();
 			if (monthList != null) {
 				for (Object month : monthList) {
@@ -321,11 +320,8 @@ public class MenuService {
 					}
 				}
 				
-				System.out.println("user_month: "+user_month.toString());
-				
 				for (Map<String, Object> month_item : user_month) {
 					shcutblockblock = getGridBanner(param.get("menu_stb_svc_id") + "_" + month_item.get("shcut_menu_id") + "");
-					System.out.println("shcutblockblock: "+shcutblockblock);
 					if (shcutblockblock != null && !shcutblockblock.isEmpty()) {
 						List<Map<String, Object>> shcutblocks = CastUtil.getObjectToMapList(shcutblockblock.get("banners"));
 						DateUtil.getCompare(shcutblocks, "dist_fr_dt", "dist_to_dt", false);
