@@ -283,6 +283,12 @@ public class MenuService {
 			DateUtil.getCompare(blocks, "dist_fr_dt", "dist_to_dt", false);
 			
 			Map<String, Boolean> exceptionPid = new HashMap<String, Boolean>();
+			
+			String[] tempArr = param.get("prd_prc_id_lst").split(",");
+			
+			for(String pid: tempArr) {
+				exceptionPid.put(pid,true);
+			}
 		
 			List<Object> monthList = CastUtil.StringToJsonList(redisClient.hget(NXPGCommon.BLOCK_MONTH, param.get("menu_stb_svc_id")));
 			System.out.println("monthList: "+monthList);
