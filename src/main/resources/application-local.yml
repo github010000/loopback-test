@@ -61,6 +61,34 @@ user:
       pst_exps_typ_cd: 
       lim_lvl_yn: N
       menus: null
+    grid:
+      sale_prc: 0
+      poster_filename_v:
+      user_badge_img_path:
+      svc_fr_dt:
+      epsd_id:
+      title:
+      synon_typ_cd:
+      user_badge_wdt_img_path:
+      poster_filename_h:
+      icon_exps_fr_dt:
+      wat_lvl_cd:
+      adlt_lvl_cd:
+      bas_badge_img_path:
+      i_img_cd:
+      brcast_tseq_nm:
+      meta_typ_cd:
+      sris_id:
+      icon_exps_to_dt:
+      sort_seq: 0
+      svc_to_dt:
+      epsd_dist_fir_svc_dt:
+      sris_dist_fir_svc_dt:
+      track_id:
+      badge_typ_nm:
+      rslu_typ_cd:
+      kids_yn:
+      cacbro_yn:
     scnmthdcd: "502"
     socktimeout: 2000
     conntimeout: 300
@@ -92,3 +120,6 @@ zuul:
     ge:
       path: /ge/**
       url: http://localhost:8090
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS}|%-5level|%msg%n"

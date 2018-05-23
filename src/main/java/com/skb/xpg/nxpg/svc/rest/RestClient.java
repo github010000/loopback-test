@@ -60,25 +60,30 @@ public class RestClient {
 		HttpResponse response;
 		BufferedReader rd = null;
 		StringBuffer result = new StringBuffer();
+		
+		long before = 0;
+		long end = 0;
 		try {
 			if(client == null) return null;
+			before = System.nanoTime();
 			response = client.execute(request);
+			end = System.nanoTime();
 //			System.out.println("Response Code : "  + response.getStatusLine().getStatusCode());
 			if (response==null) return null;
 			rd = new BufferedReader(
 					new InputStreamReader(response.getEntity().getContent()));
 			
 			String line = "";
+			LogUtil.info("", "", "", "", "CW", "status : " + response.getStatusLine().getStatusCode() + ", milisecond : " + ((end - before) / 1000000));
+			
 			while ((line = rd.readLine()) != null) {
 				result.append(line);
 			}
 		} catch (ClientProtocolException e1) {
-			// TODO Auto-generated catch block
 			LogUtil.error("", "", "", "", "CW",e1.toString());
 		} catch (IOException e1) {
 			LogUtil.error("", "", "", "", "CW",e1.toString());
 		} catch (UnsupportedOperationException e) {
-			// TODO Auto-generated catch block
 			LogUtil.error("", "", "", "", "CW",e.toString());
 		} finally {
 			try {
@@ -151,6 +156,7 @@ public class RestClient {
 			
 			try {
 //				System.out.println(builder.build().encode().toUri());
+//				LogUtil.info("", "", "", "", "CW", builder.build().encode().toUri().toString());
 
 				json = apacheGet(builder.build().encode().toUri().toString());
 			} catch (RestClientException e) {

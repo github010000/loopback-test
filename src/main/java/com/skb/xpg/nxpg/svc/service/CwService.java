@@ -263,7 +263,7 @@ public class CwService {
 			requestparam = requestparam.replaceAll(regex, "user");
 			nxpgparam = nxpgparam.replaceAll(regex, "user");
 		}
-		
+		param.put("itemType", param.get("type"));
 		
 		String[] arrRequestParam = requestparam.split(",");
 		String[] arrNxpgParam = nxpgparam.split(",");
@@ -279,7 +279,6 @@ public class CwService {
 			cwparam = cwparam.substring(1);
 		}
 		
-//		System.out.println(cwparam);
 		String rest = null;
 		rest = restClient.getRestUri(cwBaseUrl + path, cwUser, cwPassword, cwparam);
 		if(rest != null && !rest.isEmpty()) {
@@ -295,9 +294,11 @@ public class CwService {
 					objMap.put("epsd_id", param.get("epsd_id"));
 				}else {
 					objMap.put("status_code", "0002");
-					LogUtil.error("", "", "", param.get("user"), "CW", "CW code is "+codeValue+". CW Data is null");
+					LogUtil.error("", "", "", param.get("user"), "CW", "CW code : "+codeValue+", url : " + cwBaseUrl + path);
 				}
 			}
+		} else {
+			LogUtil.error("", "", "", param.get("user"), "CW", "rest data null, url : " + cwBaseUrl + path);
 		}
 		return objMap;
 		
@@ -328,24 +329,12 @@ public class CwService {
 					for(String dataGrp:tempIdList) {
 						String [] idNblockId = dataGrp.split("\\|");
 						
-						String epsd_rslu_id = idNblockId[0];
-						String trackId = idNblockId[1];
+//						String epsd_rslu_id = idNblockId[0];
+//						String trackId = idNblockId[1];
 
 						Map<String, Object> gridData = new HashMap<String, Object>();
-						Map<String, Object> cidInfo = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.CONTENTS_CIDINFO,epsd_rslu_id));
-						if(cidInfo != null) {
-							String epsd_id = CastUtil.getObjectToString(cidInfo.get("epsd_id"));
-							Map<String, Object> gridInfo = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.GRID_CONTENTS_ITEM,epsd_id));
-							
-							if(gridInfo != null && !gridInfo.isEmpty()) {
-							
-								gridService.checkBadge(gridInfo);
 
-								gridData.putAll(gridInfo);
-								gridData.put("track_id", trackId);
-								resultGridList.add(gridData);
-							}
-						}
+						makeCwGridMap(idNblockId, gridData, resultGridList);
 					}
 				}else {
 					//아이템이 없을 경우 카운트 추가
@@ -356,7 +345,7 @@ public class CwService {
 				
 				//onepage호출시 첫번쨰 블록에 데이터가 없으면 리턴
 				if(type != null && "onepage".equals(type) && checkFirstBlock && resultGridList.size()<=0) {
-					LogUtil.error("IF-NXPG-009", "", "", "", "NCMS", "No Exist Match Data. CW code: 0");
+					LogUtil.info("IF-NXPG-009", "", "", "", "CW", "No Exist Match Data. CW code: 0, CW result size : " +  + resultList.size());
 					checkFirstBlock=false;
 					return null;
 				}
@@ -389,7 +378,7 @@ public class CwService {
 		
 		//CW status가 0 이었지만, 데이터가 하나도 없었을 경우 처리로직
 		if(i==resultList.size()) {
-			LogUtil.error("IF-NXPG-009", "", "", "", "CW", "No Exist Match Data. CW code: 0");
+			LogUtil.info("IF-NXPG-009", "", "", "", "CW", "No Exist Match Data. CW code: 0");
 			cwGrid = null;
 		}
 		
@@ -424,24 +413,11 @@ public class CwService {
 					for(String dataGrp:tempIdList) {
 						String [] idNblockId = dataGrp.split("\\|");
 						
-						String epsd_rslu_id = idNblockId[0];
-						String trackId = idNblockId[1];
-						
 						Map<String, Object> relationData = new HashMap<String, Object>();
-						Map<String, Object> cidInfo = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.CONTENTS_CIDINFO,epsd_rslu_id));
-						if(cidInfo!=null) {
-							String epsd_id = CastUtil.getObjectToString(cidInfo.get("epsd_id"));
-							Map<String, Object> contentInfo = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.GRID_CONTENTS_ITEM,epsd_id));
-
-							if(contentInfo != null && !contentInfo.isEmpty()) {
-								gridService.checkBadge(contentInfo);
-								
-								relationData.putAll(contentInfo);//? 뭘 써야할지...						
-								relationData.put("track_id", trackId);						
-								
-								resultRelationList.add(relationData);
-							}
-						}
+						
+						makeCwGridMap(idNblockId, relationData, resultRelationList);
+						
+						
 					}
 				}else {
 					//아이템이 없을 경우 카운트 추가
@@ -706,6 +682,69 @@ public class CwService {
 			return man.replace(type+pos, codePeopleMap.get(type).get(cnt-1).toString() );
 		}else {
 			return "연관콘텐츠";
+		}
+	}
+	
+	private void makeCwGridMap(String[] idNblockId, Map<String, Object> gridData, List<Map<String, Object>> resultGridList) {
+
+		String epsd_rslu_id = idNblockId[0];
+		String trackId = idNblockId[1];
+		
+		Map<String, Object> cidInfo = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.CONTENTS_CIDINFO,epsd_rslu_id));
+		if(cidInfo != null) {
+			String sris_id = CastUtil.getObjectToString(cidInfo.get("sris_id"));
+			String epsd_id = CastUtil.getObjectToString(cidInfo.get("epsd_id"));
+			Map<String, Object> gridInfo = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.GRID_CONTENTS_ITEM,epsd_id));
+
+			if(gridInfo != null && !gridInfo.isEmpty()) {
+			
+				gridService.checkBadge(gridInfo);
+
+				gridData.putAll(gridInfo);
+				gridData.put("track_id", trackId);
+				resultGridList.add(gridData);
+			} else {
+				
+				Map<String, Object> sris = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.SYNOPSIS_CONTENTS, sris_id));
+				Map<String, Object> purchares = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.CONTENTS_PURCHARES, sris_id));
+				Map<String, Object> epsd = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.SYNOPSIS_SRISINFO, epsd_id));
+				if(sris != null && epsd != null) {
+					Map<String, Object> cwGridMap = CastUtil.getObjectToMap(properties.getCw().get("grid"));
+					if (cwGridMap != null) {
+						gridData.putAll(cwGridMap);
+					}
+				
+					gridData.put("poster_filename_h", epsd.get("epsd_poster_filename_h"));
+					gridData.put("sris_id", sris.get("sris_id"));
+					gridData.put("poster_filename_v", epsd.get("epsd_poster_filename_v"));
+					gridData.put("epsd_id", epsd.get("epsd_id"));
+					gridData.put("wat_lvl_cd", epsd.get("wat_lvl_cd"));
+					gridData.put("adlt_lvl_cd", epsd.get("adlt_lvl_cd"));
+					gridData.put("title", sris.get("title"));				
+					gridData.put("trackId", trackId);	
+					gridData.put("synon_typ_cd", "01");
+					gridData.put("meta_typ_cd", sris.get("meta_typ_cd"));
+					gridData.put("rslu_typ_cd", epsd.get("rslu_typ_cd"));
+					gridData.put("kids_yn", sris.get("kids_yn"));
+					gridData.put("cacbro_yn", epsd.get("cacbro_yn"));
+					resultGridList.add(gridData);
+					
+				} else {
+//					LogUtil.info("", "", "", "", "CW", "CONTENTS NULL : " + epsd_id);
+					return;
+				}
+				if (purchares != null) {
+					List<Map<String, Object>> listPurchares = CastUtil.getObjectToMapList(purchares.get("products"));
+					for (Map<String, Object> p : listPurchares) {
+						if (p.containsKey("epsd_id") && p.get("epsd_id").equals(epsd_id)) {
+							gridData.put("sale_prc", p.get("sale_prc"));
+							break;
+						}
+					}
+				}
+
+				gridService.checkBadge(gridData);
+			}
 		}
 	}
 
