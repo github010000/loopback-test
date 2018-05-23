@@ -16,7 +16,7 @@
 		<feature>websocket-1.1</feature>
 	</featureManager>
 
-	<application name='xpg-nxpg-svc' location='nxpg.svc-0.0.1-SNAPSHOT.war'
+	<application name='xpg-nxpg-svc' location='nxpg.svc-5.0.1-SNAPSHOT.war'
 		type='war' context-root='/' />
 	<webContainer deferServletLoad='false' />
 	<cdi12 enableImplicitBeanArchives='false' />
