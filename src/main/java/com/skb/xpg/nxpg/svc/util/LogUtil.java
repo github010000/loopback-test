@@ -52,7 +52,7 @@ public class LogUtil {
 			log += "|" + interfaceId;
 		
 		if (transactionType == null || transactionType.isEmpty())
-			log += "|NULL";
+			log += "|REQ";
 		else
 			log += "|" + transactionType;
 		if (transactionId == null || transactionId.isEmpty())
@@ -70,6 +70,10 @@ public class LogUtil {
 		} else {
 			log += "|" + extName;
 		}
+		
+		data = data.replaceAll(":", "-");
+		data = "{\"msg\":\"" + data + "\"}";
+		
 		log += "|" + data;
 
 		return log;

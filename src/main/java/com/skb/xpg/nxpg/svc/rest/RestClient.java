@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.Base64;
+import java.util.Map;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -13,6 +14,7 @@ import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.client.support.BasicAuthorizationInterceptor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
@@ -29,12 +31,16 @@ public class RestClient {
 	@Autowired
 	private Properties properties;
 	
+	@Autowired
+	@Qualifier("activeProfile")
+	private String activeProfile;
+	
 	private RestTemplate restTemplate;
 	
 	public String cwUrl = "";
 	public boolean sendBff = true;
 
-	public String apacheGet(String url) {
+	public String apacheGet(String url, Map<String, String> reqparam) {
 		HttpClient client = HttpClientBuilder.create().build();
 		HttpGet request = new HttpGet(url);
 
@@ -53,7 +59,7 @@ public class RestClient {
 			request.addHeader("Authorization", "Basic " + encoding);
 		} catch (UnsupportedEncodingException e2) {
 			// TODO Auto-generated catch block
-			LogUtil.error("", "", "", "", "",e2.toString());
+			LogUtil.error(reqparam.get("IF"), "", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW", e2.toString());
 		}
 		
 		
@@ -74,23 +80,23 @@ public class RestClient {
 					new InputStreamReader(response.getEntity().getContent()));
 			
 			String line = "";
-			LogUtil.info("", "", "", "", "CW", "status : " + response.getStatusLine().getStatusCode() + ", milisecond : " + ((end - before) / 1000000));
+			LogUtil.info(reqparam.get("IF"), "", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW", "status : " + response.getStatusLine().getStatusCode() + ", milisecond : " + ((end - before) / 1000000));
 			
 			while ((line = rd.readLine()) != null) {
 				result.append(line);
 			}
 		} catch (ClientProtocolException e1) {
-			LogUtil.error("", "", "", "", "CW",e1.toString());
+			LogUtil.error(reqparam.get("IF"), "", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW",e1.toString());
 		} catch (IOException e1) {
-			LogUtil.error("", "", "", "", "CW",e1.toString());
+			LogUtil.error(reqparam.get("IF"), "", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW",e1.toString());
 		} catch (UnsupportedOperationException e) {
-			LogUtil.error("", "", "", "", "CW",e.toString());
+			LogUtil.error(reqparam.get("IF"), "", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW",e.toString());
 		} finally {
 			try {
 				if(rd!=null) rd.close();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
-				LogUtil.error("", "", "", "", "CW",e.toString());
+				LogUtil.error(reqparam.get("IF"), "", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW",e.toString());
 			}
 		}
 		
@@ -136,7 +142,7 @@ public class RestClient {
 //		return json;
 //
 //	}
-	public String getRestUri(String uri, String user, String password, String param) {
+	public String getRestUri(String uri, String user, String password, String param, Map<String, String> reqparam) {
 		restTemplate = new RestTemplate();
 		restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(user, password));
 		
@@ -156,11 +162,13 @@ public class RestClient {
 			
 			try {
 //				System.out.println(builder.build().encode().toUri());
-//				LogUtil.info("", "", "", "", "CW", builder.build().encode().toUri().toString());
+				if (activeProfile.contains("dev") || activeProfile.contains("stg") || activeProfile.contains("local")) {
+					LogUtil.info(reqparam.get("IF"), "", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW", builder.build().encode().toUri().toString());
+				}
 
-				json = apacheGet(builder.build().encode().toUri().toString());
+				json = apacheGet(builder.build().encode().toUri().toString(), reqparam);
 			} catch (RestClientException e) {
-				LogUtil.error("", "", "", "", "CW",e.toString());
+				LogUtil.error(reqparam.get("IF"), "", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW", e.toString());
 			}
 		}
 		

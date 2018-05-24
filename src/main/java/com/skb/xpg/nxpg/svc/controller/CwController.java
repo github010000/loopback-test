@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,12 +30,14 @@ public class CwController {
 
 
 	@RequestMapping(value = "/inter/cwgrid")
-	public Map<String, Object> getCwGrid(@PathVariable String ver, @RequestParam Map<String, String> param) {
+	public Map<String, Object> getCwGrid(HttpServletRequest req, @PathVariable String ver, @RequestParam Map<String, String> param) {
 		String IF = param.get("IF");
 
 		Map<String, Object> result = properties.getResults();
 		Map<String, Object> rtn = new HashMap<String, Object>();
 		rtn.putAll(result);
+		
+		param.put("UUID", req.getHeader("UUID"));
 
 		rtn.put("request_time", DateUtil.getYYYYMMDDhhmmss());
 		
@@ -65,12 +69,14 @@ public class CwController {
 	}
 	
 	@RequestMapping(value = "/inter/cwrelation")
-	public Map<String, Object> getCwRelation(@PathVariable String ver, @RequestParam Map<String, String> param) {
+	public Map<String, Object> getCwRelation(HttpServletRequest req, @PathVariable String ver, @RequestParam Map<String, String> param) {
 		String IF = param.get("IF");
 		
 		Map<String, Object> result = properties.getResults();
 		Map<String, Object> rtn = new HashMap<String, Object>();
 		rtn.putAll(result);
+		
+		param.put("UUID", req.getHeader("UUID"));
 		
 		rtn.put("request_time", DateUtil.getYYYYMMDDhhmmss());
 		

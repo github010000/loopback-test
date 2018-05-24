@@ -34,7 +34,7 @@ public class ContentsController {
 		Map<String, Object> result = properties.getResults();
 		Map<String, Object> rtn = new HashMap<String, Object>();
 		
-		param.put("uuid", req.getHeader("uuid"));
+		param.put("UUID", req.getHeader("UUID"));
 		
 		rtn.putAll(result);
 
@@ -61,7 +61,7 @@ public class ContentsController {
 		try {
 			contentsService.getSynopsisContents(rtn, param);
 		} catch (Exception e) {
-			LogUtil.error(IF, "REQ", param.get("uuid"), param.get("stb_id"), "REDIS", e.toString());
+			LogUtil.error(IF, "REQ", param.get("UUID"), param.get("stb_id"), "REDIS", e.toString());
 			rtn.put("result", "9997");
 		}
 		

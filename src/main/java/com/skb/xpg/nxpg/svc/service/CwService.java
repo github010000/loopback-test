@@ -98,11 +98,11 @@ public class CwService {
 				result.put("grid", resultList);
 				result.put("size", resultList.size()+"");
 			}else {
-				LogUtil.error("IF-NXPG-009", "", "", "", "CW", "CW Data is null or item list size is 0");
+				LogUtil.info("IF-NXPG-009", "", param.get("UUID"), param.get("stb_id"), "CW", "CW Data is null or item list size is 0");
 				result = null;
 			}
 		}else {
-			LogUtil.error("IF-NXPG-009", "", "", "", "CW", "CW API return null. switch value: "+cwSwitch);
+			LogUtil.info("IF-NXPG-009", "", param.get("UUID"), param.get("stb_id"), "CW", "CW API return null. switch value: " + cwSwitch);
 			result = null;
 		}
 		
@@ -253,6 +253,9 @@ public class CwService {
 		//경로에 cw call id 치환
 		String regex = "\\{(.*?)\\}";
 		path = path.replaceAll(regex, param.get("cw_call_id"));
+		
+		param.put("cw_stb_id", param.get("stb_id"));
+		
 		//파라미터에 콘텐츠 아이디가 존재하면 연관콘텐츠 호출
 		if(param.containsKey("con_id")) {
 			param.put("item", param.remove("con_id"));
@@ -280,7 +283,7 @@ public class CwService {
 		}
 		
 		String rest = null;
-		rest = restClient.getRestUri(cwBaseUrl + path, cwUser, cwPassword, cwparam);
+		rest = restClient.getRestUri(cwBaseUrl + path, cwUser, cwPassword, cwparam, param);
 		if(rest != null && !rest.isEmpty()) {
 			//응답값 확인
 			String restregex="\"code\"[\\s]*:[\\s]*([0-9]*)";
@@ -294,11 +297,11 @@ public class CwService {
 					objMap.put("epsd_id", param.get("epsd_id"));
 				}else {
 					objMap.put("status_code", "0002");
-					LogUtil.error("", "", "", param.get("user"), "CW", "CW code : "+codeValue+", url : " + cwBaseUrl + path);
+					LogUtil.info("", "", "", param.get("cw_stb_id"), "CW", "CW code : "+codeValue+", url : " + cwBaseUrl + path);
 				}
 			}
 		} else {
-			LogUtil.error("", "", "", param.get("user"), "CW", "rest data null, url : " + cwBaseUrl + path);
+			LogUtil.info("", "", "", param.get("cw_stb_id"), "CW", "rest data null, url : " + cwBaseUrl + path);
 		}
 		return objMap;
 		
@@ -706,7 +709,7 @@ public class CwService {
 			} else {
 				
 				Map<String, Object> sris = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.SYNOPSIS_CONTENTS, sris_id));
-				Map<String, Object> purchares = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.CONTENTS_PURCHARES, sris_id));
+				Map<String, Object> purchares = null;
 				Map<String, Object> epsd = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.SYNOPSIS_SRISINFO, epsd_id));
 				if(sris != null && epsd != null) {
 					Map<String, Object> cwGridMap = CastUtil.getObjectToMap(properties.getCw().get("grid"));
@@ -729,6 +732,7 @@ public class CwService {
 					gridData.put("cacbro_yn", epsd.get("cacbro_yn"));
 					resultGridList.add(gridData);
 					
+					purchares = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.CONTENTS_PURCHARES, sris_id));
 				} else {
 //					LogUtil.info("", "", "", "", "CW", "CONTENTS NULL : " + epsd_id);
 					return;
