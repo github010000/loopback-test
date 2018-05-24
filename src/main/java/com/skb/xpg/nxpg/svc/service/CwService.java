@@ -90,7 +90,12 @@ public class CwService {
 			}
 		}
 		
+		Map<String, Object> time = null;
+		
 		if(temp != null) {
+			time = CastUtil.getObjectToMap(temp.get("time"));
+			time.put("after_start", System.nanoTime());
+			
 			temp.put("type", type);
 			resultList = makeCwGrid(temp);
 			result.put("status_code", temp.get("status_code"));
@@ -106,6 +111,10 @@ public class CwService {
 			result = null;
 		}
 		
+		//Log에 처리 시간 프린트 (CW포함)
+		time.put("after_end", System.nanoTime());
+		printProcessTime(time, param);
+		
 		return result;
 		
 	}
@@ -120,9 +129,11 @@ public class CwService {
 		param.put("itemType", "VIDEO_CONTENT");
 		Map<String, Object> result = null;
 		List resultList = null;
-
-		String contentInfo = redisClient.hget(NXPGCommon.SYNOPSIS_SRISINFO,epsd_id);
+		Map<String, Object> time = null;
+		Map<String, Object> temp = null;
 		
+		String contentInfo = redisClient.hget(NXPGCommon.SYNOPSIS_SRISINFO,epsd_id);
+
 		if(contentInfo != null) {
 			result = new HashMap<String, Object>();
 			
@@ -141,7 +152,6 @@ public class CwService {
 			String type = CastUtil.getString(param.get("type"));
 //			String type = (String)param.get("type");
 			
-			Map<String, Object> temp = null;
 			if(cwSwitch) {
 				//cw_call_id가 안들어오면 CW는 호출하지 않는다.
 				if(cw_call_id != null && !cw_call_id.isEmpty()) {
@@ -173,6 +183,9 @@ public class CwService {
 			
 			//파라미터가 안넘어 왔거나 temp값이 없을 시 처리
 			if(temp == null) {
+				time = CastUtil.getObjectToMap(temp.get("time"));
+				time.put("after_start", System.nanoTime());
+				
 				if(result == null) return result = null;
 				LogUtil.error("IF-NXPG-012", "", "", "", "CW", "CW API return null switch value: "+cwSwitch);
 				result.put("status_code", "0002");
@@ -226,6 +239,10 @@ public class CwService {
 		}else {
 			LogUtil.error("IF-NXPG-012", "", "", "", "NCMS", "content data is null. epsd_id: "+epsd_id);
 		}
+		
+		//Log에 처리 시간 프린트 (CW포함)
+		time.put("after_end", System.nanoTime());
+		printProcessTime(time, param);
 		
 		return result;
 		
@@ -282,8 +299,13 @@ public class CwService {
 			cwparam = cwparam.substring(1);
 		}
 		
+		Map<String, Object> restResult = null;
 		String rest = null;
-		rest = restClient.getRestUri(cwBaseUrl + path, cwUser, cwPassword, cwparam, param);
+		restResult = restClient.getRestUri(cwBaseUrl + path, cwUser, cwPassword, cwparam, param);
+		if (restResult != null && restResult.containsKey("result")) {
+			rest = restResult.get("result") + "";
+		}
+		
 		if(rest != null && !rest.isEmpty()) {
 			//응답값 확인
 			String restregex="\"code\"[\\s]*:[\\s]*([0-9]*)";
@@ -303,6 +325,10 @@ public class CwService {
 		} else {
 			LogUtil.info("", "", "", param.get("cw_stb_id"), "CW", "rest data null, url : " + cwBaseUrl + path);
 		}
+		
+		restResult.remove("result");
+		objMap.put("time", restResult);
+		
 		return objMap;
 		
 	}
@@ -752,5 +778,20 @@ public class CwService {
 		}
 	}
 
-
+	private void printProcessTime(Map<String, Object> time, Map<String, String> param) {
+		
+		long cw_start = CastUtil.getObjectToLong(time.get("cw_time_start"));
+		long cw_end = CastUtil.getObjectToLong(time.get("cw_time_end"));
+		
+		long after_start = CastUtil.getObjectToLong(time.get("after_start"));
+		long after_end = CastUtil.getObjectToLong(time.get("after_end"));
+		
+		long cw = (cw_end - cw_start) / 1000000;
+		long after = (after_end - after_start) / 1000000;
+		
+		String log = "";
+		log = "sum = " + (cw + after) + ", cw = " + cw + ", after biz logic = " + after + " (milisecond)";
+		
+		LogUtil.info(param.get("IF"), "", param.get("UUID"), param.get("cw_stb_id"), "CW_REDIS", log);
+	}
 }

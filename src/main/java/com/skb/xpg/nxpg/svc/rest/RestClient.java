@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.Base64;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.http.HttpResponse;
@@ -40,7 +41,7 @@ public class RestClient {
 	public String cwUrl = "";
 	public boolean sendBff = true;
 
-	public String apacheGet(String url, Map<String, String> reqparam) {
+	public Map<String, Object> apacheGet(String url, Map<String, String> reqparam) {
 		HttpClient client = HttpClientBuilder.create().build();
 		HttpGet request = new HttpGet(url);
 
@@ -63,7 +64,7 @@ public class RestClient {
 		}
 		
 		
-		HttpResponse response;
+		HttpResponse response = null;
 		BufferedReader rd = null;
 		StringBuffer result = new StringBuffer();
 		
@@ -80,7 +81,7 @@ public class RestClient {
 					new InputStreamReader(response.getEntity().getContent()));
 			
 			String line = "";
-			LogUtil.info(reqparam.get("IF"), "", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW", "status : " + response.getStatusLine().getStatusCode() + ", milisecond : " + ((end - before) / 1000000));
+			//LogUtil.info(reqparam.get("IF"), "", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW", "status : " + response.getStatusLine().getStatusCode() + ", milisecond : " + ((end - before) / 1000000));
 			
 			while ((line = rd.readLine()) != null) {
 				result.append(line);
@@ -99,8 +100,16 @@ public class RestClient {
 				LogUtil.error(reqparam.get("IF"), "", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW",e.toString());
 			}
 		}
+		Map<String, Object> resultMap = new HashMap<String, Object>();
 		
-		return result.toString();
+		resultMap.put("result", result.toString());
+		if (response != null) {
+			resultMap.put("status", response.getStatusLine().getStatusCode() + "");
+		}
+		resultMap.put("cw_time_start", before);
+		resultMap.put("cw_time_end", end);
+		
+		return resultMap;
 	}
 	
 	public String getRestUri(String uri) {
@@ -142,12 +151,12 @@ public class RestClient {
 //		return json;
 //
 //	}
-	public String getRestUri(String uri, String user, String password, String param, Map<String, String> reqparam) {
+	public Map<String, Object> getRestUri(String uri, String user, String password, String param, Map<String, String> reqparam) {
 		restTemplate = new RestTemplate();
 		restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(user, password));
 		
 		String json = "";
-		
+		Map<String, Object> resultMap = null;
 		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(cwUrl + uri);
 
 		
@@ -166,13 +175,14 @@ public class RestClient {
 					LogUtil.info(reqparam.get("IF"), "", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW", builder.build().encode().toUri().toString());
 				}
 
-				json = apacheGet(builder.build().encode().toUri().toString(), reqparam);
+				resultMap = apacheGet(builder.build().encode().toUri().toString(), reqparam);
+				
 			} catch (RestClientException e) {
 				LogUtil.error(reqparam.get("IF"), "", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW", e.toString());
 			}
 		}
 		
-		return json;
+		return resultMap;
 		
 	}
 	

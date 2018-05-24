@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONObject;
 import org.springframework.boot.json.GsonJsonParser;
 import org.springframework.boot.json.JacksonJsonParser;
 import org.springframework.stereotype.Component;
@@ -73,6 +74,20 @@ public class CastUtil {
 		}
 		return rtn;
 	}
+
+	public static long getObjectToLong(Object obj) {
+		long rtn = 0;
+		
+		if (obj != null && obj instanceof Long) {
+			try {
+				rtn = (long) obj;
+			} catch (NumberFormatException e) {
+				rtn = 0;
+				LogUtil.error("", "", "", "", "", e.toString());
+			}
+		}
+		return rtn;
+	}
 	
 	public static Long getStringToLong(String str) {
 		long rtn = 0;
@@ -127,6 +142,13 @@ public class CastUtil {
 		return result;
 		
 	}	
+	
+	@SuppressWarnings("unchecked")
+	public static String getMapToString(Map<String, Object> obj) {
+		if (obj != null && obj instanceof Map) {
+			return new JSONObject(obj).toString();
+		} else return null;
+	}
 	
 	@SuppressWarnings("unchecked")
 	public static List<String> getObjectToListString(Object obj) {

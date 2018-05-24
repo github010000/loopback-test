@@ -432,7 +432,11 @@ public class MenuService {
 		path = path.replaceAll(regex, param.get("stb_id"));
 
 		String rest = null;
-		rest = restClient.getRestUri(cwBaseUrl + path, cwUser, cwPassword, cwparam, param);
+		Map<String, Object> restResult = null;
+		restResult = restClient.getRestUri(cwBaseUrl + path, cwUser, cwPassword, cwparam, param);
+		if (restResult != null && restResult.containsKey("result")) {
+			rest = CastUtil.getObjectToString(restResult.get("result"));
+		}
 		
 		//응답값 확인
 		String restregex="\"code\"[\\s]*:[\\s]*([0-9]*)";
