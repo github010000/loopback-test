@@ -123,3 +123,5 @@ zuul:
 logging:
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss.SSS}|%-5level|%msg%n"
+  level:
+    root: info, error
