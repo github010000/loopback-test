@@ -11,12 +11,12 @@ public class LogUtil {
 	private static String HostName;
 	private static String HostIp;
 	
-	@Value("${vcap.application.name}")
+	@Value("${cloud.name}")
     private void setHostName(String HostName){
 		LogUtil.HostName = HostName;
     }
 	
-	@Value("${vcap.application.instance_index}")
+	@Value("${cloud.instance_index}")
     private void setHostIp(String HostIp){
 		LogUtil.HostIp = HostIp;
     }
