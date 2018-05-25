@@ -9,7 +9,7 @@ spring:
       enabled: false
 ---
 spring:
-  profiles: prd, dev, stg, test
+  profiles: prd, dev, stg, test, test2
   cloud:
     config:
       uri: https://common-config-server-dev.skb-suy-dev01.mybluemix.net/
