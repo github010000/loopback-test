@@ -27,7 +27,7 @@ public class KidsService {
 	
 	// IF-NXPG-101
 	public void getMenuKzchar(Map<String, Object> rtn, Map<String, String> param) throws Exception {
-		String version = StringUtils.defaultIfEmpty(redisClient.hget(NXPGCommon.VERSION, NXPGCommon.MENU_KIDSCHARACTER + "_" + param.get("menu_stb_svc_id")), "");
+		String version = StringUtils.defaultIfEmpty(redisClient.hget(NXPGCommon.VERSION, NXPGCommon.MENU_KIDSCHARACTER + "_" + param.get("menu_stb_svc_id"), param), "");
 		String order_type=CastUtil.getString(param.get("order_type"));
 		
 		rtn.put("version", version);
@@ -38,7 +38,7 @@ public class KidsService {
 			rtn.put("result", "0000");
 		} else {
 			
-			List<Map<String, Object>> kzgnb = CastUtil.StringToJsonListMap(redisClient.hget(NXPGCommon.MENU_KIDSCHARACTER, param.get("menu_stb_svc_id")));
+			List<Map<String, Object>> kzgnb = CastUtil.StringToJsonListMap(redisClient.hget(NXPGCommon.MENU_KIDSCHARACTER, param.get("menu_stb_svc_id"), param));
 					
 			
 			if (kzgnb == null) {
@@ -57,7 +57,7 @@ public class KidsService {
 					}
 				}
 				catch(Exception e){
-					LogUtil.error("IF-NXPG-101", "", "", "", "getMenuKzchar", e.toString());
+					LogUtil.error(param.get("IF"), "", param.get("UUID"), param.get("stb_id"), "REDIS", e.getStackTrace()[0].toString());
 				}
 				
 				rtn.put("result", "0000");
@@ -73,7 +73,7 @@ public class KidsService {
 	
 	// IF-NXPG-102
 	public void getMenuKzgnb(Map<String, Object> rtn, Map<String, String> param) throws Exception {
-		String version = StringUtils.defaultIfEmpty(redisClient.hget(NXPGCommon.VERSION, NXPGCommon.MENU_KIDSGNB + "_" + param.get("menu_stb_svc_id")), "");
+		String version = StringUtils.defaultIfEmpty(redisClient.hget(NXPGCommon.VERSION, NXPGCommon.MENU_KIDSGNB + "_" + param.get("menu_stb_svc_id"), param), "");
 		rtn.put("version", version);
 		
 		if (version != null && param.containsKey("version") && !version.isEmpty()
@@ -82,7 +82,7 @@ public class KidsService {
 			rtn.put("result", "0000");
 		} else {
 			
-			List<Object> kzgnb = CastUtil.StringToJsonList(redisClient.hget(NXPGCommon.MENU_KIDSGNB, param.get("menu_stb_svc_id")));
+			List<Object> kzgnb = CastUtil.StringToJsonList(redisClient.hget(NXPGCommon.MENU_KIDSGNB, param.get("menu_stb_svc_id"), param));
 			
 			if (kzgnb == null) {
 				rtn.put("result", "9998");
@@ -102,7 +102,7 @@ public class KidsService {
 	
 	// IF-NXPG-401
 	public String getMenulfthomemapping(String ver, Map<String, String> param) throws Exception {
-		String redisData = redisClient.hget(NXPGCommon.MENU_KIDSGNB, param.get("menu_stb_svc_id"));
+		String redisData = redisClient.hget(NXPGCommon.MENU_KIDSGNB, param.get("menu_stb_svc_id"), param);
 		String kidsMenu = "";
 		// 살아있는 동화
 		
@@ -125,16 +125,16 @@ public class KidsService {
 	
 	// IF-NXPG-403
 	public void getContentsLftsynop(Map<String, Object> rtn, Map<String, String> param) throws Exception {
-		Map<String, Object> synop = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.SYNOPSIS_LIVECHILDSTORY, param.get("epsd_id")));
+		Map<String, Object> synop = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.SYNOPSIS_LIVECHILDSTORY, param.get("epsd_id"), param));
 		
 		if (synop == null) {
 			rtn.put("result", "9998");
 			rtn.put("contents", null);
 		} else {
-			contentsService.getContentsCorner(synop, param.get("epsd_id"));
+			contentsService.getContentsCorner(synop, param.get("epsd_id"), param);
 			
 			if (synop.containsKey("sris_id") && synop.get("sris_id") != null) {
-				Map<String, Object> purchares = contentsService.getContentsPurchares(synop.get("sris_id").toString());
+				Map<String, Object> purchares = contentsService.getContentsPurchares(synop.get("sris_id").toString(), param);
 				if (purchares != null && purchares.get("products") != null) {
 					List<Map<String, Object>> products = CastUtil.getObjectToMapList(purchares.get("products"));
 					DateUtil.getCompare(products, "prd_prc_fr_dt", "purc_wat_to_dt", true);

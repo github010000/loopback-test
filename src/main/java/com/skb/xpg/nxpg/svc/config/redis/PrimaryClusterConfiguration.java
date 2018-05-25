@@ -87,7 +87,7 @@ public class PrimaryClusterConfiguration {
 
 		} catch (JedisConnectionException e) {
 //			LogUtil.error(e.getStackTrace(), "NULL");
-			LogUtil.error("", "", "", "", "", e.toString());
+			LogUtil.error("", "CONFIG", "", "", "REDIS", e.getStackTrace()[0].toString());
 			return null;
 		}
 	}

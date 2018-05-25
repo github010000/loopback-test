@@ -44,7 +44,7 @@ public class CacheService {
 			
 			redisErrorCount++;
 			if (redisErrorCount > 10) {
-				LogUtil.info("", "", "", "", "", "REDIS SWITCH");
+				LogUtil.info("", "", "", "", "", "REDIS_SWITCH");
 				NXPGCommon.switchUseRedis();
 				redisErrorCount = 0;
 			}

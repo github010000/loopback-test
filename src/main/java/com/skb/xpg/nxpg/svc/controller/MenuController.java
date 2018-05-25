@@ -2,10 +2,13 @@ package com.skb.xpg.nxpg.svc.controller;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.CacheControl;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,11 +32,12 @@ public class MenuController {
 	
 	// IF-NXPG-001
 	@RequestMapping(value = "/menu/gnb")
-	public Map<String, Object> getMenuGnb(HttpServletRequest req, @PathVariable String ver, @RequestParam Map<String, String> param) {
+	public ResponseEntity<Map<String, Object>> getMenuGnb(HttpServletRequest req, @PathVariable String ver, @RequestParam Map<String, String> param) {
 		String IF = param.get("IF");
 		Map<String, Object> result = properties.getResults();
 		Map<String, String> defaults = properties.getDefaults();
 		Map<String, Object> rtn = new HashMap<String, Object>();
+		param.put("UUID", req.getHeader("UUID"));
 		
 		rtn.putAll(result);
 		
@@ -53,13 +57,14 @@ public class MenuController {
 		try {
 			menuService.getMenuGnb(ver, param, rtn);
 		} catch (Exception e) {
-			LogUtil.error(IF, "REQ", "", param.get("stb_id"), "", e.toString());
+			LogUtil.error(param.get("IF"), "", param.get("UUID"), param.get("stb_id"), "", e.getStackTrace()[0].toString());
 			rtn.put("result", "9997");
 			rtn.put("reason", ResultCommon.reason.get(rtn.get("result")));
 		}
 		
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
-		return rtn;
+		return ResponseEntity.ok().cacheControl(CacheControl.maxAge(60, TimeUnit.SECONDS)).body(rtn);
+		//return rtn;
 	}
 
 	// IF-NXPG-002
@@ -69,6 +74,7 @@ public class MenuController {
 		Map<String, Object> result = properties.getResults();
 		Map<String, String> defaults = properties.getDefaults();
 		Map<String, Object> rtn = new HashMap<String, Object>();
+		param.put("UUID", req.getHeader("UUID"));
 
 		rtn.putAll(result);
 		rtn.put("IF", IF);
@@ -87,7 +93,7 @@ public class MenuController {
 		try {
 			menuService.getMenuAll(ver, param, rtn);
 		} catch (Exception e) {
-			LogUtil.error(IF, "REQ", "", param.get("stb_id"), "", e.toString());
+			LogUtil.error(param.get("IF"), "", param.get("UUID"), param.get("stb_id"), "", e.getStackTrace()[0].toString());
 			rtn.put("result", "9997");
 			rtn.put("reason", ResultCommon.reason.get(rtn.get("result")));
 		}
@@ -103,6 +109,7 @@ public class MenuController {
 		Map<String, Object> result = properties.getResults();
 		Map<String, String> defaults = properties.getDefaults();
 		Map<String, Object> rtn = new HashMap<String, Object>();
+		param.put("UUID", req.getHeader("UUID"));
 
 		rtn.putAll(result);
 		rtn.put("IF", IF);
@@ -124,14 +131,14 @@ public class MenuController {
 		try {
 			blockblock = menuService.getBlockBlock(ver, param);
 		} catch (Exception e) {
-			LogUtil.error(IF, "REQ", "", param.get("stb_id"), "", e.toString());
+			LogUtil.error(param.get("IF"), "", param.get("UUID"), param.get("stb_id"), "", e.getStackTrace()[0].toString());
 		}
 		// 조회값 없음
 
 		try {
 			bigbanner = menuService.getBlockBigBanner(ver, param);
 		} catch (Exception e) {
-			LogUtil.error(IF, "REQ", "", param.get("stb_id"), "", e.toString());
+			LogUtil.error(param.get("IF"), "", param.get("UUID"), param.get("stb_id"), "", e.getStackTrace()[0].toString());
 		}
 		
 		rtn.put("result", "0000");
@@ -179,6 +186,7 @@ public class MenuController {
 		Map<String, Object> result = properties.getResults();
 		Map<String, String> defaults = properties.getDefaults();
 		Map<String, Object> rtn = new HashMap<String, Object>();
+		param.put("UUID", req.getHeader("UUID"));
 
 		rtn.putAll(result);
 		rtn.put("IF", IF);
@@ -196,7 +204,7 @@ public class MenuController {
 				menuService.getBlockMonth(rtn, param);
 			} catch (Exception e) {
 				e.printStackTrace();
-				LogUtil.error(IF, "REQ", "", param.get("stb_id"), "", e.toString());
+				LogUtil.error(param.get("IF"), "", param.get("UUID"), param.get("stb_id"), "", e.getStackTrace()[0].toString());
 				rtn.put("result", "9997");
 			}
 		}

@@ -40,6 +40,7 @@ public class KidsController {
 		Map<String, Object> result = properties.getResults();
 		Map<String, String> defaults = properties.getDefaults();
 		Map<String, Object> rtn = new HashMap<String, Object>();
+		param.put("UUID", req.getHeader("UUID"));
 		rtn.putAll(result);
 	
 		rtn.put("IF", IF);
@@ -53,7 +54,7 @@ public class KidsController {
 		try {
 			kidsService.getMenuKzchar(rtn, param);
 		} catch (Exception e) {
-			LogUtil.error(IF, "REQ", "", param.get("stb_id"), "", e.toString());
+			LogUtil.error(IF, "REQ", "", param.get("stb_id"), "", e.getStackTrace()[0].toString());
 			rtn.put("result", "9997");
 			rtn.put("reason", ResultCommon.reason.get(rtn.get("result")));
 		}
@@ -73,6 +74,7 @@ public class KidsController {
 		Map<String, Object> result = properties.getResults();
 		Map<String, String> defaults = properties.getDefaults();
 		Map<String, Object> rtn = new HashMap<String, Object>();
+		param.put("UUID", req.getHeader("UUID"));
 		rtn.putAll(result);
 	
 		rtn.put("IF", IF);
@@ -92,7 +94,7 @@ public class KidsController {
 		try {
 			kidsService.getMenuKzgnb(rtn, param);
 		} catch (Exception e) {
-			LogUtil.error(IF, "REQ", "", param.get("stb_id"), "", e.toString());
+			LogUtil.error(IF, "REQ", "", param.get("stb_id"), "", e.getStackTrace()[0].toString());
 			rtn.put("result", "9997");
 			rtn.put("reason", ResultCommon.reason.get(rtn.get("result")));
 		}
@@ -170,6 +172,7 @@ public class KidsController {
 		Map<String, Object> result = properties.getResults();
 		Map<String, String> defaults = properties.getDefaults();
 		Map<String, Object> rtn = new HashMap<String, Object>();
+		param.put("UUID", req.getHeader("UUID"));
 		rtn.putAll(result);
 
 		rtn.put("IF", IF);
@@ -191,7 +194,7 @@ public class KidsController {
 		try {
 			map = kidsService.getMenulfthomemapping(ver, param);
 		} catch (Exception e) {
-			LogUtil.error(IF, "REQ", "", param.get("stb_id"), "", e.toString());
+			LogUtil.error(IF, "REQ", "", param.get("stb_id"), "", e.getStackTrace()[0].toString());
 		}
 		
 		// 조회값 없음
@@ -216,6 +219,7 @@ public class KidsController {
 		Map<String, Object> result = properties.getResults();
 		Map<String, String> defaults = properties.getDefaults();
 		Map<String, Object> rtn = new HashMap<String, Object>();
+		param.put("UUID", req.getHeader("UUID"));
 		rtn.putAll(result);
 
 		rtn.put("IF", IF);
@@ -236,7 +240,7 @@ public class KidsController {
 		try {
 			kidsService.getContentsLftsynop(rtn, param);
 		} catch (Exception e) {
-			LogUtil.error(IF, "REQ", "", param.get("stb_id"), "", e.toString());
+			LogUtil.error(IF, "REQ", "", param.get("stb_id"), "", e.getStackTrace()[0].toString());
 			rtn.put("result", "9997");
 		}
 		

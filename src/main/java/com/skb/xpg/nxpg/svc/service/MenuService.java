@@ -50,7 +50,7 @@ public class MenuService {
 	
 	// IF-NXPG-001
 	public void getMenuGnb(String ver, Map<String, String> param, Map<String, Object> rtn) throws Exception {
-		String version = StringUtils.defaultIfEmpty(redisClient.hget(NXPGCommon.VERSION, NXPGCommon.MENU_GNB + "_" + param.get("menu_stb_svc_id")), "");
+		String version = StringUtils.defaultIfEmpty(redisClient.hget(NXPGCommon.VERSION, NXPGCommon.MENU_GNB + "_" + param.get("menu_stb_svc_id"), param), "");
 		
 		if (version != null && param.containsKey("version") && !version.isEmpty()
 				&& CastUtil.getStringToLong(param.get("version")) >= CastUtil.getStringToLong(version)) {
@@ -58,7 +58,7 @@ public class MenuService {
 			rtn.put("result", "0000");
 			rtn.put("version", version);
 		} else {
-			String redisData = redisClient.hget(NXPGCommon.MENU_GNB, param.get("menu_stb_svc_id"));
+			String redisData = redisClient.hget(NXPGCommon.MENU_GNB, param.get("menu_stb_svc_id"), param);
 			if ( redisData != null && !"".equals(redisData)) {
 				List<Object> menugnb = CastUtil.StringToJsonList(redisData);
 				List<Map<String, Object>> data = CastUtil.getObjectToMapList(menugnb);
@@ -85,7 +85,7 @@ public class MenuService {
 	
 	// IF-NXPG-002
 	public void getMenuAll(String ver, Map<String, String> param, Map<String, Object> rtn) throws Exception {
-		String version = StringUtils.defaultIfEmpty(redisClient.hget(NXPGCommon.VERSION,NXPGCommon.MENU_ALL + "_" + param.get("menu_stb_svc_id")), "");
+		String version = StringUtils.defaultIfEmpty(redisClient.hget(NXPGCommon.VERSION,NXPGCommon.MENU_ALL + "_" + param.get("menu_stb_svc_id"), param), "");
 		
 		if (version != null && param.containsKey("version") && !version.isEmpty()
 				&& CastUtil.getStringToLong(param.get("version")) >= CastUtil.getStringToLong(version)) {
@@ -93,7 +93,7 @@ public class MenuService {
 			rtn.put("result", "0000");
 			rtn.put("version", version);
 		} else {
-			String redisData = redisClient.hget(NXPGCommon.MENU_ALL, param.get("menu_stb_svc_id"));
+			String redisData = redisClient.hget(NXPGCommon.MENU_ALL, param.get("menu_stb_svc_id"), param);
 			if(redisData != null && !"".equals(redisData)) {
 				List<Object> menuall = CastUtil.StringToJsonList(redisData);
 				List<Map<String, Object>> data = (List<Map<String, Object>>) CastUtil.getObjectToMapList(menuall);
@@ -121,13 +121,13 @@ public class MenuService {
 	// IF-NXPG-003
 	public Map<String, Object> getBlockBigBanner(String ver, Map<String, String> param) throws Exception {
 //		System.out.println("11111 ::: " + param.get("menu_stb_svc_id") +  "_" + param.get("menu_id"));
-		Map<String, Object> bigbanner = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.BIG_BANNER, param.get("menu_stb_svc_id") + "_" + param.get("menu_id")));
+		Map<String, Object> bigbanner = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.BIG_BANNER, param.get("menu_stb_svc_id") + "_" + param.get("menu_id"), param));
 		
 		if (bigbanner != null && bigbanner.get("banners") != null) {
 			List<Map<String, Object>> banners = CastUtil.getObjectToMapList(bigbanner.get("banners"));
 			DateUtil.getCompare(banners, "dist_fr_dt", "dist_to_dt", false);
 			doSegment(banners, param.get("bnr_seg_id"), "cmpgn_id");
-			bigbanner.put("banner_count", bigbanner.get("total_count"));
+			bigbanner.put("banner_count", banners.size());
 			bigbanner.remove("total_count");
 		}
 		
@@ -136,7 +136,7 @@ public class MenuService {
 	
 	// IF-NXPG-003
 	public Map<String, Object> getBlockBlock(String ver, Map<String, String> param) throws Exception {
-		Map<String, Object> blockblock = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.BLOCK_BLOCK, param.get("menu_stb_svc_id") + "_" + param.get("menu_id")));
+		Map<String, Object> blockblock = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.BLOCK_BLOCK, param.get("menu_stb_svc_id") + "_" + param.get("menu_id"), param));
 		
 		if (blockblock != null && blockblock.get("blocks") != null) {
 			List<Map<String, Object>> blocks = CastUtil.getObjectToMapList(blockblock.get("blocks"));
@@ -177,7 +177,7 @@ public class MenuService {
 								String [] menuNtitle = temp.split("\\@");
 								
 								//그리드 콘텐츠에 존재하면서 만료일이 넘지 않은 경우 메뉴를 노출시킨다. 이외에는 노출시키지 않음
-								String cwPerGridStr = (String)redisClient.hget(NXPGCommon.GRID_CONTENTS, menuNtitle[0]);
+								String cwPerGridStr = (String)redisClient.hget(NXPGCommon.GRID_CONTENTS, menuNtitle[0], param);
 								
 								if(cwPerGridStr != null && !cwPerGridStr.isEmpty()) {
 									List<Map<String,Object>> cwPerGrid = null;
@@ -212,7 +212,7 @@ public class MenuService {
 				
 				if ("20".equals(map.get("blk_typ_cd")) && "N".equals(map.get("is_leaf"))) {
 
-					Map<String, Object> gridbanner = getGridBanner(param.get("menu_stb_svc_id") + "_" + map.get("menu_id").toString());
+					Map<String, Object> gridbanner = getGridBanner(param.get("menu_stb_svc_id") + "_" + map.get("menu_id").toString(), param);
 					if (gridbanner != null) {
 						DateUtil.getCompare(CastUtil.getObjectToMapList(gridbanner.get("banners")), "dist_fr_dt", "dist_to_dt", true);
 						doSegment(CastUtil.getObjectToMapList(gridbanner.get("banners")), param.get("seg_id"), "cmpgn_id");
@@ -223,13 +223,12 @@ public class MenuService {
 				}
 			}
 			
-			int totalCount = CastUtil.getStringToInteger(blockblock.get("total_count") + "");
 			
 			for( int o = 0 ; o<blocks.size(); o++) {
 				if( whichMap.containsKey(o)) {
 					blocks.addAll(o, whichMap.get(o));
 					
-					totalCount += whichMap.get(o).size();
+//					totalCount += whichMap.get(o).size();
 				}
 			}
 			
@@ -237,12 +236,12 @@ public class MenuService {
 			for (Map<String, Object> del : deleteList) {
 				if( blocks.contains(del)) {
 					blocks.remove(del);
-					k++;
 				}
 			}
+			int totalCount = blocks.size();
 			
 			
-			blockblock.put("block_count", totalCount - k);
+			blockblock.put("block_count", totalCount);
 			blockblock.remove("total_count");
 		}
 		
@@ -250,8 +249,8 @@ public class MenuService {
 	}
 	
 	// IF-NXPG-003
-	public Map<String, Object> getGridBanner(String menu_id) {
-		return CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.GRID_BANNER, menu_id));
+	public Map<String, Object> getGridBanner(String menu_id, Map<String, String> param) {
+		return CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.GRID_BANNER, menu_id, param));
 	}
 	
 	// IF-NXPG-005
@@ -262,7 +261,7 @@ public class MenuService {
 	 * 4. 2번에서 노출된 월덩액상품은 필터링하여 다른 메뉴에 노출시키지 않는다.
 	 */
 	public void getBlockMonth(Map<String, Object> rtn, Map<String, String> param) throws Exception {
-		Map<String, Object> bigbanner = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.BIG_BANNER, param.get("menu_stb_svc_id") + "_" + param.get("menu_id")));
+		Map<String, Object> bigbanner = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.BIG_BANNER, param.get("menu_stb_svc_id") + "_" + param.get("menu_id"), param));
 		
 		Map<String, Object> shcutblockblock = null;
 		
@@ -275,7 +274,7 @@ public class MenuService {
 		}
 //		List<Map<String, Object>> banners = CastUtil.getObjectToMapList(bigbanner.get("banners"));
 		
-		Map<String, Object> blockblock = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.BLOCK_BLOCK, param.get("menu_stb_svc_id") + "_" + param.get("menu_id")));
+		Map<String, Object> blockblock = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.BLOCK_BLOCK, param.get("menu_stb_svc_id") + "_" + param.get("menu_id"), param));
 
 		if (blockblock != null && blockblock.get("blocks") != null) {
 			
@@ -290,7 +289,7 @@ public class MenuService {
 				exceptionPid.put(pid,true);
 			}
 		
-			List<Object> monthList = CastUtil.StringToJsonList(redisClient.hget(NXPGCommon.BLOCK_MONTH, param.get("menu_stb_svc_id")));
+			List<Object> monthList = CastUtil.StringToJsonList(redisClient.hget(NXPGCommon.BLOCK_MONTH, param.get("menu_stb_svc_id"), param));
 			List<Map<String, Object>> user_month = new ArrayList<Map<String, Object>>();
 			if (monthList != null) {
 				for (Object month : monthList) {
@@ -321,7 +320,7 @@ public class MenuService {
 				}
 				
 				for (Map<String, Object> month_item : user_month) {
-					shcutblockblock = getGridBanner(param.get("menu_stb_svc_id") + "_" + month_item.get("shcut_menu_id") + "");
+					shcutblockblock = getGridBanner(param.get("menu_stb_svc_id") + "_" + month_item.get("shcut_menu_id") + "", param);
 					if (shcutblockblock != null && !shcutblockblock.isEmpty()) {
 						List<Map<String, Object>> shcutblocks = CastUtil.getObjectToMapList(shcutblockblock.get("banners"));
 						DateUtil.getCompare(shcutblocks, "dist_fr_dt", "dist_to_dt", false);
@@ -362,7 +361,7 @@ public class MenuService {
 				if ("20".equals(map.get("blk_typ_cd")) && "N".equals(map.get("is_leaf"))) {
 					
 
-					Map<String, Object> gridbanner = getGridBanner(param.get("menu_stb_svc_id") + "_" + map.get("menu_id").toString());
+					Map<String, Object> gridbanner = getGridBanner(param.get("menu_stb_svc_id") + "_" + map.get("menu_id").toString(), param);
 					if (gridbanner != null) {
 						List<Map<String,Object>> menubanners = CastUtil.getObjectToMapList(gridbanner.get("banners"));
 						

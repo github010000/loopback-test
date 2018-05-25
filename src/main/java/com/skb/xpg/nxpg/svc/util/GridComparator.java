@@ -30,7 +30,7 @@ public class GridComparator implements Comparator<Map<String, Object>> {
 		catch(Exception e) {
 			v1 = "";
 			v2 = "";
-			LogUtil.error("", "", "", "", "", e.toString());
+			LogUtil.error("", "", "", "", "", e.getStackTrace()[0].toString());
 		}
 		
 		return (flag ? v1.compareTo(v2) : v2.compareTo(v1));

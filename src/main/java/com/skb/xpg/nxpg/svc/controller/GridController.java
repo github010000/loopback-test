@@ -33,6 +33,7 @@ public class GridController {
 		String IF = param.get("IF");
 		Map<String, Object> result = properties.getResults();
 		Map<String, Object> rtn = new HashMap<String, Object>();
+		param.put("UUID", req.getHeader("UUID"));
 		rtn.putAll(result);
 		
 		rtn.put("IF", IF);
@@ -57,7 +58,7 @@ public class GridController {
 		try {
 			resultMap = gridService.getGrid(ver, param);
 		} catch (Exception e) {
-			LogUtil.error(IF, "REQ", "", param.get("stb_id"), "", e.toString());
+			LogUtil.error(IF, "REQ", "", param.get("stb_id"), "REDIS", e.getStackTrace()[0].toString());
 		}
 		
 		// 조회값 없음
@@ -81,6 +82,7 @@ public class GridController {
 		String IF = param.get("IF");
 		Map<String, Object> result = properties.getResults();
 		Map<String, Object> rtn = new HashMap<String, Object>();
+		param.put("UUID", req.getHeader("UUID"));
 		rtn.putAll(result);
 		
 		rtn.put("IF", IF);
@@ -97,7 +99,7 @@ public class GridController {
 		try {
 			resultMap = gridService.getGridEvent(ver, param);
 		} catch (Exception e) {
-			LogUtil.error(IF, "REQ", "", param.get("stb_id"), "", e.toString());
+			LogUtil.error(IF, "REQ", "", param.get("stb_id"), "", e.getStackTrace()[0].toString());
 		}
 		
 		// 조회값 없음

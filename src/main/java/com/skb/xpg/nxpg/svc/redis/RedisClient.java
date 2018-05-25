@@ -1,5 +1,7 @@
 package com.skb.xpg.nxpg.svc.redis;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -24,14 +26,14 @@ public class RedisClient {
 	CacheService cacheService;
 	
 
-	public String hget(String key, String field) {
+	public String hget(String key, String field, Map<String, String> param) {
 		Object obj = null;
 		
 		if (NXPGCommon.isUseFirstRedis()) {
 			try {
 				obj = redisTemplate.<String, Object>opsForHash().get(key, field);
 			} catch (Exception e) {
-				LogUtil.error("", "", "", "", "", e.toString());
+				LogUtil.error(param.get("IF"), "", param.get("UUID"), param.get("stb_id"), "REDIS", e.getStackTrace()[0].toString());
 				cacheService.addErrorCountAfterChangeRedis();
 				obj = secondRedisTemplate.<String, Object>opsForHash().get(key, field);
 			}
@@ -39,7 +41,7 @@ public class RedisClient {
 			try {
 				obj = secondRedisTemplate.<String, Object>opsForHash().get(key, field);
 			} catch (Exception e) {
-				LogUtil.error("", "", "", "", "", e.toString());
+				LogUtil.error(param.get("IF"), "", param.get("UUID"), param.get("stb_id"), "REDIS", e.getStackTrace()[0].toString());
 				cacheService.addErrorCountAfterChangeRedis();
 				obj = redisTemplate.<String, Object>opsForHash().get(key, field);
 			}

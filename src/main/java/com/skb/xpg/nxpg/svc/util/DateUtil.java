@@ -48,7 +48,7 @@ public class DateUtil {
 			return formatter.format(dd);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
-			LogUtil.error("", "", "", "", "", e.toString());
+			LogUtil.error("", "", "", "", "", e.getStackTrace()[0].toString());
 		}
 		return "";
 	}
@@ -122,7 +122,7 @@ public class DateUtil {
 			}
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
-			LogUtil.error("", "", "", "", "", e.toString());
+			LogUtil.error("", "", "", "", "", e.getStackTrace()[0].toString());
 		}
 
 		if (strTime == null || date.before(strTime)) {

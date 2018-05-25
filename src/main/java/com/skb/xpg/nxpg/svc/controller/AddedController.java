@@ -33,6 +33,7 @@ public class AddedController {
 
 		Map<String, Object> result = properties.getResults();
 		Map<String, Object> rtn = new HashMap<String, Object>();
+		param.put("UUID", req.getHeader("UUID"));
 		
 		rtn.putAll(result);
 		
@@ -49,7 +50,7 @@ public class AddedController {
         try {
         	resultMap = epgService.getAddedEpg(ver, param);
         } catch (Exception e) {
-        	LogUtil.error(IF, "REQ", "", param.get("stb_id"), "", e.toString());
+        	LogUtil.error(param.get("IF"), "", param.get("UUID"), param.get("stb_id"), "REDIS", e.getStackTrace()[0].toString());
         }
         // 조회값 없음
         if (resultMap == null) {
@@ -73,6 +74,7 @@ public class AddedController {
 
 		Map<String, Object> result = properties.getResults();
 		Map<String, Object> rtn = new HashMap<String, Object>();
+		param.put("UUID", req.getHeader("UUID"));
 		
 		rtn.putAll(result);
 		
@@ -89,7 +91,7 @@ public class AddedController {
         try {
         	resultMap = epgService.getAddedGenre(ver, param);
         } catch (Exception e) {
-        	LogUtil.error(IF, "REQ", "", param.get("stb_id"), "", e.toString());
+        	LogUtil.error(param.get("IF"), "", param.get("UUID"), param.get("stb_id"), "", e.getStackTrace()[0].toString());
         }
         // 조회값 없음
         if (resultMap == null) {
@@ -113,6 +115,7 @@ public class AddedController {
 
 		Map<String, Object> result = properties.getResults();
 		Map<String, Object> rtn = new HashMap<String, Object>();
+		param.put("UUID", req.getHeader("UUID"));
 		
 		rtn.putAll(result);
 		
@@ -126,9 +129,9 @@ public class AddedController {
         
         // 값 불러오기 
         try {
-        	epgService.getRealTimeChannel(rtn);
+        	epgService.getRealTimeChannel(rtn, param);
         } catch (Exception e) {
-        	LogUtil.error(IF, "REQ", "", param.get("stb_id"), "", e.toString());
+        	LogUtil.error(param.get("IF"), "", param.get("UUID"), param.get("stb_id"), "REDIS", e.getStackTrace()[0].toString());
         	rtn.put("result", "9997");
         }
 

@@ -55,7 +55,7 @@ public class CastUtil {
 				rtn = Integer.parseInt(str);
 			} catch (NumberFormatException e) {
 				rtn = 0;
-				LogUtil.error("", "", "", "", "", e.toString());
+				LogUtil.error("", "", "", "", "", e.getStackTrace()[0].toString());
 			}
 		}
 		return rtn;
@@ -69,7 +69,7 @@ public class CastUtil {
 				rtn = Integer.parseInt(obj.toString());
 			} catch (NumberFormatException e) {
 				rtn = 0;
-				LogUtil.error("", "", "", "", "", e.toString());
+				LogUtil.error("", "", "", "", "", e.getStackTrace()[0].toString());
 			}
 		}
 		return rtn;
@@ -83,7 +83,7 @@ public class CastUtil {
 				rtn = (long) obj;
 			} catch (NumberFormatException e) {
 				rtn = 0;
-				LogUtil.error("", "", "", "", "", e.toString());
+				LogUtil.error("", "", "", "", "", e.getStackTrace()[0].toString());
 			}
 		}
 		return rtn;
@@ -96,7 +96,7 @@ public class CastUtil {
 				rtn = Long.parseLong(str);
 			} catch (NumberFormatException e) {
 				rtn = 0;
-				LogUtil.error("", "", "", "", "", e.toString());
+				LogUtil.error("", "", "", "", "", e.getStackTrace()[0].toString());
 			}
 		}
 		return rtn;
@@ -109,7 +109,7 @@ public class CastUtil {
 				List<Object> list = parser.parseList(json);
 				return list;	
 			} catch (Exception e) {
-				LogUtil.error("", "", "", "", "", e.toString());
+				LogUtil.error("", "", "", "", "", e.getStackTrace()[0].toString());
 				return null;
 			}
 		} else return null;

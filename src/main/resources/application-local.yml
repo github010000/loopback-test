@@ -120,8 +120,3 @@ zuul:
     ge:
       path: /ge/**
       url: http://localhost:8090
-logging:
-  pattern:
-    console: "%d{yyyy-MM-dd HH:mm:ss.SSS}|%-5level|%msg%n"
-  level:
-    root: info, error

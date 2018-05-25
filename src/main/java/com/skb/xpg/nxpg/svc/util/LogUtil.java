@@ -71,8 +71,8 @@ public class LogUtil {
 			log += "|" + extName;
 		}
 		
-		data = data.replaceAll(":", "=");
-		data = data.replaceAll("[\\{|\\}|\"]", "");
+//		data = data.replaceAll(":", "=");
+//		data = data.replaceAll("[\\{|\\}|\"]", "");
 		data = "{\"msg\":\"" + data + "\"}";
 		
 		log += "|" + data;

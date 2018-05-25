@@ -60,7 +60,7 @@ public class RestClient {
 			request.addHeader("Authorization", "Basic " + encoding);
 		} catch (UnsupportedEncodingException e2) {
 			// TODO Auto-generated catch block
-			LogUtil.error(reqparam.get("IF"), "", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW", e2.toString());
+			LogUtil.error(reqparam.get("IF"), "", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW", e2.getStackTrace()[0].toString());
 		}
 		
 		
@@ -87,17 +87,17 @@ public class RestClient {
 				result.append(line);
 			}
 		} catch (ClientProtocolException e1) {
-			LogUtil.error(reqparam.get("IF"), "", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW",e1.toString());
+			LogUtil.error(reqparam.get("IF"), "", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW", e1.getStackTrace()[0].toString());
 		} catch (IOException e1) {
-			LogUtil.error(reqparam.get("IF"), "", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW",e1.toString());
+			LogUtil.error(reqparam.get("IF"), "", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW", e1.getStackTrace()[0].toString());
 		} catch (UnsupportedOperationException e) {
-			LogUtil.error(reqparam.get("IF"), "", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW",e.toString());
+			LogUtil.error(reqparam.get("IF"), "", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW", e.getStackTrace()[0].toString());
 		} finally {
 			try {
 				if(rd!=null) rd.close();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
-				LogUtil.error(reqparam.get("IF"), "", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW",e.toString());
+				LogUtil.error(reqparam.get("IF"), "", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW", e.getStackTrace()[0].toString());
 			}
 		}
 		Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -178,7 +178,7 @@ public class RestClient {
 				resultMap = apacheGet(builder.build().encode().toUri().toString(), reqparam);
 				
 			} catch (RestClientException e) {
-				LogUtil.error(reqparam.get("IF"), "", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW", e.toString());
+				LogUtil.error(reqparam.get("IF"), "", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW", e.getStackTrace()[0].toString());
 			}
 		}
 		

@@ -59,6 +59,8 @@ public class CwService {
 	
 	public Map<String, Object> cwGetGrid(String ver, Map<String, String> param) {
 		
+		param.put("cw_stb_id", param.get("stb_id"));
+		
 		Map<String, Object> result = new HashMap<String, Object>();
 		String type = CastUtil.getString(param.get("type"));
 //		String type = (String)param.get("type");
@@ -97,17 +99,17 @@ public class CwService {
 			time.put("after_start", System.nanoTime());
 			
 			temp.put("type", type);
-			resultList = makeCwGrid(temp);
+			resultList = makeCwGrid(temp, param, time);
 			result.put("status_code", temp.get("status_code"));
 			if(resultList != null && resultList.size()>0) {
 				result.put("grid", resultList);
 				result.put("size", resultList.size()+"");
 			}else {
-				LogUtil.info("IF-NXPG-009", "", param.get("UUID"), param.get("stb_id"), "CW", "CW Data is null or item list size is 0");
+				LogUtil.info("IF-NXPG-009", "", param.get("UUID"), param.get("cw_stb_id"), "CW", "CW Data is null or item list size is 0");
 				result = null;
 			}
 		}else {
-			LogUtil.info("IF-NXPG-009", "", param.get("UUID"), param.get("stb_id"), "CW", "CW API return null. switch value: " + cwSwitch);
+			LogUtil.info("IF-NXPG-009", "", param.get("UUID"), param.get("cw_stb_id"), "CW", "CW API return null. switch value: " + cwSwitch);
 			result = null;
 		}
 		
@@ -132,7 +134,7 @@ public class CwService {
 		Map<String, Object> time = null;
 		Map<String, Object> temp = null;
 		
-		String contentInfo = redisClient.hget(NXPGCommon.SYNOPSIS_SRISINFO,epsd_id);
+		String contentInfo = redisClient.hget(NXPGCommon.SYNOPSIS_SRISINFO, epsd_id, param);
 
 		if(contentInfo != null) {
 			result = new HashMap<String, Object>();
@@ -187,9 +189,9 @@ public class CwService {
 				time.put("after_start", System.nanoTime());
 				
 				if(result == null) return result = null;
-				LogUtil.error("IF-NXPG-012", "", "", "", "CW", "CW API return null switch value: "+cwSwitch);
+				LogUtil.info(param.get("IF"), "", param.get("UUID"), param.get("cw_stb_id"), "CW", "CW API return null switch value: "+cwSwitch);
 				result.put("status_code", "0002");
-				String srisInfo = redisClient.hget(NXPGCommon.SYNOPSIS_SRISINFO,epsd_id);
+				String srisInfo = redisClient.hget(NXPGCommon.SYNOPSIS_SRISINFO, epsd_id, param);
 				String regexRelation = "\\\"relation_contents\\\"[\\s]*:[\\s]*(\\[\\{.*?\\}\\])";
 				String relationData = StrUtil.getRegexString(regexRelation, srisInfo);
 				if(relationData != null && !"".equals(relationData)) {
@@ -211,7 +213,7 @@ public class CwService {
 				String contentTitle = StrUtil.getRegexString(regexTitle, contentInfo);
 				temp.put("contentTitle", contentTitle);
 				
-				resultList = makeCwRelation(temp, epsd_id);
+				resultList = makeCwRelation(temp, epsd_id, param);
 				if(result != null && resultList != null && resultList.size()>0 && temp.get("status_code") != null) {
 					result.put("status_code", temp.get("status_code"));
 					result.put("relation", resultList);
@@ -219,9 +221,9 @@ public class CwService {
 				}else {
 					result.put("status_code", temp.get("status_code"));
 					//CW 연동로직에 데이터가 없을 경우 
-					LogUtil.error("IF-NXPG-012", "", "", "", "CW", "CW Data is null or item list size is 0");
+					LogUtil.info(param.get("IF"), "", param.get("UUID"), param.get("cw_stb_id"), "CW", "CW Data is null or item list size is 0");
 					result.put("status_code", "0002");
-					String srisInfo = redisClient.hget(NXPGCommon.SYNOPSIS_SRISINFO,epsd_id);
+					String srisInfo = redisClient.hget(NXPGCommon.SYNOPSIS_SRISINFO,epsd_id, param);
 					String regexRelation = "\\\"relation_contents\\\"[\\s]*:[\\s]*(\\[\\{.*?\\}\\])";
 					String relationData = StrUtil.getRegexString(regexRelation, srisInfo);
 					if(relationData != null && !"".equals(relationData)) {
@@ -237,7 +239,7 @@ public class CwService {
 				}
 			}
 		}else {
-			LogUtil.error("IF-NXPG-012", "", "", "", "NCMS", "content data is null. epsd_id: "+epsd_id);
+			LogUtil.info(param.get("IF"), "", param.get("UUID"), param.get("cw_stb_id"), "NCMS", "content data is null. epsd_id: "+epsd_id);
 		}
 		
 		//Log에 처리 시간 프린트 (CW포함)
@@ -270,8 +272,6 @@ public class CwService {
 		//경로에 cw call id 치환
 		String regex = "\\{(.*?)\\}";
 		path = path.replaceAll(regex, param.get("cw_call_id"));
-		
-		param.put("cw_stb_id", param.get("stb_id"));
 		
 		//파라미터에 콘텐츠 아이디가 존재하면 연관콘텐츠 호출
 		if(param.containsKey("con_id")) {
@@ -319,11 +319,11 @@ public class CwService {
 					objMap.put("epsd_id", param.get("epsd_id"));
 				}else {
 					objMap.put("status_code", "0002");
-					LogUtil.info("", "", "", param.get("cw_stb_id"), "CW", "CW code : "+codeValue+", url : " + cwBaseUrl + path);
+					LogUtil.info(param.get("IF"), "", param.get("UUID"), param.get("cw_stb_id"), "CW", "CW code : "+codeValue+", url : " + cwBaseUrl + path);
 				}
 			}
 		} else {
-			LogUtil.info("", "", "", param.get("cw_stb_id"), "CW", "rest data null, url : " + cwBaseUrl + path);
+			LogUtil.info(param.get("IF"), "", param.get("UUID"), param.get("cw_stb_id"), "CW", "rest data null, url : " + cwBaseUrl + path);
 		}
 		
 		restResult.remove("result");
@@ -334,7 +334,7 @@ public class CwService {
 	}
 	
 	//CW 추천그리드 생성로직
-	public List<Map<String, Object>> makeCwGrid(Map<String, Object> objMap) {
+	public List<Map<String, Object>> makeCwGrid(Map<String, Object> objMap, Map<String, String> param, Map<String, Object> time) {
 		
 		List<Map<String, Object>> resultList = new ArrayList<Map<String,Object>>();
 		
@@ -355,6 +355,7 @@ public class CwService {
 				Map<String, Object> resultMap = new HashMap<String, Object>();
 				List<String> tempIdList = CastUtil.getObjectToListString(temp.get("idList"));
 				if(tempIdList != null) {
+					int cnt = 0;
 					for(String dataGrp:tempIdList) {
 						String [] idNblockId = dataGrp.split("\\|");
 						
@@ -362,9 +363,10 @@ public class CwService {
 //						String trackId = idNblockId[1];
 
 						Map<String, Object> gridData = new HashMap<String, Object>();
-
-						makeCwGridMap(idNblockId, gridData, resultGridList);
+						cnt += makeCwGridMap(idNblockId, gridData, resultGridList, param);
+						
 					}
+					time.put("redis_count", cnt);
 				}else {
 					//아이템이 없을 경우 카운트 추가
 					if(type != null && !"section".equals(type)) {
@@ -374,7 +376,7 @@ public class CwService {
 				
 				//onepage호출시 첫번쨰 블록에 데이터가 없으면 리턴
 				if(type != null && "onepage".equals(type) && checkFirstBlock && resultGridList.size()<=0) {
-					LogUtil.info("IF-NXPG-009", "", "", "", "CW", "No Exist Match Data. CW code: 0, CW result size : " +  + resultList.size());
+					LogUtil.info(param.get("IF"), "", param.get("UUID"), param.get("cw_stb_id"), "CW", "No Exist Match Data. CW code: 0, CW result size : " +  + resultList.size());
 					checkFirstBlock=false;
 					return null;
 				}
@@ -407,7 +409,7 @@ public class CwService {
 		
 		//CW status가 0 이었지만, 데이터가 하나도 없었을 경우 처리로직
 		if(i==resultList.size()) {
-			LogUtil.info("IF-NXPG-009", "", "", "", "CW", "No Exist Match Data. CW code: 0");
+			LogUtil.info(param.get("IF"), "", param.get("UUID"), param.get("cw_stb_id"), "CW", "No Exist Match Data. CW code: 0");
 			cwGrid = null;
 		}
 		
@@ -415,7 +417,7 @@ public class CwService {
 	}
 	
 	//CW 연관콘텐츠 생성로직
-	public List makeCwRelation(Map<String, Object> objMap, String param_epsd_id) {
+	public List makeCwRelation(Map<String, Object> objMap, String param_epsd_id, Map<String, String> param) {
 		
 		
 		List<Map<String, Object>> resultList = new ArrayList<Map<String,Object>>();
@@ -444,7 +446,7 @@ public class CwService {
 						
 						Map<String, Object> relationData = new HashMap<String, Object>();
 						
-						makeCwGridMap(idNblockId, relationData, resultRelationList);
+						makeCwGridMap(idNblockId, relationData, resultRelationList, param);
 						
 						
 					}
@@ -457,7 +459,7 @@ public class CwService {
 				String sub_title=CastUtil.getObjectToString(temp.get("blockTitle"));
 				String content_title=CastUtil.getObjectToString(objMap.get("contentTitle"));
 				if(sub_title != null && !sub_title.isEmpty()) {
-					sub_title = restMatching(param_epsd_id, sub_title, content_title);
+					sub_title = restMatching(param_epsd_id, sub_title, content_title, param);
 				}
 				
 				resultMap.put("sectionId", temp.get("sectionId"));
@@ -474,7 +476,7 @@ public class CwService {
 				
 				//onepage호출시 첫번쨰 블록에 데이터가 없으면 리턴
 				if("onepage".equals(type) && checkFirstBlock && resultRelationList.size()<=0) {
-					LogUtil.error("IF-NXPG-012", "", "", "", "NCMS", "No Exist Match Data. CW code: 0");
+					LogUtil.info(param.get("IF"), "", param.get("UUID"), param.get("cw_stb_id"), "NCMS", "No Exist Match Data. CW code: 0");
 					checkFirstBlock=false;
 					return null;
 				}
@@ -493,7 +495,7 @@ public class CwService {
 		
 		//CW status가 0 이었지만, 데이터가 하나도 없었을 경우 처리로직
 		if(i==resultList.size()) {
-			LogUtil.error("IF-NXPG-012", "", "", "", "CW", "No Exist Match Data. CW code: 0");
+			LogUtil.info(param.get("IF"), "", param.get("UUID"), param.get("cw_stb_id"), "CW", "No Exist Match Data. CW code: 0");
 			cwRelation = null;
 		}
 		
@@ -624,9 +626,9 @@ public class CwService {
 	
 	
 	//연관콘텐츠 제목 생성로직
-	public String restMatching(String epsd_id, String sub_title, String content_title) {
+	public String restMatching(String epsd_id, String sub_title, String content_title, Map<String, String> param) {
 		
-		String actorString = CastUtil.getObjectToString(redisClient.hget(NXPGCommon.CONTENTS_PEOPLE, epsd_id));
+		String actorString = CastUtil.getObjectToString(redisClient.hget(NXPGCommon.CONTENTS_PEOPLE, epsd_id, param));
 		
 		Map<String,List<Object>> codePeopleMap = null;
 		if(actorString != null && !actorString.isEmpty()) {
@@ -714,17 +716,18 @@ public class CwService {
 		}
 	}
 	
-	private void makeCwGridMap(String[] idNblockId, Map<String, Object> gridData, List<Map<String, Object>> resultGridList) {
-
+	private int makeCwGridMap(String[] idNblockId, Map<String, Object> gridData, List<Map<String, Object>> resultGridList, Map<String, String> param) {
+		int redisCnt = 0;
 		String epsd_rslu_id = idNblockId[0];
 		String trackId = idNblockId[1];
 		
-		Map<String, Object> cidInfo = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.CONTENTS_CIDINFO,epsd_rslu_id));
+		Map<String, Object> cidInfo = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.CONTENTS_CIDINFO, epsd_rslu_id, param));
+		redisCnt++;
 		if(cidInfo != null) {
 			String sris_id = CastUtil.getObjectToString(cidInfo.get("sris_id"));
 			String epsd_id = CastUtil.getObjectToString(cidInfo.get("epsd_id"));
-			Map<String, Object> gridInfo = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.GRID_CONTENTS_ITEM,epsd_id));
-
+			Map<String, Object> gridInfo = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.GRID_CONTENTS_ITEM, epsd_id, param));
+			redisCnt++;
 			if(gridInfo != null && !gridInfo.isEmpty()) {
 			
 				gridService.checkBadge(gridInfo);
@@ -734,9 +737,11 @@ public class CwService {
 				resultGridList.add(gridData);
 			} else {
 				
-				Map<String, Object> sris = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.SYNOPSIS_CONTENTS, sris_id));
+				Map<String, Object> sris = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.SYNOPSIS_CONTENTS, sris_id, param));
+				redisCnt++;
 				Map<String, Object> purchares = null;
-				Map<String, Object> epsd = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.SYNOPSIS_SRISINFO, epsd_id));
+				Map<String, Object> epsd = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.SYNOPSIS_SRISINFO, epsd_id, param));
+				redisCnt++;
 				if(sris != null && epsd != null) {
 					Map<String, Object> cwGridMap = CastUtil.getObjectToMap(properties.getCw().get("grid"));
 					if (cwGridMap != null) {
@@ -758,10 +763,11 @@ public class CwService {
 					gridData.put("cacbro_yn", epsd.get("cacbro_yn"));
 					resultGridList.add(gridData);
 					
-					purchares = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.CONTENTS_PURCHARES, sris_id));
+					purchares = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.CONTENTS_PURCHARES, sris_id, param));
+					redisCnt++;
 				} else {
 //					LogUtil.info("", "", "", "", "CW", "CONTENTS NULL : " + epsd_id);
-					return;
+					return redisCnt;
 				}
 				if (purchares != null) {
 					List<Map<String, Object>> listPurchares = CastUtil.getObjectToMapList(purchares.get("products"));
@@ -776,6 +782,7 @@ public class CwService {
 				gridService.checkBadge(gridData);
 			}
 		}
+		return redisCnt;
 	}
 
 	private void printProcessTime(Map<String, Object> time, Map<String, String> param) {
@@ -786,11 +793,13 @@ public class CwService {
 		long after_start = CastUtil.getObjectToLong(time.get("after_start"));
 		long after_end = CastUtil.getObjectToLong(time.get("after_end"));
 		
+		String redis_count = time.get("redis_count") + "";
+		
 		long cw = (cw_end - cw_start) / 1000000;
 		long after = (after_end - after_start) / 1000000;
 		
 		String log = "";
-		log = "sum = " + (cw + after) + ", cw = " + cw + ", after biz logic = " + after + " (milisecond)";
+		log = "sum = " + (cw + after) + ", cw = " + cw + ", biz_redis = " + after + ", redis hget cnt = " + redis_count;
 		
 		LogUtil.info(param.get("IF"), "", param.get("UUID"), param.get("cw_stb_id"), "CW_REDIS", log);
 	}

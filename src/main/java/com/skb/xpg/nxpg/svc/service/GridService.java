@@ -27,73 +27,76 @@ public class GridService {
 	
 	// IF-NXPG-006
 	public Map<String, Object> getGrid(String ver, Map<String, String> param) throws Exception {
-		Map<String, Object> gridMap = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.GRID_CONTENTS, param.get("menu_id")));
+		Map<String, Object> gridMap = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.GRID_CONTENTS, param.get("menu_id"), param));
 		
-		List<Map<String, Object>> gridList = CastUtil.getObjectToMapList(gridMap.get("contents"));
+		List<Map<String, Object>> gridList = null;
 		List<Map<String, Object>> gList = new ArrayList<>();
-		//셋탑의 화질
-		String rslu_type = CastUtil.getString(param.get("rslu_type"));
-		String order_type=CastUtil.getString(param.get("order_type"));
 		
-		DateUtil.getCompare(gridList, "svc_fr_dt", "svc_to_dt", false);
-		
-
-		int currentCount = 0;
-		int tCount = 0;
-		if(gridList != null) {
+		if (gridMap != null && gridMap.containsKey("contents")) {
+			gridList = CastUtil.getObjectToMapList(gridMap.get("contents"));
+			DateUtil.getCompare(gridList, "svc_fr_dt", "svc_to_dt", false);
 			
-			// 그리드 타이틀 정렬 처리
-			List<Map<String, Object>> mCopyGrids = null;
-			try {
-				if(!"".equals(order_type)) {
-					mCopyGrids = new ArrayList<Map<String, Object>>(gridList);
-					
-					Collections.sort(mCopyGrids, new GridComparator(order_type, true));
-					gridList = mCopyGrids;
-				}
-			}
-			catch(Exception e){
-				LogUtil.error("IF-NXPG-006", "", "", "", "getGrid", e.toString());
-			}
+			//셋탑의 화질
+			String rslu_type = CastUtil.getString(param.get("rslu_type"));
+			String order_type = CastUtil.getString(param.get("order_type"));
 			
-			for (Iterator<Map<String,Object>> iterator = gridList.iterator(); iterator.hasNext() ; ) {
-				Map<String, Object> map = CastUtil.getObjectToMap(iterator.next());
-				String rslu_typ_cd = CastUtil.getObjectToString(map.get("rslu_typ_cd"));
+			int currentCount = 0;
+			int tCount = 0;
+			if(gridList != null) {
 				
-				//진입한 STB의 화질이 콘텐츠의 화질보다 낮을 경우 필터링.(상위 화질은 안보이게 한다.)
-				if(rslu_type != null && !rslu_type.isEmpty() && CastUtil.getStringToInteger(rslu_typ_cd)>CastUtil.getStringToInteger(rslu_type)) {
-					iterator.remove();
+				// 그리드 타이틀 정렬 처리
+				List<Map<String, Object>> mCopyGrids = null;
+				try {
+					if(!"".equals(order_type)) {
+						mCopyGrids = new ArrayList<Map<String, Object>>(gridList);
+						
+						Collections.sort(mCopyGrids, new GridComparator(order_type, true));
+						gridList = mCopyGrids;
+					}
 				}
+				catch(Exception e){
+					LogUtil.error(param.get("IF"), "", param.get("UUID"), param.get("stb_id"), "REDIS", e.getStackTrace()[0].toString());
+				}
+				
+				for (Iterator<Map<String,Object>> iterator = gridList.iterator(); iterator.hasNext() ; ) {
+					Map<String, Object> map = CastUtil.getObjectToMap(iterator.next());
+					String rslu_typ_cd = CastUtil.getObjectToString(map.get("rslu_typ_cd"));
+					
+					//진입한 STB의 화질이 콘텐츠의 화질보다 낮을 경우 필터링.(상위 화질은 안보이게 한다.)
+					if(rslu_type != null && !rslu_type.isEmpty() && CastUtil.getStringToInteger(rslu_typ_cd)>CastUtil.getStringToInteger(rslu_type)) {
+						iterator.remove();
+					}
+				}
+				
+				tCount = gridList.size();
+				currentCount = tCount;
+				int pageNo = CastUtil.getStringToInteger(param.get("page_no"));
+	            int pageCnt = CastUtil.getStringToInteger(param.get("page_cnt"));
+	            
+	            int startNo = ((pageNo - 1 < 0) ? 0 : ((pageNo - 1) * pageCnt));
+	            int endNo = ((pageNo < 0) ? tCount : (startNo + pageCnt));
+	      
+	            endNo = (endNo > tCount) ? tCount : endNo;
+	//	            System.out.println("PAGE INFO pageNo : " + pageNo + ", pageCnt : " + pageCnt + ", startNo : " + startNo + ", endNo : " + endNo );
+	            gList = new ArrayList<Map<String, Object>>();
+	            
+	            
+	            for (Map<String, Object> grid : gridList.subList(startNo, endNo)) {
+	            	checkBadge(grid);
+	            	gList.add(grid);
+	            }
+	            tCount = gList.size();
 			}
-			
-			tCount = gridList.size();
-			currentCount = tCount;
-			int pageNo = CastUtil.getStringToInteger(param.get("page_no"));
-            int pageCnt = CastUtil.getStringToInteger(param.get("page_cnt"));
-            
-            int startNo = ((pageNo - 1 < 0) ? 0 : ((pageNo - 1) * pageCnt));
-            int endNo = ((pageNo < 0) ? tCount : (startNo + pageCnt));
-      
-            endNo = (endNo > tCount) ? tCount : endNo;
-//	            System.out.println("PAGE INFO pageNo : " + pageNo + ", pageCnt : " + pageCnt + ", startNo : " + startNo + ", endNo : " + endNo );
-            gList = new ArrayList<Map<String, Object>>();
-            
-            
-            for (Map<String, Object> grid : gridList.subList(startNo, endNo)) {
-            	checkBadge(grid);
-            	gList.add(grid);
-            }
-            tCount = gList.size();
+			gridMap.put("contents", gList);
+			gridMap.put("total_count", currentCount);
 		}
-		gridMap.put("contents", gList);
-		gridMap.put("total_count", currentCount);
 		
 		return gridMap;
 	}
 	
 	// IF-NXPG-007
 	public Map<String, Object> getGridEvent(String ver, Map<String, String> param) throws Exception {
-		Map<String, Object> gridBanner = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.GRID_BANNER, param.get("menu_stb_svc_id") + "_" + param.get("menu_id")));
+		Map<String, Object> gridBanner = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.GRID_BANNER, param.get("menu_stb_svc_id") + "_" + param.get("menu_id"), param));
 
 		List<Map<String, Object>> banners = null;
 		if (gridBanner.get("banners") != null) {
