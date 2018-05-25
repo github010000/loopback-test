@@ -25,18 +25,16 @@ public class ControllerTest extends BaseControllerTest {
 		
 		headers.add("Content-Type", "application/json;charset=utf-8");
 		headers.add("Accept", "application/json;charset=utf-8");
-		String RequestData = "/task/adderror";
+		String RequestData = "/v5/task/adderror";
 		HttpEntity<String> entity = new HttpEntity<String>(null, headers);
 		ResponseEntity<String> response = null;
-		for (int i = 0; i < 9; i++) {
-			response = restTemplate.exchange(createURLWithPort(RequestData), HttpMethod.GET, entity,
-					String.class);
-		}
+		response = restTemplate.exchange(createURLWithPort(RequestData), HttpMethod.GET, entity,
+				String.class);
 		if (null != response) {
 			System.out.println(response);
 		}
 		
-		RequestData = u001;
+		RequestData = "/v5/task/switch";
 		response = restTemplate.exchange(createURLWithPort(RequestData), HttpMethod.GET, entity,
 				String.class);
 	}
@@ -494,7 +492,7 @@ public class ControllerTest extends BaseControllerTest {
 	String au007_2 ="/v5/grid/event?menu_stb_svc_id=UI50_BSUHD2&IF=IF-NXPG-007&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D";	//9999 파라미터 누락
 	String au008_1 ="/v5/contents/rating?menu_stb_svc_id=UI50_BSUHD2&IF=IF-NXPG-008&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&sris_id=CS0292&page_no=1&page_cnt=2&site_cd=10";	//9998 결과값 없음
 	String au008_2 ="/v5/contents/rating?menu_stb_svc_id=UI50_BSUHD2&IF=IF-NXPG-008&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&page_no=1&page_cnt=2&site_cd=10";	//9999 파라미터 누락
-	String au009_1 ="/v5/inter/cwgrid?menu_stb_svc_id=UI50_BSUHD&menu_id=NM1000018206&stb_id=%7B660D7F55-89D8-11E5-ADA814417%7D&cw_call_id=TEST.NEW.APIS.PAGE&track_id=368.34727.1522911308391&session_id=b4566b6b-73b9-4f05-ab68-a80ff25a6c95&type=all&IF=IF-NXPG-009";	//9998 결과값 없음
+	String au009_1 ="/v5/inter/cwgrid?menu_stb_svc_id=UI50_BSUHD&stb_id=%7B660D7F55-89D8-11E5-ADA814417%7D&cw_call_id=TEST.NEW.APIS.PAGE&track_id=368.34727.1522911308391&session_id=b4566b6b-73b9-4f05-ab68-a80ff25a6c95&type=all&IF=IF-NXPG-009";	//9998 결과값 없음
 	String au009_2 ="/v5/inter/cwgrid?menu_stb_svc_id=UI50_BSUHD&menu_id=NM1000018206&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&track_id=368.34727.1522911308391&session_id=b4566b6b-73b9-4f05-ab68-a80ff25a6c95&type=all&IF=IF-NXPG-009";	//9999 파라미터 누락
 	String au010_1 ="/v5/contents/synopsis?menu_stb_svc_id=UI50_BSUHD2&search_type=1&epsd_id=CE0001278822&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&yn_recent=Y&IF=IF-NXPG-010";	//9998 결과값 없음
 	String au010_2 ="/v5/contents/synopsis?menu_stb_svc_id=UI50_BSUHD2&search_type=1&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&yn_recent=Y&IF=IF-NXPG-010";	//9999 타입확인
