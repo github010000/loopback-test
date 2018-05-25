@@ -108,14 +108,13 @@ public class CwService {
 				LogUtil.info("IF-NXPG-009", "", param.get("UUID"), param.get("cw_stb_id"), "CW", "CW Data is null or item list size is 0");
 				result = null;
 			}
+			//Log에 처리 시간 프린트 (CW포함)
+			time.put("after_end", System.nanoTime());
+			printProcessTime(time, param);
 		}else {
 			LogUtil.info("IF-NXPG-009", "", param.get("UUID"), param.get("cw_stb_id"), "CW", "CW API return null. switch value: " + cwSwitch);
 			result = null;
 		}
-		
-		//Log에 처리 시간 프린트 (CW포함)
-		time.put("after_end", System.nanoTime());
-		printProcessTime(time, param);
 		
 		return result;
 		
