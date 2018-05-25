@@ -8,10 +8,18 @@ import org.springframework.stereotype.Component;
 @Component
 public class LogUtil {
 	
-	@Value("${vcap.application.name}")
 	private static String HostName;
-	@Value("${vcap.application.instance_index}")
 	private static String HostIp;
+	
+	@Value("${vcap.application.name}")
+    private void setHostName(String HostName){
+		LogUtil.HostName = HostName;
+    }
+	
+	@Value("${vcap.application.instance_index}")
+    private void setHostIp(String HostIp){
+		LogUtil.HostIp = HostIp;
+    }
 	
 	private static Logger logger = LoggerFactory.getLogger(LogUtil.class.getName());
 
