@@ -185,8 +185,6 @@ public class CwService {
 			
 			//파라미터가 안넘어 왔거나 temp값이 없을 시 처리
 			if(temp == null) {
-				time = CastUtil.getObjectToMap(temp.get("time"));
-				time.put("after_start", System.nanoTime());
 				
 				if(result == null) return result = null;
 				LogUtil.info(param.get("IF"), "", param.get("UUID"), param.get("cw_stb_id"), "CW", "CW API return null switch value: "+cwSwitch);
@@ -207,6 +205,8 @@ public class CwService {
 				
 				return result;
 			}else {
+				time = CastUtil.getObjectToMap(temp.get("time"));
+				time.put("after_start", System.nanoTime());
 //				if(result == null) return null;
 				temp.put("type", type);
 				String regexTitle = "\"sub_title\"[\\s]*:[\\s]*\"([^\"]+)\"";
@@ -237,14 +237,14 @@ public class CwService {
 						result = null;
 					}
 				}
+				time.put("after_end", System.nanoTime());
+				printProcessTime(time, param);
 			}
 		}else {
 			LogUtil.info(param.get("IF"), "", param.get("UUID"), param.get("cw_stb_id"), "NCMS", "content data is null. epsd_id: "+epsd_id);
 		}
 		
 		//Log에 처리 시간 프린트 (CW포함)
-		time.put("after_end", System.nanoTime());
-		printProcessTime(time, param);
 		
 		return result;
 		
@@ -321,13 +321,17 @@ public class CwService {
 					objMap.put("status_code", "0002");
 					LogUtil.info(param.get("IF"), "", param.get("UUID"), param.get("cw_stb_id"), "CW", "CW code : "+codeValue+", url : " + cwBaseUrl + path);
 				}
+				
+				if (restResult != null) {
+					restResult.remove("result");
+					objMap.put("time", restResult);
+				}
+				
 			}
 		} else {
 			LogUtil.info(param.get("IF"), "", param.get("UUID"), param.get("cw_stb_id"), "CW", "rest data null, url : " + cwBaseUrl + path);
 		}
 		
-		restResult.remove("result");
-		objMap.put("time", restResult);
 		
 		return objMap;
 		
