@@ -365,15 +365,20 @@ public class MenuService {
 					if (gridbanner != null) {
 						List<Map<String,Object>> menubanners = CastUtil.getObjectToMapList(gridbanner.get("banners"));
 						
+						List<Map<String,Object>> removeTemp = new ArrayList<Map<String, Object>>();
 						for(int i = 0; i<menubanners.size(); i++) {
 							Map<String, Object>temp = menubanners.get(i);
 							
 							if(temp.get("prd_prc_id") != null && !"".equals(temp.get("prd_prc_id"))){
 								if(exceptionPid.containsKey(temp.get("prd_prc_id"))) {
-									menubanners.remove(i);
-									i--;
+//									menubanners.remove(i);
+									removeTemp.add(temp);
 								}
 							}
+						}
+						
+						for (Map<String, Object> rt : removeTemp) {
+							menubanners.remove(rt);
 						}
 						
 						DateUtil.getCompare(menubanners, "dist_fr_dt", "dist_to_dt", true);

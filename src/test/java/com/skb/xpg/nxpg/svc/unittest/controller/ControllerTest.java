@@ -530,7 +530,7 @@ public class ControllerTest extends BaseControllerTest {
 				System.out.println("Fail");
 			}
 		} catch (Exception e) {
-			System.out.println(e.getStackTrace()[0].toString());
+			System.out.println(e.toString());
 		}
 	}
 
@@ -552,7 +552,7 @@ public class ControllerTest extends BaseControllerTest {
 				System.out.println("Fail");
 			}
 		} catch (Exception e) {
-			System.out.println(e.getStackTrace()[0].toString());
+			System.out.println(e.toString());
 		}
 	}
 
@@ -574,7 +574,7 @@ public class ControllerTest extends BaseControllerTest {
 				System.out.println("Fail");
 			}
 		} catch (Exception e) {
-			System.out.println(e.getStackTrace()[0].toString());
+			System.out.println(e.toString());
 		}
 	}
 
@@ -596,7 +596,7 @@ public class ControllerTest extends BaseControllerTest {
 				System.out.println("Fail");
 			}
 		} catch (Exception e) {
-			System.out.println(e.getStackTrace()[0].toString());
+			System.out.println(e.toString());
 		}
 	}
 
@@ -618,7 +618,7 @@ public class ControllerTest extends BaseControllerTest {
 				System.out.println("Fail");
 			}
 		} catch (Exception e) {
-			System.out.println(e.getStackTrace()[0].toString());
+			System.out.println(e.toString());
 		}
 	}
 
@@ -640,7 +640,7 @@ public class ControllerTest extends BaseControllerTest {
 				System.out.println("Fail");
 			}
 		} catch (Exception e) {
-			System.out.println(e.getStackTrace()[0].toString());
+			System.out.println(e.toString());
 		}
 	}
 
@@ -662,7 +662,7 @@ public class ControllerTest extends BaseControllerTest {
 				System.out.println("Fail");
 			}
 		} catch (Exception e) {
-			System.out.println(e.getStackTrace()[0].toString());
+			System.out.println(e.toString());
 		}
 	}
 
@@ -684,7 +684,7 @@ public class ControllerTest extends BaseControllerTest {
 				System.out.println("Fail");
 			}
 		} catch (Exception e) {
-			System.out.println(e.getStackTrace()[0].toString());
+			System.out.println(e.toString());
 		}
 	}
 
@@ -706,7 +706,7 @@ public class ControllerTest extends BaseControllerTest {
 				System.out.println("Fail");
 			}
 		} catch (Exception e) {
-			System.out.println(e.getStackTrace()[0].toString());
+			System.out.println(e.toString());
 		}
 	}
 
@@ -728,7 +728,7 @@ public class ControllerTest extends BaseControllerTest {
 				System.out.println("Fail");
 			}
 		} catch (Exception e) {
-			System.out.println(e.getStackTrace()[0].toString());
+			System.out.println(e.toString());
 		}
 	}
 
@@ -750,7 +750,7 @@ public class ControllerTest extends BaseControllerTest {
 				System.out.println("Fail");
 			}
 		} catch (Exception e) {
-			System.out.println(e.getStackTrace()[0].toString());
+			System.out.println(e.toString());
 		}
 	}
 	
@@ -772,7 +772,7 @@ public class ControllerTest extends BaseControllerTest {
 				System.out.println("Fail");
 			}
 		} catch (Exception e) {
-			System.out.println(e.getStackTrace()[0].toString());
+			System.out.println(e.toString());
 		}
 	}
 
@@ -794,7 +794,7 @@ public class ControllerTest extends BaseControllerTest {
 				System.out.println("Fail");
 			}
 		} catch (Exception e) {
-			System.out.println(e.getStackTrace()[0].toString());
+			System.out.println(e.toString());
 		}
 	}
 
@@ -816,7 +816,7 @@ public class ControllerTest extends BaseControllerTest {
 				System.out.println("Fail");
 			}
 		} catch (Exception e) {
-			System.out.println(e.getStackTrace()[0].toString());
+			System.out.println(e.toString());
 		}
 	}
 
@@ -838,7 +838,7 @@ public class ControllerTest extends BaseControllerTest {
 				System.out.println("Fail");
 			}
 		} catch (Exception e) {
-			System.out.println(e.getStackTrace()[0].toString());
+			System.out.println(e.toString());
 		}
 	}
 
@@ -860,7 +860,7 @@ public class ControllerTest extends BaseControllerTest {
 				System.out.println("Fail");
 			}
 		} catch (Exception e) {
-			System.out.println(e.getStackTrace()[0].toString());
+			System.out.println(e.toString());
 		}
 	}
 
@@ -882,7 +882,7 @@ public class ControllerTest extends BaseControllerTest {
 				System.out.println("Fail");
 			}
 		} catch (Exception e) {
-			System.out.println(e.getStackTrace()[0].toString());
+			System.out.println(e.toString());
 		}
 	}
 
@@ -904,7 +904,7 @@ public class ControllerTest extends BaseControllerTest {
 				System.out.println("Fail");
 			}
 		} catch (Exception e) {
-			System.out.println(e.getStackTrace()[0].toString());
+			System.out.println(e.toString());
 		}
 	}
 
@@ -926,7 +926,7 @@ public class ControllerTest extends BaseControllerTest {
 				System.out.println("Fail");
 			}
 		} catch (Exception e) {
-			System.out.println(e.getStackTrace()[0].toString());
+			System.out.println(e.toString());
 		}
 	}
 	
@@ -950,7 +950,7 @@ public class ControllerTest extends BaseControllerTest {
 				System.out.println("Fail");
 			}
 		} catch (Exception e) {
-			System.out.println(e.getStackTrace()[0].toString());
+			System.out.println(e.toString());
 		}
 	}
 
@@ -972,7 +972,7 @@ public class ControllerTest extends BaseControllerTest {
 				System.out.println("Fail");
 			}
 		} catch (Exception e) {
-			System.out.println(e.getStackTrace()[0].toString());
+			System.out.println(e.toString());
 		}
 	}
 
@@ -995,7 +995,7 @@ public class ControllerTest extends BaseControllerTest {
 				System.out.println("Fail");
 			}
 		} catch (Exception e) {
-			System.out.println(e.getStackTrace()[0].toString());
+			System.out.println(e.toString());
 		}
 	}
 
@@ -1017,7 +1017,7 @@ public class ControllerTest extends BaseControllerTest {
 				System.out.println("Fail");
 			}
 		} catch (Exception e) {
-			System.out.println(e.getStackTrace()[0].toString());
+			System.out.println(e.toString());
 		}
 	}
 	
@@ -1040,7 +1040,7 @@ public class ControllerTest extends BaseControllerTest {
 				System.out.println("Fail");
 			}
 		} catch (Exception e) {
-			System.out.println(e.getStackTrace()[0].toString());
+			System.out.println(e.toString());
 		}
 	}
 
@@ -1062,7 +1062,7 @@ public class ControllerTest extends BaseControllerTest {
 				System.out.println("Fail");
 			}
 		} catch (Exception e) {
-			System.out.println(e.getStackTrace()[0].toString());
+			System.out.println(e.toString());
 		}
 	}
 //	@Test
@@ -1083,7 +1083,7 @@ public class ControllerTest extends BaseControllerTest {
 //				System.out.println("Fail");
 //			}
 //		} catch (Exception e) {
-//			System.out.println(e.getStackTrace()[0].toString());
+//			System.out.println(e.toString());
 //		}
 //	}
 //
@@ -1105,7 +1105,7 @@ public class ControllerTest extends BaseControllerTest {
 //				System.out.println("Fail");
 //			}
 //		} catch (Exception e) {
-//			System.out.println(e.getStackTrace()[0].toString());
+//			System.out.println(e.toString());
 //		}
 //	}
 //
@@ -1127,7 +1127,7 @@ public class ControllerTest extends BaseControllerTest {
 //				System.out.println("Fail");
 //			}
 //		} catch (Exception e) {
-//			System.out.println(e.getStackTrace()[0].toString());
+//			System.out.println(e.toString());
 //		}
 //	}
 //
@@ -1149,7 +1149,7 @@ public class ControllerTest extends BaseControllerTest {
 //				System.out.println("Fail");
 //			}
 //		} catch (Exception e) {
-//			System.out.println(e.getStackTrace()[0].toString());
+//			System.out.println(e.toString());
 //		}
 //	}
 //
@@ -1171,7 +1171,7 @@ public class ControllerTest extends BaseControllerTest {
 //				System.out.println("Fail");
 //			}
 //		} catch (Exception e) {
-//			System.out.println(e.getStackTrace()[0].toString());
+//			System.out.println(e.toString());
 //		}
 //	}
 //
@@ -1193,7 +1193,7 @@ public class ControllerTest extends BaseControllerTest {
 //				System.out.println("Fail");
 //			}
 //		} catch (Exception e) {
-//			System.out.println(e.getStackTrace()[0].toString());
+//			System.out.println(e.toString());
 //		}
 //	}
 //
@@ -1215,7 +1215,7 @@ public class ControllerTest extends BaseControllerTest {
 //				System.out.println("Fail");
 //			}
 //		} catch (Exception e) {
-//			System.out.println(e.getStackTrace()[0].toString());
+//			System.out.println(e.toString());
 //		}
 //	}
 //
@@ -1237,7 +1237,7 @@ public class ControllerTest extends BaseControllerTest {
 //				System.out.println("Fail");
 //			}
 //		} catch (Exception e) {
-//			System.out.println(e.getStackTrace()[0].toString());
+//			System.out.println(e.toString());
 //		}
 //	}
 //
@@ -1259,7 +1259,7 @@ public class ControllerTest extends BaseControllerTest {
 //				System.out.println("Fail");
 //			}
 //		} catch (Exception e) {
-//			System.out.println(e.getStackTrace()[0].toString());
+//			System.out.println(e.toString());
 //		}
 //	}
 

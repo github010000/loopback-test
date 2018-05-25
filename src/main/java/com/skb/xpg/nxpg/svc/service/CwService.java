@@ -96,7 +96,9 @@ public class CwService {
 		
 		if(temp != null) {
 			time = CastUtil.getObjectToMap(temp.get("time"));
-			time.put("after_start", System.nanoTime());
+			if (time != null) {
+				time.put("after_start", System.nanoTime());
+			}
 			
 			temp.put("type", type);
 			resultList = makeCwGrid(temp, param, time);
@@ -109,7 +111,9 @@ public class CwService {
 				result = null;
 			}
 			//Log에 처리 시간 프린트 (CW포함)
-			time.put("after_end", System.nanoTime());
+			if (time != null) {
+				time.put("after_end", System.nanoTime());
+			}
 			printProcessTime(time, param);
 		}else {
 			LogUtil.info("IF-NXPG-009", "", param.get("UUID"), param.get("cw_stb_id"), "CW", "CW API return null. switch value: " + cwSwitch);
@@ -205,7 +209,9 @@ public class CwService {
 				return result;
 			}else {
 				time = CastUtil.getObjectToMap(temp.get("time"));
-				time.put("after_start", System.nanoTime());
+				if (time != null) {
+					time.put("after_start", System.nanoTime());
+				}
 //				if(result == null) return null;
 				temp.put("type", type);
 				String regexTitle = "\"sub_title\"[\\s]*:[\\s]*\"([^\"]+)\"";
@@ -236,7 +242,9 @@ public class CwService {
 						result = null;
 					}
 				}
-				time.put("after_end", System.nanoTime());
+				if (time != null) {
+					time.put("after_end", System.nanoTime());
+				}
 				printProcessTime(time, param);
 			}
 		}else {

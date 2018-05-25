@@ -203,7 +203,6 @@ public class MenuController {
 			try {
 				menuService.getBlockMonth(rtn, param);
 			} catch (Exception e) {
-				e.printStackTrace();
 				LogUtil.error(param.get("IF"), "", param.get("UUID"), param.get("stb_id"), "", e.getStackTrace()[0].toString());
 				rtn.put("result", "9997");
 			}
