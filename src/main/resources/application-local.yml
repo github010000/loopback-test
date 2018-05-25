@@ -120,3 +120,7 @@ zuul:
     ge:
       path: /ge/**
       url: http://localhost:8090
+vcap:
+  application:
+    name: xpg-nxpg-svc
+    instance_index: 0

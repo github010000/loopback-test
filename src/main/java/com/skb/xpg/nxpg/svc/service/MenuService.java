@@ -283,15 +283,19 @@ public class MenuService {
 			
 			Map<String, Boolean> exceptionPid = new HashMap<String, Boolean>();
 			
-			String[] tempArr = param.get("prd_prc_id_lst").split(",");
-			
-			for(String pid: tempArr) {
-				exceptionPid.put(pid,true);
+			String[] tempArr = null;
+			if (param.containsKey("prd_prc_id_lst") && param.get("prd_prc_id_lst") != null && !param.get("prd_prc_id_lst").isEmpty()) {
+				tempArr = param.get("prd_prc_id_lst").split(",");
+			}
+			if (tempArr != null) {
+				for(String pid: tempArr) {
+					exceptionPid.put(pid,true);
+				}
 			}
 		
 			List<Object> monthList = CastUtil.StringToJsonList(redisClient.hget(NXPGCommon.BLOCK_MONTH, param.get("menu_stb_svc_id"), param));
 			List<Map<String, Object>> user_month = new ArrayList<Map<String, Object>>();
-			if (monthList != null) {
+			if (tempArr != null && monthList != null) {
 				for (Object month : monthList) {
 					Map<String, Object> tempMonth = CastUtil.getObjectToMap(month);
 					if (tempMonth.get("prd_prc_id") != null) {

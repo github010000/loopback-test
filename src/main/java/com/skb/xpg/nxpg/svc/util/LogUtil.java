@@ -2,10 +2,16 @@ package com.skb.xpg.nxpg.svc.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
 public class LogUtil {
+	
+	@Value("${vcap.application.name}")
+	private static String HostName;
+	@Value("${vcap.application.instance_index}")
+	private static String HostIp;
 	
 	private static Logger logger = LoggerFactory.getLogger(LogUtil.class.getName());
 
@@ -32,9 +38,9 @@ public class LogUtil {
 		
 		
 		// HostName
-		log += "xpg-nxpg";
+		log += HostName;
 		// HostIP
-		log += "|0";
+		log += "|" + HostIp;
 		
 //		
 //		if (hostName == null)
