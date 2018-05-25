@@ -71,8 +71,8 @@ public class RestClient {
 		long before = 0;
 		long end = 0;
 		try {
-			if(client == null) return null;
 			before = System.nanoTime();
+			if(client == null) return null;
 			response = client.execute(request);
 			end = System.nanoTime();
 //			System.out.println("Response Code : "  + response.getStatusLine().getStatusCode());
