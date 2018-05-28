@@ -10,7 +10,7 @@ import com.skb.xpg.nxpg.svc.NXPGSvcApplication;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = NXPGSvcApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("test")
+@ActiveProfiles("devtest")
 public class BaseServiceTest {
 
 	@Test
