@@ -11,12 +11,12 @@ public class LogUtil {
 	private static String HostName;
 	private static String HostIp;
 	
-	@Value("${cloud.name}")
+	@Value("${user.logging.name}")
     private void setHostName(String HostName){
 		LogUtil.HostName = HostName;
     }
 	
-	@Value("${cloud.instance_index}")
+	@Value("${user.logging_index}")
     private void setHostIp(String HostIp){
 		LogUtil.HostIp = HostIp;
     }

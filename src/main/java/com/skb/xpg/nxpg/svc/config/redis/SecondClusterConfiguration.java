@@ -24,7 +24,7 @@ import redis.clients.jedis.exceptions.JedisConnectionException;
  * Created by dmshin on 06/02/2017.
  */
 @Configuration
-@Profile({"stg", "prdsuy", "prdssu", "test2"})
+@Profile({"stg", "prdsuy", "prdssu", "stgtest"})
 public class SecondClusterConfiguration {
 
     @Value("${second.redis.host}")
