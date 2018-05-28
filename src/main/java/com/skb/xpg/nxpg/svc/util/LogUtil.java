@@ -16,7 +16,7 @@ public class LogUtil {
 		LogUtil.HostName = HostName;
     }
 	
-	@Value("${user.logging_index}")
+	@Value("${user.logging.instance_index}")
     private void setHostIp(String HostIp){
 		LogUtil.HostIp = HostIp;
     }
