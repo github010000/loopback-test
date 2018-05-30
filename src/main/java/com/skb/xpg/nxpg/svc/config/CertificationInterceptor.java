@@ -7,8 +7,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -16,16 +14,12 @@ import org.springframework.web.servlet.ModelAndView;
 import com.skb.xpg.nxpg.svc.util.LogUtil;
 
 @Component
-@RefreshScope
 public class CertificationInterceptor implements HandlerInterceptor {
-
-	@Value("${user.logswitch}")
-	private boolean logswitch;
 	
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
-    	if (logswitch) {
+    	if (LogUtil.logSwitch) {
     		Map<String, String> map = new HashMap<String, String>();
     		Enumeration<String> enumName = request.getParameterNames();
     		while (enumName.hasMoreElements()) {
@@ -46,7 +40,7 @@ public class CertificationInterceptor implements HandlerInterceptor {
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
             throws Exception {
-    	if (logswitch) {
+    	if (LogUtil.logSwitch) {
         	Enumeration<String> enumName = request.getParameterNames();
     		Map<String, String> map = new HashMap<String, String>();
     		while (enumName.hasMoreElements()) {

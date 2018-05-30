@@ -17,7 +17,7 @@ public class LogUtil {
 	private static String HostName;
 	private static String HostIp;
 	private static String firstProfile;
-	private static boolean logSwitch;
+	public static boolean logSwitch;
 	
 	@Autowired
 	@Qualifier("firstProfile")
