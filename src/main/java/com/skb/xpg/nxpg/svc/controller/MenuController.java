@@ -168,7 +168,7 @@ public class MenuController {
 //		}
 			// 카운트 넣어주기 
 //			if (bigbanner != null) rtn.put("total_count", bigbanner.size());
-		if (rtn != null && rtn.containsKey("reason") && rtn.get("reason").toString().isEmpty()) {
+		if (rtn != null && rtn.containsKey("reason") && (rtn.get("reason") == null || rtn.get("reason").toString().isEmpty())) {
 			rtn.put("reason", ResultCommon.reason.get(rtn.get("result")));
 		}
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
@@ -205,8 +205,9 @@ public class MenuController {
 		}
 		
 		// 조회값 없음
-		
-		rtn.put("reason", ResultCommon.reason.get(rtn.get("result")));
+		if (rtn != null && rtn.containsKey("reason") && (rtn.get("reason") == null || rtn.get("reason").toString().isEmpty())) {
+			rtn.put("reason", ResultCommon.reason.get(rtn.get("result")));
+		}
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
 		return rtn;
 	}

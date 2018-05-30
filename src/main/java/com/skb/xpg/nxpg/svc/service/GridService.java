@@ -44,12 +44,12 @@ public class GridService {
 //					return;
 //				}
 
-				if (menuService.doCheckVersion(rtn, param, "version", version)) {
+				if (menuService.doCheckVersion(rtn, param, "version", version, "contents")) {
 					return;
 				}
 			}
 			gridList = CastUtil.getObjectToMapList(gridMap.get("contents"));
-			DateUtil.getCompare(gridList, "svc_fr_dt", "svc_to_dt", false);
+//			DateUtil.getCompare(gridList, "svc_fr_dt", "svc_to_dt", false);
 			
 			//셋탑의 화질
 			String rslu_type = CastUtil.getString(param.get("rslu_type"));
@@ -111,7 +111,9 @@ public class GridService {
 		} else {
 			rtn.put("contents", null);
 			rtn.put("total_count", 0);
-			rtn.put("reason", ResultCommon.reason.get(rtn.get("result")));
+			if (rtn.get("reason") == null || rtn.get("reason").toString().isEmpty()) {
+				rtn.put("reason", ResultCommon.reason.get(rtn.get("result")));
+			}
 		}
 	}
 	
@@ -130,7 +132,7 @@ public class GridService {
 //				gridBanner.put("result", "0000");
 //				gridBanner.put("version", version);
 //			} else {
-			if (menuService.doCheckVersion(gridBanner, param, "version", version)) {
+			if (menuService.doCheckVersion(gridBanner, param, "version", version, "banners")) {
 		
 				List<Map<String, Object>> banners = null;
 				if (gridBanner.get("banners") != null) {
@@ -138,7 +140,7 @@ public class GridService {
 				}
 				menuService.doSegment(banners, param.get("seg_id"), "cmpgn_id");
 		        
-				DateUtil.getCompare(banners, "dist_fr_dt", "dist_to_dt", false);
+//				DateUtil.getCompare(banners, "dist_fr_dt", "dist_to_dt", false);
 			}
 		
 		}

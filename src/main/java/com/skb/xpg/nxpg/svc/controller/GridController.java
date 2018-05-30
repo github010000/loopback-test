@@ -59,7 +59,9 @@ public class GridController {
 			LogUtil.error(IF, "REQ", "", param.get("stb_id"), "REDIS", e.getStackTrace()[0].toString());
 			rtn.put("result", "9997");
 		}
-		
+		if (rtn.get("reason") == null || rtn.get("reason").toString().isEmpty()) {
+			rtn.put("reason", ResultCommon.reason.get(rtn.get("result")));
+		}
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
 		return rtn;
 	}
@@ -100,7 +102,9 @@ public class GridController {
 			rtn.putAll(resultMap);
 		}
 		
-		rtn.put("reason", ResultCommon.reason.get(rtn.get("result")));
+		if (rtn.get("reason") == null || rtn.get("reason").toString().isEmpty()) {
+			rtn.put("reason", ResultCommon.reason.get(rtn.get("result")));
+		}
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
 		return rtn;
 	}

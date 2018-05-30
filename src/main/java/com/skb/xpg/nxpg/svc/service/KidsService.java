@@ -44,7 +44,7 @@ public class KidsService {
 			if (kzgnb == null) {
 				rtn.put("result", "9998");
 			} else {
-				DateUtil.getCompare(kzgnb, "dist_fr_dt", "dist_to_dt", false);
+//				DateUtil.getCompare(kzgnb, "dist_fr_dt", "dist_to_dt", false);
 				
 				// 그리드 타이틀 정렬 처리
 				List<Map<String, Object>> mCopyGrids = null;
@@ -87,7 +87,7 @@ public class KidsService {
 			if (kzgnb == null) {
 				rtn.put("result", "9998");
 			} else {
-				DateUtil.getCompareObject(kzgnb, "dist_fr_dt", "dist_to_dt", false);
+//				DateUtil.getCompareObject(kzgnb, "dist_fr_dt", "dist_to_dt", false);
 				
 				rtn.put("result", "0000");
 				rtn.put("menus", kzgnb);
