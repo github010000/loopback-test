@@ -37,17 +37,23 @@ public class RedisClient {
 		keyAndField.put("key", key);
 		keyAndField.put("field", field);
 		
-		LogUtil.tlog(param.get("IF"), "SEND.REQ", param.get("UUID"), param.get("stb_id"), "REDIS", CastUtil.getMapToString(keyAndField));
+		String stb_id = "";
+		if (param.containsKey("stb_id")) {
+			stb_id = param.get("stb_id");
+		} else {
+			stb_id = param.get("cw_stb_id");
+		}
+		LogUtil.tlog(param.get("IF"), "SEND.REQ", param.get("UUID"), stb_id, "REDIS", CastUtil.getMapToString(keyAndField));
 		
 		
 		if (NXPGCommon.isUseFirstRedis()) {
 			try {
 				obj = redisTemplate.<String, Object>opsForHash().get(key, field);
 				
-				LogUtil.tlog(param.get("IF"), "RECV.RES", param.get("UUID"), param.get("stb_id"), "REDIS", obj);
+				LogUtil.tlog(param.get("IF"), "RECV.RES", param.get("UUID"), stb_id, "REDIS", obj);
 				
 			} catch (Exception e) {
-				LogUtil.error(param.get("IF"), "", param.get("UUID"), param.get("stb_id"), "REDIS", e.getStackTrace()[0].toString());
+				LogUtil.error(param.get("IF"), "", param.get("UUID"), stb_id, "REDIS", e.getStackTrace()[0].toString());
 				cacheService.addErrorCountAfterChangeRedis();
 				obj = secondRedisTemplate.<String, Object>opsForHash().get(key, field);
 			}
@@ -55,10 +61,10 @@ public class RedisClient {
 			try {
 				obj = secondRedisTemplate.<String, Object>opsForHash().get(key, field);
 				
-				LogUtil.tlog(param.get("IF"), "RECV.RES", param.get("UUID"), param.get("stb_id"), "REDIS", obj);
+				LogUtil.tlog(param.get("IF"), "RECV.RES", param.get("UUID"), stb_id, "REDIS", obj);
 				
 			} catch (Exception e) {
-				LogUtil.error(param.get("IF"), "", param.get("UUID"), param.get("stb_id"), "REDIS", e.getStackTrace()[0].toString());
+				LogUtil.error(param.get("IF"), "", param.get("UUID"), stb_id, "REDIS", e.getStackTrace()[0].toString());
 				cacheService.addErrorCountAfterChangeRedis();
 				obj = redisTemplate.<String, Object>opsForHash().get(key, field);
 			}

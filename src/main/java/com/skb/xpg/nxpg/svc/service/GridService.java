@@ -47,7 +47,7 @@ public class GridService {
 //					return;
 //				}
 
-				if (menuService.doCheckVersion(rtn, param, "version", version, "contents")) {
+				if (!menuService.doCheckVersion(rtn, param, "version", version, "contents")) {
 					rtn.put("total_count", 0);
 					return;
 				}
