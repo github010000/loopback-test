@@ -48,7 +48,7 @@ public class GridService {
 //				}
 
 				if (!menuService.doCheckVersion(rtn, param, "version", version, "contents")) {
-					rtn.put("total_count", 0);
+					rtn.remove("total_count");
 					return;
 				}
 			}
@@ -128,7 +128,7 @@ public class GridService {
 		if (gridBanner != null && gridBanner.get("banners") != null) {
 			
 			String version = CastUtil.getObjectToString( gridBanner.get("version") );
-			
+			gridBanner.put("version", version);
 //			if (version != null && param.containsKey("version") && !version.isEmpty()
 //					&& CastUtil.getStringToLong(param.get("version")) >= CastUtil.getStringToLong(version)) {
 //				
@@ -146,7 +146,7 @@ public class GridService {
 		        
 //				DateUtil.getCompare(banners, "dist_fr_dt", "dist_to_dt", false);
 			} else {
-				gridBanner.put("total_count", 0);
+				gridBanner.remove("total_count");
 			}
 		
 		}

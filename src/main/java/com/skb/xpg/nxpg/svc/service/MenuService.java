@@ -568,14 +568,17 @@ public class MenuService {
 				
 				if ("banner_version".equals(versionKey)) {
 					rtn.put("result", "0001");
+					rtn.put(dataKey, new ArrayList());
 				} else if ("block_version".equals(versionKey)) {
 					rtn.put("result", "0002");
+					rtn.put(dataKey, new ArrayList());
 				} else {
 					rtn.put("result", "0000");
 					rtn.put("reason", "최신버전");
+					rtn.remove(dataKey);
 				}
 				rtn.put(versionKey, collectionVersion);
-				rtn.put(dataKey, new ArrayList());
+				
 				return false;
 			}
 		}
