@@ -6,10 +6,6 @@ applications:
   instances: 1
   buildpack: liberty-for-java
   path: ./defaultServer
-  services:
-    - tst-xpg-common-redis
-    - tst-xpg-common-syslog
-    - tst-xpg-common-zipkin
   env:
     SPRING_PROFILES_ACTIVE: stg
     JBP_CONFIG_SPRING_AUTO_RECONFIGURATION: '{enabled: false}'
