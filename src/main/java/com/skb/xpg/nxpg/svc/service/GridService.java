@@ -34,6 +34,8 @@ public class GridService {
 		List<Map<String, Object>> gList = new ArrayList<>();
 		
 		if (gridMap != null && gridMap.containsKey("contents")) {
+
+			rtn.put("version", gridMap.get("version"));
 			
 			if (param.containsKey("version") && gridMap.containsKey("version")) {
 				String version = gridMap.get("version") + "";
