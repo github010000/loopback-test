@@ -162,8 +162,8 @@ public class MenuController {
 		} else {
 			rtn.putAll(blockblock);
 			rtn.putAll(bigbanner);
-			if ((bigbanner.containsKey("result") && bigbanner.get("result").equals("0001"))
-					&& (blockblock.containsKey("result") && blockblock.get("result").equals("0002"))) {
+			if ((bigbanner.containsKey("result") && "0001".equals(bigbanner.get("result")))
+					&& (blockblock.containsKey("result") && "0002".equals(blockblock.get("result")))) {
 				rtn.put("result", "0003");
 			}
 		}

@@ -487,8 +487,8 @@ public class MenuService {
 					rtn.put("block_count", 0);
 				}
 				
-				if ((bigbanner.containsKey("result") && bigbanner.get("result").equals("0001"))
-						&& (blockblock.containsKey("result") && blockblock.get("result").equals("0002"))) {
+				if ((bigbanner.containsKey("result") && "0001".equals(bigbanner.get("result")))
+						&& (blockblock.containsKey("result") && "0002".equals(blockblock.get("result")))) {
 					rtn.put("result", "0003");
 				}
 			}
@@ -566,9 +566,9 @@ public class MenuService {
 			if ((NXPGCommon.isCheckVersionEqual() && param.get(versionKey).equals(collectionVersion))
 				|| (!NXPGCommon.isCheckVersionEqual() && collectionVersion.compareTo(param.get(versionKey)) <= 0)) {
 				
-				if (versionKey.equals("banner_version")) {
+				if ("banner_version".equals(versionKey)) {
 					rtn.put("result", "0001");
-				} else if (versionKey.equals("block_version")) {
+				} else if ("block_version".equals(versionKey)) {
 					rtn.put("result", "0002");
 				} else {
 					rtn.put("result", "0000");
