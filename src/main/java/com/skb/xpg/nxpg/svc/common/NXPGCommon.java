@@ -1,5 +1,11 @@
 package com.skb.xpg.nxpg.svc.common;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.stereotype.Component;
+
+@RefreshScope
+@Component
 public class NXPGCommon {
 
 	public static final String MENU_GNB = "menu_gnb";
@@ -48,4 +54,32 @@ public class NXPGCommon {
 		NXPGCommon.useFirstRedis = !NXPGCommon.useFirstRedis;
 	}
 
+	public static boolean CIMode = false;
+	
+	public static boolean isCIMode() {
+		return CIMode;
+	}
+
+	public static void onCIMode() {
+		NXPGCommon.CIMode = true;
+	}
+
+	public static void offCIMode() {
+		NXPGCommon.CIMode = false;
+	}
+
+	public static boolean checkVersionEqual = true;
+
+	@Value("${user.checkVersionEqual}")
+	public static void initCheckVersionEqual(boolean checkVersion) {
+		checkVersionEqual = checkVersion;
+	}
+	
+	public static boolean isCheckVersionEqual() {
+		return checkVersionEqual;
+	}
+
+	public static void switchCheckVersionEqual() {
+		NXPGCommon.checkVersionEqual = !NXPGCommon.checkVersionEqual;
+	}
 }

@@ -37,10 +37,14 @@ public class GridService {
 			
 			if (param.containsKey("version") && gridMap.containsKey("version")) {
 				String version = gridMap.get("version") + "";
-				if (CastUtil.getStringToLong(param.get("version")) >= CastUtil.getStringToLong(version)) {
-					rtn.put("reason", "최신버전");
-					rtn.put("result", "0000");
-					rtn.put("version", version);
+//				if (CastUtil.getStringToLong(param.get("version")) >= CastUtil.getStringToLong(version)) {
+//					rtn.put("reason", "최신버전");
+//					rtn.put("result", "0000");
+//					rtn.put("version", version);
+//					return;
+//				}
+
+				if (menuService.doCheckVersion(rtn, param, "version", version)) {
 					return;
 				}
 			}
@@ -119,13 +123,14 @@ public class GridService {
 			
 			String version = CastUtil.getObjectToString( gridBanner.get("version") );
 			
-			if (version != null && param.containsKey("version") && !version.isEmpty()
-					&& CastUtil.getStringToLong(param.get("version")) >= CastUtil.getStringToLong(version)) {
-				
-				gridBanner.put("reason", "최신버전");
-				gridBanner.put("result", "0000");
-				gridBanner.put("version", version);
-			} else {
+//			if (version != null && param.containsKey("version") && !version.isEmpty()
+//					&& CastUtil.getStringToLong(param.get("version")) >= CastUtil.getStringToLong(version)) {
+//				
+//				gridBanner.put("reason", "최신버전");
+//				gridBanner.put("result", "0000");
+//				gridBanner.put("version", version);
+//			} else {
+			if (menuService.doCheckVersion(gridBanner, param, "version", version)) {
 		
 				List<Map<String, Object>> banners = null;
 				if (gridBanner.get("banners") != null) {

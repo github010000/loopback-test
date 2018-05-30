@@ -1,6 +1,7 @@
 user:
   cwswitch: true
   logswitch: false
+  checkVersionEqual: true
   results:
     result: null
     reason: null

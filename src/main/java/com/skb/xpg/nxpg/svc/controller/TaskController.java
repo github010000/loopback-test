@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.skb.xpg.nxpg.svc.common.NXPGCommon;
 import com.skb.xpg.nxpg.svc.service.CacheService;
+import com.skb.xpg.nxpg.svc.util.LogUtil;
 
 /**
  * Created by dmshin on 06/02/2017.
@@ -73,23 +74,47 @@ public class TaskController {
 		return getStat(ver);
 	}
 
+	@RequestMapping(value = "/task/etcstat")
+	public Map<String, Object> getEtcStat(@PathVariable String ver) {
+		Map<String, Object> rtn = new HashMap<String, Object>();
+		rtn.put("result", "0000");
+		rtn.put("use_log", LogUtil.logSwitch);
+		rtn.put("versionCheckIsEqual", NXPGCommon.checkVersionEqual);
+		
+		return getStat(ver);
+	}
+
+	@RequestMapping(value = "/task/logswitch")
+	public Map<String, Object> doLogSwitch(@PathVariable String ver) {
+		LogUtil.logSwitch = !LogUtil.logSwitch;
+		
+		return getEtcStat(ver);
+	}
+
+	@RequestMapping(value = "/task/versionswitch")
+	public Map<String, Object> doVersionSwitch(@PathVariable String ver) {
+		NXPGCommon.switchCheckVersionEqual();
+		
+		return getEtcStat(ver);
+	}
+
 	@RequestMapping(value = "/cimode")
 	public Map<String, Object> getcimode(@PathVariable String ver) {
-		NXPGCommon.switchUseRedis();
+		NXPGCommon.isCIMode();
 		
 		return getStat(ver);
 	}
 
 	@RequestMapping(value = "/cimode/on")
 	public Map<String, Object> setcimodeon(@PathVariable String ver) {
-		NXPGCommon.switchUseRedis();
+		NXPGCommon.onCIMode();
 		
 		return getStat(ver);
 	}
 
 	@RequestMapping(value = "/cimode/off")
 	public Map<String, Object> setcimodeoff(@PathVariable String ver) {
-		NXPGCommon.switchUseRedis();
+		NXPGCommon.offCIMode();
 		
 		return getStat(ver);
 	}

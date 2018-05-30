@@ -52,12 +52,8 @@ public class MenuService {
 	public void getMenuGnb(String ver, Map<String, String> param, Map<String, Object> rtn) throws Exception {
 		String version = StringUtils.defaultIfEmpty(redisClient.hget(NXPGCommon.VERSION, NXPGCommon.MENU_GNB + "_" + param.get("menu_stb_svc_id"), param), "");
 		
-		if (version != null && param.containsKey("version") && !version.isEmpty()
-				&& CastUtil.getStringToLong(param.get("version")) >= CastUtil.getStringToLong(version)) {
-			rtn.put("reason", "최신버전");
-			rtn.put("result", "0000");
-			rtn.put("version", version);
-		} else {
+		if (doCheckVersion(rtn, param, "version", version)) {
+			
 			String redisData = redisClient.hget(NXPGCommon.MENU_GNB, param.get("menu_stb_svc_id"), param);
 			if ( redisData != null && !"".equals(redisData)) {
 				List<Object> menugnb = CastUtil.StringToJsonList(redisData);
@@ -87,12 +83,8 @@ public class MenuService {
 	public void getMenuAll(String ver, Map<String, String> param, Map<String, Object> rtn) throws Exception {
 		String version = StringUtils.defaultIfEmpty(redisClient.hget(NXPGCommon.VERSION,NXPGCommon.MENU_ALL + "_" + param.get("menu_stb_svc_id"), param), "");
 		
-		if (version != null && param.containsKey("version") && !version.isEmpty()
-				&& CastUtil.getStringToLong(param.get("version")) >= CastUtil.getStringToLong(version)) {
-			rtn.put("reason", "최신버전");
-			rtn.put("result", "0000");
-			rtn.put("version", version);
-		} else {
+		if (doCheckVersion(rtn, param, "version", version)) {
+			
 			String redisData = redisClient.hget(NXPGCommon.MENU_ALL, param.get("menu_stb_svc_id"), param);
 			if(redisData != null && !"".equals(redisData)) {
 				List<Object> menuall = CastUtil.StringToJsonList(redisData);
@@ -128,12 +120,7 @@ public class MenuService {
 			
 			String version = CastUtil.getObjectToString( bigbanner.get("banner_version") );
 			
-			if (version != null && param.containsKey("version") && !version.isEmpty()
-					&& CastUtil.getStringToLong(param.get("version")) >= CastUtil.getStringToLong(version)) {
-				bigbanner.put("reason", "최신버전");
-				bigbanner.put("result", "0000");
-				bigbanner.put("version", version);
-			} else {
+			if (doCheckVersion(bigbanner, param, "banner_version", version)) {
 			
 				List<Map<String, Object>> banners = CastUtil.getObjectToMapList(bigbanner.get("banners"));
 				DateUtil.getCompare(banners, "dist_fr_dt", "dist_to_dt", false);
@@ -152,15 +139,16 @@ public class MenuService {
 		
 		if (blockblock != null && blockblock.get("blocks") != null) {
 			
-			String version = CastUtil.getObjectToString( blockblock.get("banner_version") );
+			String version = CastUtil.getObjectToString( blockblock.get("block_version") );
 			
-			if (version != null && param.containsKey("version") && !version.isEmpty()
-					&& CastUtil.getStringToLong(param.get("version")) >= CastUtil.getStringToLong(version)) {
-				
-				blockblock.put("reason", "최신버전");
-				blockblock.put("result", "0000");
-				blockblock.put("version", version);
-			} else {
+//			if (version != null && param.containsKey("block_version") && !version.isEmpty()
+//					&& CastUtil.getStringToLong(param.get("block_version")) >= CastUtil.getStringToLong(version)) {
+//				
+//				blockblock.put("reason", "최신버전");
+//				blockblock.put("result", "0000");
+//				blockblock.put("version", version);
+//			} else {
+			if (doCheckVersion(blockblock, param, "block_version", version)) {
 			
 				List<Map<String, Object>> blocks = CastUtil.getObjectToMapList(blockblock.get("blocks"));
 				List<Map<String, Object>>cwResult = new ArrayList<Map<String,Object>>();
@@ -298,13 +286,15 @@ public class MenuService {
 			//version check
 			String version = CastUtil.getObjectToString( bigbanner.get("banner_version") );
 			
-			if (version != null && param.containsKey("version") && !version.isEmpty()
-					&& CastUtil.getStringToLong(param.get("version")) >= CastUtil.getStringToLong(version)) {
-				bigbanner.put("reason", "최신버전");
-				bigbanner.put("result", "0000");
-				bigbanner.put("version", version);
-				
-			} else {
+//			if (version != null && param.containsKey("banner_version") && !version.isEmpty()
+//					&& CastUtil.getStringToLong(param.get("banner_version")) >= CastUtil.getStringToLong(version)) {
+//				bigbanner.put("reason", "최신버전");
+//				bigbanner.put("result", "0000");
+//				bigbanner.put("version", version);
+//				
+//			} else {
+
+			if (doCheckVersion(bigbanner, param, "banner_version", version)) {
 			
 				banners = CastUtil.getObjectToMapList(bigbanner.get("banners"));
 				DateUtil.getCompare(banners, "dist_fr_dt", "dist_to_dt", false);
@@ -316,15 +306,17 @@ public class MenuService {
 
 		if (blockblock != null && blockblock.get("blocks") != null) {
 			
-			String version = CastUtil.getObjectToString( blockblock.get("banner_version") );
+			String version = CastUtil.getObjectToString( blockblock.get("block_version") );
 			
-			if (version != null && param.containsKey("version") && !version.isEmpty()
-					&& CastUtil.getStringToLong(param.get("version")) >= CastUtil.getStringToLong(version)) {
-				
-				blockblock.put("reason", "최신버전");
-				blockblock.put("result", "0000");
-				blockblock.put("version", version);
-			} else {
+//			if (version != null && param.containsKey("block_version") && !version.isEmpty()
+//					&& CastUtil.getStringToLong(param.get("block_version")) >= CastUtil.getStringToLong(version)) {
+//				
+//				blockblock.put("reason", "최신버전");
+//				blockblock.put("result", "0000");
+//				blockblock.put("version", version);
+//			} else {
+
+			if (doCheckVersion(blockblock, param, "block_version", version)) {
 			
 				List<Map<String, Object>> blocks = CastUtil.getObjectToMapList(blockblock.get("blocks"));
 				DateUtil.getCompare(blocks, "dist_fr_dt", "dist_to_dt", false);
@@ -521,6 +513,25 @@ public class MenuService {
 		
 		
 		return menuData;
+	}
+	
+	public boolean doCheckVersion(Map<String, Object> rtn, Map<String, String> param, String versionKey, String collectionVersion) {
+		if (collectionVersion != null && param.containsKey(versionKey) && !collectionVersion.isEmpty()
+				&& param.get(versionKey).equals(collectionVersion)) {
+			
+			if (NXPGCommon.isCheckVersionEqual() && param.get(versionKey).equals(collectionVersion)) {
+				rtn.put("reason", "최신버전");
+				rtn.put("result", "0000");
+				rtn.put("version", collectionVersion);
+				return false;
+			} else if (!NXPGCommon.isCheckVersionEqual() && collectionVersion.compareTo(param.get(versionKey)) <= 0) {
+				rtn.put("reason", "최신버전");
+				rtn.put("result", "0000");
+				rtn.put("version", collectionVersion);
+				return false;
+			}
+		}
+		return true;
 	}
 	
 	public void doSegment(List<Map<String, Object>> menuList, String segmentId, String field_campaign) {
