@@ -1,15 +1,34 @@
 package com.skb.xpg.nxpg.svc.util;
 
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Component;
 
+@RefreshScope
 @Component
 public class LogUtil {
 	
 	private static String HostName;
 	private static String HostIp;
+	private static String firstProfile;
+	private static boolean logSwitch;
+	
+	@Autowired
+	@Qualifier("firstProfile")
+    private void setFirstProfile(String firstProfile){
+		LogUtil.firstProfile = firstProfile;
+    }
+
+	@Value("${user.logswitch}")
+    private void setLogSwitch(boolean logSwitch){
+		LogUtil.logSwitch = logSwitch;
+    }
 	
 	@Value("${user.logging.name}")
     private void setHostName(String HostName){
@@ -22,7 +41,13 @@ public class LogUtil {
     }
 	
 	private static Logger logger = LoggerFactory.getLogger(LogUtil.class.getName());
-
+	
+	public static void tlog(String interfaceId, String transactionType, String transactionId, String stbId, String extName, Map data) {
+		if (logSwitch && logger != null) {
+			logger.info(getLogString(interfaceId, transactionType, transactionId, stbId, extName, data));
+		}
+	}
+	
 	public static void info(String interfaceId, String transactionType, String transactionId, String stbId, String extName, String data) {
 		if (logger != null) {
 			logger.info(getLogString(interfaceId, transactionType, transactionId, stbId, extName, data));
@@ -41,7 +66,7 @@ public class LogUtil {
 		}
 	}
 
-	private static String getLogString(String interfaceId, String transactionType, String transactionId, String stbId, String extName, String data) {
+	private static String getLogString(String interfaceId, String transactionType, String transactionId, String stbId, String extName, Object data) {
 		String log = "";
 		
 		
@@ -76,7 +101,7 @@ public class LogUtil {
 		if (stbId == null || stbId.isEmpty()) {
 			log += "|NULL";
 		} else {
-			stbId = stbId.replaceAll("\\{", "").replaceAll("\\}", "");
+//			stbId = stbId.replaceAll("\\{", "").replaceAll("\\}", "");
 			log += "|" + stbId;
 		}
 		if (extName == null || extName.isEmpty()) {
@@ -87,7 +112,13 @@ public class LogUtil {
 		
 //		data = data.replaceAll(":", "=");
 //		data = data.replaceAll("[\\{|\\}|\"]", "");
-		data = "{\"msg\":\"" + data + "\"}";
+		if (data instanceof String) {
+			data = "{\"msg\":\"" + data + "\"}";
+		} else if (data instanceof Map) {
+			data = CastUtil.getMapToString(CastUtil.getObjectToMap(data));
+		} else {
+			data = "{\"msg\":\"none\"}";
+		}
 		
 		log += "|" + data;
 

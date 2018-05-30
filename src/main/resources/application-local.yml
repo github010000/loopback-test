@@ -1,5 +1,6 @@
 user:
   cwswitch: true
+  logswitch: false
   results:
     result: null
     reason: null
@@ -93,6 +94,9 @@ user:
     socktimeout: 2000
     conntimeout: 300
     connreqtimeout: 300
+  logging:
+    name: xpg-nxpg-svc
+    instance_index: 0
 spring:
   http:
     encoding:
@@ -120,6 +124,3 @@ zuul:
     ge:
       path: /ge/**
       url: http://localhost:8090
-cloud:
-  name: xpg-nxpg-svc
-  instance_index: 0

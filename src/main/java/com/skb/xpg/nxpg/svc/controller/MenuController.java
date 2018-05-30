@@ -2,13 +2,9 @@ package com.skb.xpg.nxpg.svc.controller;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.CacheControl;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,7 +28,7 @@ public class MenuController {
 	
 	// IF-NXPG-001
 	@RequestMapping(value = "/menu/gnb")
-	public ResponseEntity<Map<String, Object>> getMenuGnb(HttpServletRequest req, @PathVariable String ver, @RequestParam Map<String, String> param) {
+	public Map<String, Object> getMenuGnb(HttpServletRequest req, @PathVariable String ver, @RequestParam Map<String, String> param) {
 		String IF = param.get("IF");
 		Map<String, Object> result = properties.getResults();
 		Map<String, String> defaults = properties.getDefaults();
@@ -63,8 +59,7 @@ public class MenuController {
 		}
 		
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
-		return ResponseEntity.ok().cacheControl(CacheControl.maxAge(60, TimeUnit.SECONDS)).body(rtn);
-		//return rtn;
+		return rtn;
 	}
 
 	// IF-NXPG-002
@@ -131,14 +126,14 @@ public class MenuController {
 		try {
 			blockblock = menuService.getBlockBlock(ver, param);
 		} catch (Exception e) {
-			LogUtil.error(param.get("IF"), "", param.get("UUID"), param.get("stb_id"), "", e.getStackTrace()[0].toString());
+			LogUtil.error(param.get("IF"), "", param.get("UUID"), param.get("stb_id"), "REDIS", e.getStackTrace()[0].toString());
 		}
 		// 조회값 없음
 
 		try {
 			bigbanner = menuService.getBlockBigBanner(ver, param);
 		} catch (Exception e) {
-			LogUtil.error(param.get("IF"), "", param.get("UUID"), param.get("stb_id"), "", e.getStackTrace()[0].toString());
+			LogUtil.error(param.get("IF"), "", param.get("UUID"), param.get("stb_id"), "REDIS", e.getStackTrace()[0].toString());
 		}
 		
 		rtn.put("result", "0000");
@@ -173,8 +168,9 @@ public class MenuController {
 //		}
 			// 카운트 넣어주기 
 //			if (bigbanner != null) rtn.put("total_count", bigbanner.size());
-
-		rtn.put("reason", ResultCommon.reason.get(rtn.get("result")));
+		if (rtn != null && rtn.containsKey("reason") && rtn.get("reason").toString().isEmpty()) {
+			rtn.put("reason", ResultCommon.reason.get(rtn.get("result")));
+		}
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
 		return rtn;
 	}

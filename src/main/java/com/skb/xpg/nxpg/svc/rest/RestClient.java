@@ -62,8 +62,10 @@ public class RestClient {
 			// TODO Auto-generated catch block
 			LogUtil.error(reqparam.get("IF"), "", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW", e2.getStackTrace()[0].toString());
 		}
+
+		LogUtil.tlog(reqparam.get("IF"), "SEND.REQ", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW", reqparam);
 		
-		
+
 		HttpResponse response = null;
 		BufferedReader rd = null;
 		StringBuffer result = new StringBuffer();
@@ -102,12 +104,21 @@ public class RestClient {
 		}
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		
+		String statusCode = "";
 		resultMap.put("result", result.toString());
 		if (response != null) {
-			resultMap.put("status", response.getStatusLine().getStatusCode() + "");
+			statusCode = response.getStatusLine().getStatusCode() + "";
+			resultMap.put("status", statusCode);
 		}
 		resultMap.put("cw_time_start", before);
 		resultMap.put("cw_time_end", end);
+		
+//		String restregex="\"status\"[\\s]*:[\\s]*(\\{.*?\\})";
+//		String codeValue = StrUtil.getRegexString(restregex, result.toString());
+
+		reqparam.put("status", statusCode);
+		LogUtil.tlog(reqparam.get("IF"), "RECV.RES", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW", reqparam);
+		
 		
 		return resultMap;
 	}
@@ -172,11 +183,12 @@ public class RestClient {
 			try {
 //				System.out.println(builder.build().encode().toUri());
 				if (activeProfile.contains("dev") || activeProfile.contains("stg") || activeProfile.contains("local")) {
-					LogUtil.info(reqparam.get("IF"), "", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW", builder.build().encode().toUri().toString());
+//					LogUtil.info(reqparam.get("IF"), "SEND.REQ", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW", builder.build().encode().toUri().toString());
 				}
 
 				resultMap = apacheGet(builder.build().encode().toUri().toString(), reqparam);
 				
+
 			} catch (RestClientException e) {
 				LogUtil.error(reqparam.get("IF"), "", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW", e.getStackTrace()[0].toString());
 			}

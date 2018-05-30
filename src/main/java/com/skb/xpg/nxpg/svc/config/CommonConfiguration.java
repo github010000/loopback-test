@@ -50,7 +50,18 @@ public class CommonConfiguration {
     public Properties properties() {
         return new Properties();
     }
-	
+
+	@Bean(name = "firstProfile")
+	public String getFirstProfile() {
+		String[] profiles = environment.getActiveProfiles();
+		String profile = "";
+		if (profiles != null) {
+			if (profiles.length > 0) {
+				profile = profiles[0];
+			}
+		}
+		return profile;
+	}
 	
 	@Bean(name = "activeProfile")
 	public String getActiveProfile() {
@@ -64,22 +75,12 @@ public class CommonConfiguration {
 			}
 		
 			if (profile != null && !profile.isEmpty() && profile.length() > 1) {
-				profile.substring(1);
+				profile = profile.substring(1);
 			}
 		}
 		return profile;
 	}
 
-    @Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurerAdapter() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**");
-            }
-        };
-    }
-	
 	/*
 	@Bean(name = "cmsRestTemplate")
 	public RestTemplate cmsRestTemplate() {

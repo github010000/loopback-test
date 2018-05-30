@@ -14,10 +14,6 @@
 		padding: 0;
 		margin: 0;
 	}
-	h4 {
-		padding: 0;
-		margin: 0;
-	}
 	input {
 	    width: 240px;
 	}
@@ -71,61 +67,6 @@
 		z-index: 3;
 		border-top: 2px solid #666;
 		background-color: #FFF;
-	}
-	.skill {
-		margin-bottom: 0;
-		position: relative;
-	}
-	
-	.skill h3 {
-		display: inline-block;
-	    width: 100%;
-	    text-align: center;
-		color: #000;
-		filter: invert();
-		line-height: 1;
-		position: absolute;
-		margin: 2px 0 0 0;
-		top: 5px;
-	}
-	
-	progress {
-		-webkit-appearance: none;
-		-moz-appearance: none;
-		appearance: none;
-		border: none;
-		/*background-size: auto;*/
-		background-color: whiteSmoke;
-		border-radius: 3px;
-		box-shadow: 0 2px 3px rgba(0,0,0,.5) inset;
-		height: 28px;
-		margin: 3px 0 0 0;
-		width: 100%;
-		color: #4caf59;
-	}
-	
-	progress::-webkit-progress-value {
-		background: #4caf59;
-	}
-	
-	progress.bgblue::-webkit-progress-value {
-		background: #4c89af;
-	}
-	
-	#myProgress {
-		margin-top: 3px;
-	    width: 100%;
-	    background-color: #DDD;
-	}
-	#myBarTotal {
-	    width: 0%;
-	    height: 28px;
-	    background-color: #4c89af;
-	}
-	#myBar {
-	    width: 0%;
-	    height: 28px;
-	    background-color: #4caf59;
 	}
 	</style>
 </head>
@@ -186,7 +127,7 @@
 			</li>
 			<li>
 				<h3><i>IF-NXPG-009</i> (CW연동 그리드)</h3><br/> 
-				<b><span>cw_call_id</span></b> <input type="text" value="TEST.NEW.APIS.PAGE"/><br/>
+				<b><span>cw_call_id</span></b> <input type="text" value="MOVIESERIESREC.PAGE"/><br/>
 				<b><span>stb_id</span></b> <input type="text" value="%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D"/><br/>
 				<b><span>type</span></b> <input type="text" value="all"/><br/>
 				<b><span>section_id</span></b> <input type="text" value=""/>
@@ -214,8 +155,8 @@
 			</li>
 			<li>
 				<h3><i>IF-NXPG-012</i> (CW연관콘텐츠)</h3><br/> 
-				<b><span>cw_call_id</span></b> <input type="text" value="TEST.NEW.APIS.PAGE"/><br/>
-				<b><span>epsd_id</span></b> <input type="text" value="CE0001293945"/><br/>
+				<b><span>cw_call_id</span></b> <input type="text" value="RELATED.MOVIE.PAGE"/><br/>
+				<b><span>epsd_id</span></b> <input type="text" value="CE0000006497"/><br/>
 				<b><span>epsd_rslu_id</span></b> <input type="text" value="%7B8764D44C-1B04-11E6-B49C-5702654CECC8%7D"/><br/>
 				<b><span>type</span></b> <input type="text" value="all"/><br/>
 				<b><span>section_id</span></b> <input type="text" value=""/>
@@ -223,7 +164,7 @@
 			</li>
 			<li>
 				<h3><i>IF-NXPG-013</i> (실시간 EPG 정보)</h3><br/> 
-				<!-- <b><span></span></b> <input type="text" value=""/><br/> -->
+				<b><span></span></b> <input type="text" value="" disabled/>
 				<button id="u013">조회</button>
 			</li>
 			<li>
@@ -317,30 +258,15 @@ $("#indexPage li button").click(function(){
 	var urlname = $(this).attr("id");
 	var span = $(this).parent().find("span");
 	
-	//console.log(JSON.stringify(span));
 	var pathvariable = $(span[1]).text();
 	var vals = $(this).parent().find("input");
 
 	var url = "";
-	//alert("url = " + urlname + " + 'con_id" + "%7" + $("#con_id").val() + "%7D';");
-	//eval("url = " + urlname + " + '&con_id=" + "%7B" + $("#con_id").val() + "%7D';");
-	
-	//if (urlname == "url5") {
-	//	url = url + "&mst_id=%7B" + $("#mst_id").val() + "%7D";
-	//}
-	//alert(url);
-	//location.href = urlname;
-	//eval("window.open(" + urlname + ")");
-	//eval("location.href = " + urlname);
+
 	
 	eval("url = " + urlname + "");
 	
-//	var arrVal = val.split("|");
-	
-//	if (arrVal.length != arrVal.length) {
-//		alert("파라미터와 값 불일치.");
-//		return;
-//	}
+
 	for (var i=0 ; i < span.length; i++) {
 		if($(vals[i]).val()){
 			url = url + "&" + $(span[i]).text() + "=" + $(vals[i]).val();

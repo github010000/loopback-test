@@ -290,15 +290,21 @@ public class CwService {
 			requestparam = requestparam.replaceAll(regex, "user");
 			nxpgparam = nxpgparam.replaceAll(regex, "user");
 		}
-		param.put("itemType", param.get("type"));
 		
 		String[] arrRequestParam = requestparam.split(",");
 		String[] arrNxpgParam = nxpgparam.split(",");
 		
 		if (arrRequestParam != null && arrNxpgParam != null) {
 			for (int a = 0; a < arrNxpgParam.length; a++) {
+				//itemType값이 null일 경우 파라미터에 추가하지 않음.
 				if (!arrRequestParam[a].isEmpty()) {
-					cwparam += ";" + arrRequestParam[a] + "|" + param.get(arrNxpgParam[a]);
+					if(!"itemType".equals(arrRequestParam[a])) {
+						cwparam += ";" + arrRequestParam[a] + "|" + param.get(arrNxpgParam[a]);
+					}else {
+						if(param.get(arrNxpgParam[a])!=null) {
+							cwparam += ";" + arrRequestParam[a] + "|" + param.get(arrNxpgParam[a]);
+						}
+					}
 				}
 			}
 		}
@@ -412,7 +418,8 @@ public class CwService {
 					cwGrid.add(resultMap);	//type이 all 이 아닌 애들
 				}
 				resultMap = new HashMap<String, Object>();
-
+				
+				checkFirstBlock=false;
 			}
 		} else {
 			cwGrid=null;
@@ -500,6 +507,7 @@ public class CwService {
 					cwRelation.add(resultMap);	//type이 all 이 아닌 애들
 				}
 				resultMap = new HashMap<String, Object>();
+				checkFirstBlock=false;
 			}
 			
 		}
@@ -534,52 +542,46 @@ public class CwService {
 			switch(type) {
 			
 			case "all": case "onepage":
-	//			if(sections!= null && !sections.isEmpty()) {
-					for(Map<String, Object>sectionMap:sections) {
-		
-						List<Map<String, Object>> blocks = null;
-						blocks = CastUtil.getObjectToMapList(sectionMap.get("blocks"));
-						if(blocks != null) {
-							for(Map<String, Object>blockMap:blocks) {
-								//데이터 생성 로직
-								makeItem(blockMap, result, idList);
-								idList = new ArrayList<String>();
-							}
+				for(Map<String, Object>sectionMap:sections) {
+	
+					List<Map<String, Object>> blocks = null;
+					blocks = CastUtil.getObjectToMapList(sectionMap.get("blocks"));
+					if(blocks != null) {
+						for(Map<String, Object>blockMap:blocks) {
+							//데이터 생성 로직
+							makeItem(blockMap, result, idList);
+							idList = new ArrayList<String>();
 						}
-						result.put("sectionId", sectionMap.get("sectionId"));
-						result.put("trackId", objMap.get("trackId"));
-		
-						if( !( "all".equals(type) && result.get("idList") == null ) ) {
-							resultList.add(result);
-						}
-						result = new HashMap<String, Object>();
 					}
-	//			}
+					result.put("sectionId", sectionMap.get("sectionId"));
+					result.put("trackId", objMap.get("trackId"));
+	
+					if( !( "all".equals(type) && result.get("idList") == null ) ) {
+						resultList.add(result);
+					}
+					result = new HashMap<String, Object>();
+				}
 				break;
 				
 			case "multi": case "section":
-	//			if(sections!= null && !sections.isEmpty()) {
-					for(Map<String, Object>sectionMap:sections) {
-						result.put("sectionId", sectionMap.get("sectionId"));
-						result.put("trackId", objMap.get("trackId"));
-						makeItem(sectionMap, result, idList);
-						idList = new ArrayList<String>();
-						resultList.add(result);
-						result = new HashMap<String, Object>();
-					}
-	//			}
+				for(Map<String, Object>sectionMap:sections) {
+					result.put("sectionId", sectionMap.get("sectionId"));
+					result.put("trackId", objMap.get("trackId"));
+					makeItem(sectionMap, result, idList);
+					idList = new ArrayList<String>();
+					resultList.add(result);
+					result = new HashMap<String, Object>();
+				}
 				break;
 				
 			case "onesection":
-	//			if(oneSecBlocks != null && !oneSecBlocks.isEmpty()) {
-					for(Map<String, Object>temp:oneSecBlocks) {
-						result.put("trackId", objMap.get("trackId"));
-						makeItem(temp, result, idList);
-						idList = new ArrayList<String>();
-						resultList.add(result);
-						result = new HashMap<String, Object>();
-					}
-	//			}
+				for(Map<String, Object>temp:oneSecBlocks) {
+					result.put("trackId", objMap.get("trackId"));
+					makeItem(temp, result, idList);
+					idList = new ArrayList<String>();
+					resultList.add(result);
+					result = new HashMap<String, Object>();
+				}
 				break;
 				
 			default :

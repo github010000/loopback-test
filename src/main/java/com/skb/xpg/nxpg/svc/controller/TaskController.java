@@ -73,4 +73,25 @@ public class TaskController {
 		return getStat(ver);
 	}
 
+	@RequestMapping(value = "/cimode")
+	public Map<String, Object> getcimode(@PathVariable String ver) {
+		NXPGCommon.switchUseRedis();
+		
+		return getStat(ver);
+	}
+
+	@RequestMapping(value = "/cimode/on")
+	public Map<String, Object> setcimodeon(@PathVariable String ver) {
+		NXPGCommon.switchUseRedis();
+		
+		return getStat(ver);
+	}
+
+	@RequestMapping(value = "/cimode/off")
+	public Map<String, Object> setcimodeoff(@PathVariable String ver) {
+		NXPGCommon.switchUseRedis();
+		
+		return getStat(ver);
+	}
+
 }

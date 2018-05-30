@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.skb.xpg.nxpg.svc.common.NXPGCommon;
+import com.skb.xpg.nxpg.svc.common.ResultCommon;
 import com.skb.xpg.nxpg.svc.redis.RedisClient;
 import com.skb.xpg.nxpg.svc.util.CastUtil;
 import com.skb.xpg.nxpg.svc.util.DateUtil;
@@ -26,13 +27,23 @@ public class GridService {
 	private MenuService menuService;
 	
 	// IF-NXPG-006
-	public Map<String, Object> getGrid(String ver, Map<String, String> param) throws Exception {
+	public void getGrid(Map<String, Object> rtn, Map<String, String> param) throws Exception {
 		Map<String, Object> gridMap = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.GRID_CONTENTS, param.get("menu_id"), param));
 		
 		List<Map<String, Object>> gridList = null;
 		List<Map<String, Object>> gList = new ArrayList<>();
 		
 		if (gridMap != null && gridMap.containsKey("contents")) {
+			
+			if (param.containsKey("version") && gridMap.containsKey("version")) {
+				String version = gridMap.get("version") + "";
+				if (CastUtil.getStringToLong(param.get("version")) >= CastUtil.getStringToLong(version)) {
+					rtn.put("reason", "최신버전");
+					rtn.put("result", "0000");
+					rtn.put("version", version);
+					return;
+				}
+			}
 			gridList = CastUtil.getObjectToMapList(gridMap.get("contents"));
 			DateUtil.getCompare(gridList, "svc_fr_dt", "svc_to_dt", false);
 			
@@ -87,24 +98,45 @@ public class GridService {
 	            }
 	            tCount = gList.size();
 			}
-			gridMap.put("contents", gList);
-			gridMap.put("total_count", currentCount);
+//			gridMap.put("contents", gList);
+//			gridMap.put("total_count", currentCount);
+			rtn.put("result", "0000");
+			rtn.put("reason", ResultCommon.reason.get(rtn.get("result")));
+			rtn.put("contents", gList);
+			rtn.put("total_count", currentCount);
+		} else {
+			rtn.put("contents", null);
+			rtn.put("total_count", 0);
+			rtn.put("reason", ResultCommon.reason.get(rtn.get("result")));
 		}
-		
-		return gridMap;
 	}
 	
 	// IF-NXPG-007
 	public Map<String, Object> getGridEvent(String ver, Map<String, String> param) throws Exception {
 		Map<String, Object> gridBanner = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.GRID_BANNER, param.get("menu_stb_svc_id") + "_" + param.get("menu_id"), param));
 
-		List<Map<String, Object>> banners = null;
-		if (gridBanner.get("banners") != null) {
-			banners = CastUtil.getObjectToMapList(gridBanner.get("banners"));
+		if (gridBanner != null && gridBanner.get("banners") != null) {
+			
+			String version = CastUtil.getObjectToString( gridBanner.get("version") );
+			
+			if (version != null && param.containsKey("version") && !version.isEmpty()
+					&& CastUtil.getStringToLong(param.get("version")) >= CastUtil.getStringToLong(version)) {
+				
+				gridBanner.put("reason", "최신버전");
+				gridBanner.put("result", "0000");
+				gridBanner.put("version", version);
+			} else {
+		
+				List<Map<String, Object>> banners = null;
+				if (gridBanner.get("banners") != null) {
+					banners = CastUtil.getObjectToMapList(gridBanner.get("banners"));
+				}
+				menuService.doSegment(banners, param.get("seg_id"), "cmpgn_id");
+		        
+				DateUtil.getCompare(banners, "dist_fr_dt", "dist_to_dt", false);
+			}
+		
 		}
-		menuService.doSegment(banners, param.get("seg_id"), "cmpgn_id");
-        
-		DateUtil.getCompare(banners, "dist_fr_dt", "dist_to_dt", false);
 		
 		return gridBanner;
 	}

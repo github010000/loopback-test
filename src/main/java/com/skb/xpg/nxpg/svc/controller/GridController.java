@@ -53,25 +53,13 @@ public class GridController {
 			param.put("page_cnt", "30");
 		}
 		
-		// 값 불러오기 
-		Map<String, Object> resultMap = null;
 		try {
-			resultMap = gridService.getGrid(ver, param);
+			gridService.getGrid(rtn, param);
 		} catch (Exception e) {
 			LogUtil.error(IF, "REQ", "", param.get("stb_id"), "REDIS", e.getStackTrace()[0].toString());
+			rtn.put("result", "9997");
 		}
 		
-		// 조회값 없음
-		if (resultMap == null) {
-			rtn.put("result", "9998");
-		}
-		// 성공
-		else {
-			rtn.put("result", "0000");
-			rtn.putAll(resultMap);
-		}
-		
-		rtn.put("reason", ResultCommon.reason.get(rtn.get("result")));
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
 		return rtn;
 	}
@@ -99,7 +87,7 @@ public class GridController {
 		try {
 			resultMap = gridService.getGridEvent(ver, param);
 		} catch (Exception e) {
-			LogUtil.error(IF, "REQ", "", param.get("stb_id"), "", e.getStackTrace()[0].toString());
+			LogUtil.error(IF, "REQ", "", param.get("stb_id"), "REDIS", e.getStackTrace()[0].toString());
 		}
 		
 		// 조회값 없음
