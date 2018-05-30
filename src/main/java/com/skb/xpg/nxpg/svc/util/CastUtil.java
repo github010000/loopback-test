@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.boot.json.GsonJsonParser;
 import org.springframework.boot.json.JacksonJsonParser;
@@ -156,5 +158,17 @@ public class CastUtil {
 			List<String> map = (List<String>) obj;
 			return map;
 		} else return null;
+	}
+	
+	public static String getObjectToJsonArrayString(Object obj) {
+		String rtn = "";
+		if (obj != null && obj instanceof List) {
+			try {
+				rtn = new JSONArray(obj).toString();
+			} catch (JSONException e) {
+				LogUtil.error("", "", "", "", "", e.getStackTrace()[0].toString());
+			}
+		}
+		return rtn;
 	}
 }

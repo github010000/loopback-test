@@ -1,5 +1,6 @@
 package com.skb.xpg.nxpg.svc.redis;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.skb.xpg.nxpg.svc.common.NXPGCommon;
 import com.skb.xpg.nxpg.svc.service.CacheService;
+import com.skb.xpg.nxpg.svc.util.CastUtil;
 import com.skb.xpg.nxpg.svc.util.LogUtil;
 
 @Service
@@ -31,14 +33,18 @@ public class RedisClient {
 	public String hget(String key, String field, Map<String, String> param) {
 		Object obj = null;
 		
-		LogUtil.tlog(param.get("IF"), "SEND.REQ", param.get("UUID"), param.get("stb_id"), "REDIS", param);
+		Map<String, Object> keyAndField = new HashMap<String, Object>();
+		keyAndField.put("key", key);
+		keyAndField.put("field", field);
+		
+		LogUtil.tlog(param.get("IF"), "SEND.REQ", param.get("UUID"), param.get("stb_id"), "REDIS", CastUtil.getMapToString(keyAndField));
 		
 		
 		if (NXPGCommon.isUseFirstRedis()) {
 			try {
 				obj = redisTemplate.<String, Object>opsForHash().get(key, field);
 				
-				LogUtil.tlog(param.get("IF"), "RECV.RES", param.get("UUID"), param.get("stb_id"), "REDIS", param);
+				LogUtil.tlog(param.get("IF"), "RECV.RES", param.get("UUID"), param.get("stb_id"), "REDIS", obj);
 				
 			} catch (Exception e) {
 				LogUtil.error(param.get("IF"), "", param.get("UUID"), param.get("stb_id"), "REDIS", e.getStackTrace()[0].toString());
@@ -49,7 +55,7 @@ public class RedisClient {
 			try {
 				obj = secondRedisTemplate.<String, Object>opsForHash().get(key, field);
 				
-				LogUtil.tlog(param.get("IF"), "RECV.RES", param.get("UUID"), param.get("stb_id"), "REDIS", param);
+				LogUtil.tlog(param.get("IF"), "RECV.RES", param.get("UUID"), param.get("stb_id"), "REDIS", obj);
 				
 			} catch (Exception e) {
 				LogUtil.error(param.get("IF"), "", param.get("UUID"), param.get("stb_id"), "REDIS", e.getStackTrace()[0].toString());

@@ -1,7 +1,10 @@
 package com.skb.xpg.nxpg.svc.util;
 
+import java.util.List;
 import java.util.Map;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +38,7 @@ public class LogUtil {
 	
 	private static Logger logger = LoggerFactory.getLogger(LogUtil.class.getName());
 
-	public static void tlog(String interfaceId, String transactionType, String transactionId, String stbId, String extName, Map allData) {
+	public static void tlog(String interfaceId, String transactionType, String transactionId, String stbId, String extName, Object allData) {
 		if (logger != null) {
 			logger.info(getLogString(interfaceId, transactionType, transactionId, stbId, extName, allData));
 		}
@@ -115,10 +118,13 @@ public class LogUtil {
 		
 //		data = data.replaceAll(":", "=");
 //		data = data.replaceAll("[\\{|\\}|\"]", "");
+		String msg = "";
 		if (data instanceof String) {
-			data = "{\"msg\":\"" + data + "\"}";
+			msg = "{\"msg\":\"" + data + "\"}";
 		} else if (data instanceof Map) {
-			data = CastUtil.getMapToString(CastUtil.getObjectToMap(data));
+			msg = CastUtil.getMapToString(CastUtil.getObjectToMap(data));
+		} else if (data instanceof List) {
+			msg = CastUtil.getObjectToJsonArrayString(data);
 		} else {
 			data = "{\"msg\":\"none\"}";
 		}

@@ -575,9 +575,7 @@ public class MenuService {
 					rtn.put("reason", "최신버전");
 				}
 				rtn.put(versionKey, collectionVersion);
-				if (rtn.containsKey(dataKey)) {
-					rtn.put(dataKey, new ArrayList());
-				}
+				rtn.put(dataKey, new ArrayList());
 				return false;
 			}
 		}

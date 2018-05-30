@@ -45,6 +45,7 @@ public class GridService {
 //				}
 
 				if (menuService.doCheckVersion(rtn, param, "version", version, "contents")) {
+					rtn.put("total_count", 0);
 					return;
 				}
 			}
@@ -141,6 +142,8 @@ public class GridService {
 				menuService.doSegment(banners, param.get("seg_id"), "cmpgn_id");
 		        
 //				DateUtil.getCompare(banners, "dist_fr_dt", "dist_to_dt", false);
+			} else {
+				gridBanner.put("total_count", 0);
 			}
 		
 		}

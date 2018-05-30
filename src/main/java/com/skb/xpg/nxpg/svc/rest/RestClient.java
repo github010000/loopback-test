@@ -117,7 +117,7 @@ public class RestClient {
 //		String codeValue = StrUtil.getRegexString(restregex, result.toString());
 
 		reqparam.put("status", statusCode);
-		LogUtil.tlog(reqparam.get("IF"), "RECV.RES", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW", reqparam);
+		LogUtil.tlog(reqparam.get("IF"), "RECV.RES", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW", resultMap);
 		
 		
 		return resultMap;
