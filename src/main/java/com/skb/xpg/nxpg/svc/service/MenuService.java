@@ -127,6 +127,9 @@ public class MenuService {
 				doSegment(banners, param.get("bnr_seg_id"), "cmpgn_id");
 				bigbanner.put("banner_count", banners.size());
 				bigbanner.remove("total_count");
+			} else {
+				bigbanner.put("banner_count", 0);
+				bigbanner.remove("total_count");
 			}
 		}
 	
@@ -253,6 +256,9 @@ public class MenuService {
 				
 				
 				blockblock.put("block_count", totalCount);
+				blockblock.remove("total_count");
+			} else {
+				blockblock.put("block_count", 0);
 				blockblock.remove("total_count");
 			}
 			
@@ -551,7 +557,7 @@ public class MenuService {
 			if (NXPGCommon.isCheckVersionEqual() && param.get(versionKey).equals(collectionVersion)) {
 				rtn.put("reason", "최신버전");
 				rtn.put("result", "0000");
-				rtn.put("version", collectionVersion);
+				rtn.put(versionKey, collectionVersion);
 				if (rtn.containsKey(dataKey)) {
 					rtn.put(dataKey, new ArrayList());
 				}
@@ -559,7 +565,7 @@ public class MenuService {
 			} else if (!NXPGCommon.isCheckVersionEqual() && collectionVersion.compareTo(param.get(versionKey)) <= 0) {
 				rtn.put("reason", "최신버전");
 				rtn.put("result", "0000");
-				rtn.put("version", collectionVersion);
+				rtn.put(versionKey, collectionVersion);
 				if (rtn.containsKey(dataKey)) {
 					rtn.put(dataKey, new ArrayList());
 				}
