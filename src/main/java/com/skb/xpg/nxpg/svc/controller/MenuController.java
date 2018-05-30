@@ -59,6 +59,7 @@ public class MenuController {
 		}
 		
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
+		LogUtil.tlog(param.get("IF"), "RECV.REQ", param.get("UUID"), param.get("stb_id"), "STB", rtn, param);
 		return rtn;
 	}
 
@@ -94,6 +95,7 @@ public class MenuController {
 		}
 		
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
+		LogUtil.tlog(param.get("IF"), "RECV.REQ", param.get("UUID"), param.get("stb_id"), "STB", rtn, param);
 		return rtn;
 	}
 
@@ -160,6 +162,10 @@ public class MenuController {
 		} else {
 			rtn.putAll(blockblock);
 			rtn.putAll(bigbanner);
+			if ((bigbanner.containsKey("result") && bigbanner.get("result").equals("0001"))
+					&& (blockblock.containsKey("result") && blockblock.get("result").equals("0002"))) {
+				rtn.put("result", "0003");
+			}
 		}
 		
 //		if (blockblock != null) {
@@ -167,11 +173,10 @@ public class MenuController {
 //		} else {
 //		}
 			// 카운트 넣어주기 
-//			if (bigbanner != null) rtn.put("total_count", bigbanner.size());
-		if (rtn != null && rtn.containsKey("reason") && (rtn.get("reason") == null || rtn.get("reason").toString().isEmpty())) {
-			rtn.put("reason", ResultCommon.reason.get(rtn.get("result")));
-		}
+		rtn.put("reason", ResultCommon.reason.get(rtn.get("result")));
+		
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
+		LogUtil.tlog(param.get("IF"), "RECV.REQ", param.get("UUID"), param.get("stb_id"), "STB", rtn, param);
 		return rtn;
 	}
 
@@ -204,11 +209,10 @@ public class MenuController {
 			}
 		}
 		
-		// 조회값 없음
-		if (rtn != null && rtn.containsKey("reason") && (rtn.get("reason") == null || rtn.get("reason").toString().isEmpty())) {
-			rtn.put("reason", ResultCommon.reason.get(rtn.get("result")));
-		}
+		rtn.put("reason", ResultCommon.reason.get(rtn.get("result")));
+		
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
+		LogUtil.tlog(param.get("IF"), "RECV.REQ", param.get("UUID"), param.get("stb_id"), "STB", rtn, param);
 		return rtn;
 	}
 	

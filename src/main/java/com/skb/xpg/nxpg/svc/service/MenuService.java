@@ -280,7 +280,7 @@ public class MenuService {
 	 * 4. 2번에서 노출된 월덩액상품은 필터링하여 다른 메뉴에 노출시키지 않는다.
 	 */
 	public void getBlockMonth(Map<String, Object> rtn, Map<String, String> param) throws Exception {
-		rtn.put("result", "0000");
+		
 		Map<String, Object> bigbanner = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.BIG_BANNER, param.get("menu_stb_svc_id") + "_" + param.get("menu_id"), param));
 		
 		Map<String, Object> shcutblockblock = null;
@@ -468,19 +468,28 @@ public class MenuService {
 			rtn.put("block_count", 0);
 			rtn.put("block_version", version);
 			
+			if (blocks != null) {
+				rtn.put("blocks", blocks);
+				rtn.put("block_count", blocks.size());
+			}
+			
 			if (bigbanner != null && bigbanner.size() > 0) {
 				rtn.putAll(bigbanner);
 				rtn.remove("total_count");
 				rtn.put("banner_count", bigbanner.size());
-			}
-			
-			if (blockblock != null) {
-				if (rtn != null && (rtn.get("reason") == null || rtn.get("reason").toString().isEmpty())) {
-					rtn.put("reason", blockblock.get("reason"));
+				
+				if (bigbanner.containsKey("result")) {
+					rtn.put("result", bigbanner.get("result"));
+					rtn.put("banner_count", 0);
 				}
-				if (blocks != null) {
-					rtn.put("blocks", blocks);
-					rtn.put("block_count", blocks.size());
+				if (blockblock.containsKey("result")) {
+					rtn.put("result", blockblock.get("result"));
+					rtn.put("block_count", 0);
+				}
+				
+				if ((bigbanner.containsKey("result") && bigbanner.get("result").equals("0001"))
+						&& (blockblock.containsKey("result") && blockblock.get("result").equals("0002"))) {
+					rtn.put("result", "0003");
 				}
 			}
 			
@@ -554,17 +563,17 @@ public class MenuService {
 		if (collectionVersion != null && param.containsKey(versionKey) && !collectionVersion.isEmpty()
 				&& param.get(versionKey).equals(collectionVersion)) {
 			
-			if (NXPGCommon.isCheckVersionEqual() && param.get(versionKey).equals(collectionVersion)) {
-				rtn.put("reason", "최신버전");
-				rtn.put("result", "0000");
-				rtn.put(versionKey, collectionVersion);
-				if (rtn.containsKey(dataKey)) {
-					rtn.put(dataKey, new ArrayList());
+			if ((NXPGCommon.isCheckVersionEqual() && param.get(versionKey).equals(collectionVersion))
+				|| (!NXPGCommon.isCheckVersionEqual() && collectionVersion.compareTo(param.get(versionKey)) <= 0)) {
+				
+				if (versionKey.equals("banner_version")) {
+					rtn.put("result", "0001");
+				} else if (versionKey.equals("block_version")) {
+					rtn.put("result", "0002");
+				} else {
+					rtn.put("result", "0000");
+					rtn.put("reason", "최신버전");
 				}
-				return false;
-			} else if (!NXPGCommon.isCheckVersionEqual() && collectionVersion.compareTo(param.get(versionKey)) <= 0) {
-				rtn.put("reason", "최신버전");
-				rtn.put("result", "0000");
 				rtn.put(versionKey, collectionVersion);
 				if (rtn.containsKey(dataKey)) {
 					rtn.put(dataKey, new ArrayList());

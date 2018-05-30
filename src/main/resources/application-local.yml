@@ -1,6 +1,6 @@
 user:
   cwswitch: true
-  logswitch: false
+  useLogForResponseData: true
   checkVersionEqual: true
   results:
     result: null

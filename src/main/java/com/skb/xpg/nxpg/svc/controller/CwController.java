@@ -16,6 +16,7 @@ import com.skb.xpg.nxpg.svc.common.ResultCommon;
 import com.skb.xpg.nxpg.svc.config.Properties;
 import com.skb.xpg.nxpg.svc.service.CwService;
 import com.skb.xpg.nxpg.svc.util.DateUtil;
+import com.skb.xpg.nxpg.svc.util.LogUtil;
 import com.skb.xpg.nxpg.svc.util.StrUtil;
 
 @RestController
@@ -65,6 +66,7 @@ public class CwController {
 		
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
 		rtn.put("reason", ResultCommon.reason.get(rtn.get("result")));
+		LogUtil.tlog(param.get("IF"), "RECV.REQ", param.get("UUID"), param.get("stb_id"), "STB", rtn, param);
 		return rtn;
 	}
 	
@@ -114,6 +116,7 @@ public class CwController {
 		
 		rtn.put("reason", ResultCommon.reason.get(rtn.get("result")));
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
+		LogUtil.tlog(param.get("IF"), "RECV.REQ", param.get("UUID"), param.get("stb_id"), "STB", rtn, param);
 		return rtn;
 	}
 	

@@ -78,15 +78,15 @@ public class TaskController {
 	public Map<String, Object> getEtcStat(@PathVariable String ver) {
 		Map<String, Object> rtn = new HashMap<String, Object>();
 		rtn.put("result", "0000");
-		rtn.put("use_log", LogUtil.logSwitch);
-		rtn.put("versionCheckIsEqual", NXPGCommon.checkVersionEqual);
+		rtn.put("use_response_log", LogUtil.useLogForResponseData);
+		rtn.put("version_check_is_equal", NXPGCommon.checkVersionEqual);
 		
 		return getStat(ver);
 	}
 
 	@RequestMapping(value = "/task/logswitch")
 	public Map<String, Object> doLogSwitch(@PathVariable String ver) {
-		LogUtil.logSwitch = !LogUtil.logSwitch;
+		LogUtil.useLogForResponseData = !LogUtil.useLogForResponseData;
 		
 		return getEtcStat(ver);
 	}

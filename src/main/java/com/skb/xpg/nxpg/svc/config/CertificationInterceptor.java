@@ -19,15 +19,15 @@ public class CertificationInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
-    	if (LogUtil.logSwitch) {
-    		Map<String, String> map = new HashMap<String, String>();
-    		Enumeration<String> enumName = request.getParameterNames();
-    		while (enumName.hasMoreElements()) {
-    			String name = enumName.nextElement();
-    			map.put(name, request.getParameter(name));
-    		}
-    		LogUtil.tlog(request.getParameter("IF"), "RECV.REQ", request.getHeader("UUID"), request.getParameter("stb_id"), "STB", map);
-    	}
+    	
+		Map<String, String> map = new HashMap<String, String>();
+		Enumeration<String> enumName = request.getParameterNames();
+		while (enumName.hasMoreElements()) {
+			String name = enumName.nextElement();
+			map.put(name, request.getParameter(name));
+		}
+		LogUtil.tlog(request.getParameter("IF"), "RECV.REQ", request.getHeader("UUID"), request.getParameter("stb_id"), "STB", map);
+    	
     	return true;
     }
  
@@ -40,16 +40,16 @@ public class CertificationInterceptor implements HandlerInterceptor {
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
             throws Exception {
-    	if (LogUtil.logSwitch) {
-        	Enumeration<String> enumName = request.getParameterNames();
-    		Map<String, String> map = new HashMap<String, String>();
-    		while (enumName.hasMoreElements()) {
-    			String name = enumName.nextElement();
-    			map.put(name, request.getParameter(name));
-    		}
-    		map.put("status", response.getStatus() + "");
-    		
-    		LogUtil.tlog(request.getParameter("IF"), "SEND.RES", request.getHeader("UUID"), request.getParameter("stb_id"), "STB", map);
-    	}
+//    	if (LogUtil.logSwitch) {
+//        	Enumeration<String> enumName = request.getParameterNames();
+//    		Map<String, String> map = new HashMap<String, String>();
+//    		while (enumName.hasMoreElements()) {
+//    			String name = enumName.nextElement();
+//    			map.put(name, request.getParameter(name));
+//    		}
+//    		map.put("status", response.getStatus() + "");
+//    		
+//    		LogUtil.tlog(request.getParameter("IF"), "SEND.RES", request.getHeader("UUID"), request.getParameter("stb_id"), "STB", map);
+//    	}
     }
 }

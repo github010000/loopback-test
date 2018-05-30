@@ -16,18 +16,11 @@ public class LogUtil {
 	
 	private static String HostName;
 	private static String HostIp;
-	private static String firstProfile;
-	public static boolean logSwitch;
+	public static boolean useLogForResponseData;
 	
-	@Autowired
-	@Qualifier("firstProfile")
-    private void setFirstProfile(String firstProfile){
-		LogUtil.firstProfile = firstProfile;
-    }
-
-	@Value("${user.logswitch}")
-    private void setLogSwitch(boolean logSwitch){
-		LogUtil.logSwitch = logSwitch;
+	@Value("${user.useLogForResponseData}")
+    private void setLogSwitch(boolean useLogForResponseData){
+		LogUtil.useLogForResponseData = useLogForResponseData;
     }
 	
 	@Value("${user.logging.name}")
@@ -41,10 +34,20 @@ public class LogUtil {
     }
 	
 	private static Logger logger = LoggerFactory.getLogger(LogUtil.class.getName());
+
+	public static void tlog(String interfaceId, String transactionType, String transactionId, String stbId, String extName, Map allData) {
+		if (logger != null) {
+			logger.info(getLogString(interfaceId, transactionType, transactionId, stbId, extName, allData));
+		}
+	}
 	
-	public static void tlog(String interfaceId, String transactionType, String transactionId, String stbId, String extName, Map data) {
-		if (logSwitch && logger != null) {
-			logger.info(getLogString(interfaceId, transactionType, transactionId, stbId, extName, data));
+	public static void tlog(String interfaceId, String transactionType, String transactionId, String stbId, String extName, Map allData, Map noResponse) {
+		if (logger != null) {
+			if (LogUtil.useLogForResponseData) {
+				logger.info(getLogString(interfaceId, transactionType, transactionId, stbId, extName, allData));
+			} else {
+				logger.info(getLogString(interfaceId, transactionType, transactionId, stbId, extName, noResponse));
+			}
 		}
 	}
 	

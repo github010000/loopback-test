@@ -34,5 +34,8 @@ public class ResultCommon {
 		reason.put("9998", "결과값 없음");
 		reason.put("9999", "필수 파라메터 누락");
 		reason.put("0000", "성공");
+		reason.put("0001", "최신버전(빅배너)");
+		reason.put("0002", "최신버전(블록)");
+		reason.put("0003", "최신버전");
 	}
 }
