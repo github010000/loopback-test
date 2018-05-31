@@ -460,7 +460,7 @@ public class MenuService {
 //					rtn.put("result", "9998");
 //				}
 			}
-			
+			rtn.put("result", "0000");
 			rtn.put("banners", new ArrayList());
 			rtn.put("banner_count", 0);
 			rtn.put("banner_version", banner_version);
