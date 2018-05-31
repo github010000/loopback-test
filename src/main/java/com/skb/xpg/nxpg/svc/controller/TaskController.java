@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.skb.xpg.nxpg.svc.common.NXPGCommon;
+import com.skb.xpg.nxpg.svc.redis.RedisClient;
 import com.skb.xpg.nxpg.svc.service.CacheService;
 import com.skb.xpg.nxpg.svc.util.LogUtil;
 
@@ -26,6 +27,9 @@ public class TaskController {
 	
 	@Autowired
 	private CacheService cacheService;
+
+    @Autowired
+    private RedisClient redisClient;
 
 	@RequestMapping(value = "/task/stat")
 	public Map<String, Object> getStat(@PathVariable String ver) {
@@ -65,6 +69,18 @@ public class TaskController {
 		rtn.put("active_profile", activeProfile);
 		
 		return rtn;
+	}
+	
+	@RequestMapping(value = "/hget/{key}/{field}")
+	public String hget(@PathVariable String key, @PathVariable String field) {
+		Map<String, String> rtn = new HashMap<String, String>();
+		try {
+			return redisClient.hget(key, field, rtn);
+		} catch (Exception e) {
+			LogUtil.error("", "", "", "", "", e.toString());
+			return null;
+//			return e.toString();
+		}
 	}
 
 	@RequestMapping(value = "/task/switch")

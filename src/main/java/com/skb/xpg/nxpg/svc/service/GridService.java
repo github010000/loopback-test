@@ -32,6 +32,7 @@ public class GridService {
 		
 		List<Map<String, Object>> gridList = null;
 		List<Map<String, Object>> gList = new ArrayList<>();
+		
 		rtn.put("version", "");
 		
 		if (gridMap != null && gridMap.containsKey("contents")) {
@@ -113,6 +114,7 @@ public class GridService {
 			rtn.put("contents", gList);
 			rtn.put("total_count", currentCount);
 		} else {
+			rtn.put("result", "9998");
 			rtn.put("contents", null);
 			rtn.put("total_count", 0);
 			if (rtn.get("reason") == null || rtn.get("reason").toString().isEmpty()) {
