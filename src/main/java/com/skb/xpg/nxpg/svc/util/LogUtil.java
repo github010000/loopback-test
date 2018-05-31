@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +45,7 @@ public class LogUtil {
 		}
 	}
 	
-	public static void tlog(String interfaceId, String transactionType, String transactionId, String stbId, String extName, Map allData, Map noResponse) {
+	public static void tlog(String interfaceId, String transactionType, String transactionId, String stbId, String extName, Object allData, Object noResponse) {
 		if (logger != null) {
 			if (LogUtil.useLogForResponseData) {
 				logger.info(getLogString(interfaceId, transactionType, transactionId, stbId, extName, allData));
@@ -97,7 +98,7 @@ public class LogUtil {
 			log += "|" + interfaceId;
 		
 		if (transactionType == null || transactionType.isEmpty())
-			log += "|REQ";
+			log += "|SEND.RES";
 		else
 			log += "|" + transactionType;
 		if (transactionId == null || transactionId.isEmpty())
@@ -120,17 +121,22 @@ public class LogUtil {
 //		data = data.replaceAll("[\\{|\\}|\"]", "");
 		String msg = "";
 		if (data instanceof String) {
-			msg = "{\"msg\":\"" + data + "\"}";
+			if (data.toString().startsWith("{")) {
+				msg = data + "";
+			} else {
+				msg = "{\"msg\":\"" + data + "\"}";
+			}
 		} else if (data instanceof Map) {
 			msg = CastUtil.getMapToString(CastUtil.getObjectToMap(data));
 		} else if (data instanceof List) {
 			msg = CastUtil.getObjectToJsonArrayString(data);
 		} else {
-			data = "{\"msg\":\"none\"}";
+			msg = "{\"msg\":\"none\"}";
 		}
 		
-		log += "|" + data;
+		log += "|" + msg;
 
 		return log;
 	}
+	
 }

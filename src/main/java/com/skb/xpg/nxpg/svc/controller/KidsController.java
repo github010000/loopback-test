@@ -54,7 +54,7 @@ public class KidsController {
 		try {
 			kidsService.getMenuKzchar(rtn, param);
 		} catch (Exception e) {
-			LogUtil.error(IF, "REQ", "", param.get("stb_id"), "", e.getStackTrace()[0].toString());
+			LogUtil.error(IF, "SEND.RES", "", param.get("stb_id"), "", e.getStackTrace()[0].toString());
 			rtn.put("result", "9997");
 			rtn.put("reason", ResultCommon.reason.get(rtn.get("result")));
 		}
@@ -64,7 +64,7 @@ public class KidsController {
 //		}
 		
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
-		LogUtil.tlog(param.get("IF"), "RECV.REQ", param.get("UUID"), param.get("stb_id"), "STB", rtn, param);
+		LogUtil.tlog(param.get("IF"), "SEND.RES", param.get("UUID"), param.get("stb_id"), "STB", rtn, param);
 		return rtn;
 	}
 	
@@ -95,13 +95,13 @@ public class KidsController {
 		try {
 			kidsService.getMenuKzgnb(rtn, param);
 		} catch (Exception e) {
-			LogUtil.error(IF, "REQ", "", param.get("stb_id"), "", e.getStackTrace()[0].toString());
+			LogUtil.error(IF, "SEND.RES", "", param.get("stb_id"), "", e.getStackTrace()[0].toString());
 			rtn.put("result", "9997");
 			rtn.put("reason", ResultCommon.reason.get(rtn.get("result")));
 		}
 		
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
-		LogUtil.tlog(param.get("IF"), "RECV.REQ", param.get("UUID"), param.get("stb_id"), "STB", rtn, param);
+		LogUtil.tlog(param.get("IF"), "SEND.RES", param.get("UUID"), param.get("stb_id"), "STB", rtn, param);
 		return rtn;
 	}
 
@@ -196,7 +196,7 @@ public class KidsController {
 		try {
 			map = kidsService.getMenulfthomemapping(ver, param);
 		} catch (Exception e) {
-			LogUtil.error(IF, "REQ", "", param.get("stb_id"), "", e.getStackTrace()[0].toString());
+			LogUtil.error(IF, "SEND.RES", "", param.get("stb_id"), "", e.getStackTrace()[0].toString());
 		}
 		
 		// 조회값 없음
@@ -211,7 +211,7 @@ public class KidsController {
 		
 		rtn.put("reason", ResultCommon.reason.get(rtn.get("result")));
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
-		LogUtil.tlog(param.get("IF"), "RECV.REQ", param.get("UUID"), param.get("stb_id"), "STB", rtn, param);
+		LogUtil.tlog(param.get("IF"), "SEND.RES", param.get("UUID"), param.get("stb_id"), "STB", rtn, param);
 		return rtn;
 	}
 	
@@ -243,13 +243,13 @@ public class KidsController {
 		try {
 			kidsService.getContentsLftsynop(rtn, param);
 		} catch (Exception e) {
-			LogUtil.error(IF, "REQ", "", param.get("stb_id"), "", e.getStackTrace()[0].toString());
+			LogUtil.error(IF, "SEND.RES", "", param.get("stb_id"), "", e.getStackTrace()[0].toString());
 			rtn.put("result", "9997");
 		}
 		
 		rtn.put("reason", ResultCommon.reason.get(rtn.get("result")));
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
-		LogUtil.tlog(param.get("IF"), "RECV.REQ", param.get("UUID"), param.get("stb_id"), "STB", rtn, param);
+		LogUtil.tlog(param.get("IF"), "SEND.RES", param.get("UUID"), param.get("stb_id"), "STB", rtn, param);
 		return rtn;
 	}
 	

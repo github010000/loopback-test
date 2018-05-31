@@ -61,13 +61,13 @@ public class ContentsController {
 		try {
 			contentsService.getSynopsisContents(rtn, param);
 		} catch (Exception e) {
-			LogUtil.error(IF, "REQ", param.get("UUID"), param.get("stb_id"), "REDIS", e.getStackTrace()[0].toString());
+			LogUtil.error(IF, "SEND.RES", param.get("UUID"), param.get("stb_id"), "REDIS", e.getStackTrace()[0].toString());
 			rtn.put("result", "9997");
 		}
 		
 		rtn.put("reason", ResultCommon.reason.get(rtn.get("result")));
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
-		LogUtil.tlog(param.get("IF"), "RECV.REQ", param.get("UUID"), param.get("stb_id"), "STB", rtn, param);
+		LogUtil.tlog(param.get("IF"), "SEND.RES", param.get("UUID"), param.get("stb_id"), "STB", rtn, param);
 		return rtn;
 	}
 
@@ -95,7 +95,7 @@ public class ContentsController {
 		try {
 			resultMap = contentsService.getContentsPeople(ver, param);
 		} catch (Exception e) {
-			LogUtil.error(IF, "REQ", "", param.get("stb_id"), "", e.getStackTrace()[0].toString());	
+			LogUtil.error(IF, "SEND.RES", "", param.get("stb_id"), "", e.getStackTrace()[0].toString());	
 		}
 		
 		// 조회값 없음
@@ -110,7 +110,7 @@ public class ContentsController {
 		
 		rtn.put("reason", ResultCommon.reason.get(rtn.get("result")));
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
-		LogUtil.tlog(param.get("IF"), "RECV.REQ", param.get("UUID"), param.get("stb_id"), "STB", rtn, param);
+		LogUtil.tlog(param.get("IF"), "SEND.RES", param.get("UUID"), param.get("stb_id"), "STB", rtn, param);
 		return rtn;
 	}
 
@@ -138,7 +138,7 @@ public class ContentsController {
 		try {
 			resultMap = contentsService.getContentsGwsynop(ver, param);
 		} catch (Exception e) {
-			LogUtil.error(IF, "REQ", "", param.get("stb_id"), "", e.getStackTrace()[0].toString());
+			LogUtil.error(IF, "SEND.RES", "", param.get("stb_id"), "", e.getStackTrace()[0].toString());
 		}
 		
 		// 조회값 없음
@@ -153,7 +153,7 @@ public class ContentsController {
 		
 		rtn.put("reason", ResultCommon.reason.get(rtn.get("result")));
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
-		LogUtil.tlog(param.get("IF"), "RECV.REQ", param.get("UUID"), param.get("stb_id"), "STB", rtn, param);
+		LogUtil.tlog(param.get("IF"), "SEND.RES", param.get("UUID"), param.get("stb_id"), "STB", rtn, param);
 		return rtn;
 	}
 
@@ -181,7 +181,7 @@ public class ContentsController {
 		try {
 			resultMap = contentsService.getContentsCommerce(ver, param);
 		} catch (Exception e) {
-			LogUtil.error(IF, "REQ", "", param.get("stb_id"), "", e.getStackTrace()[0].toString());
+			LogUtil.error(IF, "SEND.RES", "", param.get("stb_id"), "", e.getStackTrace()[0].toString());
 		}
 		
 		// 조회값 없음
@@ -196,7 +196,7 @@ public class ContentsController {
 		
 		rtn.put("reason", ResultCommon.reason.get(rtn.get("result")));
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
-		LogUtil.tlog(param.get("IF"), "RECV.REQ", param.get("UUID"), param.get("stb_id"), "STB", rtn, param);
+		LogUtil.tlog(param.get("IF"), "SEND.RES", param.get("UUID"), param.get("stb_id"), "STB", rtn, param);
 		return rtn;
 	}
 	
@@ -225,7 +225,7 @@ public class ContentsController {
 		try {
 			resultMap = contentsService.getCornerGather(ver, param);
 		} catch (Exception e) {
-			LogUtil.error(IF, "REQ", "", param.get("stb_id"), "", e.getStackTrace()[0].toString());
+			LogUtil.error(IF, "SEND.RES", "", param.get("stb_id"), "", e.getStackTrace()[0].toString());
 		}
 		
 		// 조회값 없음
@@ -240,7 +240,7 @@ public class ContentsController {
 		
 		rtn.put("reason", ResultCommon.reason.get(rtn.get("result")));
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
-		LogUtil.tlog(param.get("IF"), "RECV.REQ", param.get("UUID"), param.get("stb_id"), "STB", rtn, param);
+		LogUtil.tlog(param.get("IF"), "SEND.RES", param.get("UUID"), param.get("stb_id"), "STB", rtn, param);
 		return rtn;
 	}
 	
@@ -269,7 +269,7 @@ public class ContentsController {
 		try {
 			resultMap = contentsService.getContentsVodList(ver, param);
 		} catch (Exception e) {
-			LogUtil.error(IF, "REQ", "", param.get("stb_id"), "", e.getStackTrace()[0].toString());
+			LogUtil.error(IF, "SEND.RES", "", param.get("stb_id"), "", e.getStackTrace()[0].toString());
 		}
 		
 		// 조회값 없음
@@ -284,7 +284,7 @@ public class ContentsController {
 		
 		rtn.put("reason", ResultCommon.reason.get(rtn.get("result")));
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
-		LogUtil.tlog(param.get("IF"), "RECV.REQ", param.get("UUID"), param.get("stb_id"), "STB", rtn, param);
+		LogUtil.tlog(param.get("IF"), "SEND.RES", param.get("UUID"), param.get("stb_id"), "STB", rtn, param);
 		return rtn;
 	}
 	
@@ -315,7 +315,7 @@ public class ContentsController {
 		try {
 			resultMap = contentsService.getContentsReview(ver, param);
 		} catch (Exception e) {
-			LogUtil.error(IF, "REQ", "", param.get("stb_id"), "", e.getStackTrace()[0].toString());
+			LogUtil.error(IF, "SEND.RES", "", param.get("stb_id"), "", e.getStackTrace()[0].toString());
 		}
 		
 		// 조회값 없음
@@ -330,7 +330,7 @@ public class ContentsController {
 		
 		rtn.put("reason", ResultCommon.reason.get(rtn.get("result")));
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
-		LogUtil.tlog(param.get("IF"), "RECV.REQ", param.get("UUID"), param.get("stb_id"), "STB", rtn, param);
+		LogUtil.tlog(param.get("IF"), "SEND.RES", param.get("UUID"), param.get("stb_id"), "STB", rtn, param);
 		return rtn;
 	}
 
@@ -358,7 +358,7 @@ public class ContentsController {
 		try {
 			resultMap = contentsService.getPeopleInfo(ver, param);
 		} catch (Exception e) {
-			LogUtil.error(IF, "REQ", "", param.get("stb_id"), "", e.getStackTrace()[0].toString());
+			LogUtil.error(IF, "SEND.RES", "", param.get("stb_id"), "", e.getStackTrace()[0].toString());
 		}
 		
 		// 조회값 없음
@@ -373,7 +373,7 @@ public class ContentsController {
 		
 		rtn.put("reason", ResultCommon.reason.get(rtn.get("result")));
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
-		LogUtil.tlog(param.get("IF"), "RECV.REQ", param.get("UUID"), param.get("stb_id"), "STB", rtn, param);
+		LogUtil.tlog(param.get("IF"), "SEND.RES", param.get("UUID"), param.get("stb_id"), "STB", rtn, param);
 		return rtn;
 	}
 }

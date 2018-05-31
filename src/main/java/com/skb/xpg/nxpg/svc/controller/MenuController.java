@@ -59,7 +59,7 @@ public class MenuController {
 		}
 		
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
-		LogUtil.tlog(param.get("IF"), "RECV.REQ", param.get("UUID"), param.get("stb_id"), "STB", rtn, param);
+		LogUtil.tlog(param.get("IF"), "SEND.RES", param.get("UUID"), param.get("stb_id"), "STB", rtn, param);
 		return rtn;
 	}
 
@@ -95,7 +95,7 @@ public class MenuController {
 		}
 		
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
-		LogUtil.tlog(param.get("IF"), "RECV.REQ", param.get("UUID"), param.get("stb_id"), "STB", rtn, param);
+		LogUtil.tlog(param.get("IF"), "SEND.RES", param.get("UUID"), param.get("stb_id"), "STB", rtn, param);
 		return rtn;
 	}
 
@@ -176,7 +176,7 @@ public class MenuController {
 		rtn.put("reason", ResultCommon.reason.get(rtn.get("result")));
 		
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
-		LogUtil.tlog(param.get("IF"), "RECV.REQ", param.get("UUID"), param.get("stb_id"), "STB", rtn, param);
+		LogUtil.tlog(param.get("IF"), "SEND.RES", param.get("UUID"), param.get("stb_id"), "STB", rtn, param);
 		return rtn;
 	}
 
@@ -212,7 +212,7 @@ public class MenuController {
 		rtn.put("reason", ResultCommon.reason.get(rtn.get("result")));
 		
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
-		LogUtil.tlog(param.get("IF"), "RECV.REQ", param.get("UUID"), param.get("stb_id"), "STB", rtn, param);
+		LogUtil.tlog(param.get("IF"), "SEND.RES", param.get("UUID"), param.get("stb_id"), "STB", rtn, param);
 		return rtn;
 	}
 	

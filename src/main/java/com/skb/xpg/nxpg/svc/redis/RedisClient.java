@@ -50,10 +50,10 @@ public class RedisClient {
 			try {
 				obj = redisTemplate.<String, Object>opsForHash().get(key, field);
 				
-				LogUtil.tlog(param.get("IF"), "RECV.RES", param.get("UUID"), stb_id, "REDIS", obj);
+				LogUtil.tlog(param.get("IF"), "RECV.RES", param.get("UUID"), stb_id, "REDIS", obj, CastUtil.getMapToString(keyAndField));
 				
 			} catch (Exception e) {
-				LogUtil.error(param.get("IF"), "", param.get("UUID"), stb_id, "REDIS", e.getStackTrace()[0].toString());
+				LogUtil.error(param.get("IF"), "RECV.RES", param.get("UUID"), stb_id, "REDIS", e.getStackTrace()[0].toString());
 				cacheService.addErrorCountAfterChangeRedis();
 				obj = secondRedisTemplate.<String, Object>opsForHash().get(key, field);
 			}
@@ -61,10 +61,10 @@ public class RedisClient {
 			try {
 				obj = secondRedisTemplate.<String, Object>opsForHash().get(key, field);
 				
-				LogUtil.tlog(param.get("IF"), "RECV.RES", param.get("UUID"), stb_id, "REDIS", obj);
+				LogUtil.tlog(param.get("IF"), "RECV.RES", param.get("UUID"), stb_id, "REDIS", obj, CastUtil.getMapToString(keyAndField));
 				
 			} catch (Exception e) {
-				LogUtil.error(param.get("IF"), "", param.get("UUID"), stb_id, "REDIS", e.getStackTrace()[0].toString());
+				LogUtil.error(param.get("IF"), "RECV.RES", param.get("UUID"), stb_id, "REDIS", e.getStackTrace()[0].toString());
 				cacheService.addErrorCountAfterChangeRedis();
 				obj = redisTemplate.<String, Object>opsForHash().get(key, field);
 			}
