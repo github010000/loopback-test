@@ -53,7 +53,7 @@ public class MenuController {
 		try {
 			menuService.getMenuGnb(ver, param, rtn);
 		} catch (Exception e) {
-			LogUtil.error(param.get("IF"), "", param.get("UUID"), param.get("stb_id"), "", e.getStackTrace()[0].toString());
+			LogUtil.error(param.get("IF"), "SEND.RES", param.get("UUID"), param.get("stb_id"), "", e.getStackTrace()[0].toString());
 			rtn.put("result", "9997");
 			rtn.put("reason", ResultCommon.reason.get(rtn.get("result")));
 		}
@@ -89,7 +89,7 @@ public class MenuController {
 		try {
 			menuService.getMenuAll(ver, param, rtn);
 		} catch (Exception e) {
-			LogUtil.error(param.get("IF"), "", param.get("UUID"), param.get("stb_id"), "", e.getStackTrace()[0].toString());
+			LogUtil.error(param.get("IF"), "SEND.RES", param.get("UUID"), param.get("stb_id"), "", e.getStackTrace()[0].toString());
 			rtn.put("result", "9997");
 			rtn.put("reason", ResultCommon.reason.get(rtn.get("result")));
 		}
@@ -128,14 +128,14 @@ public class MenuController {
 		try {
 			blockblock = menuService.getBlockBlock(ver, param);
 		} catch (Exception e) {
-			LogUtil.error(param.get("IF"), "", param.get("UUID"), param.get("stb_id"), "REDIS", e.getStackTrace()[0].toString());
+			LogUtil.error(param.get("IF"), "SEND.RES", param.get("UUID"), param.get("stb_id"), "REDIS", e.getStackTrace()[0].toString());
 		}
 		// 조회값 없음
 
 		try {
 			bigbanner = menuService.getBlockBigBanner(ver, param);
 		} catch (Exception e) {
-			LogUtil.error(param.get("IF"), "", param.get("UUID"), param.get("stb_id"), "REDIS", e.getStackTrace()[0].toString());
+			LogUtil.error(param.get("IF"), "SEND.RES", param.get("UUID"), param.get("stb_id"), "REDIS", e.getStackTrace()[0].toString());
 		}
 		
 		rtn.put("result", "0000");
@@ -204,7 +204,7 @@ public class MenuController {
 			try {
 				menuService.getBlockMonth(rtn, param);
 			} catch (Exception e) {
-				LogUtil.error(param.get("IF"), "", param.get("UUID"), param.get("stb_id"), "", e.getStackTrace()[0].toString());
+				LogUtil.error(param.get("IF"), "SEND.RES", param.get("UUID"), param.get("stb_id"), "", e.getStackTrace()[0].toString());
 				rtn.put("result", "9997");
 			}
 		}

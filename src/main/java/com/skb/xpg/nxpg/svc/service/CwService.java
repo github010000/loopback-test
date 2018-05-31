@@ -332,7 +332,7 @@ public class CwService {
 					objMap.put("epsd_id", param.get("epsd_id"));
 				}else {
 					objMap.put("status_code", "0002");
-					LogUtil.info(param.get("IF"), "", param.get("UUID"), param.get("cw_stb_id"), "CW", "CW code : "+codeValue+", url : " + cwBaseUrl + path);
+//					LogUtil.info(param.get("IF"), "", param.get("UUID"), param.get("cw_stb_id"), "CW", "CW code : "+codeValue+", url : " + cwBaseUrl + path);
 				}
 				
 				if (restResult != null) {
@@ -342,7 +342,7 @@ public class CwService {
 				
 			}
 		} else {
-			LogUtil.info(param.get("IF"), "", param.get("UUID"), param.get("cw_stb_id"), "CW", "rest data null, url : " + cwBaseUrl + path);
+//			LogUtil.info(param.get("IF"), "", param.get("UUID"), param.get("cw_stb_id"), "CW", "rest data null, url : " + cwBaseUrl + path);
 		}
 		
 		
@@ -812,8 +812,8 @@ public class CwService {
 		long after = (after_end - after_start) / 1000000;
 		
 		String log = "";
-		log = "sum = " + (cw + after) + ", cw = " + cw + ", biz_redis = " + after + ", redis hget cnt = " + redis_count;
+		log = "cwredis, sum = " + (cw + after) + ", cw = " + cw + ", biz_redis = " + after + ", redis hget cnt = " + redis_count;
 		
-		LogUtil.info(param.get("IF"), "", param.get("UUID"), param.get("cw_stb_id"), "CW_REDIS", log);
+		LogUtil.info(param.get("IF"), "", param.get("UUID"), param.get("cw_stb_id"), "", log);
 	}
 }

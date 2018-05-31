@@ -56,7 +56,7 @@ public class GridController {
 		try {
 			gridService.getGrid(rtn, param);
 		} catch (Exception e) {
-			LogUtil.error(IF, "SEND.RES", "", param.get("stb_id"), "REDIS", e.getStackTrace()[0].toString());
+			LogUtil.error(IF, "SEND.RES", param.get("UUID"), param.get("stb_id"), "REDIS", e.getStackTrace()[0].toString());
 			rtn.put("result", "9997");
 		}
 		if (rtn.get("reason") == null || rtn.get("reason").toString().isEmpty()) {
@@ -90,7 +90,7 @@ public class GridController {
 		try {
 			resultMap = gridService.getGridEvent(ver, param);
 		} catch (Exception e) {
-			LogUtil.error(IF, "SEND.RES", "", param.get("stb_id"), "REDIS", e.getStackTrace()[0].toString());
+			LogUtil.error(IF, "SEND.RES", param.get("UUID"), param.get("stb_id"), "REDIS", e.getStackTrace()[0].toString());
 		}
 		
 		// 조회값 없음

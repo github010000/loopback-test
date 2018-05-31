@@ -475,8 +475,8 @@ public class MenuService {
 			
 			if (bigbanner != null && bigbanner.size() > 0) {
 				rtn.putAll(bigbanner);
+				rtn.put("banner_count", bigbanner.get("total_count"));
 				rtn.remove("total_count");
-				rtn.put("banner_count", bigbanner.size());
 				
 				if (bigbanner.containsKey("result")) {
 					rtn.put("result", bigbanner.get("result"));

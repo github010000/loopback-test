@@ -50,7 +50,7 @@ public class AddedController {
         try {
         	resultMap = epgService.getAddedEpg(ver, param);
         } catch (Exception e) {
-        	LogUtil.error(param.get("IF"), "", param.get("UUID"), param.get("stb_id"), "REDIS", e.getStackTrace()[0].toString());
+        	LogUtil.error(param.get("IF"), "SEND.RES", param.get("UUID"), param.get("stb_id"), "REDIS", e.getStackTrace()[0].toString());
         }
         // 조회값 없음
         if (resultMap == null) {
@@ -94,7 +94,7 @@ public class AddedController {
         try {
         	resultMap = epgService.getAddedGenre(ver, param);
         } catch (Exception e) {
-        	LogUtil.error(param.get("IF"), "", param.get("UUID"), param.get("stb_id"), "", e.getStackTrace()[0].toString());
+        	LogUtil.error(param.get("IF"), param.get("UUID"), param.get("UUID"), param.get("stb_id"), "", e.getStackTrace()[0].toString());
         }
         // 조회값 없음
         if (resultMap == null) {
@@ -135,7 +135,7 @@ public class AddedController {
         try {
         	epgService.getRealTimeChannel(rtn, param);
         } catch (Exception e) {
-        	LogUtil.error(param.get("IF"), "", param.get("UUID"), param.get("stb_id"), "REDIS", e.getStackTrace()[0].toString());
+        	LogUtil.error(param.get("IF"), "SEND.RES", param.get("UUID"), param.get("stb_id"), "REDIS", e.getStackTrace()[0].toString());
         	rtn.put("result", "9997");
         }
 

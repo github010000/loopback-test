@@ -95,7 +95,7 @@ public class ContentsController {
 		try {
 			resultMap = contentsService.getContentsPeople(ver, param);
 		} catch (Exception e) {
-			LogUtil.error(IF, "SEND.RES", "", param.get("stb_id"), "", e.getStackTrace()[0].toString());	
+			LogUtil.error(IF, "SEND.RES", param.get("UUID"), param.get("stb_id"), "", e.getStackTrace()[0].toString());	
 		}
 		
 		// 조회값 없음
@@ -138,7 +138,7 @@ public class ContentsController {
 		try {
 			resultMap = contentsService.getContentsGwsynop(ver, param);
 		} catch (Exception e) {
-			LogUtil.error(IF, "SEND.RES", "", param.get("stb_id"), "", e.getStackTrace()[0].toString());
+			LogUtil.error(IF, "SEND.RES", param.get("UUID"), param.get("stb_id"), "", e.getStackTrace()[0].toString());
 		}
 		
 		// 조회값 없음
@@ -181,7 +181,7 @@ public class ContentsController {
 		try {
 			resultMap = contentsService.getContentsCommerce(ver, param);
 		} catch (Exception e) {
-			LogUtil.error(IF, "SEND.RES", "", param.get("stb_id"), "", e.getStackTrace()[0].toString());
+			LogUtil.error(IF, "SEND.RES", param.get("UUID"), param.get("stb_id"), "", e.getStackTrace()[0].toString());
 		}
 		
 		// 조회값 없음
@@ -225,7 +225,7 @@ public class ContentsController {
 		try {
 			resultMap = contentsService.getCornerGather(ver, param);
 		} catch (Exception e) {
-			LogUtil.error(IF, "SEND.RES", "", param.get("stb_id"), "", e.getStackTrace()[0].toString());
+			LogUtil.error(IF, "SEND.RES", param.get("UUID"), param.get("stb_id"), "", e.getStackTrace()[0].toString());
 		}
 		
 		// 조회값 없음
@@ -269,7 +269,7 @@ public class ContentsController {
 		try {
 			resultMap = contentsService.getContentsVodList(ver, param);
 		} catch (Exception e) {
-			LogUtil.error(IF, "SEND.RES", "", param.get("stb_id"), "", e.getStackTrace()[0].toString());
+			LogUtil.error(IF, "SEND.RES", param.get("UUID"), param.get("stb_id"), "", e.getStackTrace()[0].toString());
 		}
 		
 		// 조회값 없음
@@ -315,7 +315,7 @@ public class ContentsController {
 		try {
 			resultMap = contentsService.getContentsReview(ver, param);
 		} catch (Exception e) {
-			LogUtil.error(IF, "SEND.RES", "", param.get("stb_id"), "", e.getStackTrace()[0].toString());
+			LogUtil.error(IF, "SEND.RES", param.get("UUID"), param.get("stb_id"), "", e.getStackTrace()[0].toString());
 		}
 		
 		// 조회값 없음
@@ -358,7 +358,7 @@ public class ContentsController {
 		try {
 			resultMap = contentsService.getPeopleInfo(ver, param);
 		} catch (Exception e) {
-			LogUtil.error(IF, "SEND.RES", "", param.get("stb_id"), "", e.getStackTrace()[0].toString());
+			LogUtil.error(IF, "SEND.RES", param.get("UUID"), param.get("stb_id"), "", e.getStackTrace()[0].toString());
 		}
 		
 		// 조회값 없음
