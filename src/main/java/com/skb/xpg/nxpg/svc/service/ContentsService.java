@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.skb.xpg.nxpg.svc.common.NXPGCommon;
 import com.skb.xpg.nxpg.svc.redis.RedisClient;
 import com.skb.xpg.nxpg.svc.util.CastUtil;
+import com.skb.xpg.nxpg.svc.util.CiModeUtil;
 import com.skb.xpg.nxpg.svc.util.DateUtil;
 
 @Service
@@ -20,7 +21,7 @@ public class ContentsService {
 
 	@Autowired
 	private RedisClient redisClient;
-	
+
 //	@Autowired
 //	private Properties properties;
 	
@@ -142,7 +143,12 @@ public class ContentsService {
 			if (purchares != null && purchares.get("products") != null) {
 				List<Map<String, Object>> products = CastUtil.getObjectToMapList(purchares.get("products"));
 				DateUtil.getCompare(products, "prd_prc_fr_dt", "purc_wat_to_dt", true);
-				rtn.put("purchares", purchares.get("products"));
+				if(NXPGCommon.isCIMode()) {
+					products = CiModeUtil.getPrdFilter(products);
+					rtn.put("purchares", products);
+				} else {
+					rtn.put("purchares", purchares.get("products"));
+				}
 			}
 		}
 	}

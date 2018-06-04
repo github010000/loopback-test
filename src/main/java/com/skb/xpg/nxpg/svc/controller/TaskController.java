@@ -118,21 +118,28 @@ public class TaskController {
 	public Map<String, Object> getcimode(@PathVariable String ver) {
 		NXPGCommon.isCIMode();
 		
-		return getStat(ver);
+		return getStatCimode(ver);
 	}
 
 	@RequestMapping(value = "/cimode/on")
 	public Map<String, Object> setcimodeon(@PathVariable String ver) {
 		NXPGCommon.onCIMode();
 		
-		return getStat(ver);
+		return getStatCimode(ver);
 	}
 
 	@RequestMapping(value = "/cimode/off")
 	public Map<String, Object> setcimodeoff(@PathVariable String ver) {
 		NXPGCommon.offCIMode();
 		
-		return getStat(ver);
+		return getStatCimode(ver);
 	}
 
+	@RequestMapping(value = "/task/statcimode")
+	public Map<String, Object> getStatCimode(@PathVariable String ver) {
+		Map<String, Object> rtn = new HashMap<String, Object>();
+		rtn.put("ci_mode", NXPGCommon.isCIMode());
+		
+		return rtn;
+	}
 }

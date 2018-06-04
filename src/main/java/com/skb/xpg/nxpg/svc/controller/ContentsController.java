@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.skb.xpg.nxpg.svc.common.NXPGCommon;
 import com.skb.xpg.nxpg.svc.common.ResultCommon;
 import com.skb.xpg.nxpg.svc.config.Properties;
 import com.skb.xpg.nxpg.svc.service.ContentsService;
+import com.skb.xpg.nxpg.svc.util.CiModeUtil;
 import com.skb.xpg.nxpg.svc.util.DateUtil;
 import com.skb.xpg.nxpg.svc.util.LogUtil;
 import com.skb.xpg.nxpg.svc.util.StrUtil;
@@ -24,12 +26,14 @@ public class ContentsController {
 
 	@Autowired
 	ContentsService contentsService;
+	
 	@Autowired
 	private Properties properties;
 
 	// IF-NXPG-010
 	@RequestMapping(value = "/contents/synopsis")
 	public Map<String, Object> getContentsSynopsis(HttpServletRequest req, @PathVariable String ver, @RequestParam Map<String, String> param) {
+		
 		String IF = param.get("IF");
 		Map<String, Object> result = properties.getResults();
 		Map<String, Object> rtn = new HashMap<String, Object>();
@@ -60,6 +64,8 @@ public class ContentsController {
 		// 값 불러오기
 		try {
 			contentsService.getSynopsisContents(rtn, param);
+			
+			
 		} catch (Exception e) {
 			LogUtil.error(IF, "SEND.RES", param.get("UUID"), param.get("stb_id"), "REDIS", e.getStackTrace()[0].toString());
 			rtn.put("result", "9997");
@@ -137,6 +143,10 @@ public class ContentsController {
 		Map<String, Object> resultMap = null;
 		try {
 			resultMap = contentsService.getContentsGwsynop(ver, param);
+			
+			if(NXPGCommon.isCIMode()) {
+				CiModeUtil.getFilter(resultMap);
+			}
 		} catch (Exception e) {
 			LogUtil.error(IF, "SEND.RES", param.get("UUID"), param.get("stb_id"), "", e.getStackTrace()[0].toString());
 		}
@@ -180,6 +190,10 @@ public class ContentsController {
 		Map<String, Object> resultMap = null;
 		try {
 			resultMap = contentsService.getContentsCommerce(ver, param);
+			if(NXPGCommon.isCIMode()) {
+				CiModeUtil.getFilter(resultMap);
+			}
+
 		} catch (Exception e) {
 			LogUtil.error(IF, "SEND.RES", param.get("UUID"), param.get("stb_id"), "", e.getStackTrace()[0].toString());
 		}
