@@ -105,7 +105,8 @@
 			<!-- <li><h3><i>IF-NXPG-004 / <a href="#" id="u004">월정액 상세 정보)</h3><br/> <b><span></span></b> <input type="text" value=""/></li> -->
 			<li>
 				<h3><i>IF-NXPG-005</i> (월정액 가입자 메뉴 정보)</h3><br/> 
-				<b><span>menu_id</span></b> <input type="text" value="NM1000018172"/><br/>
+				<b><span>menu_stb_svc_id</span></b> <input type="text" value="BTVUH2V500"/><br/>
+				<b><span>menu_id</span></b> <input type="text" value="NM1000000100"/><br/>
 				<b><span>prd_prc_id_lst</span></b> <input type="text" value="3240009"/>
 				<button id="u005">조회</button>
 			</li>
@@ -116,6 +117,7 @@
 			</li>
 			<li>
 				<h3><i>IF-NXPG-007</i> (이벤트 정보)</h3><br/> 
+				<b><span>menu_stb_svc_id</span></b> <input type="text" value="BTVUH2V500"/><br/>
 				<b><span>menu_id</span></b> <input type="text" value="NM1000020226"/>
 				<button id="u007">조회</button>
 			</li>
@@ -138,7 +140,7 @@
 				<b><span>epsd_id</span></b> <input type="text" value="CE0001293945"/><br/>
 				<b><span>epsd_rslu_id</span></b> <input type="text" value="%7B17E6CCA1-0A46-11E8-9252-FFA90356A7A9%7D"/><br/>
 				<b><span>search_type</span></b> <input type="text" value="1"/><br/>
-				<b><span>yn_recent</span></b> <input type="text" value="Y"/>
+				<b><span>yn_recent</span></b> <input type="text" value="N"/>
 				<button id="u010">조회</button>
 			</li>
 			<!--<li>
@@ -230,9 +232,9 @@ var u001 = "/v5/menu/gnb?IF=IF-NXPG-001&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F
 var u002 = "/v5/menu/all?IF=IF-NXPG-002&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D"
 var u003 = "/v5/menu/block?IF=IF-NXPG-003&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D"
 //var u004 = "/v5/menu/monthinfo?menu_stb_svc_id=BTVUH2V500&prd_prc_id=P0001&IF=IF-NXPG-004&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D"
-var u005 = "/v5/menu/month?menu_stb_svc_id=BTVUH2V500&IF=IF-NXPG-005&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D"
+var u005 = "/v5/menu/month?IF=IF-NXPG-005&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D"
 var u006 = "/v5/grid/grid?menu_stb_svc_id=BTVUH2V500&IF=IF-NXPG-006&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&page_no=1&page_cnt=20"
-var u007 = "/v5/grid/event?menu_stb_svc_id=BTVUH2V500&IF=IF-NXPG-007&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D"
+var u007 = "/v5/grid/event?IF=IF-NXPG-007&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D"
 var u008 = "/v5/contents/rating?menu_stb_svc_id=BTVUH2V500&IF=IF-NXPG-008&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&page_no=1&page_cnt=2"
 var u009 = "/v5/inter/cwgrid?menu_stb_svc_id=UI50_BSUHD&track_id=368.34727.1522911308391&session_id=b4566b6b-73b9-4f05-ab68-a80ff25a6c95&IF=IF-NXPG-009"
 var u010 = "/v5/contents/synopsis?menu_stb_svc_id=BTVUH2V500&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&IF=IF-NXPG-010"
