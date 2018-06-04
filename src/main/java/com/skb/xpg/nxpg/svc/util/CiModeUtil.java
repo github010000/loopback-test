@@ -28,12 +28,15 @@ public class CiModeUtil {
 		if(data != null || !data.isEmpty()) {
 			for(int i=0; i < data.size(); i++ ) {
 				temp = data.get(i);
-				String prd_typ_cd = (String) temp.get("prd_typ_cd");
-
-				if(cimodeCheck.contains(prd_typ_cd)) {
-					continue;
-				} else {
-					result.add(temp);
+				if (temp != null && temp.containsKey("prd_typ_cd")) {
+					
+					String prd_typ_cd = temp.get("prd_typ_cd") + "";
+					
+					if(cimodeCheck.contains(prd_typ_cd)) {
+						continue;
+					} else {
+						result.add(temp);
+					}
 				}
 			}
 		} 
