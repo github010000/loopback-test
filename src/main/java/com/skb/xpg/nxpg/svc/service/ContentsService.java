@@ -140,6 +140,7 @@ public class ContentsService {
 			rtn.put("contents", sris);
 
 			Map<String, Object> purchares = getContentsPurchares(sris_id, param);
+			rtn.put("purchares", new ArrayList());
 			if (purchares != null && purchares.get("products") != null) {
 				List<Map<String, Object>> products = CastUtil.getObjectToMapList(purchares.get("products"));
 				DateUtil.getCompare(products, "prd_prc_fr_dt", "purc_wat_to_dt", true);

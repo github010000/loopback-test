@@ -34,7 +34,6 @@ public class TaskController {
 	@RequestMapping(value = "/task/stat")
 	public Map<String, Object> getStat(@PathVariable String ver) {
 		Map<String, Object> rtn = new HashMap<String, Object>();
-		rtn.put("result", "0000");
 		rtn.put("error_count", cacheService.getErrorCount());
 		rtn.put("active_profile", activeProfile);
 		
@@ -57,8 +56,6 @@ public class TaskController {
 		} else {
 			rtn.put("in_use_first_redis", NXPGCommon.isUseFirstRedis());
 		}
-		rtn.put("use_response_log", LogUtil.useLogForResponseData);
-		rtn.put("version_check_is_equal", NXPGCommon.checkVersionEqual);
 		
 		return rtn;
 	}
@@ -86,67 +83,52 @@ public class TaskController {
 		}
 	}
 
-	@RequestMapping(value = "/task/redis/dofirst")
-	public Map<String, Object> doSwitchDoFirst(@PathVariable String ver) {
-		NXPGCommon.useFirstRedis = true;
+	@RequestMapping(value = "/task/switch")
+	public Map<String, Object> doSwitch(@PathVariable String ver) {
+		NXPGCommon.switchUseRedis();
 		
 		return getStat(ver);
 	}
 
-	@RequestMapping(value = "/task/redis/dosecond")
-	public Map<String, Object> doSwitchDoSecond(@PathVariable String ver) {
-		NXPGCommon.useFirstRedis = false;
+	@RequestMapping(value = "/task/etcstat")
+	public Map<String, Object> getEtcStat(@PathVariable String ver) {
+		Map<String, Object> rtn = new HashMap<String, Object>();
+		rtn.put("result", "0000");
+		rtn.put("use_response_log", LogUtil.useLogForResponseData);
+		rtn.put("version_check_is_equal", NXPGCommon.checkVersionEqual);
 		
 		return getStat(ver);
 	}
 
-//	@RequestMapping(value = "/task/etcstat")
-//	public Map<String, Object> getEtcStat(@PathVariable String ver) {
-//		Map<String, Object> rtn = new HashMap<String, Object>();
-//		rtn.put("result", "0000");
-//		
-//		return rtn;
-//	}
-
-	@RequestMapping(value = "/task/logswitch/on")
-	public Map<String, Object> doLogSwitchOn(@PathVariable String ver) {
-		LogUtil.useLogForResponseData = true;
+	@RequestMapping(value = "/task/logswitch")
+	public Map<String, Object> doLogSwitch(@PathVariable String ver) {
+		LogUtil.useLogForResponseData = !LogUtil.useLogForResponseData;
 		
-		return getStat(ver);
+		return getEtcStat(ver);
 	}
 
-	@RequestMapping(value = "/task/logswitch/off")
-	public Map<String, Object> doLogSwitchOff(@PathVariable String ver) {
-		LogUtil.useLogForResponseData = false;
+	@RequestMapping(value = "/task/versionswitch")
+	public Map<String, Object> doVersionSwitch(@PathVariable String ver) {
+		NXPGCommon.switchCheckVersionEqual();
 		
-		return getStat(ver);
+		return getEtcStat(ver);
 	}
 
-//	@RequestMapping(value = "/task/versionswitch")
-//	public Map<String, Object> doVersionSwitch(@PathVariable String ver) {
-//		NXPGCommon.switchCheckVersionEqual();
-//		
-//		return getEtcStat(ver);
-//	}
-
-	// CIMODE 상태 체크
-	@RequestMapping(value = "/get-db-mode")
+	@RequestMapping(value = "/cimode")
 	public Map<String, Object> getcimode(@PathVariable String ver) {
 		NXPGCommon.isCIMode();
 		
 		return getStatCimode(ver);
 	}
-	
-	// CIMODE 적용
-	@RequestMapping(value = "/set-db-cimode")
+
+	@RequestMapping(value = "/cimode/on")
 	public Map<String, Object> setcimodeon(@PathVariable String ver) {
 		NXPGCommon.onCIMode();
 		
 		return getStatCimode(ver);
 	}
 
-	// CIMODE 해제
-	@RequestMapping(value = "/set-db-normal")
+	@RequestMapping(value = "/cimode/off")
 	public Map<String, Object> setcimodeoff(@PathVariable String ver) {
 		NXPGCommon.offCIMode();
 		
@@ -156,16 +138,7 @@ public class TaskController {
 	@RequestMapping(value = "/task/statcimode")
 	public Map<String, Object> getStatCimode(@PathVariable String ver) {
 		Map<String, Object> rtn = new HashMap<String, Object>();
-		String svc_name = "nxpg-svc";
-		
-		rtn.put("svc_name", svc_name);
-		rtn.put("result", "success");
-		
-		if(NXPGCommon.isCIMode()) {
-			rtn.put("db_mode", "cimode");
-		} else {
-			rtn.put("db_mode", "normal");
-		}
+		rtn.put("ci_mode", NXPGCommon.isCIMode());
 		
 		return rtn;
 	}

@@ -1,8 +1,8 @@
 ---
 applications:
 - name: xpg-nxpg-svc
-  host: xpg-nxpg-stg
-  memory: 1024M
+  host: xpg-nxpg-svc-tst
+  memory: 2048M
   instances: 1
   buildpack: liberty-for-java
   path: ./defaultServer
