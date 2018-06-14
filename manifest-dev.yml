@@ -1,7 +1,9 @@
 ---
 applications:
 - name: xpg-nxpg-svc
-  host: xpg-nxpg-svc-dev
+  hosts:
+    - xpg-nxpg-svc-dev
+    - xpg-nxpg-dev
   memory: 2048M
   instances: 1
   buildpack: liberty-for-java

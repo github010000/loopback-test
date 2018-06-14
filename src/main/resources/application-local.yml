@@ -109,6 +109,9 @@ spring:
     host: localhost
     port: 6379
     password: null
+    setMaxTotal: 100 
+    setMaxIdle: 100
+    setMinIdle: 100
 second:
   redis:
     host: localhost
