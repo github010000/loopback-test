@@ -3,13 +3,8 @@ package com.skb.xpg.nxpg.svc.util;
 import java.util.List;
 import java.util.Map;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Component;
@@ -18,8 +13,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class LogUtil {
 	
-	private static String HostName;
-	private static String HostIp;
+	private static String HostName = "xpg-nxpg-svc";
+	public static String HostIp;
 	public static boolean useLogForResponseData;
 	
 	@Value("${user.useLogForResponseData}")
@@ -27,10 +22,10 @@ public class LogUtil {
 		LogUtil.useLogForResponseData = useLogForResponseData;
     }
 	
-	@Value("${user.logging.name}")
-    private void setHostName(String HostName){
-		LogUtil.HostName = HostName;
-    }
+//	@Value("${user.logging.name}")
+//    private void setHostName(String HostName){
+//		LogUtil.HostName = HostName;
+//    }
 	
 	@Value("${user.logging.instance_index}")
     private void setHostIp(String HostIp){

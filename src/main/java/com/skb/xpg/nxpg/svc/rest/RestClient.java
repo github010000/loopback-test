@@ -16,25 +16,32 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.client.support.BasicAuthorizationInterceptor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.skb.xpg.nxpg.svc.config.Properties;
-import com.skb.xpg.nxpg.svc.util.CastUtil;
 import com.skb.xpg.nxpg.svc.util.LogUtil;
 
 @Service
+@RefreshScope
 public class RestClient {
-
-	@Autowired
-	private Properties properties;
 	
 	@Autowired
 	@Qualifier("activeProfile")
 	private String activeProfile;
+
+	@Value("${user.cw.socktimeout}")
+	private int socktimeout;
+
+	@Value("${user.cw.conntimeout}")
+	private int conntimeout;
+
+	@Value("${user.cw.connreqtimeout}")
+	private int connreqtimeout;
 	
 	private RestTemplate restTemplate;
 	
@@ -46,9 +53,9 @@ public class RestClient {
 		HttpGet request = new HttpGet(url);
 
 		RequestConfig requestConfig = RequestConfig.custom()
-		          .setSocketTimeout(CastUtil.getObjectToInteger(properties.getCw().get("socktimeout")))
-		          .setConnectTimeout(CastUtil.getObjectToInteger(properties.getCw().get("conntimeout")))
-		          .setConnectionRequestTimeout(CastUtil.getObjectToInteger(properties.getCw().get("connreqtimeout")))
+		          .setSocketTimeout(socktimeout)
+		          .setConnectTimeout(conntimeout)
+		          .setConnectionRequestTimeout(connreqtimeout)
 		          .build();
 
 		request.setConfig(requestConfig);
