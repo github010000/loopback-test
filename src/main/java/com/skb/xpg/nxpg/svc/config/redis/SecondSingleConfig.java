@@ -29,13 +29,22 @@ public class SecondSingleConfig {
 	
 	@Value("${second.redis.password}")
 	private String password;
+	
+	@Value("${spring.redis.setMaxTotal}")
+	private int setMaxTotal;
+	
+	@Value("${spring.redis.setMaxIdle}")
+	private int setMaxIdle;
+	
+	@Value("${spring.redis.setMinIdle}")
+	private int setMinIdle;
     
 	@Bean(name = "secondJedisConnectionFactory")
 	public JedisConnectionFactory jedisConnectionFactory() {
 		JedisPoolConfig poolConfig = new JedisPoolConfig();
-		poolConfig.setMaxTotal(600);
-		poolConfig.setMaxIdle(60);
-		poolConfig.setMinIdle(30);
+		poolConfig.setMaxTotal(setMaxTotal);
+		poolConfig.setMaxIdle(setMaxIdle);
+		poolConfig.setMinIdle(setMinIdle);
 		poolConfig.setTestOnBorrow(true);
 		poolConfig.setTestOnReturn(true);
 		poolConfig.setTestWhileIdle(true);

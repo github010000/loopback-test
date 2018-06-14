@@ -38,6 +38,15 @@ public class SecondClusterConfiguration {
 
     @Value("${services.redis.redirection.count}")
     private int clusterRedirectionCount;
+	
+	@Value("${spring.redis.setMaxTotal}")
+	private int setMaxTotal;
+	
+	@Value("${spring.redis.setMaxIdle}")
+	private int setMaxIdle;
+	
+	@Value("${spring.redis.setMinIdle}")
+	private int setMinIdle;
 
     @Bean(name="secondRedisCluster")
     public RedisClusterConfiguration getRmsClusterConfiguration() {
@@ -53,9 +62,9 @@ public class SecondClusterConfiguration {
     @Bean(name="secondJedisConnection")
     public JedisConnectionFactory rmsJedisConnectionFactory() {
     	JedisPoolConfig poolConfig = new JedisPoolConfig();
-		poolConfig.setMaxTotal(600);
-		poolConfig.setMaxIdle(60);
-		poolConfig.setMinIdle(30);
+		poolConfig.setMaxTotal(setMaxTotal);
+		poolConfig.setMaxIdle(setMaxIdle);
+		poolConfig.setMinIdle(setMinIdle);
 		poolConfig.setTestOnBorrow(true);
 		poolConfig.setTestOnReturn(true);
 		poolConfig.setTestWhileIdle(true);
