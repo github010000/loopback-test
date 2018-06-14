@@ -1,5 +1,7 @@
 package com.skb.xpg.nxpg.svc.config.redis;
 
+import java.time.Duration;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,6 +14,7 @@ import org.springframework.data.redis.core.script.RedisScript;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import com.skb.xpg.nxpg.svc.util.LogUtil;
 
+import redis.clients.jedis.JedisPoolConfig;
 import redis.clients.jedis.exceptions.JedisConnectionException;
 
 @Configuration
@@ -30,12 +33,26 @@ public class PrimarySingleConfiguration {
     @Primary
 	@Bean(name = "primaryJedisConnectionFactory")
 	public JedisConnectionFactory jedisConnectionFactory() {
+    	
+    	JedisPoolConfig poolConfig = new JedisPoolConfig();
+		poolConfig.setMaxTotal(600);
+		poolConfig.setMaxIdle(60);
+		poolConfig.setMinIdle(30);
+		poolConfig.setTestOnBorrow(true);
+		poolConfig.setTestOnReturn(true);
+		poolConfig.setTestWhileIdle(true);
+		poolConfig.setMinEvictableIdleTimeMillis(Duration.ofSeconds(60).toMillis());
+		poolConfig.setTimeBetweenEvictionRunsMillis(Duration.ofSeconds(30).toMillis());
+		poolConfig.setNumTestsPerEvictionRun(3);
+		poolConfig.setBlockWhenExhausted(true);
+		
 		JedisConnectionFactory factory = new JedisConnectionFactory();
 		factory.setHostName(redisHost);
 		factory.setPort(redisPort);
 		factory.setPassword(password);
 		factory.setUsePool(true);
 		factory.setTimeout(50);
+		factory.setPoolConfig(poolConfig);
 		return factory;
 	}
 
