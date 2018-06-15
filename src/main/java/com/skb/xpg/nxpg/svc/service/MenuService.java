@@ -589,7 +589,11 @@ public class MenuService {
 		// menu_cd 제거
 		List<Map<String, Object>> deleteListInner = new ArrayList<Map<String, Object>>();
 		
-		if (menuList != null && segmentId != null && !segmentId.isEmpty()) {
+		if (menuList != null) {
+			
+			if (segmentId == null || segmentId.isEmpty()) {
+				segmentId = "_";
+			}
 			
 			// segmentId 10개까지만 가지고 오게 끔 처리
 			String[] segmentIdList = segmentId.split(",");
@@ -598,7 +602,7 @@ public class MenuService {
 				return;
 			}
 			
-			for(int i = 0; i < segmentIdList.length; i++) {
+			for (int i = 0; i < segmentIdList.length; i++) {
 				if (i == 10) break;
 				segmentId += "," + segmentIdList[i];
 			}
