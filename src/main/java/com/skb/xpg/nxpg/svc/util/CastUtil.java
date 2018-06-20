@@ -119,18 +119,28 @@ public class CastUtil {
 
 	public static List<Map<String, Object>> StringToJsonListMap(String json) {
 		if (json != null) {	
-			Gson gson = new Gson();
-			Type type = new TypeToken<List<Map<String, Object>>>() {}.getType();
-			List<Map<String, Object>> data = gson.fromJson(json, type);
-			return data;
+			try {
+				Gson gson = new Gson();
+				Type type = new TypeToken<List<Map<String, Object>>>() {}.getType();
+				List<Map<String, Object>> data = gson.fromJson(json, type);
+				return data;
+			} catch (Exception e) {
+				LogUtil.error("", "", "", "", "", e.getStackTrace()[0].toString());
+				return null;
+			}
 		} else return null;
 	}
 	
 	public static Map<String, Object> StringToJsonMap(String json) {
 		if (json != null) {	
-			GsonJsonParser parser = new GsonJsonParser();
-			Map<String, Object> map = parser.parseMap(json);
-			return map;
+			try {
+				GsonJsonParser parser = new GsonJsonParser();
+				Map<String, Object> map = parser.parseMap(json);
+				return map;
+			} catch (Exception e) {
+				LogUtil.error("", "", "", "", "", e.getStackTrace()[0].toString());
+				return null;
+			}
 		} else return null;
 	}
 	
