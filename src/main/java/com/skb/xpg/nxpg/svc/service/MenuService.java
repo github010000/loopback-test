@@ -58,7 +58,7 @@ public class MenuService {
 			if ( redisData != null && !"".equals(redisData)) {
 				List<Object> menugnb = CastUtil.StringToJsonList(redisData);
 				List<Map<String, Object>> data = CastUtil.getObjectToMapList(menugnb);
-//				DateUtil.getCompare(data, "dist_fr_dt", "dist_to_dt", true);
+				DateUtil.getCompare(data, "dist_fr_dt", "dist_to_dt", true);
 
 				if (data == null) {
 					rtn.put("result", "9998");
@@ -89,7 +89,7 @@ public class MenuService {
 			if(redisData != null && !"".equals(redisData)) {
 				List<Object> menuall = CastUtil.StringToJsonList(redisData);
 				List<Map<String, Object>> data = (List<Map<String, Object>>) CastUtil.getObjectToMapList(menuall);
-//				DateUtil.getCompare(data, "dist_fr_dt", "dist_to_dt", true);
+				DateUtil.getCompare(data, "dist_fr_dt", "dist_to_dt", true);
 				
 				// 조회값 없음
 				if (data == null) {
@@ -123,7 +123,7 @@ public class MenuService {
 			if (doCheckVersion(bigbanner, param, "banner_version", version, "banners")) {
 			
 				List<Map<String, Object>> banners = CastUtil.getObjectToMapList(bigbanner.get("banners"));
-//				DateUtil.getCompare(banners, "dist_fr_dt", "dist_to_dt", false);
+				DateUtil.getCompare(banners, "dist_fr_dt", "dist_to_dt", true);
 				doSegment(banners, param.get("bnr_seg_id"), "cmpgn_id");
 				bigbanner.put("banner_count", banners.size());
 				bigbanner.remove("total_count");
@@ -155,7 +155,7 @@ public class MenuService {
 			
 				List<Map<String, Object>> blocks = CastUtil.getObjectToMapList(blockblock.get("blocks"));
 				List<Map<String, Object>>cwResult = new ArrayList<Map<String,Object>>();
-//				DateUtil.getCompare(blocks, "dist_fr_dt", "dist_to_dt", false);
+				DateUtil.getCompare(blocks, "dist_fr_dt", "dist_to_dt", true);
 				doSegment(blocks, param.get("seg_id"), "cmpgn_id");
 				List<Map<String, Object>>deleteList = new ArrayList<Map<String,Object>>();
 				Map<String, Object> cw = properties.getCw();
@@ -199,7 +199,7 @@ public class MenuService {
 										cwPerMap = CastUtil.StringToJsonMap(cwPerGridStr);
 										cwPerGrid = CastUtil.getObjectToMapList(cwPerMap.get("contents"));
 										List<Map<String, Object>> data = (List<Map<String, Object>>) CastUtil.getObjectToMapList(cwPerGrid);
-//										DateUtil.getCompare(data, "dist_fr_dt", "dist_to_dt", true);
+										DateUtil.getCompare(data, "dist_fr_dt", "dist_to_dt", true);
 										if(data != null && !data.isEmpty()) {
 											cwRtn.put("menu_id", menuNtitle[0]);
 											cwRtn.put("menu_nm", menuNtitle[1]);
@@ -228,7 +228,7 @@ public class MenuService {
 	
 						Map<String, Object> gridbanner = getGridBanner(param.get("menu_stb_svc_id") + "_" + map.get("menu_id").toString(), param);
 						if (gridbanner != null) {
-//							DateUtil.getCompare(CastUtil.getObjectToMapList(gridbanner.get("banners")), "dist_fr_dt", "dist_to_dt", true);
+							DateUtil.getCompare(CastUtil.getObjectToMapList(gridbanner.get("banners")), "dist_fr_dt", "dist_to_dt", true);
 							doSegment(CastUtil.getObjectToMapList(gridbanner.get("banners")), param.get("seg_id"), "cmpgn_id");
 							map.put("menus", gridbanner.get("banners"));
 						} else {
@@ -305,7 +305,7 @@ public class MenuService {
 			if (doCheckVersion(bigbanner, param, "banner_version", banner_version, "banners")) {
 			
 				banners = CastUtil.getObjectToMapList(bigbanner.get("banners"));
-//				DateUtil.getCompare(banners, "dist_fr_dt", "dist_to_dt", false);
+				DateUtil.getCompare(banners, "dist_fr_dt", "dist_to_dt", true);
 			}
 		}
 //		List<Map<String, Object>> banners = CastUtil.getObjectToMapList(bigbanner.get("banners"));
@@ -328,7 +328,7 @@ public class MenuService {
 			if (doCheckVersion(blockblock, param, "block_version", version, "blocks")) {
 			
 				blocks = CastUtil.getObjectToMapList(blockblock.get("blocks"));
-//				DateUtil.getCompare(blocks, "dist_fr_dt", "dist_to_dt", false);
+				DateUtil.getCompare(blocks, "dist_fr_dt", "dist_to_dt", true);
 				
 				Map<String, Boolean> exceptionPid = new HashMap<String, Boolean>();
 				
@@ -376,7 +376,7 @@ public class MenuService {
 						shcutblockblock = getGridBanner(param.get("menu_stb_svc_id") + "_" + month_item.get("shcut_menu_id") + "", param);
 						if (shcutblockblock != null && !shcutblockblock.isEmpty()) {
 							List<Map<String, Object>> shcutblocks = CastUtil.getObjectToMapList(shcutblockblock.get("banners"));
-//							DateUtil.getCompare(shcutblocks, "dist_fr_dt", "dist_to_dt", false);
+							DateUtil.getCompare(shcutblocks, "dist_fr_dt", "dist_to_dt", true);
 							if(shcutblocks != null && shcutblocks.size()>0) {
 								//mmtf_home_exps_yn (홈 노출여부)가 Y인 데이터만 노출한다.
 								for(Map<String,Object>temp:shcutblocks) {
@@ -433,7 +433,7 @@ public class MenuService {
 								menubanners.remove(rt);
 							}
 							
-//							DateUtil.getCompare(menubanners, "dist_fr_dt", "dist_to_dt", true);
+							DateUtil.getCompare(menubanners, "dist_fr_dt", "dist_to_dt", true);
 							map.put("menus", menubanners);
 						} 
 					}

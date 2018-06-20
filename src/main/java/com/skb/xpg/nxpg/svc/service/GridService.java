@@ -54,7 +54,7 @@ public class GridService {
 				}
 			}
 			gridList = CastUtil.getObjectToMapList(gridMap.get("contents"));
-//			DateUtil.getCompare(gridList, "svc_fr_dt", "svc_to_dt", false);
+			DateUtil.getCompare(gridList, "svc_fr_dt", "svc_to_dt", true);
 			
 			//셋탑의 화질
 			String rslu_type = CastUtil.getString(param.get("rslu_type"));
@@ -146,7 +146,7 @@ public class GridService {
 				}
 				menuService.doSegment(banners, param.get("seg_id"), "cmpgn_id");
 		        
-//				DateUtil.getCompare(banners, "dist_fr_dt", "dist_to_dt", false);
+				DateUtil.getCompare(banners, "dist_fr_dt", "dist_to_dt", true);
 			} else {
 				gridBanner.remove("total_count");
 			}

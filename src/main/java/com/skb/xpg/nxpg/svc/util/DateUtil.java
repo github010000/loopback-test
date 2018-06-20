@@ -9,12 +9,26 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.stereotype.Component;
+
 /**
  * 날짜를 쉽게 출력하기 위한 utility 클래스
  *
  * @author  지승렬
  */
+
+@Component
+@RefreshScope
 public class DateUtil {
+
+	public static boolean expiryDate;
+	
+	@Value("${user.expiryDate}")
+    private void setCimodeCheck(boolean expiryDate){
+		DateUtil.expiryDate = expiryDate;
+    }
 	
 	public static String getYYYYMMDDhhmmss() {
 		Locale currLocale = new Locale("KOREAN","KOREA");  
@@ -91,18 +105,22 @@ public class DateUtil {
 		
 	}
 	
-	public static void getCompare(List<Map<String, Object>> list, String fromDt, String toDt, boolean isMenu) {
+	public static void getCompare(List<Map<String, Object>> list, String fromDt, String toDt, boolean isMenuAndGrid) {
+		
+		if (isMenuAndGrid && !expiryDate) {
+			return;
+		}
 
 		List<Map<String, Object>> newList = new ArrayList<Map<String, Object>>();
 		for (Map<String, Object> object : list) {
-			doCompare(newList, object, fromDt, toDt, isMenu);
+			doCompare(newList, object, fromDt, toDt, isMenuAndGrid);
 		}
 		list = new ArrayList<Map<String, Object>>();
 		list.addAll(newList);
 		
 	}
 
-	public static void doCompare(List<Map<String, Object>> newList, Map<String, Object> object, String fromDt, String toDt, boolean isMenu) {
+	public static void doCompare(List<Map<String, Object>> newList, Map<String, Object> object, String fromDt, String toDt, boolean isMenuAndGrid) {
 		// menu_cd 제거
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
 		Date date = new Date();
@@ -134,7 +152,7 @@ public class DateUtil {
 		if (object.containsKey("menus")) {
 			List<Map<String, Object>> deleteListInner = new ArrayList<Map<String, Object>>();
 			if (deleteListInner != null && deleteListInner.size() > 0) {
-				getCompare(CastUtil.getObjectToMapList(object.get("menus")), fromDt, toDt, isMenu);
+				getCompare(CastUtil.getObjectToMapList(object.get("menus")), fromDt, toDt, isMenuAndGrid);
 			}
 		}
 	}

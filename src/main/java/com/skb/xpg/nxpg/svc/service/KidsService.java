@@ -44,7 +44,7 @@ public class KidsService {
 			if (kzgnb == null) {
 				rtn.put("result", "9998");
 			} else {
-//				DateUtil.getCompare(kzgnb, "dist_fr_dt", "dist_to_dt", false);
+				DateUtil.getCompare(kzgnb, "dist_fr_dt", "dist_to_dt", true);
 				
 				// 그리드 타이틀 정렬 처리
 				List<Map<String, Object>> mCopyGrids = null;
@@ -87,7 +87,7 @@ public class KidsService {
 			if (kzgnb == null) {
 				rtn.put("result", "9998");
 			} else {
-//				DateUtil.getCompareObject(kzgnb, "dist_fr_dt", "dist_to_dt", false);
+				DateUtil.getCompareObject(kzgnb, "dist_fr_dt", "dist_to_dt", true);
 				
 				rtn.put("result", "0000");
 				rtn.put("menus", kzgnb);
@@ -137,7 +137,7 @@ public class KidsService {
 				Map<String, Object> purchares = contentsService.getContentsPurchares(synop.get("sris_id").toString(), param);
 				if (purchares != null && purchares.get("products") != null) {
 					List<Map<String, Object>> products = CastUtil.getObjectToMapList(purchares.get("products"));
-					DateUtil.getCompare(products, "prd_prc_fr_dt", "purc_wat_to_dt", true);
+					DateUtil.getCompare(products, "prd_prc_fr_dt", "purc_wat_to_dt", false);
 					rtn.put("purchares", purchares.get("products"));
 				}
 				synop.put("menu_id", CastUtil.getString(param.get("cur_menu")));

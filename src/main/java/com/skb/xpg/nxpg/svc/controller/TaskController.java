@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.skb.xpg.nxpg.svc.common.NXPGCommon;
 import com.skb.xpg.nxpg.svc.redis.RedisClient;
 import com.skb.xpg.nxpg.svc.service.CacheService;
+import com.skb.xpg.nxpg.svc.util.DateUtil;
 import com.skb.xpg.nxpg.svc.util.LogUtil;
 
 /**
@@ -61,6 +62,7 @@ public class TaskController {
 		rtn.put("use_response_log", LogUtil.useLogForResponseData);
 		rtn.put("version_check_is_equal", NXPGCommon.checkVersionEqual);
 		rtn.put("instance_index", LogUtil.HostIp);
+		rtn.put("check_expiry_date", DateUtil.expiryDate);
 		
 		return rtn;
 	}
@@ -120,6 +122,20 @@ public class TaskController {
 	@RequestMapping(value = "/task/logswitch/off")
 	public Map<String, Object> doLogSwitchOff(@PathVariable String ver) {
 		LogUtil.useLogForResponseData = false;
+		
+		return getStat(ver);
+	}
+
+	@RequestMapping(value = "/task/dateswitch/on")
+	public Map<String, Object> doDateSwitchOn(@PathVariable String ver) {
+		DateUtil.expiryDate = true;
+		
+		return getStat(ver);
+	}
+
+	@RequestMapping(value = "/task/dateswitch/off")
+	public Map<String, Object> doDateSwitchOff(@PathVariable String ver) {
+		DateUtil.expiryDate = false;
 		
 		return getStat(ver);
 	}
