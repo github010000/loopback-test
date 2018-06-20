@@ -44,6 +44,12 @@ public class NXPGCommon {
 	public static final String GRID_CONTENTS_ITEM  = "grid_contents_item";
 	public static final String VERSION  = "version";
 
+	public static boolean cwSwitch = true;
+	@Value("${user.cwswitch}")
+    private void setCWSwitch(boolean cwSwitch){
+		NXPGCommon.cwSwitch = cwSwitch;
+    }
+	
 	public static boolean useFirstRedis = true;
 	
 	public static boolean isUseFirstRedis() {

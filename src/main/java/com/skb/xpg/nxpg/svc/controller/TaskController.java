@@ -63,6 +63,7 @@ public class TaskController {
 		rtn.put("version_check_is_equal", NXPGCommon.checkVersionEqual);
 		rtn.put("instance_index", LogUtil.HostIp);
 		rtn.put("check_expiry_date", DateUtil.expiryDate);
+		rtn.put("use_cw", NXPGCommon.cwSwitch);
 		
 		return rtn;
 	}
@@ -122,6 +123,20 @@ public class TaskController {
 	@RequestMapping(value = "/task/logswitch/off")
 	public Map<String, Object> doLogSwitchOff(@PathVariable String ver) {
 		LogUtil.useLogForResponseData = false;
+		
+		return getStat(ver);
+	}
+
+	@RequestMapping(value = "/task/cwswitch/on")
+	public Map<String, Object> doCWSwitchOn(@PathVariable String ver) {
+		NXPGCommon.cwSwitch = true;
+		
+		return getStat(ver);
+	}
+
+	@RequestMapping(value = "/task/cwswitch/off")
+	public Map<String, Object> doCWSwitchOff(@PathVariable String ver) {
+		NXPGCommon.cwSwitch = false;
 		
 		return getStat(ver);
 	}

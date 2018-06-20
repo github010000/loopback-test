@@ -42,8 +42,8 @@ public class CwService {
 	@Value("${user.cw.baseurl}")
 	private String cwBaseUrl;
 
-	@Value("${user.cwswitch}")
-	private boolean cwSwitch;
+//	@Value("${user.cwswitch}")
+//	private boolean cwSwitch;
 	
 	@Autowired
 	@Qualifier("cwUser")
@@ -67,7 +67,7 @@ public class CwService {
 		List<Map<String, Object>> resultList = null;
 		Map<String, Object> temp = null;
 		
-		if(cwSwitch) {
+		if(NXPGCommon.cwSwitch) {
 			switch (type) {
 			
 			case "section":
@@ -116,7 +116,7 @@ public class CwService {
 			}
 			printProcessTime(time, param);
 		}else {
-			LogUtil.info("IF-NXPG-009", "", param.get("UUID"), param.get("cw_stb_id"), "CW", "CW API return null. switch value: " + cwSwitch);
+			LogUtil.info("IF-NXPG-009", "", param.get("UUID"), param.get("cw_stb_id"), "CW", "CW API return null. switch value: " + NXPGCommon.cwSwitch);
 			result = null;
 		}
 		
@@ -157,7 +157,7 @@ public class CwService {
 			String type = CastUtil.getString(param.get("type"));
 //			String type = (String)param.get("type");
 			
-			if(cwSwitch) {
+			if(NXPGCommon.cwSwitch) {
 				//cw_call_id가 안들어오면 CW는 호출하지 않는다.
 				if(cw_call_id != null && !cw_call_id.isEmpty()) {
 					
@@ -190,7 +190,7 @@ public class CwService {
 			if(temp == null) {
 				
 				if(result == null) return result = null;
-				LogUtil.info(param.get("IF"), "", param.get("UUID"), param.get("cw_stb_id"), "CW", "CW API return null switch value: "+cwSwitch);
+				LogUtil.info(param.get("IF"), "", param.get("UUID"), param.get("cw_stb_id"), "CW", "CW API return null switch value: " + NXPGCommon.cwSwitch);
 				result.put("status_code", "0002");
 				String srisInfo = redisClient.hget(NXPGCommon.SYNOPSIS_SRISINFO, epsd_id, param);
 				String regexRelation = "\\\"relation_contents\\\"[\\s]*:[\\s]*(\\[\\{.*?\\}\\])";
