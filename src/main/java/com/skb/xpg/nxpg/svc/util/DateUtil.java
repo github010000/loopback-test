@@ -92,13 +92,17 @@ public class DateUtil {
 		return formatter.format(new Date());
 	}
 	
-	public static void getCompareObject(List<Object> list, String fromDt, String toDt, boolean isMenu) {
+	public static void getCompareObject(List<Object> list, String fromDt, String toDt, boolean isMenuAndGrid) {
 
+		if (isMenuAndGrid && !expiryDate) {
+			return;
+		}
+		
 		List<Map<String, Object>> newList = new ArrayList<Map<String, Object>>();
 		for (Object obj : list) {
 			Map<String, Object> object = CastUtil.getObjectToMap(obj);
 			// menu_cd 제거
-			doCompare(newList, object, fromDt, toDt, isMenu);
+			doCompare(newList, object, fromDt, toDt, isMenuAndGrid);
 		}
 		list = new ArrayList<Object>();
 		list.addAll(newList);
