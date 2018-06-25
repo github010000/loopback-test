@@ -1,9 +1,12 @@
 package com.skb.xpg.nxpg.svc.service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -55,6 +58,9 @@ public class CwService {
 	
 	@Autowired
 	private GridService gridService;
+	
+	@Autowired
+	private MakeCWService makeCWService;
 	
 	
 	public Map<String, Object> cwGetGrid(String ver, Map<String, String> param) {
@@ -373,6 +379,7 @@ public class CwService {
 				List<String> tempIdList = CastUtil.getObjectToListString(temp.get("idList"));
 				if(tempIdList != null) {
 					int cnt = 0;
+					Collection<Future<Integer>> futures = new ArrayList<Future<Integer>>();
 					for(String dataGrp:tempIdList) {
 						String [] idNblockId = dataGrp.split("\\|");
 						
@@ -380,9 +387,36 @@ public class CwService {
 //						String trackId = idNblockId[1];
 
 						Map<String, Object> gridData = new HashMap<String, Object>();
-						cnt += makeCwGridMap(idNblockId, gridData, resultGridList, param);
+						
+						
+						
+						
+							
+//							int executeQueue = 0;
+//							
+//							if (maxQueue < (keySize - currentQueue)) {
+//								executeQueue = maxQueue;
+//							} else {
+//								executeQueue = keySize - currentQueue;
+//							}
+							
+						futures.add(makeCWService.makeCwGridMap(idNblockId, gridData, resultGridList, param));
+						
+						
+						
+						
+//						cnt += makeCwGridMap(idNblockId, gridData, resultGridList, param);
 						
 					}
+					for (Future<Integer> future : futures) {
+				        try {
+				        	cnt += future.get();
+						} catch (InterruptedException | ExecutionException e) {
+							// TODO Auto-generated catch block
+							LogUtil.error("", "", "", "", "", e.toString());
+						}
+				    }
+					
 					time.put("redis_count", cnt);
 				}else {
 					//아이템이 없을 경우 카운트 추가

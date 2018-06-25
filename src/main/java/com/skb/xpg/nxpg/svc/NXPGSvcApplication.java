@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 import com.skb.xpg.nxpg.svc.config.CommonConfiguration;
 
@@ -16,6 +17,7 @@ import com.skb.xpg.nxpg.svc.config.CommonConfiguration;
 @SpringBootApplication
 @EnableAutoConfiguration
 @EnableZuulProxy
+@EnableAsync
 @ComponentScan
 @Import(CommonConfiguration.class) 
 public class NXPGSvcApplication {
