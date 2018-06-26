@@ -86,7 +86,9 @@ public class SecondClusterConfiguration {
 			RedisTemplate<String, Object> redisTemplate = new RedisTemplate<String, Object>();
 			redisTemplate.setConnectionFactory(rmsJedisConnectionFactory());
 			redisTemplate.setKeySerializer(stringRedisSerializer);
+			redisTemplate.setValueSerializer(stringRedisSerializer);
 			redisTemplate.setHashKeySerializer(stringRedisSerializer);
+			redisTemplate.setHashValueSerializer(stringRedisSerializer);
 
 			return redisTemplate;
 
