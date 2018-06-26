@@ -26,7 +26,7 @@ public class MakeCWService {
 	@Autowired
 	private Properties properties;
 	
-	@Async
+	@Async("executorService")
 	public ListenableFuture<Integer> makeCwGridMap(String[] idNblockId, Map<String, Object> gridData, List<Map<String, Object>> resultGridList, Map<String, String> param) {
 		int redisCnt = 0;
 		String epsd_rslu_id = idNblockId[0];
