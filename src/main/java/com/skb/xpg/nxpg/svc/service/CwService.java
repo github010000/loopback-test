@@ -379,7 +379,7 @@ public class CwService {
 				List<String> tempIdList = CastUtil.getObjectToListString(temp.get("idList"));
 				if(tempIdList != null) {
 					int cnt = 0;
-					Collection<Future<Integer>> futures = new ArrayList<Future<Integer>>();
+					Collection<Future<List<Map<String, Object>>>> futures = new ArrayList<Future<List<Map<String, Object>>>>();
 					for(String dataGrp:tempIdList) {
 						String [] idNblockId = dataGrp.split("\\|");
 						
@@ -400,24 +400,21 @@ public class CwService {
 //								executeQueue = keySize - currentQueue;
 //							}
 							
-						futures.add(makeCWService.makeCwGridMap(idNblockId, gridData, resultGridList, param));
-						
-						
-						
-						
+						futures.add(makeCWService.makeCwGridMap(idNblockId, gridData, param));
 //						cnt += makeCwGridMap(idNblockId, gridData, resultGridList, param);
 						
 					}
-					for (Future<Integer> future : futures) {
+					for (Future<List<Map<String, Object>>> future : futures) {
 				        try {
-				        	cnt += future.get();
+				        	resultGridList.addAll(future.get());
+//				        	cnt += future.get();
 						} catch (InterruptedException | ExecutionException e) {
 							// TODO Auto-generated catch block
 							LogUtil.error("", "", "", "", "", e.toString());
 						}
 				    }
 					
-					time.put("redis_count", cnt);
+//					time.put("redis_count", cnt);
 				}else {
 					//아이템이 없을 경우 카운트 추가
 					if(type != null && !"section".equals(type)) {

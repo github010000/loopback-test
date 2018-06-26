@@ -1,5 +1,6 @@
 package com.skb.xpg.nxpg.svc.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -27,18 +28,19 @@ public class MakeCWService {
 	private Properties properties;
 	
 	@Async("executorService")
-	public ListenableFuture<Integer> makeCwGridMap(String[] idNblockId, Map<String, Object> gridData, List<Map<String, Object>> resultGridList, Map<String, String> param) {
-		int redisCnt = 0;
+	public ListenableFuture<List<Map<String, Object>>> makeCwGridMap(String[] idNblockId, Map<String, Object> gridData, Map<String, String> param) {
+//		int redisCnt = 0;
+		List<Map<String, Object>> resultGridList = new ArrayList<Map<String, Object>>();
 		String epsd_rslu_id = idNblockId[0];
 		String trackId = idNblockId[1];
 		
 		Map<String, Object> cidInfo = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.CONTENTS_CIDINFO, epsd_rslu_id, param));
-		redisCnt++;
+//		redisCnt++;
 		if(cidInfo != null) {
 			String sris_id = CastUtil.getObjectToString(cidInfo.get("sris_id"));
 			String epsd_id = CastUtil.getObjectToString(cidInfo.get("epsd_id"));
 			Map<String, Object> gridInfo = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.GRID_CONTENTS_ITEM, epsd_id, param));
-			redisCnt++;
+//			redisCnt++;
 			if(gridInfo != null && !gridInfo.isEmpty()) {
 			
 				gridService.checkBadge(gridInfo);
@@ -49,10 +51,10 @@ public class MakeCWService {
 			} else {
 				
 				Map<String, Object> sris = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.SYNOPSIS_CONTENTS, sris_id, param));
-				redisCnt++;
+//				redisCnt++;
 				Map<String, Object> purchares = null;
 				Map<String, Object> epsd = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.SYNOPSIS_SRISINFO, epsd_id, param));
-				redisCnt++;
+//				redisCnt++;
 				if(sris != null && epsd != null) {
 					Map<String, Object> cwGridMap = CastUtil.getObjectToMap(properties.getCw().get("grid"));
 					if (cwGridMap != null) {
@@ -75,10 +77,10 @@ public class MakeCWService {
 					resultGridList.add(gridData);
 					
 					purchares = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.CONTENTS_PURCHARES, sris_id, param));
-					redisCnt++;
+//					redisCnt++;
 				} else {
 //					LogUtil.info("", "", "", "", "CW", "CONTENTS NULL : " + epsd_id);
-					return AsyncResult.forValue(redisCnt);
+					return AsyncResult.forValue(resultGridList);
 				}
 				if (purchares != null) {
 					List<Map<String, Object>> listPurchares = CastUtil.getObjectToMapList(purchares.get("products"));
@@ -93,7 +95,7 @@ public class MakeCWService {
 				gridService.checkBadge(gridData);
 			}
 		}
-		return AsyncResult.forValue(redisCnt);
+		return AsyncResult.forValue(resultGridList);
 	}
 	
 }
