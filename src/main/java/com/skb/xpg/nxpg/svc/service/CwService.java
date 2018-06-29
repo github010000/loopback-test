@@ -371,6 +371,7 @@ public class CwService {
 		List<Map<String, Object>>cwGrid = new ArrayList<Map<String,Object>>();
 
 		int i = 0;
+		int cnt = 0;
 		boolean checkFirstBlock = true;
 		
 		if(resultList != null && resultList.size()>0) {
@@ -379,7 +380,6 @@ public class CwService {
 				Map<String, Object> resultMap = new HashMap<String, Object>();
 				List<String> tempIdList = CastUtil.getObjectToListString(temp.get("idList"));
 				if(tempIdList != null) {
-					int cnt = 0;
 					Collection<Future<List<Map<String, Object>>>> futures = new ArrayList<Future<List<Map<String, Object>>>>();
 					for(String dataGrp:tempIdList) {
 						String [] idNblockId = dataGrp.split("\\|");
@@ -408,7 +408,7 @@ public class CwService {
 					for (Future<List<Map<String, Object>>> future : futures) {
 				        try {
 				        	resultGridList.addAll(future.get());
-				        	cnt += resultGridList.size();
+				        	cnt += future.get().size();
 //				        	cnt += future.get();
 						} catch (ExecutionException e) {
 							// TODO Auto-generated catch block
@@ -483,7 +483,8 @@ public class CwService {
 		
 		//데이터 가공로직 시작
 		List cwRelation = null;
-		
+
+		int cnt = 0;
 		int i = 0;
 		boolean checkFirstBlock = true;		
 		
@@ -495,7 +496,6 @@ public class CwService {
 				List<String> tempIdList = CastUtil.getObjectToListString(temp.get("idList"));
 //				List<String>tempIdList = (List<String>) temp.get("idList");
 				if(tempIdList != null && !tempIdList.isEmpty()) {
-					int cnt = 0;
 					Collection<Future<List<Map<String, Object>>>> futures = new ArrayList<Future<List<Map<String, Object>>>>();
 					
 					for(String dataGrp:tempIdList) {
