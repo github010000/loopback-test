@@ -408,7 +408,7 @@ public class CwService {
 					for (Future<List<Map<String, Object>>> future : futures) {
 				        try {
 				        	resultGridList.addAll(future.get());
-				        	cnt += future.get().size();
+				        	cnt += resultGridList.size();
 //				        	cnt += future.get();
 						} catch (ExecutionException e) {
 							// TODO Auto-generated catch block
