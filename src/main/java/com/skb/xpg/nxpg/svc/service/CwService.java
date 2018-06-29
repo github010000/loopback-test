@@ -224,7 +224,8 @@ public class CwService {
 				String contentTitle = StrUtil.getRegexString(regexTitle, contentInfo);
 				temp.put("contentTitle", contentTitle);
 				
-				resultList = makeCwRelation(temp, epsd_id, param);
+				resultList = makeCwRelation(temp, epsd_id, param, time);
+				
 				if(result != null && resultList != null && resultList.size()>0 && temp.get("status_code") != null) {
 					result.put("status_code", temp.get("status_code"));
 					result.put("relation", resultList);
@@ -407,14 +408,18 @@ public class CwService {
 					for (Future<List<Map<String, Object>>> future : futures) {
 				        try {
 				        	resultGridList.addAll(future.get());
+				        	cnt += resultGridList.size();
 //				        	cnt += future.get();
-						} catch (InterruptedException | ExecutionException e) {
+						} catch (ExecutionException e) {
+							// TODO Auto-generated catch block
+							LogUtil.error("", "", "", "", "", e.toString());
+						} catch (InterruptedException e) {
 							// TODO Auto-generated catch block
 							LogUtil.error("", "", "", "", "", e.toString());
 						}
 				    }
 					
-//					time.put("redis_count", cnt);
+					time.put("redis_count", cnt);
 				}else {
 					//아이템이 없을 경우 카운트 추가
 					if(type != null && !"section".equals(type)) {
@@ -466,7 +471,7 @@ public class CwService {
 	}
 	
 	//CW 연관콘텐츠 생성로직
-	public List makeCwRelation(Map<String, Object> objMap, String param_epsd_id, Map<String, String> param) {
+	public List makeCwRelation(Map<String, Object> objMap, String param_epsd_id, Map<String, String> param, Map<String, Object> time) {
 		
 		
 		List<Map<String, Object>> resultList = new ArrayList<Map<String,Object>>();
@@ -490,15 +495,33 @@ public class CwService {
 				List<String> tempIdList = CastUtil.getObjectToListString(temp.get("idList"));
 //				List<String>tempIdList = (List<String>) temp.get("idList");
 				if(tempIdList != null && !tempIdList.isEmpty()) {
+					int cnt = 0;
+					Collection<Future<List<Map<String, Object>>>> futures = new ArrayList<Future<List<Map<String, Object>>>>();
+					
 					for(String dataGrp:tempIdList) {
 						String [] idNblockId = dataGrp.split("\\|");
 						
 						Map<String, Object> relationData = new HashMap<String, Object>();
 						
-						makeCwGridMap(idNblockId, relationData, resultRelationList, param);
-						
+//						makeCwGridMap(idNblockId, relationData, resultRelationList, param);
+
+						futures.add(makeCWService.makeCwGridMap(idNblockId, relationData, param));
 						
 					}
+					for (Future<List<Map<String, Object>>> future : futures) {
+				        try {
+				        	resultRelationList.addAll(future.get());
+				        	cnt += resultRelationList.size();
+						} catch (ExecutionException e) {
+							// TODO Auto-generated catch block
+							LogUtil.error("", "", "", "", "", e.toString());
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							LogUtil.error("", "", "", "", "", e.toString());
+						}
+				    }
+					time.put("redis_count", cnt);
+					
 				}else {
 					//아이템이 없을 경우 카운트 추가
 					if(!"section".equals(type)) {
@@ -843,7 +866,7 @@ public class CwService {
 		long after = (after_end - after_start) / 1000000;
 		
 		String log = "";
-		log = "cwredis, sum = " + (cw + after) + ", cw = " + cw + ", biz_redis = " + after + ", redis hget cnt = " + redis_count;
+		log = "cwredis sum:" + (cw + after) + ",cw:" + cw + ",biz_redis:" + after + ",data_cnt:" + redis_count + ",cwcallid:" + param.get("cw_call_id");
 		
 		LogUtil.info(param.get("IF"), "", param.get("UUID"), param.get("cw_stb_id"), "", log);
 	}
