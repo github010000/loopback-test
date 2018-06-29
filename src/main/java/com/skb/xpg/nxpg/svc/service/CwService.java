@@ -403,12 +403,12 @@ public class CwService {
 							
 						futures.add(makeCWService.makeCwGridMap(idNblockId, gridData, param));
 //						cnt += makeCwGridMap(idNblockId, gridData, resultGridList, param);
-						
+						cnt++;
 					}
 					for (Future<List<Map<String, Object>>> future : futures) {
 				        try {
 				        	resultGridList.addAll(future.get());
-				        	cnt += resultGridList.size();
+				        	
 //				        	cnt += future.get();
 						} catch (ExecutionException e) {
 							// TODO Auto-generated catch block
@@ -511,7 +511,8 @@ public class CwService {
 					for (Future<List<Map<String, Object>>> future : futures) {
 				        try {
 				        	resultRelationList.addAll(future.get());
-				        	cnt += resultRelationList.size();
+//				        	cnt += resultRelationList.size();
+				        	cnt++;
 						} catch (ExecutionException e) {
 							// TODO Auto-generated catch block
 							LogUtil.error("", "", "", "", "", e.toString());
