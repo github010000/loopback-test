@@ -505,6 +505,7 @@ public class CwService {
 						
 //						makeCwGridMap(idNblockId, relationData, resultRelationList, param);
 
+			        	cnt++;
 						futures.add(makeCWService.makeCwGridMap(idNblockId, relationData, param));
 						
 					}
@@ -512,7 +513,6 @@ public class CwService {
 				        try {
 				        	resultRelationList.addAll(future.get());
 //				        	cnt += resultRelationList.size();
-				        	cnt++;
 						} catch (ExecutionException e) {
 							// TODO Auto-generated catch block
 							LogUtil.error("", "", "", "", "", e.toString());

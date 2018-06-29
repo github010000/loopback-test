@@ -1,6 +1,9 @@
 package com.skb.xpg.nxpg.svc.config;
 
 import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,4 +34,12 @@ public class ThreadConfiguration {
         return executor;
 	}
 
+	@Value("${task.fixedThreadPool.maxCount}")
+	private int maxCount;
+
+	@Bean(name = "fixedThreadPool")
+	public ExecutorService FixedThreadPool() {
+		ExecutorService execService = Executors.newFixedThreadPool(maxCount);
+		return execService;
+	}
 }
