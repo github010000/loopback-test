@@ -125,6 +125,13 @@ management:
 endpoints:
   restart:
     enabled: true
+task:
+  fixedThreadPool:
+    maxCount: 100
+  threadPoolTaskExecutor:
+    corePoolSize: 50
+    maxPoolSize: 100
+    queueCapacity: 200
 zuul:
   routes:
     ge:

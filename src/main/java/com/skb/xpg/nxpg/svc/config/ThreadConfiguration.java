@@ -1,9 +1,7 @@
 package com.skb.xpg.nxpg.svc.config;
 
 import java.util.concurrent.Executor;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
@@ -14,18 +12,23 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 @Configuration
 public class ThreadConfiguration {
 
+	@Value("${task.threadPoolTaskExecutor.corePoolSize}")
+	private int qCorePoolSize;
+
+	@Value("${task.threadPoolTaskExecutor.maxPoolSize}")
+	private int qMaxPoolSize;
+
+	@Value("${task.threadPoolTaskExecutor.queueCapacity}")
+	private int qQueueCapacity;
+	
 	@Bean(name = "executorService")
 	public Executor queueThreadPoolTaskExecutor() {
 		ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setCorePoolSize(50);
-        executor.setMaxPoolSize(100);
-        executor.setQueueCapacity(500);
+        executor.setCorePoolSize(qCorePoolSize);
+        executor.setMaxPoolSize(qMaxPoolSize);
+        executor.setQueueCapacity(qQueueCapacity);
         executor.initialize();
         return executor;
 	}
-//	public ExecutorService FixedThreadPool() {
-//		ExecutorService execService = Executors.newFixedThreadPool(100);
-//		return execService;
-//	}
 
 }
