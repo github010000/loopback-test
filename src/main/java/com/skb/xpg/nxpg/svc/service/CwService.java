@@ -64,178 +64,151 @@ public class CwService {
 	
 	
 	public Map<String, Object> cwGetGrid(String ver, Map<String, String> param) {
-		
-		param.put("cw_stb_id", param.get("stb_id"));
-		
-		Map<String, Object> result = new HashMap<String, Object>();
-		String type = CastUtil.getString(param.get("type"));
-//		String type = (String)param.get("type");
-		List<Map<String, Object>> resultList = null;
-		Map<String, Object> temp = null;
-		
-		if(NXPGCommon.cwSwitch) {
-			switch (type) {
-			
-			case "section":
-				param.put("retrieveSections", "NONE");
-				temp = cwCall("onlysection", param);
-				break;
-			case "multi":
-				temp = cwCall("multisection", param);
-				break;
-			case "all":
-				temp = cwCall("fullsection", param);
-				break;
-			case "onepage":
-				temp = cwCall("getonepage", param);
-				break;
-			case "onesection":
-				temp = cwCall("getonesection", param);
-				break;
-			default:
-				temp = cwCall("fullsection", param);
-				break;
-			}
-		}
-		
-		Map<String, Object> time = null;
-		
-		if(temp != null) {
-			time = CastUtil.getObjectToMap(temp.get("time"));
-			if (time != null) {
-				time.put("after_start", System.nanoTime());
-			}
-			
-			temp.put("type", type);
-			resultList = makeCwGrid(temp, param, time);
-			result.put("status_code", temp.get("status_code"));
-			if(resultList != null && resultList.size()>0) {
-				result.put("grid", resultList);
-				result.put("size", resultList.size()+"");
-			}else {
-				LogUtil.info("IF-NXPG-009", "", param.get("UUID"), param.get("cw_stb_id"), "CW", "CW Data is null or item list size is 0");
-				result = null;
-			}
-			//Log에 처리 시간 프린트 (CW포함)
-			if (time != null) {
-				time.put("after_end", System.nanoTime());
-			}
-			printProcessTime(time, param);
-		}else {
-			LogUtil.info("IF-NXPG-009", "", param.get("UUID"), param.get("cw_stb_id"), "CW", "CW API return null. switch value: " + NXPGCommon.cwSwitch);
-			result = null;
-		}
-		
-		return result;
-		
-	}
-	
-	public Map<String, Object> cwGetRelation(String ver, Map<String, String> param) {
-		
-		//기존 콘텐츠 아이디 추출
-		String epsd_id = CastUtil.getString(param.get("epsd_id"));
-		String epsd_rslu_id = CastUtil.getString(param.get("epsd_rslu_id"));
-		String cw_call_id = CastUtil.getString(param.get("cw_call_id"));
-//		String epsd_id = (String)param.get("epsd_id");
-		param.put("itemType", "VIDEO_CONTENT");
-		Map<String, Object> result = null;
-		List resultList = null;
-		Map<String, Object> time = null;
-		Map<String, Object> temp = null;
-		
-		String contentInfo = redisClient.hget(NXPGCommon.SYNOPSIS_SRISINFO, epsd_id, param);
 
-		if(contentInfo != null) {
-			result = new HashMap<String, Object>();
+		try {
+			param.put("cw_stb_id", param.get("stb_id"));
 			
-			
-			//시리즈아이디, 에피소드아이디 추출로직
-			String regex="\"epsd_rslu_id\"[\\s]*:[\\s]*\"([^\"]+)\"";
-			String contentId = StrUtil.getRegexString(regex, contentInfo);
-
-			if(epsd_rslu_id != null && !epsd_rslu_id.isEmpty()) {
-				param.put("con_id", epsd_rslu_id);
-			}else {
-				param.put("con_id", contentId);
-			}
-			
-			
+			Map<String, Object> result = new HashMap<String, Object>();
 			String type = CastUtil.getString(param.get("type"));
-//			String type = (String)param.get("type");
+	//		String type = (String)param.get("type");
+			List<Map<String, Object>> resultList = null;
+			Map<String, Object> temp = null;
 			
 			if(NXPGCommon.cwSwitch) {
-				//cw_call_id가 안들어오면 CW는 호출하지 않는다.
-				if(cw_call_id != null && !cw_call_id.isEmpty()) {
-					
-					switch (type) {
-					
-					case "section":
-						param.put("retrieveSections", "NONE");
-						temp = cwCall("onlysection", param);
-						break;
-					case "multi":
-						temp = cwCall("multisection", param);
-						break;
-					case "all":
-						temp = cwCall("fullsection", param);
-						break;
-					case "onepage":
-						temp = cwCall("getonepage", param);
-						break;
-					case "onesection":
-						temp = cwCall("getonesection", param);
-						break;
-					default:
-						temp = cwCall("fullsection", param);
-						break;
-					}
+				switch (type) {
+				
+				case "section":
+					param.put("retrieveSections", "NONE");
+					temp = cwCall("onlysection", param);
+					break;
+				case "multi":
+					temp = cwCall("multisection", param);
+					break;
+				case "all":
+					temp = cwCall("fullsection", param);
+					break;
+				case "onepage":
+					temp = cwCall("getonepage", param);
+					break;
+				case "onesection":
+					temp = cwCall("getonesection", param);
+					break;
+				default:
+					temp = cwCall("fullsection", param);
+					break;
 				}
 			}
 			
-			//파라미터가 안넘어 왔거나 temp값이 없을 시 처리
-			if(temp == null) {
-				
-				if(result == null) return result = null;
-				LogUtil.info(param.get("IF"), "", param.get("UUID"), param.get("cw_stb_id"), "CW", "CW API return null switch value: " + NXPGCommon.cwSwitch);
-				result.put("status_code", "0002");
-				String srisInfo = redisClient.hget(NXPGCommon.SYNOPSIS_SRISINFO, epsd_id, param);
-				String regexRelation = "\\\"relation_contents\\\"[\\s]*:[\\s]*(\\[\\{.*?\\}\\])";
-				String relationData = StrUtil.getRegexString(regexRelation, srisInfo);
-				if(relationData != null && !"".equals(relationData)) {
-					resultList = CastUtil.StringToJsonList(relationData);
-				}
-				
-				if(resultList!= null && !resultList.isEmpty()) {
-					result.put("relation", resultList);
-					result.put("size", resultList.size()+"");
-				}else {
-					result = null;
-				}
-				
-				return result;
-			}else {
+			Map<String, Object> time = null;
+			
+			if(temp != null) {
 				time = CastUtil.getObjectToMap(temp.get("time"));
 				if (time != null) {
 					time.put("after_start", System.nanoTime());
 				}
-//				if(result == null) return null;
+				
 				temp.put("type", type);
-				String regexTitle = "\"sub_title\"[\\s]*:[\\s]*\"([^\"]+)\"";
-				String contentTitle = StrUtil.getRegexString(regexTitle, contentInfo);
-				temp.put("contentTitle", contentTitle);
-				
-				resultList = makeCwRelation(temp, epsd_id, param, time);
-				
-				if(result != null && resultList != null && resultList.size()>0 && temp.get("status_code") != null) {
-					result.put("status_code", temp.get("status_code"));
-					result.put("relation", resultList);
+				resultList = makeCwGrid(temp, param, time);
+				result.put("status_code", temp.get("status_code"));
+				if(resultList != null && resultList.size()>0) {
+					result.put("grid", resultList);
 					result.put("size", resultList.size()+"");
 				}else {
-					result.put("status_code", temp.get("status_code"));
-					//CW 연동로직에 데이터가 없을 경우 
-					LogUtil.info(param.get("IF"), "", param.get("UUID"), param.get("cw_stb_id"), "CW", "CW Data is null or item list size is 0");
+					LogUtil.info("IF-NXPG-009", "", param.get("UUID"), param.get("cw_stb_id"), "CW", "CW Data is null or item list size is 0");
+					result = null;
+				}
+				//Log에 처리 시간 프린트 (CW포함)
+				if (time != null) {
+					time.put("after_end", System.nanoTime());
+				}
+				printProcessTime(time, param);
+			}else {
+				LogUtil.info("IF-NXPG-009", "", param.get("UUID"), param.get("cw_stb_id"), "CW", "CW API return null. switch value: " + NXPGCommon.cwSwitch);
+				result = null;
+			}
+			
+			return result;
+			
+		} catch (Exception e) {
+			LogUtil.error("IF-NXPG-009", "", param.get("UUID"), param.get("cw_stb_id"), "", e.toString());
+			LogUtil.error("IF-NXPG-009", "", param.get("UUID"), param.get("cw_stb_id"), "", e.getStackTrace()[1].toString());
+			LogUtil.error("IF-NXPG-009", "", param.get("UUID"), param.get("cw_stb_id"), "", e.getStackTrace()[2].toString());
+			LogUtil.error("IF-NXPG-009", "", param.get("UUID"), param.get("cw_stb_id"), "", e.getStackTrace()[3].toString());
+			LogUtil.error("IF-NXPG-009", "", param.get("UUID"), param.get("cw_stb_id"), "", e.getStackTrace()[4].toString());
+			return null;
+		}
+	}
+	
+	public Map<String, Object> cwGetRelation(String ver, Map<String, String> param) {
+		
+		try {
+			//기존 콘텐츠 아이디 추출
+			String epsd_id = CastUtil.getString(param.get("epsd_id"));
+			String epsd_rslu_id = CastUtil.getString(param.get("epsd_rslu_id"));
+			String cw_call_id = CastUtil.getString(param.get("cw_call_id"));
+//			String epsd_id = (String)param.get("epsd_id");
+			param.put("itemType", "VIDEO_CONTENT");
+			Map<String, Object> result = null;
+			List resultList = null;
+			Map<String, Object> time = null;
+			Map<String, Object> temp = null;
+			
+			String contentInfo = redisClient.hget(NXPGCommon.SYNOPSIS_SRISINFO, epsd_id, param);
+
+			if(contentInfo != null) {
+				result = new HashMap<String, Object>();
+				
+				
+				//시리즈아이디, 에피소드아이디 추출로직
+				String regex="\"epsd_rslu_id\"[\\s]*:[\\s]*\"([^\"]+)\"";
+				String contentId = StrUtil.getRegexString(regex, contentInfo);
+
+				if(epsd_rslu_id != null && !epsd_rslu_id.isEmpty()) {
+					param.put("con_id", epsd_rslu_id);
+				}else {
+					param.put("con_id", contentId);
+				}
+				
+				
+				String type = CastUtil.getString(param.get("type"));
+//				String type = (String)param.get("type");
+				
+				if(NXPGCommon.cwSwitch) {
+					//cw_call_id가 안들어오면 CW는 호출하지 않는다.
+					if(cw_call_id != null && !cw_call_id.isEmpty()) {
+						
+						switch (type) {
+						
+						case "section":
+							param.put("retrieveSections", "NONE");
+							temp = cwCall("onlysection", param);
+							break;
+						case "multi":
+							temp = cwCall("multisection", param);
+							break;
+						case "all":
+							temp = cwCall("fullsection", param);
+							break;
+						case "onepage":
+							temp = cwCall("getonepage", param);
+							break;
+						case "onesection":
+							temp = cwCall("getonesection", param);
+							break;
+						default:
+							temp = cwCall("fullsection", param);
+							break;
+						}
+					}
+				}
+				
+				//파라미터가 안넘어 왔거나 temp값이 없을 시 처리
+				if(temp == null) {
+					
+					if(result == null) return result = null;
+					LogUtil.info(param.get("IF"), "", param.get("UUID"), param.get("cw_stb_id"), "CW", "CW API return null switch value: " + NXPGCommon.cwSwitch);
 					result.put("status_code", "0002");
-					String srisInfo = redisClient.hget(NXPGCommon.SYNOPSIS_SRISINFO,epsd_id, param);
+					String srisInfo = redisClient.hget(NXPGCommon.SYNOPSIS_SRISINFO, epsd_id, param);
 					String regexRelation = "\\\"relation_contents\\\"[\\s]*:[\\s]*(\\[\\{.*?\\}\\])";
 					String relationData = StrUtil.getRegexString(regexRelation, srisInfo);
 					if(relationData != null && !"".equals(relationData)) {
@@ -248,19 +221,66 @@ public class CwService {
 					}else {
 						result = null;
 					}
+					
+					return result;
+				}else {
+					time = CastUtil.getObjectToMap(temp.get("time"));
+					if (time != null) {
+						time.put("after_start", System.nanoTime());
+					}
+//					if(result == null) return null;
+					temp.put("type", type);
+					String regexTitle = "\"sub_title\"[\\s]*:[\\s]*\"([^\"]+)\"";
+					String contentTitle = StrUtil.getRegexString(regexTitle, contentInfo);
+					temp.put("contentTitle", contentTitle);
+					
+					resultList = makeCwRelation(temp, epsd_id, param, time);
+					
+					if(result != null && resultList != null && resultList.size()>0 && temp.get("status_code") != null) {
+						result.put("status_code", temp.get("status_code"));
+						result.put("relation", resultList);
+						result.put("size", resultList.size()+"");
+					}else {
+						result.put("status_code", temp.get("status_code"));
+						//CW 연동로직에 데이터가 없을 경우 
+						LogUtil.info(param.get("IF"), "", param.get("UUID"), param.get("cw_stb_id"), "CW", "CW Data is null or item list size is 0");
+						result.put("status_code", "0002");
+						String srisInfo = redisClient.hget(NXPGCommon.SYNOPSIS_SRISINFO,epsd_id, param);
+						String regexRelation = "\\\"relation_contents\\\"[\\s]*:[\\s]*(\\[\\{.*?\\}\\])";
+						String relationData = StrUtil.getRegexString(regexRelation, srisInfo);
+						if(relationData != null && !"".equals(relationData)) {
+							resultList = CastUtil.StringToJsonList(relationData);
+						}
+						
+						if(resultList!= null && !resultList.isEmpty()) {
+							result.put("relation", resultList);
+							result.put("size", resultList.size()+"");
+						}else {
+							result = null;
+						}
+					}
+					if (time != null) {
+						time.put("after_end", System.nanoTime());
+					}
+					printProcessTime(time, param);
 				}
-				if (time != null) {
-					time.put("after_end", System.nanoTime());
-				}
-				printProcessTime(time, param);
+			}else {
+				LogUtil.info(param.get("IF"), "", param.get("UUID"), param.get("cw_stb_id"), "NCMS", "content data is null. epsd_id: "+epsd_id);
 			}
-		}else {
-			LogUtil.info(param.get("IF"), "", param.get("UUID"), param.get("cw_stb_id"), "NCMS", "content data is null. epsd_id: "+epsd_id);
+			
+			//Log에 처리 시간 프린트 (CW포함)
+			
+			return result;
+		} catch (Exception e) {
+			LogUtil.error("", "", "", "", "", e.toString());
+			LogUtil.error("IF-NXPG-012", "", param.get("UUID"), param.get("cw_stb_id"), "", e.getStackTrace()[1].toString());
+			LogUtil.error("IF-NXPG-012", "", param.get("UUID"), param.get("cw_stb_id"), "", e.getStackTrace()[2].toString());
+			LogUtil.error("IF-NXPG-012", "", param.get("UUID"), param.get("cw_stb_id"), "", e.getStackTrace()[3].toString());
+			LogUtil.error("IF-NXPG-012", "", param.get("UUID"), param.get("cw_stb_id"), "", e.getStackTrace()[4].toString());
+			return null;
 		}
 		
-		//Log에 처리 시간 프린트 (CW포함)
 		
-		return result;
 		
 	}
 	
@@ -775,10 +795,15 @@ public class CwService {
 	public String getReturnData(String man, String type, Map<String,List<Object>> codePeopleMap  ) {
 	
 		if(codePeopleMap!=null && !codePeopleMap.isEmpty()) {
-			String pos = StringUtils.defaultIfEmpty( man.split(" ")[0].replace(type, ""), "" );
+			String pos = StringUtils.defaultIfEmpty( man.split(" ")[0].replace(type, ""), "" ); // 결과값은 숫자(Actor1 의 1)
 			if (pos==null) pos = "";
 			int cnt = CastUtil.getStringToInteger(pos.equals("") ? "1" : pos);
-			return man.replace(type+pos, codePeopleMap.get(type).get(cnt-1).toString() );
+			
+			if( codePeopleMap.get(type).size() < cnt ) {
+				return "연관콘텐츠";
+			}else {
+				return man.replace(type+pos, codePeopleMap.get(type).get(cnt-1).toString() );
+			}
 		}else {
 			return "연관콘텐츠";
 		}
