@@ -74,6 +74,7 @@ public class MakeCWService {
 					gridData.put("rslu_typ_cd", epsd.get("rslu_typ_cd"));
 					gridData.put("kids_yn", sris.get("kids_yn"));
 					gridData.put("cacbro_yn", epsd.get("cacbro_yn"));
+					gridData.put("epsd_rslu_id", epsd_rslu_id);
 					resultGridList.add(gridData);
 					
 					purchares = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.CONTENTS_PURCHARES, sris_id, param));
