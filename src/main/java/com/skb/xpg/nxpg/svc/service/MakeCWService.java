@@ -47,6 +47,7 @@ public class MakeCWService {
 
 				gridData.putAll(gridInfo);
 				gridData.put("track_id", trackId);
+				gridData.put("epsd_rslu_id", epsd_rslu_id);
 				resultGridList.add(gridData);
 			} else {
 				
@@ -83,6 +84,7 @@ public class MakeCWService {
 //					LogUtil.info("", "", "", "", "CW", "CONTENTS NULL : " + epsd_id);
 					return AsyncResult.forValue(resultGridList);
 				}
+
 				if (purchares != null) {
 					List<Map<String, Object>> listPurchares = CastUtil.getObjectToMapList(purchares.get("products"));
 					for (Map<String, Object> p : listPurchares) {
