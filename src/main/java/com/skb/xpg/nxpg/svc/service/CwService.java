@@ -325,13 +325,16 @@ public class CwService {
 			for (int a = 0; a < arrNxpgParam.length; a++) {
 				//itemType값이 null일 경우 파라미터에 추가하지 않음.
 				if (!arrRequestParam[a].isEmpty()) {
-					if(!"itemType".equals(arrRequestParam[a])) {
-						cwparam += ";" + arrRequestParam[a] + "|" + param.get(arrNxpgParam[a]);
-					}else {
-						if(param.get(arrNxpgParam[a])!=null) {
+//					if(!"itemType".equals(arrRequestParam[a])) {
+//						cwparam += ";" + arrRequestParam[a] + "|" + param.get(arrNxpgParam[a]);
+//					}else {
+						if("null".equals(arrNxpgParam[a])) {
+							arrNxpgParam[a] = "";
+						}
+						if(param.get(arrNxpgParam[a])!=null && !"null".equals(arrNxpgParam[a])) {
 							cwparam += ";" + arrRequestParam[a] + "|" + param.get(arrNxpgParam[a]);
 						}
-					}
+//					}
 				}
 			}
 		}

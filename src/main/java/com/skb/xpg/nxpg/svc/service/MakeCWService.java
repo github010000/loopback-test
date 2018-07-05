@@ -14,6 +14,7 @@ import com.skb.xpg.nxpg.svc.common.NXPGCommon;
 import com.skb.xpg.nxpg.svc.config.Properties;
 import com.skb.xpg.nxpg.svc.redis.RedisClient;
 import com.skb.xpg.nxpg.svc.util.CastUtil;
+import com.skb.xpg.nxpg.svc.util.DateUtil;
 
 @Service
 public class MakeCWService {
@@ -98,6 +99,8 @@ public class MakeCWService {
 				gridService.checkBadge(gridData);
 			}
 		}
+		DateUtil.getCompare(resultGridList, "svc_fr_dt", "svc_to_dt", true);
+		
 		return AsyncResult.forValue(resultGridList);
 	}
 	
