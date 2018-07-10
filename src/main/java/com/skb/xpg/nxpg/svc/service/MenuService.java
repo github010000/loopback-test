@@ -360,15 +360,27 @@ public class MenuService {
 								//low_rack_products_type == 02 경우 상위상품을 노출
 								//low_rack_products_type : 01 - 하위상품의 총 합이 곧 상위상품이므로 하위를 노출
 								//low_rack_products_type : 02 - 부모자식관계이므로  상위상품을 노출
-								if (lowrank == null || lowrank.size() < 1
-										|| (tempMonth.containsKey("low_rack_products_type") && "02".equals(tempMonth.get("low_rack_products_type")))) {
-									user_month.add(tempMonth);
-								} else {
+								if (lowrank != null && lowrank.size() > 0) {
+									
+									if (tempMonth.containsKey("low_rack_products_type") && "02".equals(tempMonth.get("low_rack_products_type"))) {
+										
+										Map<String, Object> tempMonthNoLowRank = tempMonth;
+										tempMonthNoLowRank.put("low_rank_products", "");
+										user_month.add(tempMonthNoLowRank);
+
+									}
+									
 									for (Map<String, Object> low : lowrank) {
-										user_month.add(low);
+										if (!tempMonth.containsKey("low_rack_products_type")
+												|| (tempMonth.containsKey("low_rack_products_type") && "01".equals(tempMonth.get("low_rack_products_type")))) {
+											user_month.add(low);
+										}
 										String low_prd_prc_id=CastUtil.getObjectToString(low.get("prd_prc_id"));
 										exceptionPid.put(low_prd_prc_id, true);
 									}
+									
+								} else {
+									user_month.add(tempMonth);
 								}
 		//							blockblock.put("block_count", blockblock.get("total_count"));
 		//							blockblock.remove("total_count");
