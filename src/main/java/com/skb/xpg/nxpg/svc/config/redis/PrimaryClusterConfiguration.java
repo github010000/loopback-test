@@ -90,9 +90,9 @@ public class PrimaryClusterConfiguration {
 			RedisTemplate<String, Object> redisTemplate = new RedisTemplate<String, Object>();
 			redisTemplate.setConnectionFactory(jedisConnectionFactory());
 			redisTemplate.setKeySerializer(stringRedisSerializer);
-//			redisTemplate.setValueSerializer(stringRedisSerializer);
+			redisTemplate.setValueSerializer(stringRedisSerializer);
 			redisTemplate.setHashKeySerializer(stringRedisSerializer);
-//			redisTemplate.setHashValueSerializer(stringRedisSerializer);
+			redisTemplate.setHashValueSerializer(stringRedisSerializer);
 
 			return redisTemplate;
 
