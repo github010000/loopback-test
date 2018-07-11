@@ -357,12 +357,12 @@ public class MenuService {
 							if (param.get("prd_prc_id_lst").contains(tm)) {
 								List<Map<String, Object>> lowrank = CastUtil.getObjectToMapList(tempMonth.get("low_rank_products"));
 								
-								//low_rack_products_type == 02 경우 상위상품을 노출
-								//low_rack_products_type : 01 - 하위상품의 총 합이 곧 상위상품이므로 하위를 노출
-								//low_rack_products_type : 02 - 부모자식관계이므로  상위상품을 노출
+								//low_rank_products_type == 02 경우 상위상품을 노출
+								//low_rank_products_type : 01 - 하위상품의 총 합이 곧 상위상품이므로 하위를 노출
+								//low_rank_products_type : 02 - 부모자식관계이므로  상위상품을 노출
 								if (lowrank != null && lowrank.size() > 0) {
 									
-									if (tempMonth.containsKey("low_rack_products_type") && "02".equals(tempMonth.get("low_rack_products_type"))) {
+									if (tempMonth.containsKey("low_rank_products_type") && "02".equals(tempMonth.get("low_rank_products_type"))) {
 										
 										Map<String, Object> tempMonthNoLowRank = tempMonth;
 										tempMonthNoLowRank.put("low_rank_products", "");
@@ -371,8 +371,8 @@ public class MenuService {
 									}
 									
 									for (Map<String, Object> low : lowrank) {
-										if (!tempMonth.containsKey("low_rack_products_type")
-												|| (tempMonth.containsKey("low_rack_products_type") && "01".equals(tempMonth.get("low_rack_products_type")))) {
+										if (!tempMonth.containsKey("low_rank_products_type")
+												|| (tempMonth.containsKey("low_rank_products_type") && "01".equals(tempMonth.get("low_rank_products_type")))) {
 											user_month.add(low);
 										}
 										String low_prd_prc_id=CastUtil.getObjectToString(low.get("prd_prc_id"));
