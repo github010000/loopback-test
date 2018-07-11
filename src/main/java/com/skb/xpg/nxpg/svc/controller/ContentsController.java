@@ -133,6 +133,14 @@ public class ContentsController {
 		rtn.put("IF", IF);
 		rtn.put("request_time", DateUtil.getYYYYMMDDhhmmss());
 
+		if (StrUtil.isEmpty(param.get("search_type"))) {
+			rtn.put("result", "9999");
+			rtn.put("reason", "search_type 누락");
+			rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
+			LogUtil.tlog(param.get("IF"), "SEND.RES", param.get("UUID"), param.get("stb_id"), "STB", rtn, param);
+			return rtn;
+		}
+	
 		if (("1").equals(param.get("search_type")) && StrUtil.isEmpty(param.get("sris_id"))
 			|| ("2").equals(param.get("search_type")) && StrUtil.isEmpty(param.get("prd_prc_id")))
 			{
