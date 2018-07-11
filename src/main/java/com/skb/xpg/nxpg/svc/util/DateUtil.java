@@ -29,6 +29,83 @@ public class DateUtil {
     private void setCimodeCheck(boolean expiryDate){
 		DateUtil.expiryDate = expiryDate;
     }
+
+	public static String getYYYYMMDD() {
+		Locale currLocale = new Locale("KOREAN","KOREA");  
+		String pattern = "yyyyMMdd";
+		SimpleDateFormat formatter = new SimpleDateFormat(pattern, currLocale);
+
+		return formatter.format(new Date());
+	}
+	
+	public static Date getStringToDate(String value) {
+		try {
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+			return formatter.parse(value);
+		} catch (Exception e) {
+			// LogUtil.error("", "", "", "", "", e.toString());
+			return null;
+		}
+	}
+	
+	// 입력 일자 기준으로 며칠 이내인지 확인
+	public static boolean checkDate(String strDate, int value) {
+		if (strDate == null) return false;
+		if (value == 0) return false;
+		
+		try {
+			// 현재시간 년월일만 가지고 오기
+			Date now = getStringToDate(getYYYYMMDD());
+			
+			// 입력받은값 년월일만 가지고 오기
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+			Date chkDate = formatter.parse(strDate);
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(chkDate);
+			cal.set(Calendar.HOUR_OF_DAY, 0);
+			cal.set(Calendar.MINUTE, 0);
+			cal.set(Calendar.SECOND, 0);
+			cal.set(Calendar.MILLISECOND, 0);
+			chkDate = cal.getTime();
+			//////////////////////////
+			
+			int compare = now.compareTo(chkDate);
+			// 지금시간이랑 같으면 
+			if (compare == 0)
+				return true;
+			
+			// 이전일 확인  
+			if (value < 0) {
+				// 지금 시간보다 더 작으면
+				if (compare > 0) {
+					long diffDay = (now.getTime() - chkDate.getTime()) / (24*60*60*1000);
+					return diffDay <= Math.abs(value);
+				}
+				
+			}
+			// 며칠 이내 확인 
+			else {
+				// 지금시간보다 더 크면 
+				if (compare < 0) {
+					// 오늘 날짜에 요청값을 더한다.
+					cal.setTime(now);
+					// 예) 7일 이내일 경우 오늘(12일) ~ 7일이내(18)일로 계산을 하기 위해 -1을 해준다.
+					cal.add(Calendar.DAY_OF_MONTH, value-1);
+					now = cal.getTime();
+					
+					compare = now.compareTo(chkDate);
+					if (compare > 0)
+						return true;
+					else if (compare == 0) 
+						return true;
+				}
+			}
+			return false;
+		} catch (Exception e) {
+			// LogUtil.error("", "", "", "", "", e.toString());
+			return false;
+		}
+	}
 	
 	public static String getYYYYMMDDhhmmss() {
 		Locale currLocale = new Locale("KOREAN","KOREA");  

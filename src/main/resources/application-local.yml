@@ -4,6 +4,11 @@ user:
   cimodeCheck: 20,30,34,35,41,42
   useLogForResponseData: true
   checkVersionEqual: true
+  checkdate:
+    ppmorgnzfrdt: 7
+    ppmorgnztodt: 7
+    prdprctodt: 14
+    nextprdprcfrdt: 3
   results:
     result: null
     reason: null
@@ -137,3 +142,4 @@ zuul:
     ge:
       path: /ge/**
       url: http://localhost:8090
+ 

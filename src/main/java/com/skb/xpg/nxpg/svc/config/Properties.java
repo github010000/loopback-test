@@ -41,4 +41,9 @@ public class Properties {
     public Map<String, Object> getCw() {
     	return cw;
     }
+    private Map<String, String> checkdate = new HashMap<>();
+    
+    public Map<String, String> getCheckdate() {
+    	return checkdate;
+    }
 }

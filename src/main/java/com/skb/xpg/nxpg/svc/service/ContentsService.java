@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.skb.xpg.nxpg.svc.common.NXPGCommon;
+import com.skb.xpg.nxpg.svc.config.Properties;
 import com.skb.xpg.nxpg.svc.redis.RedisClient;
 import com.skb.xpg.nxpg.svc.util.CastUtil;
 import com.skb.xpg.nxpg.svc.util.CiModeUtil;
@@ -22,8 +23,8 @@ public class ContentsService {
 	@Autowired
 	private RedisClient redisClient;
 
-//	@Autowired
-//	private Properties properties;
+	@Autowired
+	private Properties properties;
 	
 	//IF-NXPG-007
 	public void getSynopsisContents(Map<String, Object> rtn, Map<String, String> param) throws Exception {
@@ -31,6 +32,7 @@ public class ContentsService {
 		Map<String, Object> sris = null;
 		Map<String, Object> epsd = null;
 		String rslu_type = CastUtil.getString(param.get("rslu_type"));
+		Map<String, String> checkdate = properties.getCheckdate();
 		
 		if ("3".equals(param.get("search_type"))) {
 			
@@ -136,6 +138,32 @@ public class ContentsService {
 				sris.put("ending_cw_call_id_val", tempEndingMap.get("cw_call_id_val"));
 			}
 			
+			// products 날짜 체크
+			if (sris != null) {
+				List<Map<String, Object>> products = CastUtil.getObjectToMapList(sris.get("products"));
+				if (products != null) {
+					for (int i = 0; i < products.size(); i++) {
+						Map<String, Object> product = products.get(i);
+						String strTemp = null;
+						
+						// prd_prc_to_dt
+						if (product.get("prd_prc_to_dt") != null)
+							strTemp = product.get("prd_prc_to_dt").toString();
+						if (DateUtil.checkDate(strTemp, CastUtil.getStringToInteger(checkdate.get("prdprctodt"))*-1))
+							product.put("expire_prd_prc_dt", strTemp);
+						else 
+							product.put("expire_prd_prc_dt", "");
+						
+						// next_prd_prc_fr_dt
+						if (product.get("next_prd_prc_fr_dt") != null)
+							strTemp = product.get("next_prd_prc_fr_dt").toString();
+						if (!DateUtil.checkDate(strTemp, CastUtil.getStringToInteger(checkdate.get("nextprdprcfrdt"))))
+							product.put("next_prd_prc_fr_dt", "");
+					}
+				}
+			}
+			//////////////////////////
+			
 			rtn.put("result", "0000");
 			rtn.put("contents", sris);
 
@@ -146,10 +174,52 @@ public class ContentsService {
 				DateUtil.getCompare(products, "prd_prc_fr_dt", "purc_wat_to_dt", false);
 				if(NXPGCommon.isCIMode()) {
 					products = CiModeUtil.getPrdFilter(products);
-					rtn.put("purchares", products);
+//					rtn.put("purchares", products);
 				} else {
-					rtn.put("purchares", purchares.get("products"));
+					products = CastUtil.getObjectToMapList(purchares.get("products"));
+//					rtn.put("purchares", purchares.get("products"));
 				}
+				
+				// purchares 날짜 체크
+				for(int i = 0; i < products.size(); i++) {
+					Map<String, Object> product = products.get(i);
+					String strTemp = null;
+					
+					// 테스트 코드 
+//					product.put("ppm_orgnz_fr_dt", "20180711000000");
+//					product.put("ppm_orgnz_to_dt", "20180718000000");
+//					product.put("prd_prc_to_dt", "20180712000000");
+//					product.put("next_prd_prc_fr_dt", "20180710000000");
+
+					// prd_prc_to_dt
+					if (product.get("prd_prc_to_dt") != null)
+						strTemp = product.get("prd_prc_to_dt").toString();
+					if (DateUtil.checkDate(strTemp, CastUtil.getStringToInteger(checkdate.get("prdprctodt"))*-1))
+						product.put("expire_prd_prc_dt", strTemp);
+					else 
+						product.put("expire_prd_prc_dt", "");
+
+					// next_prd_prc_fr_dt
+					if (product.get("next_prd_prc_fr_dt") != null)
+						strTemp = product.get("next_prd_prc_fr_dt").toString();
+					if (!DateUtil.checkDate(strTemp, CastUtil.getStringToInteger(checkdate.get("nextprdprcfrdt"))))
+						product.put("next_prd_prc_fr_dt", "");
+					
+					// ppm_orgnz_fr_dt
+					if (product.get("ppm_orgnz_fr_dt") != null)
+						strTemp = product.get("ppm_orgnz_fr_dt").toString();
+					if (!DateUtil.checkDate(strTemp, CastUtil.getStringToInteger(checkdate.get("ppmorgnzfrdt"))))
+						product.put("ppm_orgnz_fr_dt", "");
+
+					// ppm_orgnz_to_dt
+					if (product.get("ppm_orgnz_to_dt") != null)
+						strTemp = product.get("ppm_orgnz_to_dt").toString();
+					if (!DateUtil.checkDate(strTemp, CastUtil.getStringToInteger(checkdate.get("ppmorgnzfrdt"))))
+						product.put("ppm_orgnz_to_dt", "");
+				}
+				///////////////////////
+				
+				rtn.put("purchares", products);
 			}
 		}
 	}

@@ -29,7 +29,7 @@ public class ContentsController {
 	
 	@Autowired
 	private Properties properties;
-
+	
 	// IF-NXPG-010
 	@RequestMapping(value = "/contents/synopsis")
 	public Map<String, Object> getContentsSynopsis(HttpServletRequest req, @PathVariable String ver, @RequestParam Map<String, String> param) {
