@@ -131,6 +131,8 @@ public class ContentsService {
 			sris.put("session_id",  CastUtil.getString(param.get("session_id")));
 			sris.put("track_id", CastUtil.getString(param.get("track_id")));
 			sris.put("menu_id", CastUtil.getString(param.get("cur_menu")));
+			sris.put("cw_call_id", CastUtil.getString(param.get("cw_call_id")));
+			
 			String tempEnding = redisClient.hget("ending_cwcallidval", "ending_cwcallidval", param);
 			Map<String, Object> tempEndingMap = CastUtil.StringToJsonMap(tempEnding);
 			sris.put("ending_cw_call_id_val", null);
