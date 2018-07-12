@@ -80,8 +80,9 @@ public class DateUtil {
 				if (compare > 0) {
 					long diffDay = (now.getTime() - chkDate.getTime()) / (24*60*60*1000);
 					return diffDay <= Math.abs(value);
+				} else {
+					return true;
 				}
-				
 			}
 			// 며칠 이내 확인 
 			else {
@@ -89,8 +90,9 @@ public class DateUtil {
 				if (compare < 0) {
 					// 오늘 날짜에 요청값을 더한다.
 					cal.setTime(now);
-					// 예) 7일 이내일 경우 오늘(12일) ~ 7일이내(18)일로 계산을 하기 위해 -1을 해준다.
-					cal.add(Calendar.DAY_OF_MONTH, value-1);
+					// 예) 7일 이내일 경우 오늘(12일) ~ 7일이내(19)일로 계산을 하기 위해서 넣어줌
+					// 원래 이내이면 자신 포함인데 자신 미포함으로 7일 으로 처리하고 있음.
+					cal.add(Calendar.DAY_OF_MONTH, value);
 					now = cal.getTime();
 					
 					compare = now.compareTo(chkDate);

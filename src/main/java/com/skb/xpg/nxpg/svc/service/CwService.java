@@ -528,7 +528,7 @@ public class CwService {
 						
 //						makeCwGridMap(idNblockId, relationData, resultRelationList, param);
 
-			        	cnt++;
+						cnt++;
 						futures.add(makeCWService.makeCwGridMap(idNblockId, relationData, param));
 						
 					}
@@ -558,34 +558,39 @@ public class CwService {
 					sub_title = restMatching(param_epsd_id, sub_title, content_title, param);
 				}
 				
-				resultMap.put("sectionId", temp.get("sectionId"));
-				resultMap.put("session_id", objMap.get("sessionId"));
-				if(temp.containsKey("trackId") && temp.get("trackId")!=null && !"".equals(temp.get("trackId"))) {
-					resultMap.put("btrack_id", temp.get("trackId"));
-				}else {
-					resultMap.put("btrack_id", temp.get("btrackId"));
-				}
-				resultMap.put("block", resultRelationList);
-				resultMap.put("t_cnt", resultRelationList.size()+"");
-				resultMap.put("sub_title", sub_title);
-				resultMap.put("cw_call_id", objMap.get("cw_call_id"));
-				
-				//onepage호출시 첫번쨰 블록에 데이터가 없으면 리턴
-				if("onepage".equals(type) && checkFirstBlock && resultRelationList.size()<=0) {
-					LogUtil.info(param.get("IF"), "", param.get("UUID"), param.get("cw_stb_id"), "NCMS", "No Exist Match Data. CW code: 0");
-					checkFirstBlock=false;
-					return null;
-				}
-				
-				if("all".equals(type) || "onesection".equals(type)) {
-					if(resultRelationList.size()>0) {
-						cwRelation.add(resultMap);
+				if(!sub_title.isEmpty()) {
+					
+					resultMap.put("sectionId", temp.get("sectionId"));
+					resultMap.put("session_id", objMap.get("sessionId"));
+					if(temp.containsKey("trackId") && temp.get("trackId")!=null && !"".equals(temp.get("trackId"))) {
+						resultMap.put("btrack_id", temp.get("trackId"));
+					}else {
+						resultMap.put("btrack_id", temp.get("btrackId"));
 					}
-				}else {
-					cwRelation.add(resultMap);	//type이 all 이 아닌 애들
+					resultMap.put("block", resultRelationList);
+					resultMap.put("t_cnt", resultRelationList.size()+"");
+					resultMap.put("sub_title", sub_title);
+					resultMap.put("cw_call_id", objMap.get("cw_call_id"));
+					
+					//onepage호출시 첫번쨰 블록에 데이터가 없으면 리턴
+					if("onepage".equals(type) && checkFirstBlock && resultRelationList.size()<=0) {
+						LogUtil.info(param.get("IF"), "", param.get("UUID"), param.get("cw_stb_id"), "NCMS", "No Exist Match Data. CW code: 0");
+						checkFirstBlock=false;
+						return null;
+					}
+					
+					if("all".equals(type) || "onesection".equals(type)) {
+						if(resultRelationList.size()>0) {
+							cwRelation.add(resultMap);
+						}
+					}else {
+						cwRelation.add(resultMap);	//type이 all 이 아닌 애들
+					}
+					resultMap = new HashMap<String, Object>();
+					checkFirstBlock=false;
+					
 				}
-				resultMap = new HashMap<String, Object>();
-				checkFirstBlock=false;
+				
 			}
 			
 		}
@@ -792,7 +797,7 @@ public class CwService {
 				return man;
 			}
 		}
-		return "연관 콘텐츠";
+		return "";
 	}
 	
 	public String getReturnData(String man, String type, Map<String,List<Object>> codePeopleMap  ) {
@@ -803,12 +808,12 @@ public class CwService {
 			int cnt = CastUtil.getStringToInteger(pos.equals("") ? "1" : pos);
 			
 			if( codePeopleMap.get(type).size() < cnt ) {
-				return "연관콘텐츠";
+				return "";
 			}else {
 				return man.replace(type+pos, codePeopleMap.get(type).get(cnt-1).toString() );
 			}
 		}else {
-			return "연관콘텐츠";
+			return "";
 		}
 	}
 	
