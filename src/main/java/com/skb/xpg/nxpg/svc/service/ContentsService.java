@@ -149,18 +149,18 @@ public class ContentsService {
 						String strTemp = null;
 						
 						// prd_prc_to_dt
-						if (product.get("prd_prc_to_dt") != null)
-							strTemp = product.get("prd_prc_to_dt").toString();
-						if (DateUtil.checkDate(strTemp, CastUtil.getStringToInteger(checkdate.get("prdprctodt"))*-1))
-							product.put("expire_prd_prc_dt", strTemp);
-						else 
-							product.put("expire_prd_prc_dt", "");
-						
-						// next_prd_prc_fr_dt
-						if (product.get("next_prd_prc_fr_dt") != null)
-							strTemp = product.get("next_prd_prc_fr_dt").toString();
-						if (!DateUtil.checkDate(strTemp, CastUtil.getStringToInteger(checkdate.get("nextprdprcfrdt"))))
-							product.put("next_prd_prc_fr_dt", "");
+//						if (product.get("prd_prc_to_dt") != null)
+//							strTemp = product.get("prd_prc_to_dt").toString();
+//						if (DateUtil.checkDate(strTemp, CastUtil.getStringToInteger(checkdate.get("prdprctodt"))*-1))
+//							product.put("expire_prd_prc_dt", strTemp);
+//						else 
+//							product.put("expire_prd_prc_dt", "");
+//						
+//						// next_prd_prc_fr_dt
+//						if (product.get("next_prd_prc_fr_dt") != null)
+//							strTemp = product.get("next_prd_prc_fr_dt").toString();
+//						if (!DateUtil.checkDate(strTemp, CastUtil.getStringToInteger(checkdate.get("nextprdprcfrdt"))))
+//							product.put("next_prd_prc_fr_dt", "");
 					}
 				}
 			}
@@ -194,30 +194,30 @@ public class ContentsService {
 //					product.put("next_prd_prc_fr_dt", "20180710000000");
 
 					// prd_prc_to_dt
-					if (product.get("prd_prc_to_dt") != null)
-						strTemp = product.get("prd_prc_to_dt").toString();
-					if (DateUtil.checkDate(strTemp, CastUtil.getStringToInteger(checkdate.get("prdprctodt"))*-1))
-						product.put("expire_prd_prc_dt", strTemp);
-					else 
-						product.put("expire_prd_prc_dt", "");
-
-					// next_prd_prc_fr_dt
-					if (product.get("next_prd_prc_fr_dt") != null)
-						strTemp = product.get("next_prd_prc_fr_dt").toString();
-					if (!DateUtil.checkDate(strTemp, CastUtil.getStringToInteger(checkdate.get("nextprdprcfrdt"))))
-						product.put("next_prd_prc_fr_dt", "");
-					
-					// ppm_orgnz_fr_dt
-					if (product.get("ppm_orgnz_fr_dt") != null)
-						strTemp = product.get("ppm_orgnz_fr_dt").toString();
-					if (!DateUtil.checkDate(strTemp, CastUtil.getStringToInteger(checkdate.get("ppmorgnzfrdt"))))
-						product.put("ppm_orgnz_fr_dt", "");
-
-					// ppm_orgnz_to_dt
-					if (product.get("ppm_orgnz_to_dt") != null)
-						strTemp = product.get("ppm_orgnz_to_dt").toString();
-					if (!DateUtil.checkDate(strTemp, CastUtil.getStringToInteger(checkdate.get("ppmorgnzfrdt"))))
-						product.put("ppm_orgnz_to_dt", "");
+//					if (product.get("prd_prc_to_dt") != null)
+//						strTemp = product.get("prd_prc_to_dt").toString();
+//					if (DateUtil.checkDate(strTemp, CastUtil.getStringToInteger(checkdate.get("prdprctodt"))*-1))
+//						product.put("expire_prd_prc_dt", strTemp);
+//					else 
+//						product.put("expire_prd_prc_dt", "");
+//
+//					// next_prd_prc_fr_dt
+//					if (product.get("next_prd_prc_fr_dt") != null)
+//						strTemp = product.get("next_prd_prc_fr_dt").toString();
+//					if (!DateUtil.checkDate(strTemp, CastUtil.getStringToInteger(checkdate.get("nextprdprcfrdt"))))
+//						product.put("next_prd_prc_fr_dt", "");
+//					
+//					// ppm_orgnz_fr_dt
+//					if (product.get("ppm_orgnz_fr_dt") != null)
+//						strTemp = product.get("ppm_orgnz_fr_dt").toString();
+//					if (!DateUtil.checkDate(strTemp, CastUtil.getStringToInteger(checkdate.get("ppmorgnzfrdt"))))
+//						product.put("ppm_orgnz_fr_dt", "");
+//
+//					// ppm_orgnz_to_dt
+//					if (product.get("ppm_orgnz_to_dt") != null)
+//						strTemp = product.get("ppm_orgnz_to_dt").toString();
+//					if (!DateUtil.checkDate(strTemp, CastUtil.getStringToInteger(checkdate.get("ppmorgnzfrdt"))))
+//						product.put("ppm_orgnz_to_dt", "");
 				}
 				///////////////////////
 				
