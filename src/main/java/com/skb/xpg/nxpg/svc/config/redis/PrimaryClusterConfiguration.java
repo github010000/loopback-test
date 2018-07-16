@@ -92,7 +92,7 @@ public class PrimaryClusterConfiguration {
 			redisTemplate.setKeySerializer(stringRedisSerializer);
 			redisTemplate.setValueSerializer(stringRedisSerializer);
 			redisTemplate.setHashKeySerializer(stringRedisSerializer);
-			redisTemplate.setHashValueSerializer(stringRedisSerializer);
+			//redisTemplate.setHashValueSerializer(stringRedisSerializer);
 
 			return redisTemplate;
 
