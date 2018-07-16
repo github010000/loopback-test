@@ -17,7 +17,6 @@ import com.skb.xpg.nxpg.svc.config.CommonConfiguration;
 @SpringBootApplication
 @EnableAutoConfiguration
 @EnableZuulProxy
-@EnableAsync
 @ComponentScan
 @Import(CommonConfiguration.class) 
 public class NXPGSvcApplication {

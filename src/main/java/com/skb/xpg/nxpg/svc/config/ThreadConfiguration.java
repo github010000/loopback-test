@@ -7,12 +7,16 @@ import java.util.concurrent.Executors;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 /**
  * Created by dmshin on 06/02/2017.
  */
 @Configuration
+@EnableAsync
+@Profile({"stg", "stgtest"})
 public class ThreadConfiguration {
 
 	@Value("${task.threadPoolTaskExecutor.corePoolSize}")

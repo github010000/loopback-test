@@ -119,6 +119,7 @@ public class RestClient {
 		}
 		resultMap.put("cw_time_start", before);
 		resultMap.put("cw_time_end", end);
+		resultMap.put("url", url);
 		
 //		String restregex="\"status\"[\\s]*:[\\s]*(\\{.*?\\})";
 //		String codeValue = StrUtil.getRegexString(restregex, result.toString());
@@ -189,9 +190,9 @@ public class RestClient {
 			
 			try {
 //				System.out.println(builder.build().encode().toUri());
-				if (activeProfile.contains("dev") || activeProfile.contains("stg") || activeProfile.contains("local")) {
+//				if (activeProfile.contains("dev") || activeProfile.contains("stg") || activeProfile.contains("local")) {
 //					LogUtil.info(reqparam.get("IF"), "SEND.REQ", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW", builder.build().encode().toUri().toString());
-				}
+//				}
 
 				resultMap = apacheGet(builder.build().encode().toUri().toString(), reqparam);
 				
