@@ -4,6 +4,8 @@ import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -45,6 +47,10 @@ public class PrimaryClusterConfiguration {
 	
 	@Value("${spring.redis.setMinIdle}")
 	private int setMinIdle;
+	
+	@Autowired
+	@Qualifier("activeProfile")
+	private String activeProfile;
     
     @Primary
     @Bean(name="primaryRedisCluster")
@@ -92,7 +98,9 @@ public class PrimaryClusterConfiguration {
 			redisTemplate.setKeySerializer(stringRedisSerializer);
 			redisTemplate.setValueSerializer(stringRedisSerializer);
 			redisTemplate.setHashKeySerializer(stringRedisSerializer);
-			//redisTemplate.setHashValueSerializer(stringRedisSerializer);
+			if (!activeProfile.contains("prd")) {
+				redisTemplate.setHashValueSerializer(stringRedisSerializer);
+			}
 
 			return redisTemplate;
 

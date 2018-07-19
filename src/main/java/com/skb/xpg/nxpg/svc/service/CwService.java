@@ -1,6 +1,7 @@
 package com.skb.xpg.nxpg.svc.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +18,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Service;
 
+import com.jayway.jsonpath.JsonPath;
+import com.jayway.jsonpath.ReadContext;
 import com.skb.xpg.nxpg.svc.common.NXPGCommon;
 import com.skb.xpg.nxpg.svc.config.Properties;
 import com.skb.xpg.nxpg.svc.redis.RedisClient;
@@ -159,10 +162,14 @@ public class CwService {
 				result = new HashMap<String, Object>();
 				
 				
-				//시리즈아이디, 에피소드아이디 추출로직
+				//에피소드아이디 추출로직
 				String regex="\"epsd_rslu_id\"[\\s]*:[\\s]*\"([^\"]+)\"";
 				String contentId = StrUtil.getRegexString(regex, contentInfo);
 
+				//시리즈 아이디 추출 로직
+				String regexSris="\"sris_id\"[\\s]*:[\\s]*\"([^\"]+)\"";
+				String srisId = StrUtil.getRegexString(regexSris, contentInfo);
+				
 				if(epsd_rslu_id != null && !epsd_rslu_id.isEmpty()) {
 					param.put("con_id", epsd_rslu_id);
 				}else {
@@ -230,8 +237,14 @@ public class CwService {
 					}
 //					if(result == null) return null;
 					temp.put("type", type);
-					String regexTitle = "\"sub_title\"[\\s]*:[\\s]*\"([^\"]+)\"";
-					String contentTitle = StrUtil.getRegexString(regexTitle, contentInfo);
+					
+					
+					
+					String contentTitleInfo = redisClient.hget(NXPGCommon.SYNOPSIS_CONTENTS, srisId, param);
+					
+					
+					String regexTitle = "\"title\"[\\s]*:[\\s]*\"([^\"]+)\"";
+					String contentTitle = StrUtil.getRegexString(regexTitle, contentTitleInfo);
 					temp.put("contentTitle", contentTitle);
 					
 					resultList = makeCwRelation(temp, epsd_id, param, time);
@@ -353,13 +366,45 @@ public class CwService {
 			//응답값 확인
 			String restregex="\"code\"[\\s]*:[\\s]*([0-9]*)";
 			String codeValue = StrUtil.getRegexString(restregex, rest);
-	
+			String genretitle = "";
+
+			//장르 추출
+			//JSON Parsing
+			ReadContext ctx = JsonPath.parse(rest);
+			
+			if(ctx != null) {
+				//title Search
+				List<String> genreSimilar = ctx.read("$..blocks[0].items[0].fields.GENRESIMILARARRAY[0]");
+				if (genreSimilar != null) {
+					String title = genreSimilar.get(0);
+					
+					title=title.substring(1, title.length()-1);
+					List<String> firstGenreTitleList = Arrays.asList(title.split("#"));
+					
+					int y = 1;
+					if (firstGenreTitleList.size() > 1) {
+						y = 2;
+					}
+					
+					for(int i = 0 ; i < y; i++) {
+						if (firstGenreTitleList.get(i) != null) {
+							genretitle += firstGenreTitleList.get(i)+",";
+						}
+					}
+					
+					if (genretitle.length() > 0) {
+						genretitle = genretitle.substring(0, genretitle.length()-1);
+					}
+				}
+			}//장르추출 끝
+			
 			objMap = CastUtil.StringToJsonMap(rest);
 			if(objMap!=null && !objMap.isEmpty()) {
 				if("0".equals(codeValue)) {
 					objMap.put("status_code", "0000");
 					objMap.put("cw_call_id", param.get("cw_call_id"));
 					objMap.put("epsd_id", param.get("epsd_id"));
+					param.put("genreList", genretitle);
 				}else {
 					objMap.put("status_code", "0002");
 //					LogUtil.info(param.get("IF"), "", param.get("UUID"), param.get("cw_stb_id"), "CW", "CW code : "+codeValue+", url : " + cwBaseUrl + path);
@@ -726,6 +771,8 @@ public class CwService {
 		
 		String actorString = CastUtil.getObjectToString(redisClient.hget(NXPGCommon.CONTENTS_PEOPLE, epsd_id, param));
 		
+		String genreList = param.get("genreList");
+		
 		Map<String,List<Object>> codePeopleMap = null;
 		if(actorString != null && !actorString.isEmpty()) {
 			codePeopleMap = new HashMap<String, List<Object>>();
@@ -778,11 +825,11 @@ public class CwService {
 				i++;
 			}
 		}
-		return repalceData( sub_title, codePeopleMap, content_title);
+		return repalceData( sub_title, codePeopleMap, content_title, genreList);
 		
 	}
 	
-	private String repalceData( String man, Map<String,List<Object>> codePeopleMap, String content_title ) {
+	private String repalceData( String man, Map<String,List<Object>> codePeopleMap, String content_title, String genreList ) {
 		
 		if(man != null && !man.isEmpty()) {
 			man = man.replaceAll("\\#", ""); // # 없애버리기 
@@ -793,6 +840,8 @@ public class CwService {
 				return getReturnData( man, "Director", codePeopleMap);
 			}else if( man.startsWith("Collection") ) {// Collection으로 시작하는거
 				return man.replaceAll("Collection", content_title);
+			}else if( man.startsWith("GenreSimilarArray") ){
+				return man.replaceAll("GenreSimilarArray", genreList);
 			}else {
 				return man;
 			}
