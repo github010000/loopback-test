@@ -370,9 +370,12 @@ public class CwService {
 
 			//장르 추출
 			//JSON Parsing
+			
+			boolean checkField = StrUtil.checkField(rest, "$..blocks[0].items[0].fields.GENRESIMILARARRAY[0]");
+			
 			ReadContext ctx = JsonPath.parse(rest);
 			
-			if(ctx != null) {
+			if(checkField && ctx != null) {
 				//title Search
 				List<String> genreSimilar = ctx.read("$..blocks[0].items[0].fields.GENRESIMILARARRAY[0]");
 				if (genreSimilar != null) {

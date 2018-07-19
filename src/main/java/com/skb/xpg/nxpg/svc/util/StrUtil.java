@@ -1,5 +1,7 @@
 package com.skb.xpg.nxpg.svc.util;
 
+import static com.jayway.jsonpath.matchers.JsonPathMatchers.hasJsonPath;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -62,5 +64,27 @@ public class StrUtil {
 		
 		return result;
 		
+	}
+	
+	public static boolean checkField(String json, String j) {
+		
+		if (json == null || json.isEmpty()) {
+			return false;
+		}
+		
+		if (!assertThatCustom(json, hasJsonPath("$.items.item[*]"))) {
+			return false;
+		}
+		
+		return true;
+			
+	}
+	
+	public static <T> Boolean assertThatCustom( T actual, org.hamcrest.Matcher<? super T> matcher) {
+		if (!matcher.matches(actual)) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 }
