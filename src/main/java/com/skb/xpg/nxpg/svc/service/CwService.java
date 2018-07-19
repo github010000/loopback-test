@@ -371,15 +371,21 @@ public class CwService {
 			//장르 추출
 			//JSON Parsing
 			
-			boolean checkField = StrUtil.checkField(rest, "$..blocks[0].items[0].fields.GENRESIMILARARRAY[0]");
+			boolean checkSection = StrUtil.checkField(rest, "$.sections[0].blocks[0].items[0].fields.GENRESIMILARARRAY[0]");
+			boolean checkBlock = StrUtil.checkField(rest, "$.blocks[0].items[0].fields.GENRESIMILARARRAY[0]");
 			
 			ReadContext ctx = JsonPath.parse(rest);
 			
-			if(checkField && ctx != null) {
+			if((checkSection || checkBlock) && ctx != null) {
 				//title Search
-				List<String> genreSimilar = ctx.read("$..blocks[0].items[0].fields.GENRESIMILARARRAY[0]");
+				String genreSimilar = "";
+				if (checkSection) {
+					genreSimilar = ctx.read("$.sections[0].blocks[0].items[0].fields.GENRESIMILARARRAY[0]");
+				} else {
+					genreSimilar = ctx.read("$.blocks[0].items[0].fields.GENRESIMILARARRAY[0]");
+				}
 				if (genreSimilar != null) {
-					String title = genreSimilar.get(0);
+					String title = genreSimilar;
 					
 					title=title.substring(1, title.length()-1);
 					List<String> firstGenreTitleList = Arrays.asList(title.split("#"));
