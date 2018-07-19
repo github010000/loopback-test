@@ -171,7 +171,7 @@ public class GridService {
 		if (grid.containsKey("icon_exps_to_dt")) icon_exps_to_dy = grid.get("icon_exps_to_dt") + "";
 		if (grid.containsKey("rslu_typ_cd")) rslu_typ_cd = grid.get("rslu_typ_cd") + "";
 		
-		if ("01".equals(grid.get("synon_typ_cd"))) {
+		if ("02".equals(grid.get("synon_typ_cd"))) {
 			
 			if ("024".equals(meta_typ_cd) && sris_dist_fir_svc_dt != null && !sris_dist_fir_svc_dt.isEmpty() && DateUtil.getAddDate(sris_dist_fir_svc_dt, 7).compareTo(DateUtil.getYYYYMMDDhhmmss2()) >= 0) {
 				result = "sale";
@@ -202,7 +202,7 @@ public class GridService {
 					result = "uhd";
 				}
 			}
-		} else if ("02".equals(grid.get("synon_typ_cd"))) {
+		} else if ("01".equals(grid.get("synon_typ_cd"))) {
 			if ("024".equals(meta_typ_cd) && !epsd_dist_fir_svc_dt.isEmpty() && DateUtil.getAddDate(epsd_dist_fir_svc_dt, 7).compareTo(DateUtil.getYYYYMMDDhhmmss2()) >= 0) {
 				result = "sale";
 			} else if ("024".equals(meta_typ_cd) && "0".equals(sale_prc)) {

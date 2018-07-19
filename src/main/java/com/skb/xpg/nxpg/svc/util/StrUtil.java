@@ -66,13 +66,13 @@ public class StrUtil {
 		
 	}
 	
-	public static boolean checkField(String json, String j) {
+	public static boolean checkField(String json, String jsonPath) {
 		
 		if (json == null || json.isEmpty()) {
 			return false;
 		}
 		
-		if (!assertThatCustom(json, hasJsonPath("$.items.item[*]"))) {
+		if (!assertThatCustom(json, hasJsonPath(jsonPath))) {
 			return false;
 		}
 		
