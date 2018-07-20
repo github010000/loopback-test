@@ -915,7 +915,7 @@ public class CwService {
 					gridData.put("adlt_lvl_cd", epsd.get("adlt_lvl_cd"));
 					gridData.put("title", sris.get("title"));				
 					gridData.put("trackId", trackId);	
-					gridData.put("synon_typ_cd", "01");
+					gridData.put("synon_typ_cd", (sris.get("sris_typ_cd").equals("01") ? "02" : "01"));
 					gridData.put("meta_typ_cd", sris.get("meta_typ_cd"));
 					gridData.put("rslu_typ_cd", epsd.get("rslu_typ_cd"));
 					gridData.put("kids_yn", sris.get("kids_yn"));
