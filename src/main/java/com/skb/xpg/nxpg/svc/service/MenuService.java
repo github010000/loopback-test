@@ -345,45 +345,56 @@ public class MenuService {
 				List<Object> monthList = CastUtil.StringToJsonList(redisClient.hget(NXPGCommon.BLOCK_MONTH, param.get("menu_stb_svc_id"), param));
 				List<Map<String, Object>> user_month = new ArrayList<Map<String, Object>>();
 				if (tempArr != null && monthList != null) {
-					for (Object month : monthList) {
-						Map<String, Object> tempMonth = CastUtil.getObjectToMap(month);
-						if (tempMonth.get("prd_prc_id") != null) {
-							String prd_prc_id = CastUtil.getObjectToString(tempMonth.get("prd_prc_id"));
-							if(param.get("prd_prc_id_lst").contains(prd_prc_id)) {
-								exceptionPid.put(prd_prc_id, true);
-							}
-							
-							String tm = tempMonth.get("prd_prc_id") + "";
-							if (param.get("prd_prc_id_lst").contains(tm)) {
-								List<Map<String, Object>> lowrank = CastUtil.getObjectToMapList(tempMonth.get("low_rank_products"));
-								
-								//low_rank_products_type == 02 경우 상위상품을 노출
-								//low_rank_products_type : 01 - 하위상품의 총 합이 곧 상위상품이므로 하위를 노출
-								//low_rank_products_type : 02 - 부모자식관계이므로  상위상품을 노출
-								if (lowrank != null && lowrank.size() > 0) {
-									
-									if (tempMonth.containsKey("low_rank_products_type") && "02".equals(tempMonth.get("low_rank_products_type"))) {
-										
-										Map<String, Object> tempMonthNoLowRank = tempMonth;
-										tempMonthNoLowRank.put("low_rank_products", "");
-										user_month.add(tempMonthNoLowRank);
 
-									}
+					for (String userInputMonth : tempArr) {
+					
+						for (Object month : monthList) {
+							
+							Map<String, Object> tempMonth = CastUtil.getObjectToMap(month);
+							
+							if (tempMonth.get("prd_prc_id") != null) {
+								
+								String prd_prc_id = CastUtil.getObjectToString(tempMonth.get("prd_prc_id"));
+								if(userInputMonth.equals(prd_prc_id)) {
+									exceptionPid.put(prd_prc_id, true);
 									
-									for (Map<String, Object> low : lowrank) {
-										if (!tempMonth.containsKey("low_rank_products_type")
-												|| (tempMonth.containsKey("low_rank_products_type") && "01".equals(tempMonth.get("low_rank_products_type")))) {
-											user_month.add(low);
+									List<Map<String, Object>> lowrank = CastUtil.getObjectToMapList(tempMonth.get("low_rank_products"));
+									
+									//low_rank_products_type == 02 경우 상위상품을 노출
+									//low_rank_products_type : 01 - 하위상품의 총 합이 곧 상위상품이므로 하위를 노출
+									//low_rank_products_type : 02 - 부모자식관계이므로  상위상품을 노출
+									if (lowrank != null && lowrank.size() > 0) {
+										
+										if (tempMonth.containsKey("low_rank_products_type") && "02".equals(tempMonth.get("low_rank_products_type"))) {
+											
+											Map<String, Object> tempMonthNoLowRank = tempMonth;
+											tempMonthNoLowRank.put("low_rank_products", "");
+											user_month.add(tempMonthNoLowRank);
+	
 										}
-										String low_prd_prc_id=CastUtil.getObjectToString(low.get("prd_prc_id"));
-										exceptionPid.put(low_prd_prc_id, true);
+										
+										for (Map<String, Object> low : lowrank) {
+											if (!tempMonth.containsKey("low_rank_products_type")
+													|| (tempMonth.containsKey("low_rank_products_type") && "01".equals(tempMonth.get("low_rank_products_type")))) {
+												user_month.add(low);
+											}
+											String low_prd_prc_id=CastUtil.getObjectToString(low.get("prd_prc_id"));
+											exceptionPid.put(low_prd_prc_id, true);
+										}
+										
+									} else {
+										user_month.add(tempMonth);
 									}
-									
+			//							blockblock.put("block_count", blockblock.get("total_count"));
+			//							blockblock.remove("total_count");
 								} else {
-									user_month.add(tempMonth);
+									continue;
 								}
-		//							blockblock.put("block_count", blockblock.get("total_count"));
-		//							blockblock.remove("total_count");
+								
+//								String tm = tempMonth.get("prd_prc_id") + "";
+//								if (userInputMonth.equals(prd_prc_id)) {
+//									
+//								}
 							}
 						}
 					}

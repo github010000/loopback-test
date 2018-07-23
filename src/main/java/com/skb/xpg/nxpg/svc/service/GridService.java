@@ -216,7 +216,7 @@ public class GridService {
 					result = "sale";
 				} else if ("이벤트".equals(badge_typ_nm) && DateUtil.doCompareSingle(icon_exps_fr_dy, icon_exps_to_dy, "yyyyMMddHHmmss")) {
 					result = "event";
-				} else if (!epsd_dist_fir_svc_dt.isEmpty() && DateUtil.getAddDate(epsd_dist_fir_svc_dt, 3).compareTo(DateUtil.getYYYYMMDDhhmmss2()) >= 0) {
+				} else if (!epsd_dist_fir_svc_dt.isEmpty() && DateUtil.getAddDate(sris_dist_fir_svc_dt, 3).compareTo(DateUtil.getYYYYMMDDhhmmss2()) >= 0) {
 					result = "new";
 				} else if ("0".equals(sale_prc)) {
 					result = "free";
