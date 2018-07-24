@@ -333,11 +333,15 @@ public class MenuService {
 				Map<String, Boolean> exceptionPid = new HashMap<String, Boolean>();
 				
 				String[] tempArr = null;
+				List<String> lstUserInputMonth = new ArrayList<String>();
 				if (param.containsKey("prd_prc_id_lst") && param.get("prd_prc_id_lst") != null && !param.get("prd_prc_id_lst").isEmpty()) {
 					tempArr = param.get("prd_prc_id_lst").split(",");
 				}
 				if (tempArr != null) {
 					for(String pid: tempArr) {
+						if (!lstUserInputMonth.contains(pid)) {
+							lstUserInputMonth.add(pid);
+						}
 						exceptionPid.put(pid,true);
 					}
 				}
@@ -346,7 +350,7 @@ public class MenuService {
 				List<Map<String, Object>> user_month = new ArrayList<Map<String, Object>>();
 				if (tempArr != null && monthList != null) {
 
-					for (String userInputMonth : tempArr) {
+					for (String userInputMonth : lstUserInputMonth) {
 					
 						for (Object month : monthList) {
 							
@@ -369,27 +373,27 @@ public class MenuService {
 											
 											Map<String, Object> tempMonthNoLowRank = tempMonth;
 											tempMonthNoLowRank.put("low_rank_products", "");
-											if (!user_month.contains(tempMonthNoLowRank)) {
-												user_month.add(tempMonthNoLowRank);
-											}
+//											if (!user_month.contains(tempMonthNoLowRank)) {
+											user_month.add(tempMonthNoLowRank);
+//											}
 	
 										}
 										
 										for (Map<String, Object> low : lowrank) {
 											if (!tempMonth.containsKey("low_rank_products_type")
 													|| (tempMonth.containsKey("low_rank_products_type") && "01".equals(tempMonth.get("low_rank_products_type")))) {
-												if (!user_month.contains(low)) {
-													user_month.add(low);
-												}
+//												if (!user_month.contains(low)) {
+												user_month.add(low);
+//												}
 											}
-											String low_prd_prc_id=CastUtil.getObjectToString(low.get("prd_prc_id"));
+											String low_prd_prc_id = CastUtil.getObjectToString(low.get("prd_prc_id"));
 											exceptionPid.put(low_prd_prc_id, true);
 										}
 										
 									} else {
-										if (!user_month.contains(tempMonth)) {
-											user_month.add(tempMonth);
-										}
+//										if (!user_month.contains(tempMonth)) {
+										user_month.add(tempMonth);
+//										}
 									}
 									break;
 			//							blockblock.put("block_count", blockblock.get("total_count"));
