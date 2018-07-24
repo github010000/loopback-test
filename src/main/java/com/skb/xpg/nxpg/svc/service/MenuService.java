@@ -3,7 +3,6 @@ package com.skb.xpg.nxpg.svc.service;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -338,8 +337,6 @@ public class MenuService {
 					tempArr = param.get("prd_prc_id_lst").split(",");
 				}
 				if (tempArr != null) {
-					tempArr = new HashSet<String>(Arrays.asList(tempArr)).toArray(new String[0]);
-					
 					for(String pid: tempArr) {
 						exceptionPid.put(pid,true);
 					}
@@ -372,24 +369,27 @@ public class MenuService {
 											
 											Map<String, Object> tempMonthNoLowRank = tempMonth;
 											tempMonthNoLowRank.put("low_rank_products", "");
-											user_month.add(tempMonthNoLowRank);
-											
+											if (!user_month.contains(tempMonthNoLowRank)) {
+												user_month.add(tempMonthNoLowRank);
+											}
 	
 										}
 										
 										for (Map<String, Object> low : lowrank) {
 											if (!tempMonth.containsKey("low_rank_products_type")
 													|| (tempMonth.containsKey("low_rank_products_type") && "01".equals(tempMonth.get("low_rank_products_type")))) {
-												
-												user_month.add(low);
+												if (!user_month.contains(low)) {
+													user_month.add(low);
+												}
 											}
 											String low_prd_prc_id=CastUtil.getObjectToString(low.get("prd_prc_id"));
 											exceptionPid.put(low_prd_prc_id, true);
 										}
 										
 									} else {
-										user_month.add(tempMonth);
-										
+										if (!user_month.contains(tempMonth)) {
+											user_month.add(tempMonth);
+										}
 									}
 									break;
 			//							blockblock.put("block_count", blockblock.get("total_count"));
