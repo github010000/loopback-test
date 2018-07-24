@@ -3,11 +3,9 @@ package com.skb.xpg.nxpg.svc.service;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -345,7 +343,7 @@ public class MenuService {
 				}
 			
 				List<Object> monthList = CastUtil.StringToJsonList(redisClient.hget(NXPGCommon.BLOCK_MONTH, param.get("menu_stb_svc_id"), param));
-				Set<Map<String, Object>> user_month = new HashSet<Map<String, Object>>();
+				List<Map<String, Object>> user_month = new ArrayList<Map<String, Object>>();
 				if (tempArr != null && monthList != null) {
 
 					for (String userInputMonth : tempArr) {
@@ -371,32 +369,35 @@ public class MenuService {
 											
 											Map<String, Object> tempMonthNoLowRank = tempMonth;
 											tempMonthNoLowRank.put("low_rank_products", "");
-											user_month.add(tempMonthNoLowRank);
+											if (!user_month.contains(tempMonthNoLowRank)) {
+												user_month.add(tempMonthNoLowRank);
+											}
 	
 										}
 										
 										for (Map<String, Object> low : lowrank) {
 											if (!tempMonth.containsKey("low_rank_products_type")
 													|| (tempMonth.containsKey("low_rank_products_type") && "01".equals(tempMonth.get("low_rank_products_type")))) {
-												user_month.add(low);
+												if (!user_month.contains(low)) {
+													user_month.add(low);
+												}
 											}
 											String low_prd_prc_id=CastUtil.getObjectToString(low.get("prd_prc_id"));
 											exceptionPid.put(low_prd_prc_id, true);
 										}
 										
 									} else {
-										user_month.add(tempMonth);
+										if (!user_month.contains(tempMonth)) {
+											user_month.add(tempMonth);
+										}
 									}
+									break;
 			//							blockblock.put("block_count", blockblock.get("total_count"));
 			//							blockblock.remove("total_count");
 								} else {
 									continue;
 								}
 								
-//								String tm = tempMonth.get("prd_prc_id") + "";
-//								if (userInputMonth.equals(prd_prc_id)) {
-//									
-//								}
 							}
 						}
 					}
