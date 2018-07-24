@@ -7,6 +7,13 @@ import java.io.UnsupportedEncodingException;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.FutureTask;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -18,10 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
-import org.springframework.http.client.support.BasicAuthorizationInterceptor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClientException;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.skb.xpg.nxpg.svc.util.LogUtil;
@@ -43,98 +47,125 @@ public class RestClient {
 	@Value("${user.cw.connreqtimeout}")
 	private int connreqtimeout;
 	
-	private RestTemplate restTemplate;
-	
 	public String cwUrl = "";
 	public boolean sendBff = true;
 
 	public Map<String, Object> apacheGet(String url, Map<String, String> reqparam) {
-		HttpClient client = HttpClientBuilder.create().build();
-		HttpGet request = new HttpGet(url);
 
-		RequestConfig requestConfig = RequestConfig.custom()
-		          .setSocketTimeout(socktimeout)
-		          .setConnectTimeout(conntimeout)
-		          .setConnectionRequestTimeout(connreqtimeout)
-		          .build();
+		Map<String, Object> resultMap = new HashMap<String, Object>();
 
-		request.setConfig(requestConfig);
-		
-		
-		String encoding;
-		try {
-			encoding = Base64.getEncoder().encodeToString(("admin:admin").getBytes("UTF-8"));
-			request.addHeader("Authorization", "Basic " + encoding);
-		} catch (UnsupportedEncodingException e2) {
-			// TODO Auto-generated catch block
-			LogUtil.error(reqparam.get("IF"), "", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "NULL", e2.getStackTrace()[0].toString());
-		}
-
-		LogUtil.tlog(reqparam.get("IF"), "SEND.REQ", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW", reqparam);
-		
-
-		HttpResponse response = null;
-		BufferedReader rd = null;
-		StringBuffer result = new StringBuffer();
-		
 		long before = 0;
 		long end = 0;
-		try {
-			before = System.nanoTime();
-			if(client == null) return null;
-			response = client.execute(request);
-			end = System.nanoTime();
-//			System.out.println("Response Code : "  + response.getStatusLine().getStatusCode());
-			if (response==null) return null;
-			rd = new BufferedReader(
-					new InputStreamReader(response.getEntity().getContent()));
-			
-			String line = "";
-			//LogUtil.info(reqparam.get("IF"), "", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW", "status : " + response.getStatusLine().getStatusCode() + ", milisecond : " + ((end - before) / 1000000));
-			
-			while ((line = rd.readLine()) != null) {
-				result.append(line);
-			}
-		} catch (ClientProtocolException e1) {
-			LogUtil.error(reqparam.get("IF"), "RECV.RES", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW", e1.getStackTrace()[0].toString());
-		} catch (IOException e1) {
-			LogUtil.error(reqparam.get("IF"), "RECV.RES", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW", e1.getStackTrace()[0].toString());
-		} catch (UnsupportedOperationException e) {
-			LogUtil.error(reqparam.get("IF"), "RECV.RES", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW", e.getStackTrace()[0].toString());
-		} finally {
-			try {
-				if(rd!=null) rd.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				LogUtil.error(reqparam.get("IF"), "RECV.RES", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW", e.getStackTrace()[0].toString());
-			}
-		}
-		Map<String, Object> resultMap = new HashMap<String, Object>();
+		before = System.nanoTime();
 		
-		String statusCode = "";
-		resultMap.put("result", result.toString());
-		if (response != null) {
-			statusCode = response.getStatusLine().getStatusCode() + "";
-			resultMap.put("status", statusCode);
-		}
+		ExecutorService threadPool = Executors.newCachedThreadPool();
+		FutureTask<String> task = new FutureTask<String>(new Callable<String>() {
+			public String call() throws Exception {
+				
+				HttpClient client = HttpClientBuilder.create().build();
+				HttpGet request = new HttpGet(url);
+
+				RequestConfig requestConfig = RequestConfig.custom()
+				          .setSocketTimeout(socktimeout)
+				          .setConnectTimeout(conntimeout)
+				          .setConnectionRequestTimeout(connreqtimeout)
+				          .build();
+
+				request.setConfig(requestConfig);
+				
+				
+				String encoding;
+				try {
+					encoding = Base64.getEncoder().encodeToString(("admin:admin").getBytes("UTF-8"));
+					request.addHeader("Authorization", "Basic " + encoding);
+				} catch (UnsupportedEncodingException e2) {
+					// TODO Auto-generated catch block
+					LogUtil.error(reqparam.get("IF"), "", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "NULL", e2.getStackTrace()[0].toString());
+				}
+
+				LogUtil.tlog(reqparam.get("IF"), "SEND.REQ", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW", reqparam);
+				
+
+				HttpResponse response = null;
+				BufferedReader rd = null;
+				StringBuffer result = new StringBuffer();
+				
+				try {
+					if(client == null) return null;
+					response = client.execute(request);
+//					System.out.println("Response Code : "  + response.getStatusLine().getStatusCode());
+					if (response==null) return null;
+					rd = new BufferedReader(
+							new InputStreamReader(response.getEntity().getContent()));
+					
+					String line = "";
+					//LogUtil.info(reqparam.get("IF"), "", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW", "status : " + response.getStatusLine().getStatusCode() + ", milisecond : " + ((end - before) / 1000000));
+					
+					while ((line = rd.readLine()) != null) {
+						result.append(line);
+					}
+				} catch (ClientProtocolException e1) {
+					LogUtil.error(reqparam.get("IF"), "RECV.RES", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW", e1.getStackTrace()[0].toString());
+				} catch (IOException e1) {
+					LogUtil.error(reqparam.get("IF"), "RECV.RES", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW", e1.getStackTrace()[0].toString());
+				} catch (UnsupportedOperationException e) {
+					LogUtil.error(reqparam.get("IF"), "RECV.RES", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW", e.getStackTrace()[0].toString());
+				} finally {
+					try {
+						if(rd!=null) rd.close();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						LogUtil.error(reqparam.get("IF"), "RECV.RES", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW", e.getStackTrace()[0].toString());
+					}
+				}
+
+				String statusCode = "";
+				if (response != null) {
+					statusCode = response.getStatusLine().getStatusCode() + "";
+					resultMap.put("status", statusCode);
+				}
+				
+//				String restregex="\"status\"[\\s]*:[\\s]*(\\{.*?\\})";
+//				String codeValue = StrUtil.getRegexString(restregex, result.toString());
+
+				reqparam.put("status", statusCode);
+				
+				return result.toString();
+				
+			}
+		});
+
+		end = System.nanoTime();
 		resultMap.put("cw_time_start", before);
 		resultMap.put("cw_time_end", end);
 		resultMap.put("url", url);
 		
-//		String restregex="\"status\"[\\s]*:[\\s]*(\\{.*?\\})";
-//		String codeValue = StrUtil.getRegexString(restregex, result.toString());
-
-		reqparam.put("status", statusCode);
-		LogUtil.tlog(reqparam.get("IF"), "RECV.RES", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW", resultMap);
+		threadPool.execute(task);
+		String result = "";
+		try {
+			try {
+				result = task.get(conntimeout, TimeUnit.MILLISECONDS);
+				resultMap.put("result", result);
+				LogUtil.tlog(reqparam.get("IF"), "RECV.RES", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW", resultMap);
+				
+			} catch (TimeoutException e) {
+				LogUtil.error(reqparam.get("IF"), "RECV.RES", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW", e.getStackTrace()[0].toString());
+			}
+		} catch (InterruptedException e) {
+			LogUtil.error(reqparam.get("IF"), "RECV.RES", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW", e.getStackTrace()[0].toString());
+		} catch (ExecutionException e) {
+			LogUtil.error(reqparam.get("IF"), "RECV.RES", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW", e.getStackTrace()[0].toString());
+		}
 		
 		
 		return resultMap;
+		
 	}
 	
-	public String getRestUri(String uri) {
-		restTemplate = new RestTemplate();
-		return restTemplate.getForObject(uri, String.class);
-	}
+//	public String getRestUri(String uri) {
+//		restTemplate = new RestTemplate();
+//		return restTemplate.getForObject(uri, String.class);
+//	}
 	
 //	public String getRestUri(String uri, String user, String password, String param, Map<String, String> expand) {
 //		restTemplate = new RestTemplate();
@@ -171,10 +202,8 @@ public class RestClient {
 //
 //	}
 	public Map<String, Object> getRestUri(String uri, String user, String password, String param, Map<String, String> reqparam) {
-		restTemplate = new RestTemplate();
-		restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(user, password));
 		
-		String json = "";
+		
 		Map<String, Object> resultMap = null;
 		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(cwUrl + uri);
 
@@ -188,18 +217,14 @@ public class RestClient {
 				}
 			}
 			
-			try {
 //				System.out.println(builder.build().encode().toUri());
 //				if (activeProfile.contains("dev") || activeProfile.contains("stg") || activeProfile.contains("local")) {
 //					LogUtil.info(reqparam.get("IF"), "SEND.REQ", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW", builder.build().encode().toUri().toString());
 //				}
 
-				resultMap = apacheGet(builder.build().encode().toUri().toString(), reqparam);
+			resultMap = apacheGet(builder.build().encode().toUri().toString(), reqparam);
 				
 
-			} catch (RestClientException e) {
-				LogUtil.error(reqparam.get("IF"), "", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW", e.getStackTrace()[0].toString());
-			}
 		}
 		
 		return resultMap;

@@ -3,9 +3,11 @@ package com.skb.xpg.nxpg.svc.service;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -343,7 +345,7 @@ public class MenuService {
 				}
 			
 				List<Object> monthList = CastUtil.StringToJsonList(redisClient.hget(NXPGCommon.BLOCK_MONTH, param.get("menu_stb_svc_id"), param));
-				List<Map<String, Object>> user_month = new ArrayList<Map<String, Object>>();
+				Set<Map<String, Object>> user_month = new HashSet<Map<String, Object>>();
 				if (tempArr != null && monthList != null) {
 
 					for (String userInputMonth : tempArr) {
