@@ -18,7 +18,7 @@ user:
   defaults:
     menu_stb_svc_id: UI50_BSUHD2
   cw:
-    baseurl: http://skb-devph2-cwall.contentwise.tv
+    baseurl: http://xpg-nxpg-dev.skb-suy-dev01.mybluemix.net/cw
     fullsection: 
       uri: /parallelApi/v6/CW/ux/{cw_call_id}/page
       param: sessionId,trackId,{param},itemType
@@ -100,8 +100,8 @@ user:
       cacbro_yn:
     scnmthdcd: "502"
     socktimeout: 2000
-    conntimeout: 300
-    connreqtimeout: 300
+    conntimeout: 1000
+    connreqtimeout: 500
   logging:
     name: xpg-nxpg-svc
     instance_index: 0

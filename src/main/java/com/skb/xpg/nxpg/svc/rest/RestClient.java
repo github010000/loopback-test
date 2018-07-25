@@ -53,10 +53,6 @@ public class RestClient {
 	public Map<String, Object> apacheGet(String url, Map<String, String> reqparam) {
 
 		Map<String, Object> resultMap = new HashMap<String, Object>();
-
-		long before = 0;
-		long end = 0;
-		before = System.nanoTime();
 		
 		ExecutorService threadPool = Executors.newCachedThreadPool();
 		FutureTask<String> task = new FutureTask<String>(new Callable<String>() {
@@ -135,10 +131,6 @@ public class RestClient {
 			}
 		});
 
-		end = System.nanoTime();
-		resultMap.put("cw_time_start", before);
-		resultMap.put("cw_time_end", end);
-		resultMap.put("url", url);
 		
 		threadPool.execute(task);
 		String result = "";

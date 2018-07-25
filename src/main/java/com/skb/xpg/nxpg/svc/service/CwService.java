@@ -357,7 +357,13 @@ public class CwService {
 		
 		Map<String, Object> restResult = null;
 		String rest = null;
+		long before = System.nanoTime();
 		restResult = restClient.getRestUri(cwBaseUrl + path, cwUser, cwPassword, cwparam, param);
+		
+		restResult.put("cw_time_start", before);
+		restResult.put("cw_time_end", System.nanoTime());
+		restResult.put("url", cwBaseUrl + path);
+		
 		if (restResult != null && restResult.containsKey("result")) {
 			rest = restResult.get("result") + "";
 		}
