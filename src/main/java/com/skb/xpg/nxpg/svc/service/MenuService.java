@@ -373,27 +373,27 @@ public class MenuService {
 											
 											Map<String, Object> tempMonthNoLowRank = tempMonth;
 											tempMonthNoLowRank.put("low_rank_products", "");
-//											if (!user_month.contains(tempMonthNoLowRank)) {
-											user_month.add(tempMonthNoLowRank);
-//											}
+											if (!user_month.contains(tempMonthNoLowRank)) {
+												user_month.add(tempMonthNoLowRank);
+											}
 	
 										}
 										
 										for (Map<String, Object> low : lowrank) {
 											if (!tempMonth.containsKey("low_rank_products_type")
 													|| (tempMonth.containsKey("low_rank_products_type") && "01".equals(tempMonth.get("low_rank_products_type")))) {
-//												if (!user_month.contains(low)) {
-												user_month.add(low);
-//												}
+												if (!user_month.contains(low)) {
+													user_month.add(low);
+												}
 											}
 											String low_prd_prc_id = CastUtil.getObjectToString(low.get("prd_prc_id"));
 											exceptionPid.put(low_prd_prc_id, true);
 										}
 										
 									} else {
-//										if (!user_month.contains(tempMonth)) {
-										user_month.add(tempMonth);
-//										}
+										if (!user_month.contains(tempMonth)) {
+											user_month.add(tempMonth);
+										}
 									}
 									break;
 			//							blockblock.put("block_count", blockblock.get("total_count"));
