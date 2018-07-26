@@ -33,7 +33,7 @@
 		.grid div {
 			display: inline-block;
 			width: 100px;
-			height: 120px;
+			height: 140px;
 			border: 1px solid #777;
 			float: left;
 			margin: 5px 5px 0 0;
@@ -177,15 +177,23 @@
 				url : "/v5/grid/grid?menu_stb_svc_id=" +  $.urlParam('poc') + "&IF=IF-NXPG-006&stb_id=2345&page_no=1&page_cnt=20&menu_id=" + id,
 				success : function(args) {
 					//$(this).empty();
+					var html = "";
 					var color = "";
 					for (var r in args.contents) {
 						color = "";
 						synopUrl = "<a onClick='goSynop(\"" + args.contents[r].epsd_id + "\")' href='#'>시놉시스 API</a><br/>";
 						
+						html = "<div id='" + args.contents[r].epsd_id + "'" + color + ">"
+								+ "<b>" + args.contents[r].title + "</b><br/>";
+
+						html += "<span>" + args.contents[r].sris_id + "</span><br/>";
+								
 						if (args.contents[r].synon_typ_cd == "01") {
 							color = " class='movie'";
+							html += "<span>" + args.contents[r].epsd_id + "</span><br/>";
 						} else if (args.contents[r].synon_typ_cd == "02") {
 							color = " class='sris'";
+							html += "<span>" + args.contents[r].epsd_id + "</span><br/>";
 						} else if (args.contents[r].synon_typ_cd == "03") {
 							color = " class='gateway'";
 							synopUrl = "<a onClick='goGateway(\"" + args.contents[r].sris_id + "\")' href='#'>GW시놉시스 API</a><br/>";
@@ -194,13 +202,10 @@
 							synopUrl = "<a onClick='goVod(\"" + args.contents[r].epsd_id + "\")' href='#'>VOD관련상품 API</a><br/>";
 						}
 						
-						$("#" + id).append("<div id='" + args.contents[r].epsd_id + "'" + color + ">"
-								+ "<b>" + args.contents[r].title + "</b><br/>"
-								+ "<span>" + args.contents[r].epsd_id + "</span><br/>"
-								+ "<span>" + args.contents[r].sris_id + "</span><br/>"
-								+ synopUrl
-								+ "</div>");
-						//$("#" + id).append("<li><a href='#'>asdf</a></li>");
+						html += synopUrl;
+						html += "</div>";
+						
+						$("#" + id).append(html);
 					}
 					
 				}
