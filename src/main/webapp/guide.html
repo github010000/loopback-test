@@ -27,11 +27,16 @@
 		
 		.grid div {
 			display: inline-block;
-			width: 80px;
+			width: 100px;
 			height: 120px;
 			border: 1px solid #777;
 			float: left;
 			margin: 5px 5px 0 0;
+			padding: 2px;
+		}
+		
+		.grid b {
+			font-size: 1.10em;
 		}
 		
 		.red {
@@ -46,6 +51,22 @@
 			color: #848484;
 		}
 		
+		.movie {
+			background-color: #FF6666;
+		}
+		
+		.sris {
+			background-color: #FFCC66;
+		}
+		
+		.gateway {
+			background-color: #99CC66;
+		}
+		
+		.vod {
+			background-color: #99CCFF;
+		}
+		
 		#block div {
 			display: block;
 		}
@@ -57,7 +78,7 @@
 		#block div div div {
 			display: block;
 			float: left;
-			font-size: 0.5em;
+			font-size: 0.7em;
 		}
 	</style>
 </head>
@@ -151,39 +172,41 @@
 				url : "/v5/grid/grid?menu_stb_svc_id=" +  $.urlParam('poc') + "&IF=IF-NXPG-006&stb_id=2345&page_no=1&page_cnt=20&menu_id=" + id,
 				success : function(args) {
 					//$(this).empty();
-					
+					var color = "";
 					for (var r in args.contents) {
-						$("#" + id).append("<div id='" + args.contents[r].epsd_id + "'><a href='/synop.html?epsd_id="+args.contents[r].epsd_id+"&synon_typ_cd="+args.contents[r].synon_typ_cd+"'>" + args.contents[r].title + "</a><span>" + args.contents[r].epsd_id + "</span></div>");
+						color = "";
+						if (args.contents[r].synon_typ_cd == "01") {
+							color = " class='movie'";
+						} else if (args.contents[r].synon_typ_cd == "02") {
+							color = " class='sris'";
+						} else if (args.contents[r].synon_typ_cd == "03") {
+							color = " class='gateway'";
+						} else if (args.contents[r].synon_typ_cd == "04") {
+							color = " class='vod'";
+						}
+						
+						$("#" + id).append("<div id='" + args.contents[r].epsd_id + "'" + color + ">"
+								+ "<b>" + args.contents[r].title + "</b><br/>"
+								+ "<span>" + args.contents[r].epsd_id + "</span><br/>"
+								+ "<span>" + args.contents[r].sris_id + "</span><br/>"
+								+ "<a onClick='goSynop(\"" + args.contents[r].epsd_id + "\")' href='#'>시놉시스 API</a><br/>"
+								
+								+ "</div>");
 						//$("#" + id).append("<li><a href='#'>asdf</a></li>");
 					}
 					
 				}
 			});
 		});
-
-		goSynop();
+		
 	}
 	
-	function goSynop() {
+	function goSynop(epsd_id) {
 		
-		var tempArray = new Array();
-		$("#block div div div").each(function(){
-			var id = $(this).attr("id");
-			$.ajax({    
-				type : "GET",
-				url : "/v5/contents/synopsis?menu_stb_svc_id=UI50_BSUHD2&search_type=1&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&menu_id=A000002200&yn_recent=Y&IF=IF-NXPG-010&epsd_id=" + id,
-				success : function(args) {
-					//$(this).empty();
-					
-					for (var r in args.contents) {
-						$("#" + id).append("<div><a href='/synop.html?epsd_id="+args.contents[r].epsd_id+"'>" + args.contents[r].title + "</a><span>" + args.contents[r].epsd_id + "</span></div>");
-						//$("#" + id).append("<li><a href='#'>asdf</a></li>");
-					}
-					
-				}
-			});
-		});
-		
+		var url = "/v5/contents/synopsis?menu_stb_svc_id=BTVUH2V500&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&IF=IF-NXPG-010";
+		url = url + "&search_type=1&yn_recent=N&epsd_id=" + epsd_id;
+		window.open(url, "_blank");
 	}
+	
 
 </script>
