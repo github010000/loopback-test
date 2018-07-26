@@ -5,6 +5,11 @@
 	<title>NXPG Service</title>
 	<script src="jquery-3.2.1.min.js"></script>
 	<style>
+	
+		body {
+			font-family: Sans-Serif;	
+		}
+	
 		ul {
 			display: block;
 			margin: 10px 0 10px 0;
@@ -175,22 +180,25 @@
 					var color = "";
 					for (var r in args.contents) {
 						color = "";
+						synopUrl = "<a onClick='goSynop(\"" + args.contents[r].epsd_id + "\")' href='#'>시놉시스 API</a><br/>";
+						
 						if (args.contents[r].synon_typ_cd == "01") {
 							color = " class='movie'";
 						} else if (args.contents[r].synon_typ_cd == "02") {
 							color = " class='sris'";
 						} else if (args.contents[r].synon_typ_cd == "03") {
 							color = " class='gateway'";
+							synopUrl = "<a onClick='goGateway(\"" + args.contents[r].sris_id + "\")' href='#'>GW시놉시스 API</a><br/>";
 						} else if (args.contents[r].synon_typ_cd == "04") {
 							color = " class='vod'";
+							synopUrl = "<a onClick='goVod(\"" + args.contents[r].epsd_id + "\")' href='#'>VOD관련상품 API</a><br/>";
 						}
 						
 						$("#" + id).append("<div id='" + args.contents[r].epsd_id + "'" + color + ">"
 								+ "<b>" + args.contents[r].title + "</b><br/>"
 								+ "<span>" + args.contents[r].epsd_id + "</span><br/>"
 								+ "<span>" + args.contents[r].sris_id + "</span><br/>"
-								+ "<a onClick='goSynop(\"" + args.contents[r].epsd_id + "\")' href='#'>시놉시스 API</a><br/>"
-								
+								+ synopUrl
 								+ "</div>");
 						//$("#" + id).append("<li><a href='#'>asdf</a></li>");
 					}
@@ -205,6 +213,18 @@
 		
 		var url = "/v5/contents/synopsis?menu_stb_svc_id=BTVUH2V500&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&IF=IF-NXPG-010";
 		url = url + "&search_type=1&yn_recent=N&epsd_id=" + epsd_id;
+		window.open(url, "_blank");
+	}
+	
+	function goGateway(sris_id) {
+		var url = "/v5/contents/gwsynop?menu_stb_svc_id=BTVUH2V500&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&IF=IF-NXPG-014";
+		url = url + "&sris_id=" + sris_id;
+		window.open(url, "_blank");
+	}
+	
+	function goVod(sris_id) {
+		var url = "/v5/contents/commerce?menu_stb_svc_id=BTVUH2V500&IF=IF-NXPG-015"
+		url = url + "&sris_id=" + sris_id;
 		window.open(url, "_blank");
 	}
 	
