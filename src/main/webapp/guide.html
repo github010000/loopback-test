@@ -179,21 +179,19 @@
 					//$(this).empty();
 					var html = "";
 					var color = "";
+					var epsdView = "";
 					for (var r in args.contents) {
 						color = "";
+						epsdView = "";
 						synopUrl = "<a onClick='goSynop(\"" + args.contents[r].epsd_id + "\")' href='#'>시놉시스 API</a><br/>";
 						
-						html = "<div id='" + args.contents[r].epsd_id + "'" + color + ">"
-								+ "<b>" + args.contents[r].title + "</b><br/>";
-
-						html += "<span>" + args.contents[r].sris_id + "</span><br/>";
 								
 						if (args.contents[r].synon_typ_cd == "01") {
 							color = " class='movie'";
-							html += "<span>" + args.contents[r].epsd_id + "</span><br/>";
+							epsdView = "<span>" + args.contents[r].epsd_id + "</span><br/>";
 						} else if (args.contents[r].synon_typ_cd == "02") {
 							color = " class='sris'";
-							html += "<span>" + args.contents[r].epsd_id + "</span><br/>";
+							epsdView = "<span>" + args.contents[r].epsd_id + "</span><br/>";
 						} else if (args.contents[r].synon_typ_cd == "03") {
 							color = " class='gateway'";
 							synopUrl = "<a onClick='goGateway(\"" + args.contents[r].sris_id + "\")' href='#'>GW시놉시스 API</a><br/>";
@@ -202,6 +200,13 @@
 							synopUrl = "<a onClick='goVod(\"" + args.contents[r].epsd_id + "\")' href='#'>VOD관련상품 API</a><br/>";
 						}
 						
+
+						html = "<div id='" + args.contents[r].epsd_id + "'" + color + ">"
+								+ "<b>" + args.contents[r].title + "</b><br/>";
+
+						html += "<span>" + args.contents[r].sris_id + "</span><br/>";
+
+						html += epsdView;
 						html += synopUrl;
 						html += "</div>";
 						
