@@ -195,13 +195,16 @@ public class DateUtil {
 		Date date = new Date();
 		Date strTime = null;
 		Date endTime = null;
-
+		
+		String tempFromDt = String.valueOf(object.get(fromDt));
+		String temptoDt = String.valueOf(object.get(fromDt));
+		
 		try {
-			if (fromDt != null && fromDt.matches("[0-9]{14}")) {
-				strTime = dateFormat.parse(String.valueOf(object.get(fromDt)));
+			if (tempFromDt != null && tempFromDt.matches("[0-9]{14}")) {
+				strTime = dateFormat.parse(tempFromDt);
 			}
-			if (toDt != null && toDt.matches("[0-9]{14}")) {
-				endTime = dateFormat.parse(String.valueOf(object.get(toDt)));
+			if (temptoDt != null && temptoDt.matches("[0-9]{14}")) {
+				endTime = dateFormat.parse(temptoDt);
 			}
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
