@@ -167,9 +167,9 @@ public class DateUtil {
 			// menu_cd 제거
 			doCompare(newList, object, fromDt, toDt, isMenuAndGrid);
 		}
-		list = new ArrayList<Object>();
-		list.addAll(newList);
-		
+		for (Map<String, Object> del : newList) {
+			list.remove(del);
+		}
 	}
 	
 	public static void getCompare(List<Map<String, Object>> list, String fromDt, String toDt, boolean isMenuAndGrid) {
@@ -185,8 +185,8 @@ public class DateUtil {
 		//list = new ArrayList<Map<String, Object>>();
 		//list.addAll(newList);
 		for (Map<String, Object> del : newList) {
-          list.remove(del);
-        }
+			list.remove(del);
+		}
 	}
 
 	public static void doCompare(List<Map<String, Object>> newList, Map<String, Object> object, String fromDt, String toDt, boolean isMenuAndGrid) {
@@ -197,7 +197,9 @@ public class DateUtil {
 		Date endTime = null;
 		
 		String tempFromDt = String.valueOf(object.get(fromDt));
-		String temptoDt = String.valueOf(object.get(fromDt));
+		String temptoDt = String.valueOf(object.get(toDt));
+		tempFromDt = "20090101000000";
+		temptoDt = "99991231000000";
 		
 		try {
 			if (tempFromDt != null && tempFromDt.matches("[0-9]{14}")) {
