@@ -212,11 +212,11 @@ public class DateUtil {
 			LogUtil.error("", "", "", "", "", e.getStackTrace()[0].toString());
 		}
 
-		if (strTime == null || strTime.before(date)) {
-			if (endTime == null || endTime.after(date)) {
-				newList.add(object);
-			}
-		}
+		if ((strTime == null || strTime.before(date)) && (endTime == null || endTime.after(date))) {
+			
+		} else {
+        	newList.add(object);
+        }
 
 		if (object.containsKey("menus")) {
 			List<Map<String, Object>> deleteListInner = new ArrayList<Map<String, Object>>();
