@@ -211,7 +211,7 @@ public class DateUtil {
 		}
 
 		if (strTime == null || strTime.before(date)) {
-			if (endTime == null || date.after(endTime)) {
+			if (endTime == null || endTime.after(date)) {
 				newList.add(object);
 			}
 		}
