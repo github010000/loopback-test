@@ -157,9 +157,9 @@ public class DateUtil {
 	
 	public static void getCompareObject(List<Object> list, String fromDt, String toDt, boolean isMenuAndGrid) {
 
-		if (isMenuAndGrid && !expiryDate) {
-			return;
-		}
+		//if (isMenuAndGrid && !expiryDate) {
+			//return;
+		//}
 		
 		List<Map<String, Object>> newList = new ArrayList<Map<String, Object>>();
 		for (Object obj : list) {
@@ -174,9 +174,9 @@ public class DateUtil {
 	
 	public static void getCompare(List<Map<String, Object>> list, String fromDt, String toDt, boolean isMenuAndGrid) {
 		
-		if (isMenuAndGrid && !expiryDate) {
-			return;
-		}
+		//if (isMenuAndGrid && !expiryDate) {
+			//return;
+		//}
 
 		List<Map<String, Object>> newList = new ArrayList<Map<String, Object>>();
 		for (Map<String, Object> object : list) {
