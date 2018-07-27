@@ -195,10 +195,6 @@ public class DateUtil {
 		Date date = new Date();
 		Date strTime = null;
 		Date endTime = null;
-		
-//		if (isMenu && object.containsKey("menu_cd")) {
-//			object.remove("menu_cd");
-//		}
 
 		try {
 			if (fromDt != null && fromDt.matches("[0-9]{14}")) {
