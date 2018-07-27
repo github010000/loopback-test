@@ -137,7 +137,7 @@ public class KidsService {
 				Map<String, Object> purchares = contentsService.getContentsPurchares(synop.get("sris_id").toString(), param);
 				if (purchares != null && purchares.get("products") != null) {
 					List<Map<String, Object>> products = CastUtil.getObjectToMapList(purchares.get("products"));
-					DateUtil.getCompare(products, "prd_prc_fr_dt", "purc_wat_to_dt", false);
+					DateUtil.getCompare(products, "prd_prc_fr_dt", "purc_wat_to_dt", true);
 					rtn.put("purchares", purchares.get("products"));
 				}
 				synop.put("menu_id", CastUtil.getString(param.get("cur_menu")));
