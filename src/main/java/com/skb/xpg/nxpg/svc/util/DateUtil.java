@@ -198,8 +198,6 @@ public class DateUtil {
 		
 		String tempFromDt = String.valueOf(object.get(fromDt));
 		String temptoDt = String.valueOf(object.get(toDt));
-		tempFromDt = "20090101000000";
-		temptoDt = "99991231000000";
 		
 		try {
 			if (tempFromDt != null && tempFromDt.matches("[0-9]{14}")) {
