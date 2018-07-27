@@ -182,9 +182,11 @@ public class DateUtil {
 		for (Map<String, Object> object : list) {
 			doCompare(newList, object, fromDt, toDt, isMenuAndGrid);
 		}
-		list = new ArrayList<Map<String, Object>>();
-		list.addAll(newList);
-		
+		//list = new ArrayList<Map<String, Object>>();
+		//list.addAll(newList);
+		for (Map<String, Object> del : newList) {
+          list.remove(del);
+        }
 	}
 
 	public static void doCompare(List<Map<String, Object>> newList, Map<String, Object> object, String fromDt, String toDt, boolean isMenuAndGrid) {
