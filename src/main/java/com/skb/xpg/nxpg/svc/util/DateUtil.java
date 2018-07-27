@@ -210,7 +210,7 @@ public class DateUtil {
 			LogUtil.error("", "", "", "", "", e.getStackTrace()[0].toString());
 		}
 
-		if (strTime == null || date.before(strTime)) {
+		if (strTime == null || strTime.before(date)) {
 			if (endTime == null || date.after(endTime)) {
 				newList.add(object);
 			}
