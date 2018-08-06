@@ -157,9 +157,9 @@ public class DateUtil {
 	
 	public static void getCompareObject(List<Object> list, String fromDt, String toDt, boolean isMenuAndGrid) {
 
-		if (isMenuAndGrid && !expiryDate) {
-			return;
-		}
+		//if (isMenuAndGrid && !expiryDate) {
+			//return;
+		//}
 		
 		List<Map<String, Object>> newList = new ArrayList<Map<String, Object>>();
 		for (Object obj : list) {
@@ -167,24 +167,26 @@ public class DateUtil {
 			// menu_cd 제거
 			doCompare(newList, object, fromDt, toDt, isMenuAndGrid);
 		}
-		list = new ArrayList<Object>();
-		list.addAll(newList);
-		
+		for (Map<String, Object> del : newList) {
+			list.remove(del);
+		}
 	}
 	
 	public static void getCompare(List<Map<String, Object>> list, String fromDt, String toDt, boolean isMenuAndGrid) {
 		
-		if (isMenuAndGrid && !expiryDate) {
-			return;
-		}
+		//if (isMenuAndGrid && !expiryDate) {
+			//return;
+		//}
 
 		List<Map<String, Object>> newList = new ArrayList<Map<String, Object>>();
 		for (Map<String, Object> object : list) {
 			doCompare(newList, object, fromDt, toDt, isMenuAndGrid);
 		}
-		list = new ArrayList<Map<String, Object>>();
-		list.addAll(newList);
-		
+		//list = new ArrayList<Map<String, Object>>();
+		//list.addAll(newList);
+		for (Map<String, Object> del : newList) {
+			list.remove(del);
+		}
 	}
 
 	public static void doCompare(List<Map<String, Object>> newList, Map<String, Object> object, String fromDt, String toDt, boolean isMenuAndGrid) {
@@ -194,35 +196,30 @@ public class DateUtil {
 		Date strTime = null;
 		Date endTime = null;
 		
-//		if (isMenu && object.containsKey("menu_cd")) {
-//			object.remove("menu_cd");
-//		}
-
+		String tempFromDt = String.valueOf(object.get(fromDt));
+		String temptoDt = String.valueOf(object.get(toDt));
+		
 		try {
-			if (fromDt != null && fromDt.matches("[0-9]{14}")) {
-				strTime = dateFormat.parse(String.valueOf(object.get(fromDt)));
+			if (tempFromDt != null && tempFromDt.matches("[0-9]{14}")) {
+				strTime = dateFormat.parse(tempFromDt);
 			}
-			if (toDt != null && toDt.matches("[0-9]{14}")) {
-				endTime = dateFormat.parse(String.valueOf(object.get(toDt)));
+			if (temptoDt != null && temptoDt.matches("[0-9]{14}")) {
+				endTime = dateFormat.parse(temptoDt);
 			}
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			LogUtil.error("", "", "", "", "", e.getStackTrace()[0].toString());
 		}
 
-		if (strTime == null || date.before(strTime)) {
-			if (endTime == null || date.after(endTime)) {
-				newList.add(object);
-			}
-		}
+		if ((strTime == null || strTime.before(date)) && (endTime == null || endTime.after(date))) {
+			
+		} else {
+        	newList.add(object);
+        }
 
 		if (object.containsKey("menus")) {
-			List<Map<String, Object>> deleteListInner = new ArrayList<Map<String, Object>>();
-			if (deleteListInner != null && deleteListInner.size() > 0) {
-				getCompare(CastUtil.getObjectToMapList(object.get("menus")), fromDt, toDt, isMenuAndGrid);
-			}
+			getCompare(CastUtil.getObjectToMapList(object.get("menus")), fromDt, toDt, isMenuAndGrid);
 		}
 	}
 
 }
-

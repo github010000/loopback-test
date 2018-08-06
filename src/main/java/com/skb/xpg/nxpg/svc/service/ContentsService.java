@@ -143,6 +143,7 @@ public class ContentsService {
 			// products 날짜 체크
 			if (sris != null) {
 				List<Map<String, Object>> products = CastUtil.getObjectToMapList(sris.get("products"));
+				DateUtil.getCompare(products, "prd_prc_fr_dt", "purc_wat_to_dt", false);
 				if (products != null) {
 					for (int i = 0; i < products.size(); i++) {
 						Map<String, Object> product = products.get(i);

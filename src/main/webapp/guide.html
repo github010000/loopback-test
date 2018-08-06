@@ -16,9 +16,48 @@
 		}
 		
 		#gnb li {
-			display: block;
 			float: left;
-			margin: 0px 5px 0 5px;
+			width: 100px;
+			height: 70px;
+			font-weight: bold;
+			display: inline-block;
+			text-align: center;
+			vertical-align: middle;
+			text-decoration: none;
+			font-size: 0.9em;
+			margin: 0 2px 0 2px;
+			border-left: 1px solid #777;
+			border-right: 1px solid #777;
+			border-bottom: 1px solid #777;
+			border-top: 1px solid #777;
+			border-radius: 2px;
+			padding: 2px 2px;
+		}
+		
+		#gnb li a {
+			width: 100px;
+			line-height: 100%;
+			display: inline-block;
+			text-decoration: none;
+			font-size: 0.9em;
+			color: #962300;
+		}
+		
+		#gnb li b {
+			text-decoration: none;
+			font-size: 0.9em;
+			color: #BDBDBD;
+		}
+		
+		#gnb li:hover {
+		}
+		
+		#gnb li a:hover {
+			background-color: #962300;
+			color: #FEFEFE;
+		}
+		
+		#gnb li.first {
 		}
 		
 		ul li span {
@@ -35,6 +74,18 @@
 			width: 100px;
 			height: 140px;
 			border: 1px solid #777;
+			border-radius: 2px;
+			float: left;
+			margin: 5px 5px 0 0;
+			padding: 2px;
+		}
+		
+		.event div, .banner div {
+			display: inline-block;
+			width: 140px;
+			height: 100px;
+			border: 1px solid #777;
+			border-radius: 2px;
 			float: left;
 			margin: 5px 5px 0 0;
 			padding: 2px;
@@ -46,6 +97,10 @@
 		
 		.red {
 			color: #B43104;
+		}
+		
+		.red2 {
+			color: #BE2457;
 		}
 		
 		.blue {
@@ -118,53 +173,150 @@
 			url : "/v5/menu/gnb?menu_stb_svc_id=" + $.urlParam('poc') + "&IF=IF-NXPG-001&stb_id=1234",
 			success : function(args) {
 				
+				var appendHtml = "";
+				var firstLi = " class='first'";
+				var isLinkTag = "";
+				
 				$("#whatPoc").append($.urlParam('poc'));
 				
 				for (var r in args.menus) {
-					$("#gnb").append("<li><a href='#'>" + args.menus[r].menu_nm + "</a><span>" + args.menus[r].menu_id + "</span></li>");
+					if ("U5_01,U5_09,U5_11,VIEW_ALL".includes(args.menus[r].gnb_typ_cd)) {
+						isLinkTag = "b";
+					} else {
+						isLinkTag = "a";
+					}
+					appendHtml = "";
+					$("#gnb").append(
+					appendHtml = "<li " + firstLi + ">"
+							+ "<" + isLinkTag + " href='#'>"
+							+ args.menus[r].menu_nm
+							+ "</" + isLinkTag + ">"
+							+ "</br>"
+							+ "<small>"
+							+ args.menus[r].menu_id
+							+ "</small>"
+							+ "<span>"
+							+ args.menus[r].menu_id + "|" + args.menus[r].gnb_typ_cd
+							+ "</span></li>");
+					firstLi = "";
 				}
 				
 				$("#gnb li a").click(function() {
-					var menu_id = $(this).parent().find("span").text();
-					goBlock(menu_id);
+					var menu_id_gnb_typ_cd = $(this).parent().find("span").text();
+					var item = menu_id_gnb_typ_cd.split("|");
+					goBlock(item[0], item[1]);
 				});
 			}
 		});
 	});
 	
-	function goBlock(menu_id) {
-		
-		$.ajax({    
-			type : "GET",
-			url : "/v5/menu/block?menu_stb_svc_id=" +  $.urlParam('poc') + "&IF=IF-NXPG-003&stb_id=1234&menu_id=" + menu_id,
-			success : function(args) {
-				$("#block").empty();
-				var temp = "";
-				var color = "";
-				var tag = "";
-				for (var r in args.blocks) {
-					
-					if (args.blocks[r].menu_nm_exps_yn == "Y") {
-						tag = "표시";
-						color = "blue";
-					} else if (args.blocks[r].menu_nm_exps_yn == "Y") {
-						tag = "숨김";
-						color = "red";
-					} else {
-						tag = "값없음";
-						color = "gray";
+	function goBlock(menu_id, gnb_typ_cd) {
+		if (gnb_typ_cd == "U5_02") {
+			
+			$.ajax({    
+				type : "GET",
+				url : "/v5/menu/month?menu_stb_svc_id=" +  $.urlParam('poc') + "&IF=IF-NXPG-005&stb_id=1234&menu_id=" + menu_id,
+				success : function(args) {
+					$("#block").empty();
+					var temp = "";
+					var color = "";
+					var tag = "";
+					var menus;
+					for (var r in args.blocks) {
+						
+						if (args.blocks[r].menu_nm_exps_yn == "Y") {
+							tag = "표시";
+							color = "blue";
+						} else if (args.blocks[r].menu_nm_exps_yn == "Y") {
+							tag = "숨김";
+							color = "red";
+						} else {
+							tag = "값없음";
+							color = "gray";
+						}
+						temp = "<div>";
+						temp += "<strong>" + args.blocks[r].menu_nm + " : " + args.blocks[r].menu_id + "</strong> - <small class='" + color + "'>" + tag + "</small> - " + args.blocks[r].cmpgn_id;
+						temp += "<div class='event' id='" + args.blocks[r].menu_id + "'>";
+						
+						menus = args.blocks[r].menus;
+						for (var t in menus) {
+							
+							temp += "<div><b>" + menus[t].menu_nm + "</b></div>";
+						}
+
+						temp += "</div>";
+						
+						temp += "</div>";
+						temp += "<div class='clearAll'></div>";
+						$("#block").append(temp);
 					}
-					temp = "<div>";
-					temp += "<strong>" + args.blocks[r].menu_nm + " : " + args.blocks[r].menu_id + "</strong> - <small class='" + color + "'>" + tag + "</small> - " + args.blocks[r].cmpgn_id;
-					temp += "<div class='grid' id='" + args.blocks[r].menu_id + "'></div>";
-					temp += "</div>";
-					temp += "<div class='clearAll'></div>";
-					$("#block").append(temp);
+					
 				}
-				
-				goGrid();
-			}
-		});
+			});
+			
+		} else {
+			$.ajax({    
+				type : "GET",
+				url : "/v5/menu/block?menu_stb_svc_id=" +  $.urlParam('poc') + "&IF=IF-NXPG-003&stb_id=1234&menu_id=" + menu_id,
+				success : function(args) {
+					$("#block").empty();
+					var temp = "";
+					var color = "";
+					var tag = "";
+					for (var r in args.blocks) {
+						
+						if (args.blocks[r].menu_nm_exps_yn == "Y") {
+							tag = "표시";
+							color = "blue";
+						} else if (args.blocks[r].menu_nm_exps_yn == "Y") {
+							tag = "숨김";
+							color = "red";
+						} else {
+							tag = "값없음";
+							color = "gray";
+						}
+						temp = "<div>";
+						temp += "<strong>" + args.blocks[r].menu_nm + " : " + args.blocks[r].menu_id + "</strong> - <small class='" + color + "'>" + tag + "</small> - " + args.blocks[r].cmpgn_id;
+						if (args.blocks[r].blk_typ_cd == "20") {
+							temp += "<div class='banner' id='" + args.blocks[r].menu_id + "'>";
+							menus = args.blocks[r].menus;
+							for (var t in menus) {
+								
+								temp += "<div>";
+
+								temp += "<b>" + menus[t].menu_nm + "</b></br>";
+								temp += "<span>" + menus[t].menu_id + "</span></br>";
+								
+								if (menus[t].blk_typ_cd == "20") {
+									temp += "<a href='#' onClick='goBlock(\"" + menus[t].menu_id + "\", \"" + menus[t].gnb_typ_cd + "\")'>블록 호출</a>";
+								} else if (menus[t].blk_typ_cd == "30") {
+									temp += "<a href='#' onClick='goOnlyGrid(\"" + menus[t].menu_id + "\", \"" + menus[t].menu_nm + "\")'>그리드 호출</a>";
+								}
+								temp += "</div>";
+							}
+						} else if (args.blocks[r].blk_typ_cd == "70") {
+							
+							temp += "<div class='event' id='" + args.blocks[r].menu_id + "'>";
+							
+							
+							///v5/grid/event?menu_stb_svc_id=BTVUH2V500&IF=IF-NXPG-007&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&menu_id=NM1000021141
+							
+						} else if (args.blocks[r].call_url.includes("btv")) {
+							temp += "<div>";
+						} else {
+							temp += "<div class='grid' id='" + args.blocks[r].menu_id + "'>";
+						}
+						temp += "</div>";
+						temp += "</div>";
+						temp += "<div class='clearAll'></div>";
+						$("#block").append(temp);
+					}
+					
+					goGrid();
+				}
+			});
+		}
+		
 	}
 	
 	function goGrid() {
@@ -172,51 +324,139 @@
 		var tempArray = new Array();
 		$("#block div div").each(function(){
 			var id = $(this).attr("id");
-			$.ajax({    
-				type : "GET",
-				url : "/v5/grid/grid?menu_stb_svc_id=" +  $.urlParam('poc') + "&IF=IF-NXPG-006&stb_id=2345&page_no=1&page_cnt=20&menu_id=" + id,
-				success : function(args) {
-					//$(this).empty();
-					var html = "";
-					var color = "";
-					var epsdView = "";
-					for (var r in args.contents) {
-						color = "";
-						epsdView = "";
-						synopUrl = "<a onClick='goSynop(\"" + args.contents[r].epsd_id + "\")' href='#'>시놉시스 API</a><br/>";
-						
-								
-						if (args.contents[r].synon_typ_cd == "01") {
-							color = " class='movie'";
-							epsdView = "<span>" + args.contents[r].epsd_id + "</span><br/>";
-						} else if (args.contents[r].synon_typ_cd == "02") {
-							color = " class='sris'";
-							epsdView = "<span>" + args.contents[r].epsd_id + "</span><br/>";
-						} else if (args.contents[r].synon_typ_cd == "03") {
-							color = " class='gateway'";
-							synopUrl = "<a onClick='goGateway(\"" + args.contents[r].sris_id + "\")' href='#'>GW시놉시스 API</a><br/>";
-						} else if (args.contents[r].synon_typ_cd == "04") {
-							color = " class='vod'";
-							synopUrl = "<a onClick='goVod(\"" + args.contents[r].sris_id + "\")' href='#'>VOD관련상품 API</a><br/>";
+			var classval = $(this).attr("class");
+			classval = $.trim(classval);
+			if (classval == "grid" && id != "") {
+				$.ajax({    
+					type : "GET",
+					url : "/v5/grid/grid?menu_stb_svc_id=" +  $.urlParam('poc') + "&IF=IF-NXPG-006&stb_id=2345&page_no=1&page_cnt=20&menu_id=" + id,
+					success : function(args) {
+						//$(this).empty();
+						var html = "";
+						var color = "";
+						var epsdView = "";
+						for (var r in args.contents) {
+							color = "";
+							epsdView = "";
+							synopUrl = "<a onClick='goSynop(\"" + args.contents[r].epsd_id + "\")' href='#'>시놉시스 API</a><br/>";
+							
+									
+							if (args.contents[r].synon_typ_cd == "01") {
+								color = " class='movie'";
+								epsdView = "<span>" + args.contents[r].epsd_id + "</span><br/>";
+							} else if (args.contents[r].synon_typ_cd == "02") {
+								color = " class='sris'";
+								epsdView = "<span>" + args.contents[r].epsd_id + "</span><br/>";
+							} else if (args.contents[r].synon_typ_cd == "03") {
+								color = " class='gateway'";
+								synopUrl = "<a onClick='goGateway(\"" + args.contents[r].sris_id + "\")' href='#'>GW시놉시스 API</a><br/>";
+							} else if (args.contents[r].synon_typ_cd == "04") {
+								color = " class='vod'";
+								synopUrl = "<a onClick='goVod(\"" + args.contents[r].sris_id + "\")' href='#'>VOD관련상품 API</a><br/>";
+							}
+							
+
+							html = "<div id='" + args.contents[r].epsd_id + "'" + color + ">"
+									+ "<b>" + args.contents[r].title + "</b><br/>";
+
+							html += "<span>" + args.contents[r].sris_id + "</span><br/>";
+
+							html += epsdView;
+							html += "<b class='red2'>" + args.contents[r].i_img_cd + "</b><br/>";
+							html += synopUrl;
+							html += "</div>";
+							
+							$("#" + id).append(html);
 						}
 						
-
-						html = "<div id='" + args.contents[r].epsd_id + "'" + color + ">"
-								+ "<b>" + args.contents[r].title + "</b><br/>";
-
-						html += "<span>" + args.contents[r].sris_id + "</span><br/>";
-
-						html += epsdView;
-						html += synopUrl;
-						html += "</div>";
-						
-						$("#" + id).append(html);
 					}
-					
-				}
-			});
+				});
+			} else if (classval == "event" && id != "") {
+				$.ajax({    
+					type : "GET",
+					url : "/v5/grid/event?menu_stb_svc_id=" +  $.urlParam('poc') + "&IF=IF-NXPG-007&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&menu_id=" + id,
+					success : function(args) {
+						//$(this).empty();
+						for (var r in args.banners) {
+							html = "<div>"
+									+ "<b>" + args.banners[r].menu_nm + "</b><br/>";
+
+							html += "</div>";
+							
+							$("#" + id).append(html);
+						}
+						
+					}
+				});
+			}
+			
 		});
 		
+	}
+	
+	function goOnlyGrid(menu_id, menu_nm) {
+		$.ajax({    
+			type : "GET",
+			url : "/v5/grid/grid?menu_stb_svc_id=" +  $.urlParam('poc') + "&IF=IF-NXPG-006&stb_id=2345&page_no=1&page_cnt=20&menu_id=" + menu_id,
+			success : function(args) {
+			
+				$("#block").empty();
+			
+				//$(this).empty();
+				var html = "";
+				var color = "";
+				var epsdView = "";
+				var temp = "";
+				var synopUrl = "";
+				
+					
+				temp = "<div>";
+				temp += "<strong>" + menu_nm + " : " + menu_id + "</strong>";
+				
+				temp += "<div class='grid' id='" + menu_id + "'>";
+				
+				for (var r in args.contents) {
+					color = "";
+					epsdView = "";
+					synopUrl = "<a onClick='goSynop(\"" + args.contents[r].epsd_id + "\")' href='#'>시놉시스 API</a><br/>";
+					
+							
+					if (args.contents[r].synon_typ_cd == "01") {
+						color = " class='movie'";
+						epsdView = "<span>" + args.contents[r].epsd_id + "</span><br/>";
+					} else if (args.contents[r].synon_typ_cd == "02") {
+						color = " class='sris'";
+						epsdView = "<span>" + args.contents[r].epsd_id + "</span><br/>";
+					} else if (args.contents[r].synon_typ_cd == "03") {
+						color = " class='gateway'";
+						synopUrl = "<a onClick='goGateway(\"" + args.contents[r].sris_id + "\")' href='#'>GW시놉시스 API</a><br/>";
+					} else if (args.contents[r].synon_typ_cd == "04") {
+						color = " class='vod'";
+						synopUrl = "<a onClick='goVod(\"" + args.contents[r].sris_id + "\")' href='#'>VOD관련상품 API</a><br/>";
+					}
+					
+
+					html += "<div id='" + args.contents[r].epsd_id + "'" + color + ">"
+							+ "<b>" + args.contents[r].title + "</b><br/>";
+
+					html += "<span>" + args.contents[r].sris_id + "</span><br/>";
+
+					html += epsdView;
+					html += "<b class='red2'>" + args.contents[r].i_img_cd + "</b><br/>";
+					html += synopUrl;
+					html += "</div>";
+					
+				}
+				temp += html;
+				
+				temp += "</div>";
+				temp += "</div>";
+				temp += "<div class='clearAll'></div>";
+				$("#block").append(temp);
+				
+				
+			}
+		});
 	}
 	
 	function goSynop(epsd_id) {
