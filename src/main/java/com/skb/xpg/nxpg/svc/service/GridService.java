@@ -34,7 +34,10 @@ public class GridService {
 		List<Map<String, Object>> gList = new ArrayList<>();
 		
 		rtn.put("version", "");
-		rtn.put("menu_id", param.get("menu_id"));
+		rtn.put("menu_id", "");
+		if (param.get("menu_id").equals(gridMap.get("menu_id"))) {
+			rtn.put("menu_id", gridMap.get("menu_id"));
+		}
 		
 		if (gridMap != null && gridMap.containsKey("contents")) {
 
