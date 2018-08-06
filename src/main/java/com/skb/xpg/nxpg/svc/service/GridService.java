@@ -35,8 +35,10 @@ public class GridService {
 		
 		rtn.put("version", "");
 		rtn.put("menu_id", "");
-		if (param.get("menu_id").equals(gridMap.get("menu_id"))) {
-			rtn.put("menu_id", gridMap.get("menu_id"));
+		if (gridMap != null) {
+			if (param.get("menu_id").equals(gridMap.get("menu_id"))) {
+				rtn.put("menu_id", gridMap.get("menu_id"));
+			}
 		}
 		
 		if (gridMap != null && gridMap.containsKey("contents")) {
