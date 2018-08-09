@@ -190,8 +190,8 @@ public class ContentsService {
 					
 					// 테스트 코드 
 //					product.put("ppm_orgnz_fr_dt", "20180711000000");
-//					product.put("ppm_orgnz_to_dt", "20180718000000");
-//					product.put("prd_prc_to_dt", "20180812000000");
+//					product.put("ppm_orgnz_to_dt", "20180721000000");
+//					product.put("prd_prc_to_dt", "20180728000000");
 //					product.put("next_prd_prc_fr_dt", "20180710000000");
 
 					// prd_prc_to_dt
