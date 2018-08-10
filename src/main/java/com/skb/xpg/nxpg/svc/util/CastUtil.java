@@ -49,6 +49,27 @@ public class CastUtil {
 		} else return null;
 	}
 	
+	public static int getStrToInt(String str) {
+		if (str == null) return 0;
+		if (str.equals("")) return 0;
+		
+		int rtn = 0;
+		String temp = "";
+		try {
+			for(int i = 0; i < str.length(); i++) {
+				if (str.charAt(i) == 46) break;
+				if ((str.charAt(i) >= 48) && (str.charAt(i) <= 57)) {
+					temp += str.charAt(i);
+				}
+			}
+			rtn = Integer.parseInt(temp);
+		} catch (Exception e) {
+			LogUtil.error("", "", "", "", "", e.getStackTrace()[0].toString());
+			return 0;
+		}
+		return rtn;
+	}
+	
 	public static int getStringToInteger(String str) {
 		int rtn = 0;
 		

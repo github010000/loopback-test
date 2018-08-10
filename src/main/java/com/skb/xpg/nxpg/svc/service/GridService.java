@@ -170,6 +170,9 @@ public class GridService {
 		if (grid.containsKey("badge_typ_nm")) badge_typ_nm = grid.get("badge_typ_nm") + "";
 		if (grid.containsKey("cacbro_yn")) cacbro_yn = grid.get("cacbro_yn") + "";
 		if (grid.containsKey("sale_prc")) sale_prc = grid.get("sale_prc") + "";
+		// 0.0으로 현상때문에 추가. 
+		sale_prc = Integer.toString(CastUtil.getStrToInt(sale_prc));
+		
 		if (grid.containsKey("meta_typ_cd")) meta_typ_cd = grid.get("meta_typ_cd") + "";
 		
 		if (grid.containsKey("sris_dist_fir_svc_dt")) sris_dist_fir_svc_dt = grid.get("sris_dist_fir_svc_dt") + "";
