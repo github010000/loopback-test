@@ -166,7 +166,7 @@ public class GridService {
 	public void checkBadge(Map<String, Object> grid) {
 		String result = "";
 		String badge_typ_nm = "", cacbro_yn = "", sale_prc = "", sris_dist_fir_svc_dt = "", epsd_dist_fir_svc_dt = "";
-		String icon_exps_fr_dy = "", icon_exps_to_dy = "", rslu_typ_cd = "", meta_typ_cd = "";
+		String icon_exps_fr_dy = "", icon_exps_to_dy = "", rslu_typ_cd = "", meta_typ_cd = "", title = "";
 		if (grid.containsKey("badge_typ_nm")) badge_typ_nm = grid.get("badge_typ_nm") + "";
 		if (grid.containsKey("cacbro_yn")) cacbro_yn = grid.get("cacbro_yn") + "";
 		if (grid.containsKey("sale_prc")) sale_prc = grid.get("sale_prc") + "";
@@ -180,6 +180,8 @@ public class GridService {
 		if (grid.containsKey("icon_exps_fr_dt")) icon_exps_fr_dy = grid.get("icon_exps_fr_dt") + "";
 		if (grid.containsKey("icon_exps_to_dt")) icon_exps_to_dy = grid.get("icon_exps_to_dt") + "";
 		if (grid.containsKey("rslu_typ_cd")) rslu_typ_cd = grid.get("rslu_typ_cd") + "";
+		// 캐치온 처리때문에 추가
+		if (grid.containsKey("title")) title = grid.get("title") + "";
 		
 		//시즌
 		if ("02".equals(grid.get("synon_typ_cd"))) {
@@ -198,7 +200,10 @@ public class GridService {
 				} else if (!sris_dist_fir_svc_dt.isEmpty() && DateUtil.getAddDate(sris_dist_fir_svc_dt, 7).compareTo(DateUtil.getYYYYMMDDhhmmss2()) >= 0) {
 					result = "new";
 				} else if ("0".equals(sale_prc)) {
-					result = "free";
+					// 캐치온 무료 제거
+					if (!"009".equals(meta_typ_cd) && title.indexOf("캐치온") == -1) {
+						result = "free";
+					}
 				} else if (epsd_dist_fir_svc_dt != null && !epsd_dist_fir_svc_dt.isEmpty() && DateUtil.getAddDate(epsd_dist_fir_svc_dt, 1).compareTo(DateUtil.getYYYYMMDDhhmmss2()) >= 0) {
 					result = "up";
 				} else if ("Y".equals(cacbro_yn)) {
@@ -229,7 +234,10 @@ public class GridService {
 				} else if (!sris_dist_fir_svc_dt.isEmpty() && DateUtil.getAddDate(sris_dist_fir_svc_dt, 3).compareTo(DateUtil.getYYYYMMDDhhmmss2()) >= 0) {
 					result = "new";
 				} else if ("0".equals(sale_prc)) {
-					result = "free";
+					// 캐치온 무료 제거
+					if (!"009".equals(meta_typ_cd) && title.indexOf("캐치온") == -1) {
+						result = "free";
+					}
 				} else if ("독점".equals(badge_typ_nm) && DateUtil.doCompareSingle(icon_exps_fr_dy, icon_exps_to_dy, "yyyyMMddHHmmss")) {
 					result = "monopoly";
 				} else if ("35".equals(rslu_typ_cd)) {
