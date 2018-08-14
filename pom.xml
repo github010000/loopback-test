@@ -4,7 +4,7 @@
 
 	<groupId>com.skb.xpg</groupId>
 	<artifactId>nxpg.svc</artifactId>
-	<version>5.0.1-SNAPSHOT</version>
+	<version>5.0.6</version>
 	<packaging>war</packaging>
 
 	<name>xpg-nxpg-svc</name>
@@ -183,7 +183,7 @@
     	<connection>scm:git:http://bitbucket.skbroadband.com/scm/xpg/xpg-nxpg-svc.git</connection>
 	    <developerConnection>scm:git:http://bitbucket.skbroadband.com/scm/xpg/xpg-nxpg-svc.git</developerConnection>
 	    <url>http://bitbucket.skbroadband.com/scm/xpg/xpg-nxpg-svc</url>
-	    <tag>0.0.1</tag>
+	    <tag>5.0.6</tag>
 	</scm>
 
 	<build>
