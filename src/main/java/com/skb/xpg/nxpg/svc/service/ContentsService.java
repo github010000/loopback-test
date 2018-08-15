@@ -16,7 +16,6 @@ import com.skb.xpg.nxpg.svc.redis.RedisClient;
 import com.skb.xpg.nxpg.svc.util.CastUtil;
 import com.skb.xpg.nxpg.svc.util.CiModeUtil;
 import com.skb.xpg.nxpg.svc.util.DateUtil;
-import com.skb.xpg.nxpg.svc.util.LogUtil;
 
 @Service
 public class ContentsService {
@@ -72,17 +71,6 @@ public class ContentsService {
 
 				String series = redisClient.hget(NXPGCommon.SYNOPSIS_SRIS, sris_id, param);
 				if (series != null && !series.isEmpty()) {
-					//회차 필터링하여 마지막 회차를 찾는다.
-					Map<String, Object> seriesMap = CastUtil.StringToJsonMap(series);
-					
-					List<Map<String, Object>> seriesList = new ArrayList<Map<String, Object>>();
-					seriesList = CastUtil.getObjectToMapList(seriesMap.get("episodes"));
-					LogUtil.info("choihojun", "", "", "", "", seriesList.toString());
-					
-					DateUtil.getCompare(seriesList, "svc_fr_dt", "svc_to_dt", false);
-					series = CastUtil.getObjectToJsonArrayString(seriesList);
-					LogUtil.info("choihojun", "", "", "", "", series);
-					
 					String last_epsd_id = "";
 					Pattern p = Pattern.compile(".*epsd_id\":\"([^\"]+)\"");
 					Matcher m = p.matcher(series);
@@ -286,7 +274,13 @@ public class ContentsService {
 	public Object getContentsSeries(String sris_id, Map<String, String> param) throws Exception {
 		Map<String, Object> temp = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.SYNOPSIS_SRIS, sris_id, param));
 		if (temp != null && temp.get("episodes") != null) {
-			return temp.get("episodes");
+			
+			List<Map<String, Object>> seriesList = new ArrayList<Map<String, Object>>();
+			seriesList = CastUtil.getObjectToMapList(temp.get("episodes"));
+			//필터링
+			DateUtil.getCompare(seriesList, "svc_fr_dt", "svc_to_dt", false);
+			
+			return seriesList;
 		}
 		return null;
 	}	
