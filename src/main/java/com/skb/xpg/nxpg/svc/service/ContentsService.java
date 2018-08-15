@@ -75,9 +75,11 @@ public class ContentsService {
 					//회차 필터링하여 마지막 회차를 찾는다.
 					List<Map<String, Object>> seriesList = new ArrayList<Map<String, Object>>();
 					seriesList = CastUtil.StringToJsonListMap(series);
+					System.out.println("***choihojun** seriesList :"+seriesList.toString());
 					//필터링
-					DateUtil.getCompare(seriesList, "svc_fr_dt", "svc_to_dt", true);
+					DateUtil.getCompare(seriesList, "svc_fr_dt", "svc_to_dt", false);
 					series = CastUtil.getObjectToJsonArrayString(seriesList);
+					System.out.println("***choihojun** seriesList :"+series);
 					
 					
 					String last_epsd_id = "";
