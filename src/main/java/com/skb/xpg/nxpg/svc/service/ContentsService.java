@@ -72,11 +72,13 @@ public class ContentsService {
 
 				String series = redisClient.hget(NXPGCommon.SYNOPSIS_SRIS, sris_id, param);
 				if (series != null && !series.isEmpty()) {
-
 					//회차 필터링하여 마지막 회차를 찾는다.
+					Map<String, Object> seriesMap = CastUtil.StringToJsonMap(series);
+					
 					List<Map<String, Object>> seriesList = new ArrayList<Map<String, Object>>();
-					seriesList = CastUtil.StringToJsonListMap(series);
+					seriesList = CastUtil.getObjectToMapList(seriesMap.get("episodes"));
 					LogUtil.info("choihojun", "", "", "", "", seriesList.toString());
+					
 					DateUtil.getCompare(seriesList, "svc_fr_dt", "svc_to_dt", false);
 					series = CastUtil.getObjectToJsonArrayString(seriesList);
 					LogUtil.info("choihojun", "", "", "", "", series);
