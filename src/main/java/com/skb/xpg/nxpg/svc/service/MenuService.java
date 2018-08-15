@@ -21,6 +21,7 @@ import com.skb.xpg.nxpg.svc.redis.RedisClient;
 import com.skb.xpg.nxpg.svc.rest.RestClient;
 import com.skb.xpg.nxpg.svc.util.CastUtil;
 import com.skb.xpg.nxpg.svc.util.DateUtil;
+import com.skb.xpg.nxpg.svc.util.LogUtil;
 import com.skb.xpg.nxpg.svc.util.StrUtil;
 
 @Service
@@ -543,51 +544,57 @@ public class MenuService {
 
 		List<String> menuData = null;
 
-		Map<String, Object> cw = properties.getCw();
-		Map<String, Object> keyAndValue;
-		
-		String cwparam = "";
-		
-		if (cw == null) {
-			return null;
-		}
-		keyAndValue = CastUtil.getObjectToMap(cw.get("userpage"));
-		if (keyAndValue == null) {
-			return null;
-		}
-		String path = keyAndValue.get("uri").toString();
-		String regex = "\\{(.*?)\\}";
-		path = path.replaceAll(regex, param.get("stb_id"));
-
-		String rest = null;
-		Map<String, Object> restResult = null;
-		restResult = restClient.getRestUri(cwBaseUrl + path, cwUser, cwPassword, cwparam, param);
-		if (restResult != null && restResult.containsKey("result")) {
-			rest = CastUtil.getObjectToString(restResult.get("result"));
-		}
-		
-		//응답값 확인
-		String restregex="\"code\"[\\s]*:[\\s]*([0-9]*)";
-		String codeValue = StrUtil.getRegexString(restregex, rest);
-
-		if("0".equals(codeValue)) {
-			//시리즈아이디, 에피소드아이디 추출로직
-			String regexMenuId="\\\"MenuIdPreferred\\\"[\\s]*:[\\s]*\\[\"(.*?)\"\\]";
-			Pattern ptn = Pattern.compile(regexMenuId); 
-			if (ptn != null) {
-				Matcher matcher = ptn.matcher(rest); 
-				if (matcher != null) {
-
-					while(matcher.find()){
-						menuData = Arrays.asList((matcher.group(1)).split("\\,"));
-						break;
+		try {
+			
+			Map<String, Object> cw = properties.getCw();
+			Map<String, Object> keyAndValue;
+			
+			String cwparam = "";
+			
+			if (cw == null) {
+				return null;
+			}
+			keyAndValue = CastUtil.getObjectToMap(cw.get("userpage"));
+			if (keyAndValue == null) {
+				return null;
+			}
+			String path = keyAndValue.get("uri").toString();
+			String regex = "\\{(.*?)\\}";
+			path = path.replaceAll(regex, param.get("stb_id"));
+	
+			String rest = null;
+			Map<String, Object> restResult = null;
+			restResult = restClient.getRestUri(cwBaseUrl + path, cwUser, cwPassword, cwparam, param);
+			if (restResult != null && restResult.containsKey("result")) {
+				rest = CastUtil.getObjectToString(restResult.get("result"));
+			}
+			
+			//응답값 확인
+			String restregex="\"code\"[\\s]*:[\\s]*([0-9]*)";
+			String codeValue = StrUtil.getRegexString(restregex, rest);
+	
+			if("0".equals(codeValue)) {
+				//시리즈아이디, 에피소드아이디 추출로직
+				String regexMenuId="\\\"MenuIdPreferred\\\"[\\s]*:[\\s]*\\[\"(.*?)\"\\]";
+				Pattern ptn = Pattern.compile(regexMenuId); 
+				if (ptn != null) {
+					Matcher matcher = ptn.matcher(rest); 
+					if (matcher != null) {
+	
+						while(matcher.find()){
+							menuData = Arrays.asList((matcher.group(1)).split("\\,"));
+							break;
+						}
 					}
 				}
+			}else {
+				menuData = null;
 			}
-		}else {
-			menuData = null;
+			
+		}catch (Exception e) {
+			//CW 연동 간 에러 발생 시 null 반환
+			LogUtil.error(param.get("IF"), "", param.get("UUID"), param.get("stb_id"), "CW", e.getStackTrace()[0].toString() + ", CW Data is Null");
 		}
-		
 		
 		
 		return menuData;

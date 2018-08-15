@@ -71,6 +71,15 @@ public class ContentsService {
 
 				String series = redisClient.hget(NXPGCommon.SYNOPSIS_SRIS, sris_id, param);
 				if (series != null && !series.isEmpty()) {
+
+					//회차 필터링하여 마지막 회차를 찾는다.
+					List<Map<String, Object>> seriesList = new ArrayList<Map<String, Object>>();
+					seriesList = CastUtil.StringToJsonListMap(series);
+					//필터링
+					DateUtil.getCompare(seriesList, "svc_fr_dt", "svc_to_dt", true);
+					series = CastUtil.getObjectToJsonArrayString(seriesList);
+					
+					
 					String last_epsd_id = "";
 					Pattern p = Pattern.compile(".*epsd_id\":\"([^\"]+)\"");
 					Matcher m = p.matcher(series);
