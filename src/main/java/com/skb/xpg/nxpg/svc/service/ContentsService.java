@@ -16,6 +16,7 @@ import com.skb.xpg.nxpg.svc.redis.RedisClient;
 import com.skb.xpg.nxpg.svc.util.CastUtil;
 import com.skb.xpg.nxpg.svc.util.CiModeUtil;
 import com.skb.xpg.nxpg.svc.util.DateUtil;
+import com.skb.xpg.nxpg.svc.util.LogUtil;
 
 @Service
 public class ContentsService {
@@ -75,12 +76,10 @@ public class ContentsService {
 					//회차 필터링하여 마지막 회차를 찾는다.
 					List<Map<String, Object>> seriesList = new ArrayList<Map<String, Object>>();
 					seriesList = CastUtil.StringToJsonListMap(series);
-					System.out.println("***choihojun** seriesList :"+seriesList.toString());
-					//필터링
+					LogUtil.info("choihojun", "", "", "", "", seriesList.toString());
 					DateUtil.getCompare(seriesList, "svc_fr_dt", "svc_to_dt", false);
 					series = CastUtil.getObjectToJsonArrayString(seriesList);
-					System.out.println("***choihojun** seriesList :"+series);
-					
+					LogUtil.info("choihojun", "", "", "", "", series);
 					
 					String last_epsd_id = "";
 					Pattern p = Pattern.compile(".*epsd_id\":\"([^\"]+)\"");
