@@ -183,41 +183,46 @@ public class MenuService {
 							Map<String, Object> keyAndValue;
 							if (menuData != null) {
 								for(String temp:menuData) {
-									keyAndValue = CastUtil.getObjectToMap(cw.get("block"));
-									Map<String, Object> cwRtn = new HashMap<String, Object>();
-									cwRtn.putAll(keyAndValue);
-									
-									temp=temp.replaceAll("\\|", "\\@");
-									
-									String [] menuNtitle = temp.split("\\@");
-									
-									if (menuNtitle == null) continue;
-									if (menuNtitle.length < 2) continue;
-									
-									//그리드 콘텐츠에 존재하면서 만료일이 넘지 않은 경우 메뉴를 노출시킨다. 이외에는 노출시키지 않음
-									String cwPerGridStr = (String)redisClient.hget(NXPGCommon.GRID_CONTENTS, menuNtitle[0], param);
-									
-									if(cwPerGridStr != null && !cwPerGridStr.isEmpty()) {
-										List<Map<String,Object>> cwPerGrid = null;
-										Map<String ,Object> cwPerMap = null;
-										cwPerMap = CastUtil.StringToJsonMap(cwPerGridStr);
-										cwPerGrid = CastUtil.getObjectToMapList(cwPerMap.get("contents"));
-										List<Map<String, Object>> data = (List<Map<String, Object>>) CastUtil.getObjectToMapList(cwPerGrid);
-										DateUtil.getCompare(data, "dist_fr_dt", "dist_to_dt", true);
-										if(data != null && !data.isEmpty()) {
-											cwRtn.put("menu_id", menuNtitle[0]);
-											cwRtn.put("menu_nm", menuNtitle[1]);
-											cwRtn.put("dist_to_dt", map.get("dist_to_dt"));
-											cwRtn.put("gnb_typ_cd", map.get("gnb_typ_cd"));
-											cwRtn.put("dist_fr_dt", map.get("dist_fr_dt"));
-											cwRtn.put("menu_nm_exps_yn", map.get("menu_nm_exps_yn"));
-											cwRtn.put("scn_mthd_cd", "10");
-											cwRtn.put("menus", null);
-											
-											cwResult.add(cwRtn);
-										}
+									try {
+										keyAndValue = CastUtil.getObjectToMap(cw.get("block"));
+										Map<String, Object> cwRtn = new HashMap<String, Object>();
+										cwRtn.putAll(keyAndValue);
 										
-										whichMap.put(j, cwResult);
+										temp=temp.replaceAll("\\|", "\\@");
+										
+										String [] menuNtitle = temp.split("\\@");
+										
+										// MenuId, Title이 없으면 그냥 넘어간다.
+										if (StrUtil.isEmpty(menuNtitle[1])) continue;
+										if (StrUtil.isEmpty(menuNtitle[2])) continue;
+										
+										//그리드 콘텐츠에 존재하면서 만료일이 넘지 않은 경우 메뉴를 노출시킨다. 이외에는 노출시키지 않음
+										String cwPerGridStr = (String)redisClient.hget(NXPGCommon.GRID_CONTENTS, menuNtitle[0], param);
+										
+										if(cwPerGridStr != null && !cwPerGridStr.isEmpty()) {
+											List<Map<String,Object>> cwPerGrid = null;
+											Map<String ,Object> cwPerMap = null;
+											cwPerMap = CastUtil.StringToJsonMap(cwPerGridStr);
+											cwPerGrid = CastUtil.getObjectToMapList(cwPerMap.get("contents"));
+											List<Map<String, Object>> data = (List<Map<String, Object>>) CastUtil.getObjectToMapList(cwPerGrid);
+											DateUtil.getCompare(data, "dist_fr_dt", "dist_to_dt", true);
+											if(data != null && !data.isEmpty()) {
+												cwRtn.put("menu_id", menuNtitle[0]);
+												cwRtn.put("menu_nm", menuNtitle[1]);
+												cwRtn.put("dist_to_dt", map.get("dist_to_dt"));
+												cwRtn.put("gnb_typ_cd", map.get("gnb_typ_cd"));
+												cwRtn.put("dist_fr_dt", map.get("dist_fr_dt"));
+												cwRtn.put("menu_nm_exps_yn", map.get("menu_nm_exps_yn"));
+												cwRtn.put("scn_mthd_cd", "10");
+												cwRtn.put("menus", null);
+												
+												cwResult.add(cwRtn);
+											}
+											
+											whichMap.put(j, cwResult);
+										}
+									} catch (Exception e) {
+										break;
 									}
 								}
 							}
@@ -597,6 +602,7 @@ public class MenuService {
 		}catch (Exception e) {
 			//CW 연동 간 에러 발생 시 null 반환
 			LogUtil.error(param.get("IF"), "", param.get("UUID"), param.get("stb_id"), "CW", e.getStackTrace()[0].toString() + ", CW Data is Null");
+			menuData = null;
 		}
 		
 		
