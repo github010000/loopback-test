@@ -191,6 +191,9 @@ public class MenuService {
 									
 									String [] menuNtitle = temp.split("\\@");
 									
+									if (menuNtitle == null) continue;
+									if (menuNtitle.length < 2) continue;
+									
 									//그리드 콘텐츠에 존재하면서 만료일이 넘지 않은 경우 메뉴를 노출시킨다. 이외에는 노출시키지 않음
 									String cwPerGridStr = (String)redisClient.hget(NXPGCommon.GRID_CONTENTS, menuNtitle[0], param);
 									
