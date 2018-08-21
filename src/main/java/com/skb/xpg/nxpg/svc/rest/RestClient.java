@@ -136,7 +136,7 @@ public class RestClient {
 		String result = "";
 		try {
 			try {
-				result = task.get(conntimeout + 10, TimeUnit.MILLISECONDS);
+				result = task.get(conntimeout + 100, TimeUnit.MILLISECONDS);
 				resultMap.put("result", result);
 				LogUtil.tlog(reqparam.get("IF"), "RECV.RES", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW", resultMap);
 				
