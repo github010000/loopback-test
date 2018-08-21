@@ -101,11 +101,11 @@ public class RestClient {
 						result.append(line);
 					}
 				} catch (ClientProtocolException e1) {
-					LogUtil.error(reqparam.get("IF"), "RECV.RES", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW", e1.getStackTrace()[0].toString());
+					LogUtil.error(reqparam.get("IF"), "RECV.RES", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW", "client_timeout : " + e1.getStackTrace()[0].toString());
 				} catch (IOException e1) {
-					LogUtil.error(reqparam.get("IF"), "RECV.RES", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW", e1.getStackTrace()[0].toString());
+					LogUtil.error(reqparam.get("IF"), "RECV.RES", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW", "client_timeout : " + e1.getStackTrace()[0].toString());
 				} catch (UnsupportedOperationException e) {
-					LogUtil.error(reqparam.get("IF"), "RECV.RES", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW", e.getStackTrace()[0].toString());
+					LogUtil.error(reqparam.get("IF"), "RECV.RES", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW", "client_timeout : " + e.getStackTrace()[0].toString());
 				} finally {
 					try {
 						if(rd!=null) rd.close();
@@ -136,12 +136,12 @@ public class RestClient {
 		String result = "";
 		try {
 			try {
-				result = task.get(conntimeout, TimeUnit.MILLISECONDS);
+				result = task.get(conntimeout + 10, TimeUnit.MILLISECONDS);
 				resultMap.put("result", result);
 				LogUtil.tlog(reqparam.get("IF"), "RECV.RES", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW", resultMap);
 				
 			} catch (TimeoutException e) {
-				LogUtil.info(reqparam.get("IF"), "RECV.RES", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW", "cw_timeout");
+				LogUtil.error(reqparam.get("IF"), "RECV.RES", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW", "DNS_timeout");
 			}
 		} catch (InterruptedException e) {
 			LogUtil.error(reqparam.get("IF"), "RECV.RES", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW", e.getStackTrace()[0].toString());
