@@ -1,0 +1,21 @@
+---
+applications:
+- name: xpg-nxpg-svc
+  hosts:
+    - xpg-nxpg-svc-stg-green
+    - xpg-nxpg-stg-green
+  memory: 2048M
+  instances: 1
+  buildpack: liberty-for-java
+  path: ./defaultServer
+  services:
+    - stg-xpg-common-redis
+  env:
+    SPRING_PROFILES_ACTIVE: stg
+    JBP_CONFIG_SPRING_AUTO_RECONFIGURATION: '{enabled: false}'
+    JVM_ARGS: >
+      -Dfile.encoding=UTF-8
+      -Dfile.client.encoding=UTF-8
+      -Dclient.encoding.override=UTF-8
+      -Duser.timezone=Asia/Seoul
+      -Djava.security.egd=file:/dev/./urandom
