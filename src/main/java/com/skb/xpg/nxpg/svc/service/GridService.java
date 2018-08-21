@@ -205,10 +205,10 @@ public class GridService {
 					if (!"009".equals(meta_typ_cd) && title.indexOf("캐치온") == -1) {
 						result = "free";
 					}
-				} else if (epsd_dist_fir_svc_dt != null && !epsd_dist_fir_svc_dt.isEmpty() && DateUtil.getAddDate(epsd_dist_fir_svc_dt, 1).compareTo(DateUtil.getYYYYMMDDhhmmss2()) >= 0) {
-					result = "up";
 				} else if ("Y".equals(cacbro_yn)) {
 					result = "rest";
+				} else if (epsd_dist_fir_svc_dt != null && !epsd_dist_fir_svc_dt.isEmpty() && DateUtil.getAddDate(epsd_dist_fir_svc_dt, 1).compareTo(DateUtil.getYYYYMMDDhhmmss2()) >= 0) {
+					result = "up";
 				} else if ("독점".equals(badge_typ_nm) && DateUtil.doCompareSingle(icon_exps_fr_dy, icon_exps_to_dy, "yyyyMMddHHmmss")) {
 					result = "monopoly";
 				} else if ("35".equals(rslu_typ_cd)) {
