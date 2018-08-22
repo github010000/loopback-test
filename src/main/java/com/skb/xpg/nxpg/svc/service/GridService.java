@@ -234,11 +234,9 @@ public class GridService {
 					result = "event";
 				} else if (!sris_dist_fir_svc_dt.isEmpty() && DateUtil.getAddDate(sris_dist_fir_svc_dt, 3).compareTo(DateUtil.getYYYYMMDDhhmmss2()) >= 0) {
 					result = "new";
-				} else if ("0".equals(sale_prc)) {
-					// 디멘드여부 구분
-					if (!"Y".equals(ppv_uabl_yn)) {
-						result = "free";
-					}
+				// 디멘드여부 구분 추가
+				} else if (!"Y".equals(ppv_uabl_yn) && "0".equals(sale_prc)) {
+					result = "free";
 				} else if ("독점".equals(badge_typ_nm) && DateUtil.doCompareSingle(icon_exps_fr_dy, icon_exps_to_dy, "yyyyMMddHHmmss")) {
 					result = "monopoly";
 				} else if ("35".equals(rslu_typ_cd)) {
