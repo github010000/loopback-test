@@ -16,7 +16,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
  */
 @Configuration
 @EnableAsync
-@Profile({"stg", "stgtest"})
+@Profile({"stg", "dojstg", "stgtest"})
 public class ThreadConfiguration {
 
 	@Value("${task.threadPoolTaskExecutor.corePoolSize}")
