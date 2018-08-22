@@ -11,7 +11,7 @@ applications:
   services:
     - dev-xpg-common-redis
   env:
-    SPRING_PROFILES_ACTIVE: dev
+    SPRING_PROFILES_ACTIVE: dojdev
     JBP_CONFIG_SPRING_AUTO_RECONFIGURATION: '{enabled: false}'
     JVM_ARGS: >
       -Dfile.encoding=UTF-8
