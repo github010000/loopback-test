@@ -2,8 +2,8 @@
 applications:
 - name: xpg-nxpg-svc
   hosts:
-    - xpg-nxpg-svc-stg-green
-    - xpg-nxpg-stg-green
+    - xpg-nxpg-svc-stg
+    - xpg-nxpg-stg
   memory: 2048M
   instances: 1
   buildpack: liberty-for-java
