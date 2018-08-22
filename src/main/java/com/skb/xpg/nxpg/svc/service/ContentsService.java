@@ -106,6 +106,9 @@ public class ContentsService {
 		if (epsd == null) {
 			rtn.put("result", "9998");
 		} else {
+			// id_package 처리
+			CastUtil.checkPackAgeList(epsd.get("products"), param.get("id_package"));
+			
 			sris.putAll(epsd);
 			
 			sris.remove("relation_contents");
@@ -147,12 +150,17 @@ public class ContentsService {
 				if (products != null) {
 					for (int i = 0; i < products.size(); i++) {
 						Map<String, Object> product = products.get(i);
+						String brcast_avl_perd_yn = "";
+						if (product.containsKey("brcast_avl_perd_yn")) {
+							brcast_avl_perd_yn = product.get("brcast_avl_perd_yn") + "";
+						}
+						
 						String strTemp = null;
 						
 						// prd_prc_to_dt
 						if (product.get("prd_prc_to_dt") != null)
 							strTemp = product.get("prd_prc_to_dt").toString();
-						if (DateUtil.checkDate(strTemp, CastUtil.getStringToInteger(checkdate.get("prdprctodt"))*-1))
+						if (!"Y".equals(brcast_avl_perd_yn) && DateUtil.checkDate(strTemp, CastUtil.getStringToInteger(checkdate.get("prdprctodt"))*-1))
 							product.put("expire_prd_prc_dt", strTemp);
 						else 
 							product.put("expire_prd_prc_dt", "");
@@ -187,17 +195,23 @@ public class ContentsService {
 				for(int i = 0; i < products.size(); i++) {
 					Map<String, Object> product = products.get(i);
 					String strTemp = null;
-					
+
 					// 테스트 코드 
 //					product.put("ppm_orgnz_fr_dt", "20180711000000");
 //					product.put("ppm_orgnz_to_dt", "20180721000000");
 //					product.put("prd_prc_to_dt", "20180728000000");
 //					product.put("next_prd_prc_fr_dt", "20180710000000");
+//					product.put("brcast_avl_perd_yn", "N");
+					
+					String brcast_avl_perd_yn = "";
+					if (product.containsKey("brcast_avl_perd_yn")) {
+						brcast_avl_perd_yn = product.get("brcast_avl_perd_yn") + "";
+					}
 
 					// prd_prc_to_dt
 					if (product.get("prd_prc_to_dt") != null)
 						strTemp = product.get("prd_prc_to_dt").toString();
-					if (DateUtil.checkDate(strTemp, CastUtil.getStringToInteger(checkdate.get("prdprctodt"))*-1))
+					if (!"Y".equals(brcast_avl_perd_yn) && DateUtil.checkDate(strTemp, CastUtil.getStringToInteger(checkdate.get("prdprctodt"))*-1))
 						product.put("expire_prd_prc_dt", strTemp);
 					else 
 						product.put("expire_prd_prc_dt", "");

@@ -64,8 +64,6 @@ public class ContentsController {
 		// 값 불러오기
 		try {
 			contentsService.getSynopsisContents(rtn, param);
-			
-			
 		} catch (Exception e) {
 			LogUtil.error(IF, "SEND.RES", param.get("UUID"), param.get("stb_id"), "REDIS", e.getStackTrace()[0].toString());
 			rtn.put("result", "9997");

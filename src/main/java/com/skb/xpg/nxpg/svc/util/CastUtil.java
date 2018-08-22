@@ -2,6 +2,7 @@ package com.skb.xpg.nxpg.svc.util;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -201,5 +202,72 @@ public class CastUtil {
 			}
 		}
 		return rtn;
+	}
+	
+	// value2에 값을 value1로 넣어준다.
+	public static void copyMapData(Map<String, Object> value1, Map<String, Object> value2) {
+		if (value1 == null) return;
+		if (value2 == null) return;
+		
+		try {
+			for (Map.Entry<String, Object> entry : value2.entrySet()) {
+				if (!"id_package".equals(entry.getKey())) {
+					value1.put(entry.getKey(), entry.getValue());
+				}
+			}
+		} catch (Exception e) {
+			LogUtil.error("", "", "", "", "", e.getStackTrace()[0].toString());
+		}
+	}
+	
+	// id_package 값을 확인하여서 price arr를 obj로 변환시켜준다.
+	public static void checkPackAgeList(Object list, String idPackAge) {
+		int intPackAge = getStrToInt(idPackAge);
+		// 초기값 설정
+		if (intPackAge == 0) intPackAge = 15;
+		
+		List<Map<String, Object>> mapList = getObjectToMapList(list);
+		if (mapList == null) return;
+		for(int i = 0; i < mapList.size(); i++) {
+			try {
+				Map<String, Object> map = mapList.get(i);
+				
+				// 테스트 데이터
+				/*
+				List<Map<String, Object>> tempList = new ArrayList<Map<String, Object>>();
+				Map<String, Object> temp = new HashMap<String, Object>();
+				temp.put("id_package", "10");
+				temp.put("sale_prc", 0);
+				temp.put("sale_prc_vat", 0);
+				tempList.add(temp);temp = new HashMap<String, Object>();
+				temp.put("id_package", 15);
+				temp.put("sale_prc", 1500);
+				temp.put("sale_prc_vat", 1500);
+				tempList.add(temp);
+				map.put("price", tempList);
+				*/
+				///////////////////
+				
+				// List형태의 price를 확인하면서 데이터를 처리한다.
+				// param에 id_package를 가지고와서 동일한 정보를 넣어주고 없으면 기존값 그대로 넣어준다.
+				List<Map<String, Object>> prices = getObjectToMapList(map.get("price"));
+				if (prices == null) continue;
+				for (int j = 0; j < prices.size(); j++) {
+					Map<String, Object> price = prices.get(j);
+					if (price.get("id_package") == null) continue;
+					int pricePackAge = getStrToInt(price.get("id_package")+"");
+					if (pricePackAge == 0) continue;
+					
+					if (pricePackAge == intPackAge) {
+						copyMapData(map, price);
+						break;
+					}
+				}
+				// price 데이터 삭제
+				map.remove("price");
+			} catch (Exception e) {
+				LogUtil.error("", "", "", "", "", e.toString());
+			}
+		}
 	}
 }

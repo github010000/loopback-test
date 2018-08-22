@@ -161,7 +161,6 @@ public class CwService {
 			if(contentInfo != null) {
 				result = new HashMap<String, Object>();
 				
-				
 				//에피소드아이디 추출로직
 				String regex="\"epsd_rslu_id\"[\\s]*:[\\s]*\"([^\"]+)\"";
 				String contentId = StrUtil.getRegexString(regex, contentInfo);
@@ -881,6 +880,7 @@ public class CwService {
 		}
 	}
 	
+	/*
 	private int makeCwGridMap(String[] idNblockId, Map<String, Object> gridData, List<Map<String, Object>> resultGridList, Map<String, String> param) {
 		int redisCnt = 0;
 		String epsd_rslu_id = idNblockId[0];
@@ -949,7 +949,7 @@ public class CwService {
 		}
 		return redisCnt;
 	}
-
+*/
 	private void printProcessTime(Map<String, Object> time, Map<String, String> param) {
 		
 		long cw_start = CastUtil.getObjectToLong(time.get("cw_time_start"));

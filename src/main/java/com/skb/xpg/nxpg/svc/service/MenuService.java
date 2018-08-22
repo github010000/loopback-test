@@ -119,6 +119,9 @@ public class MenuService {
 		
 		if (bigbanner != null && bigbanner.get("banners") != null) {
 			
+			// id_package 데이터 확인
+			CastUtil.checkPackAgeList(bigbanner.get("banners"), param.get("id_package"));
+			
 			String version = CastUtil.getObjectToString( bigbanner.get("banner_version") );
 			
 			if (doCheckVersion(bigbanner, param, "banner_version", version, "banners")) {
@@ -132,8 +135,7 @@ public class MenuService {
 				bigbanner.put("banner_count", 0);
 				bigbanner.remove("total_count");
 			}
-		}
-	
+		}	
 		return bigbanner;
 	}
 	
@@ -203,6 +205,9 @@ public class MenuService {
 											List<Map<String,Object>> cwPerGrid = null;
 											Map<String ,Object> cwPerMap = null;
 											cwPerMap = CastUtil.StringToJsonMap(cwPerGridStr);
+											// id_package 처리
+											CastUtil.checkPackAgeList(cwPerMap.get("contents"), param.get("id_package"));
+											
 											cwPerGrid = CastUtil.getObjectToMapList(cwPerMap.get("contents"));
 											List<Map<String, Object>> data = (List<Map<String, Object>>) CastUtil.getObjectToMapList(cwPerGrid);
 											DateUtil.getCompare(data, "dist_fr_dt", "dist_to_dt", true);
@@ -278,7 +283,13 @@ public class MenuService {
 	
 	// IF-NXPG-003
 	public Map<String, Object> getGridBanner(String menu_id, Map<String, String> param) {
-		return CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.GRID_BANNER, menu_id, param));
+		Map<String, Object> result = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.GRID_BANNER, menu_id, param));
+		
+		// id_package 데이터 확인
+		if (result != null) {
+			CastUtil.checkPackAgeList(result.get("banners"), param.get("id_package"));
+		}
+		return result;
 	}
 	
 	// IF-NXPG-005
@@ -299,6 +310,8 @@ public class MenuService {
 		
 		List<Map<String, Object>> banners = null;
 		if (bigbanner != null) {
+			// id_package 데이터 확인
+			CastUtil.checkPackAgeList(bigbanner.get("banners"), param.get("id_package"));
 			
 			//version check
 			banner_version = CastUtil.getObjectToString( bigbanner.get("banner_version") );

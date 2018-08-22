@@ -42,6 +42,8 @@ public class GridService {
 		}
 		
 		if (gridMap != null && gridMap.containsKey("contents")) {
+			// id_package 처리
+			CastUtil.checkPackAgeList(gridMap.get("contents"), param.get("id_package"));
 
 			rtn.put("version", gridMap.get("version"));
 			
@@ -135,6 +137,8 @@ public class GridService {
 		Map<String, Object> gridBanner = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.GRID_BANNER, param.get("menu_stb_svc_id") + "_" + param.get("menu_id"), param));
 
 		if (gridBanner != null && gridBanner.get("banners") != null) {
+			// id_package 처리
+			CastUtil.checkPackAgeList(gridBanner.get("banners"), param.get("id_package"));
 			
 			String version = CastUtil.getObjectToString( gridBanner.get("version") );
 			gridBanner.put("version", version);
@@ -157,7 +161,6 @@ public class GridService {
 			} else {
 				gridBanner.remove("total_count");
 			}
-		
 		}
 		
 		return gridBanner;
