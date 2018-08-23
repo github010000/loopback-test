@@ -7,7 +7,6 @@ applications:
   path: ./defaultServer
   services:
     - prd-xpg-common-redis
-    - prd-xpg-common-zipkin
     - prd-xpg-common-syslog
     - prd-xpg-common-auto-scaling
   env:
