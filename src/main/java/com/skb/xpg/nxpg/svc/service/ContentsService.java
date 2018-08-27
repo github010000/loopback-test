@@ -68,8 +68,8 @@ public class ContentsService {
 		
 		if (sris != null) {
 			if ("Y".equals(param.get("yn_recent")) && sris != null && "01".equals(sris.get("sris_typ_cd"))) {
-
-				String series = redisClient.hget(NXPGCommon.SYNOPSIS_SRIS, sris_id, param);
+				
+				String series = CastUtil.getObjectToJsonArrayString(getContentsSeries(sris_id, param));
 				if (series != null && !series.isEmpty()) {
 					String last_epsd_id = "";
 					Pattern p = Pattern.compile(".*epsd_id\":\"([^\"]+)\"");
