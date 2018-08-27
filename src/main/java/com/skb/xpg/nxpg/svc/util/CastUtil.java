@@ -192,6 +192,20 @@ public class CastUtil {
 		} else return null;
 	}
 	
+	public static String getListToJsonArrayString(Object obj) {
+		String rtn = "";
+		if (obj != null && obj instanceof List) {
+			try {
+				Gson gson = new Gson();
+				rtn = gson.toJson(obj);
+				
+			} catch (Exception e) {
+				LogUtil.error("", "", "", "", "", e.getStackTrace()[0].toString());
+			}
+		}
+		return rtn;
+	}
+	
 	public static String getObjectToJsonArrayString(Object obj) {
 		String rtn = "";
 		if (obj != null && obj instanceof List) {

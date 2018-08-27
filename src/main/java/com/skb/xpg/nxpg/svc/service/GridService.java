@@ -95,25 +95,33 @@ public class GridService {
 						iterator.remove();
 					}
 				}
-				
+
 				tCount = gridList.size();
 				currentCount = tCount;
 				int pageNo = CastUtil.getStringToInteger(param.get("page_no"));
-	            int pageCnt = CastUtil.getStringToInteger(param.get("page_cnt"));
-	            
-	            int startNo = ((pageNo - 1 < 0) ? 0 : ((pageNo - 1) * pageCnt));
-	            int endNo = ((pageNo < 0) ? tCount : (startNo + pageCnt));
-	      
-	            endNo = (endNo > tCount) ? tCount : endNo;
-	//	            System.out.println("PAGE INFO pageNo : " + pageNo + ", pageCnt : " + pageCnt + ", startNo : " + startNo + ", endNo : " + endNo );
-	            gList = new ArrayList<Map<String, Object>>();
-	            
-	            
-	            for (Map<String, Object> grid : gridList.subList(startNo, endNo)) {
-	            	checkBadge(grid);
-	            	gList.add(grid);
-	            }
-	            tCount = gList.size();
+				int pageCnt = CastUtil.getStringToInteger(param.get("page_cnt"));
+
+				int startNo = ((pageNo - 1 < 0) ? 0 : ((pageNo - 1) * pageCnt));
+				int endNo = ((pageNo < 0) ? tCount : (startNo + pageCnt));
+
+				endNo = (endNo > tCount) ? tCount : endNo;
+				// System.out.println("PAGE INFO pageNo : " + pageNo + ", pageCnt : " + pageCnt
+				// + ", startNo : " + startNo + ", endNo : " + endNo );
+				gList = new ArrayList<Map<String, Object>>();
+				if (startNo < tCount) {
+					for (Map<String, Object> grid : gridList.subList(startNo, endNo)) {
+						checkBadge(grid);
+						gList.add(grid);
+					}
+				} else {
+					rtn.put("result", "9997");
+					rtn.put("contents", null);
+					if (rtn.get("reason") == null || rtn.get("reason").toString().isEmpty()) {
+						rtn.put("reason", ResultCommon.reason.get(rtn.get("result")));
+					}
+					return;
+				}
+				tCount = gList.size();
 			}
 //			gridMap.put("contents", gList);
 //			gridMap.put("total_count", currentCount);

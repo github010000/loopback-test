@@ -589,29 +589,32 @@ public class MenuService {
 			if (restResult != null && restResult.containsKey("result")) {
 				rest = CastUtil.getObjectToString(restResult.get("result"));
 			}
-			
-			//응답값 확인
-			String restregex="\"code\"[\\s]*:[\\s]*([0-9]*)";
-			String codeValue = StrUtil.getRegexString(restregex, rest);
-	
-			if("0".equals(codeValue)) {
-				//시리즈아이디, 에피소드아이디 추출로직
-				String regexMenuId="\\\"MenuIdPreferred\\\"[\\s]*:[\\s]*\\[\"(.*?)\"\\]";
-				Pattern ptn = Pattern.compile(regexMenuId); 
-				if (ptn != null) {
-					Matcher matcher = ptn.matcher(rest); 
-					if (matcher != null) {
-	
-						while(matcher.find()){
-							menuData = Arrays.asList((matcher.group(1)).split("\\,"));
-							break;
+
+			if (rest != null) {
+				// 응답값 확인
+				String restregex = "\"code\"[\\s]*:[\\s]*([0-9]*)";
+				String codeValue = StrUtil.getRegexString(restregex, rest);
+
+				if ("0".equals(codeValue)) {
+					// 시리즈아이디, 에피소드아이디 추출로직
+					String regexMenuId = "\\\"MenuIdPreferred\\\"[\\s]*:[\\s]*\\[\"(.*?)\"\\]";
+					Pattern ptn = Pattern.compile(regexMenuId);
+					if (ptn != null) {
+						Matcher matcher = ptn.matcher(rest);
+						if (matcher != null) {
+
+							while (matcher.find()) {
+
+								menuData = Arrays.asList((matcher.group(1)).split("\\,"));
+								break;
+
+							}
 						}
 					}
+				} else {
+					menuData = null;
 				}
-			}else {
-				menuData = null;
 			}
-			
 		}catch (Exception e) {
 			//CW 연동 간 에러 발생 시 null 반환
 			LogUtil.error(param.get("IF"), "", param.get("UUID"), param.get("stb_id"), "CW", e.getStackTrace()[0].toString() + ", CW Data is Null");
