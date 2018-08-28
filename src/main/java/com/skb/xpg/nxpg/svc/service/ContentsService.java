@@ -103,11 +103,11 @@ public class ContentsService {
 		
 
 		// 조회값 없음
-		if (epsd == null) {
+		if (epsd == null || sris == null) {
 			rtn.put("result", "9998");
 		} else {
 			// id_package 처리
-			CastUtil.checkPackAgeList(epsd.get("products"), param.get("id_package"));
+			CastUtil.checkPackAgeList(epsd.get("products"), param);
 			
 			sris.putAll(epsd);
 			

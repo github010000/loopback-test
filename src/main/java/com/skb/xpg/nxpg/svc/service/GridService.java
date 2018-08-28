@@ -43,7 +43,7 @@ public class GridService {
 		
 		if (gridMap != null && gridMap.containsKey("contents")) {
 			// id_package 처리
-			CastUtil.checkPackAgeList(gridMap.get("contents"), param.get("id_package"));
+			CastUtil.checkPackAgeList(gridMap.get("contents"), param);
 
 			rtn.put("version", gridMap.get("version"));
 			
@@ -146,7 +146,7 @@ public class GridService {
 
 		if (gridBanner != null && gridBanner.get("banners") != null) {
 			// id_package 처리
-			CastUtil.checkPackAgeList(gridBanner.get("banners"), param.get("id_package"));
+			CastUtil.checkPackAgeList(gridBanner.get("banners"), param);
 			
 			String version = CastUtil.getObjectToString( gridBanner.get("version") );
 			gridBanner.put("version", version);

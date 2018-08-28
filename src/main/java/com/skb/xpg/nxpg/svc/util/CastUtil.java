@@ -235,7 +235,11 @@ public class CastUtil {
 	}
 	
 	// id_package 값을 확인하여서 price arr를 obj로 변환시켜준다.
-	public static void checkPackAgeList(Object list, String idPackAge) {
+	public static void checkPackAgeList(Object list, Map<String, String> param) {
+		String idPackAge = "15";
+		if (param.containsKey("id_package")) {
+			idPackAge = param.get("id_package");
+		}
 		int intPackAge = getStrToInt(idPackAge);
 		// 초기값 설정
 		if (intPackAge == 0) intPackAge = 15;
@@ -262,6 +266,9 @@ public class CastUtil {
 				*/
 				///////////////////
 				
+				if (!map.containsKey("price")) {
+					continue;
+				}
 				// List형태의 price를 확인하면서 데이터를 처리한다.
 				// param에 id_package를 가지고와서 동일한 정보를 넣어주고 없으면 기존값 그대로 넣어준다.
 				List<Map<String, Object>> prices = getObjectToMapList(map.get("price"));
