@@ -12,7 +12,7 @@ applications:
   env:
     SPRING_PROFILES_ACTIVE: prdsuy
     JBP_CONFIG_SPRING_AUTO_RECONFIGURATION: '{enabled: false}'
-    JVM_ARGS: >
+    JVM_ARGS: 
       -Dfile.encoding=UTF-8
       -Dfile.client.encoding=UTF-8
       -Dclient.encoding.override=UTF-8
