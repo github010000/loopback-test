@@ -19,3 +19,6 @@ applications:
       -Dclient.encoding.override=UTF-8
       -Duser.timezone=Asia/Seoul
       -Djava.security.egd=file:/dev/./urandom
+      -javaagent:/home/vcap/app/wlp/usr/servers/defaultServer/apps/xpg-nxpg-svc-5.0.7-SNAPSHOT.war/WEB-INF/classes/whatap_agent/whatap.agent.tracer-1.5.7.jar
+      -Dorg.osgi.framework.bootdelegation=whatap.*
+      -Dwhatap.name=xpg-nxpg-svc-{ip2}-{ip3}
