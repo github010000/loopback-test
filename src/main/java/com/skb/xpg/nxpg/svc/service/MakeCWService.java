@@ -62,10 +62,19 @@ public class MakeCWService {
 					if (cwGridMap != null) {
 						gridData.putAll(cwGridMap);
 					}
-				
-					gridData.put("poster_filename_h", sris.get("sris_poster_filename_h"));
+					
+					String poster_h = sris.get("sris_poster_filename_h") + "";
+					if (poster_h.isEmpty()) {
+						poster_h = epsd.get("epsd_poster_filename_h") + "";
+					}
+					String poster_v = sris.get("sris_poster_filename_v") + "";
+					if (poster_v.isEmpty()) {
+						poster_v = epsd.get("epsd_poster_filename_v") + "";
+					}
+					
+					gridData.put("poster_filename_h", poster_h);
 					gridData.put("sris_id", sris.get("sris_id"));
-					gridData.put("poster_filename_v", sris.get("sris_poster_filename_v"));
+					gridData.put("poster_filename_v", poster_v);
 					gridData.put("epsd_id", epsd.get("epsd_id"));
 					gridData.put("wat_lvl_cd", epsd.get("wat_lvl_cd"));
 					gridData.put("adlt_lvl_cd", epsd.get("adlt_lvl_cd"));
