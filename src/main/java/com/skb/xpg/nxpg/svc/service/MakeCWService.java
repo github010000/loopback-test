@@ -82,10 +82,11 @@ public class MakeCWService {
 					purchares = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.CONTENTS_PURCHARES, sris_id, param));
 //					redisCnt++;
 					
-					List<Map<String, Object>> products = CastUtil.getObjectToMapList(sris.get("products"));
-					DateUtil.getCompare(products, "prd_prc_fr_dt", "purc_wat_to_dt", false);
+					List<Map<String, Object>> products = CastUtil.getObjectToMapList(epsd.get("products"));
 					
 					if (products != null && products.size() > 0) {
+						DateUtil.getCompare(products, "prd_prc_fr_dt", "purc_wat_to_dt", false);
+						
 						for (Map<String, Object> p : products) {
 							gridData.put("sale_prc", p.get("sale_prc"));
 							break;
