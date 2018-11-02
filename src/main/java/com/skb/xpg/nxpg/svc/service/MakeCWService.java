@@ -63,9 +63,9 @@ public class MakeCWService {
 						gridData.putAll(cwGridMap);
 					}
 				
-					gridData.put("poster_filename_h", epsd.get("epsd_poster_filename_h"));
+					gridData.put("poster_filename_h", sris.get("sris_poster_filename_h"));
 					gridData.put("sris_id", sris.get("sris_id"));
-					gridData.put("poster_filename_v", epsd.get("epsd_poster_filename_v"));
+					gridData.put("poster_filename_v", sris.get("sris_poster_filename_v"));
 					gridData.put("epsd_id", epsd.get("epsd_id"));
 					gridData.put("wat_lvl_cd", epsd.get("wat_lvl_cd"));
 					gridData.put("adlt_lvl_cd", epsd.get("adlt_lvl_cd"));
@@ -81,20 +81,33 @@ public class MakeCWService {
 					
 					purchares = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.CONTENTS_PURCHARES, sris_id, param));
 //					redisCnt++;
+					
+					List<Map<String, Object>> products = CastUtil.getObjectToMapList(sris.get("products"));
+					DateUtil.getCompare(products, "prd_prc_fr_dt", "purc_wat_to_dt", false);
+					
+					if (products != null && products.size() > 0) {
+						for (Map<String, Object> p : products) {
+							gridData.put("sale_prc", p.get("sale_prc"));
+							break;
+						}
+					} else {
+
+						if (purchares != null && purchares.size() > 0) {
+							List<Map<String, Object>> purchares_products = CastUtil.getObjectToMapList(purchares.get("products"));
+							DateUtil.getCompare(purchares_products, "prd_prc_fr_dt", "purc_wat_to_dt", false);
+							
+							for (Map<String, Object> pp : purchares_products) {
+								gridData.put("sale_prc", pp.get("sale_prc"));
+								break;
+							}
+						}
+					}
+					
 				} else {
 //					LogUtil.info("", "", "", "", "CW", "CONTENTS NULL : " + epsd_id);
 					return AsyncResult.forValue(resultGridList);
 				}
 
-				if (purchares != null) {
-					List<Map<String, Object>> listPurchares = CastUtil.getObjectToMapList(purchares.get("products"));
-					for (Map<String, Object> p : listPurchares) {
-						if (p.containsKey("epsd_id") && p.get("epsd_id").equals(epsd_id)) {
-							gridData.put("sale_prc", p.get("sale_prc"));
-							break;
-						}
-					}
-				}
 
 				gridService.checkBadge(gridData);
 			}
