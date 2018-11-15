@@ -89,32 +89,36 @@ public class MakeCWService {
 					gridData.put("epsd_rslu_id", epsd_rslu_id);
 					resultGridList.add(gridData);
 					
-					
-//					redisCnt++;
-					
+					//redisCnt++;
+					//순서 - 20(PPS), 30(PPM), 34(복합VODPPM), 35(복합PPM), 41(PPP) 10(PPV)
+					Object sale_prc = null;
 					List<Map<String, Object>> products = CastUtil.getObjectToMapList(epsd.get("products"));
-					
-					if (products != null && products.size() > 0) {
-						DateUtil.getCompare(products, "prd_prc_fr_dt", "purc_wat_to_dt", false);
 
-						if (products != null && products.size() > 0) {
-							gridData.put("sale_prc", products.get(0).get("sale_prc"));
+					purchares = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.CONTENTS_PURCHARES, sris_id, param));
+					
+					if (purchares != null && purchares.size() > 0) {
+						List<Map<String, Object>> purchares_products = CastUtil.getObjectToMapList(purchares.get("products"));
+						DateUtil.getCompare(purchares_products, "prd_prc_fr_dt", "purc_wat_to_dt", false);
+						
+						if (purchares_products != null && purchares_products.size() > 0) {
+							
+							sale_prc = checkPrdTypCd(purchares_products);
+							if (sale_prc != null) {
+								gridData.put("sale_prc", sale_prc);
+							}
 						}
 						
 					} else {
-						
-						purchares = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.CONTENTS_PURCHARES, sris_id, param));
-						
-						if (purchares != null && purchares.size() > 0) {
-							List<Map<String, Object>> purchares_products = CastUtil.getObjectToMapList(purchares.get("products"));
-							DateUtil.getCompare(purchares_products, "prd_prc_fr_dt", "purc_wat_to_dt", false);
+						DateUtil.getCompare(products, "prd_prc_fr_dt", "purc_wat_to_dt", false);
+						if (products != null && products.size() > 0) {
 							
-							if (purchares_products != null && purchares_products.size() > 0) {
-								gridData.put("sale_prc", purchares_products.get(0).get("sale_prc"));
+							sale_prc = checkPrdTypCd(products);
+							if (sale_prc != null) {
+								gridData.put("sale_prc", sale_prc);
 							}
-							
 						}
 					}
+					
 					
 				} else {
 //					LogUtil.info("", "", "", "", "CW", "CONTENTS NULL : " + epsd_id);
@@ -128,6 +132,50 @@ public class MakeCWService {
 		DateUtil.getCompare(resultGridList, "svc_fr_dt", "svc_to_dt", true);
 		
 		return AsyncResult.forValue(resultGridList);
+	}
+	
+	private Object checkPrdTypCd(List<Map<String, Object>> products) {
+		Object sale_prc = null;
+		String big_prd_typ_cd = "";
+		String possn_yn = "Y";
+		String prd_prc_fr_dt = "";
+		String prd_typ_cd = "";
+		String check_prd_typ_cd = ",20,30,34,35,41,10";
+		
+		for (Map<String, Object> p : products) {
+			
+			prd_typ_cd = p.get("prd_typ_cd").toString();
+			
+			if (check_prd_typ_cd.indexOf(prd_typ_cd) > 0) {
+				
+				if (big_prd_typ_cd.compareTo(prd_typ_cd) < 0) {
+					
+					big_prd_typ_cd = prd_typ_cd;
+					possn_yn = "";
+					prd_prc_fr_dt = "";
+					sale_prc = p.get("sale_prc");
+					
+				} else if (big_prd_typ_cd.compareTo(prd_typ_cd) == 0) {
+					
+					if (prd_prc_fr_dt.compareTo(p.get("prd_prc_fr_dt").toString()) < 0) {
+						
+						big_prd_typ_cd = prd_typ_cd;
+						possn_yn = p.get("possn_yn").toString();
+						prd_prc_fr_dt = p.get("prd_prc_fr_dt").toString();
+						sale_prc = p.get("sale_prc");
+						
+					} else if (possn_yn.compareTo(p.get("possn_yn").toString()) > 0) {
+
+						big_prd_typ_cd = prd_typ_cd;
+						possn_yn = p.get("possn_yn").toString();
+						prd_prc_fr_dt = p.get("prd_prc_fr_dt").toString();
+						sale_prc = p.get("sale_prc");
+					}
+				}
+			}
+		}
+		
+		return sale_prc;
 	}
 	
 }
