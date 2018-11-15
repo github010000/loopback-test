@@ -80,6 +80,17 @@
 			padding: 2px;
 		}
 		
+		.cwgrid div {
+			display: inline-block;
+			width: 100px;
+			height: 140px;
+			border: 1px solid #777;
+			border-radius: 2px;
+			float: left;
+			margin: 5px 5px 0 0;
+			padding: 2px;
+		}
+		
 		.event div, .banner div {
 			display: inline-block;
 			width: 140px;
@@ -95,6 +106,10 @@
 			font-size: 1.10em;
 		}
 		
+		.cwgrid b {
+			font-size: 1.10em;
+		}
+		
 		.red {
 			color: #B43104;
 		}
@@ -105,6 +120,18 @@
 		
 		.blue {
 			color: #2E64FE;
+		}
+		
+		.cwgreen {
+			background-color: #009246;
+		}
+		
+		.cwwhite {
+			background-color: #F1F2F1;
+		}
+		
+		.cwred {
+			background-color: #CE2B37;
 		}
 		
 		.gray {
@@ -140,6 +167,7 @@
 			float: left;
 			font-size: 0.7em;
 		}
+		
 	</style>
 </head>
 <body>
@@ -170,7 +198,7 @@
 		
 		$.ajax({    
 			type : "GET",
-			url : "/v5/menu/gnb?menu_stb_svc_id=" + $.urlParam('poc') + "&IF=IF-NXPG-001&stb_id=1234",
+			url : "/v5/menu/gnb?menu_stb_svc_id=" + $.urlParam('poc') + "&IF=IF-NXPG-001&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D",
 			success : function(args) {
 				
 				var appendHtml = "";
@@ -215,7 +243,7 @@
 			
 			$.ajax({    
 				type : "GET",
-				url : "/v5/menu/month?menu_stb_svc_id=" +  $.urlParam('poc') + "&IF=IF-NXPG-005&stb_id=1234&menu_id=" + menu_id,
+				url : "/v5/menu/month?menu_stb_svc_id=" +  $.urlParam('poc') + "&IF=IF-NXPG-005&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&menu_id=" + menu_id,
 				success : function(args) {
 					$("#block").empty();
 					var temp = "";
@@ -241,7 +269,12 @@
 						menus = args.blocks[r].menus;
 						for (var t in menus) {
 							
-							temp += "<div><b>" + menus[t].menu_nm + "</b></div>";
+							temp += "<div><b>" + menus[t].menu_nm + "</b>";
+							temp += "</br><span>" + menus[t].shcut_menu_id + "</span>";
+							if (menus[t].shcut_menu_id != "") {
+								temp += "</br><a href='#' onClick='goBlock(\"" + menus[t].shcut_menu_id + "\", \"\")'>블록 호출</a>";
+							}
+							temp += "</div>";
 						}
 
 						temp += "</div>";
@@ -257,7 +290,7 @@
 		} else {
 			$.ajax({    
 				type : "GET",
-				url : "/v5/menu/block?menu_stb_svc_id=" +  $.urlParam('poc') + "&IF=IF-NXPG-003&stb_id=1234&menu_id=" + menu_id,
+				url : "/v5/menu/block?menu_stb_svc_id=" +  $.urlParam('poc') + "&IF=IF-NXPG-003&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&menu_id=" + menu_id,
 				success : function(args) {
 					$("#block").empty();
 					var temp = "";
@@ -276,8 +309,18 @@
 							color = "gray";
 						}
 						temp = "<div>";
-						temp += "<strong>" + args.blocks[r].menu_nm + " : " + args.blocks[r].menu_id + "</strong> - <small class='" + color + "'>" + tag + "</small> - " + args.blocks[r].cmpgn_id;
-						if (args.blocks[r].blk_typ_cd == "20") {
+						if (args.blocks[r].scn_mthd_cd == "501") {
+							temp += "<b class='cwgreen'>&nbsp;&nbsp;</b><b class='cwwhite'>&nbsp;&nbsp;</b><b class='cwred'>&nbsp;&nbsp;</b> <strong>_CW_ : ";
+							temp += args.blocks[r].menu_id + " / " + args.blocks[r].cw_call_id_val;
+						} else {
+							temp += "<strong>" + args.blocks[r].menu_nm + " : ";
+							temp += args.blocks[r].menu_id;
+						}
+						temp += "</strong> - <small class='" + color + "'>" + tag + "</small> - " + args.blocks[r].cmpgn_id;
+						
+						if (args.blocks[r].scn_mthd_cd == "501") {
+							temp += "<div class='cwgrid' id='" + args.blocks[r].menu_id + "'>" + args.blocks[r].cw_call_id_val;
+						} else if (args.blocks[r].blk_typ_cd == "20") {
 							temp += "<div class='banner' id='" + args.blocks[r].menu_id + "'>";
 							menus = args.blocks[r].menus;
 							for (var t in menus) {
@@ -324,45 +367,68 @@
 		var tempArray = new Array();
 		$("#block div div").each(function(){
 			var id = $(this).attr("id");
+			var cw_val = $(this).text();
+			
 			var classval = $(this).attr("class");
 			classval = $.trim(classval);
-			if (classval == "grid" && id != "") {
+			if ((classval == "grid" || classval == "cwgrid") && id != "") {
+				
+				var gridurl = "/v5/grid/grid?menu_stb_svc_id=" +  $.urlParam('poc') + "&IF=IF-NXPG-006&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&page_no=1&page_cnt=20&menu_id=" + id;
+				
+				if (classval == "cwgrid") {
+					gridurl = "/v5/inter/cwgrid?menu_stb_svc_id=" +  $.urlParam('poc') + "&track_id=368.34727.1522911308391&session_id=b4566b6b-73b9-4f05-ab68-a80ff25a6c95&IF=IF-NXPG-009&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&type=all&cw_call_id=" + cw_val;
+				}
+				
 				$.ajax({    
 					type : "GET",
-					url : "/v5/grid/grid?menu_stb_svc_id=" +  $.urlParam('poc') + "&IF=IF-NXPG-006&stb_id=2345&page_no=1&page_cnt=20&menu_id=" + id,
+					url : gridurl,
 					success : function(args) {
 						//$(this).empty();
 						var html = "";
 						var color = "";
 						var epsdView = "";
-						for (var r in args.contents) {
+						
+						var grid_contents = args.contents;
+						
+						//alert($("#" + id).text());
+						if (classval == "cwgrid") {
+							grid_contents = args.grid[0].block;
+							$("#" + id).empty();
+							
+							var cwtext = $("#" + id).prev().prev().text();
+							
+							cwtext = cwtext.replace("_CW_", "CW / " + args.grid[0].sub_title);
+							$("#" + id).prev().prev().text(cwtext);
+						}
+						
+						for (var r in grid_contents) {
 							color = "";
 							epsdView = "";
-							synopUrl = "<a onClick='goSynop(\"" + args.contents[r].epsd_id + "\")' href='#'>시놉시스 API</a><br/>";
+							synopUrl = "<a onClick='goSynop(\"" + grid_contents[r].epsd_id + "\")' href='#'>시놉시스 API</a><br/>";
 							
 									
-							if (args.contents[r].synon_typ_cd == "01") {
+							if (grid_contents[r].synon_typ_cd == "01") {
 								color = " class='movie'";
-								epsdView = "<span>" + args.contents[r].epsd_id + "</span><br/>";
-							} else if (args.contents[r].synon_typ_cd == "02") {
+								epsdView = "<span>" + grid_contents[r].epsd_id + "</span><br/>";
+							} else if (grid_contents[r].synon_typ_cd == "02") {
 								color = " class='sris'";
-								epsdView = "<span>" + args.contents[r].epsd_id + "</span><br/>";
-							} else if (args.contents[r].synon_typ_cd == "03") {
+								epsdView = "<span>" + grid_contents[r].epsd_id + "</span><br/>";
+							} else if (grid_contents[r].synon_typ_cd == "03") {
 								color = " class='gateway'";
-								synopUrl = "<a onClick='goGateway(\"" + args.contents[r].sris_id + "\")' href='#'>GW시놉시스 API</a><br/>";
-							} else if (args.contents[r].synon_typ_cd == "04") {
+								synopUrl = "<a onClick='goGateway(\"" + grid_contents[r].sris_id + "\")' href='#'>GW시놉시스 API</a><br/>";
+							} else if (grid_contents[r].synon_typ_cd == "04") {
 								color = " class='vod'";
-								synopUrl = "<a onClick='goVod(\"" + args.contents[r].sris_id + "\")' href='#'>VOD관련상품 API</a><br/>";
+								synopUrl = "<a onClick='goVod(\"" + grid_contents[r].sris_id + "\")' href='#'>VOD관련상품 API</a><br/>";
 							}
 							
 
-							html = "<div id='" + args.contents[r].epsd_id + "'" + color + ">"
-									+ "<b>" + args.contents[r].title + "</b><br/>";
+							html = "<div id='" + grid_contents[r].epsd_id + "'" + color + ">"
+									+ "<b>" + grid_contents[r].title + "</b><br/>";
 
-							html += "<span>" + args.contents[r].sris_id + "</span><br/>";
+							html += "<span>" + grid_contents[r].sris_id + "</span><br/>";
 
 							html += epsdView;
-							html += "<b class='red2'>" + args.contents[r].i_img_cd + "</b><br/>";
+							html += "<b class='red2'>" + grid_contents[r].i_img_cd + "</b><br/>";
 							html += synopUrl;
 							html += "</div>";
 							
