@@ -160,15 +160,17 @@ public class DateUtil {
 		//if (isMenuAndGrid && !expiryDate) {
 			//return;
 		//}
-		
-		List<Map<String, Object>> newList = new ArrayList<Map<String, Object>>();
-		for (Object obj : list) {
-			Map<String, Object> object = CastUtil.getObjectToMap(obj);
-			// menu_cd 제거
-			doCompare(newList, object, fromDt, toDt, isMenuAndGrid);
-		}
-		for (Map<String, Object> del : newList) {
-			list.remove(del);
+
+		if (list != null) {
+			List<Map<String, Object>> newList = new ArrayList<Map<String, Object>>();
+			for (Object obj : list) {
+				Map<String, Object> object = CastUtil.getObjectToMap(obj);
+				// menu_cd 제거
+				doCompare(newList, object, fromDt, toDt, isMenuAndGrid);
+			}
+			for (Map<String, Object> del : newList) {
+				list.remove(del);
+			}
 		}
 	}
 	
@@ -177,15 +179,16 @@ public class DateUtil {
 		//if (isMenuAndGrid && !expiryDate) {
 			//return;
 		//}
-
-		List<Map<String, Object>> newList = new ArrayList<Map<String, Object>>();
-		for (Map<String, Object> object : list) {
-			doCompare(newList, object, fromDt, toDt, isMenuAndGrid);
-		}
-		//list = new ArrayList<Map<String, Object>>();
-		//list.addAll(newList);
-		for (Map<String, Object> del : newList) {
-			list.remove(del);
+		if (list != null) {
+			List<Map<String, Object>> newList = new ArrayList<Map<String, Object>>();
+			for (Map<String, Object> object : list) {
+				doCompare(newList, object, fromDt, toDt, isMenuAndGrid);
+			}
+			//list = new ArrayList<Map<String, Object>>();
+			//list.addAll(newList);
+			for (Map<String, Object> del : newList) {
+				list.remove(del);
+			}
 		}
 	}
 

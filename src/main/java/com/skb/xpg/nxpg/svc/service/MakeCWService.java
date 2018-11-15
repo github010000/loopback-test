@@ -72,6 +72,7 @@ public class MakeCWService {
 						poster_v = epsd.get("epsd_poster_filename_v") + "";
 					}
 					
+					
 					gridData.put("poster_filename_h", poster_h);
 					gridData.put("sris_id", sris.get("sris_id"));
 					gridData.put("poster_filename_v", poster_v);
@@ -88,28 +89,30 @@ public class MakeCWService {
 					gridData.put("epsd_rslu_id", epsd_rslu_id);
 					resultGridList.add(gridData);
 					
-					purchares = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.CONTENTS_PURCHARES, sris_id, param));
+					
 //					redisCnt++;
 					
 					List<Map<String, Object>> products = CastUtil.getObjectToMapList(epsd.get("products"));
 					
 					if (products != null && products.size() > 0) {
 						DateUtil.getCompare(products, "prd_prc_fr_dt", "purc_wat_to_dt", false);
-						
-						for (Map<String, Object> p : products) {
-							gridData.put("sale_prc", p.get("sale_prc"));
-							break;
-						}
-					} else {
 
+						if (products != null && products.size() > 0) {
+							gridData.put("sale_prc", products.get(0).get("sale_prc"));
+						}
+						
+					} else {
+						
+						purchares = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.CONTENTS_PURCHARES, sris_id, param));
+						
 						if (purchares != null && purchares.size() > 0) {
 							List<Map<String, Object>> purchares_products = CastUtil.getObjectToMapList(purchares.get("products"));
 							DateUtil.getCompare(purchares_products, "prd_prc_fr_dt", "purc_wat_to_dt", false);
 							
-							for (Map<String, Object> pp : purchares_products) {
-								gridData.put("sale_prc", pp.get("sale_prc"));
-								break;
+							if (purchares_products != null && purchares_products.size() > 0) {
+								gridData.put("sale_prc", purchares_products.get(0).get("sale_prc"));
 							}
+							
 						}
 					}
 					
@@ -128,4 +131,3 @@ public class MakeCWService {
 	}
 	
 }
-
