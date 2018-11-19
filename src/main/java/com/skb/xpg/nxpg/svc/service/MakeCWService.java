@@ -136,7 +136,7 @@ public class MakeCWService {
 	
 	private Object checkPrdTypCd(List<Map<String, Object>> products) {
 		Object sale_prc = null;
-		String big_prd_typ_cd = "";
+		String big_prd_typ_cd = "9999";
 		String possn_yn = "Y";
 		String prd_prc_fr_dt = "";
 		String prd_typ_cd = "";
@@ -147,8 +147,12 @@ public class MakeCWService {
 			prd_typ_cd = p.get("prd_typ_cd").toString();
 			
 			if (check_prd_typ_cd.indexOf(prd_typ_cd) > 0) {
+
+				if ("10".equals(prd_typ_cd)) {
+					prd_typ_cd = "999";
+				}
 				
-				if (big_prd_typ_cd.compareTo(prd_typ_cd) < 0) {
+				if (big_prd_typ_cd.compareTo(prd_typ_cd) > 0) {
 					
 					big_prd_typ_cd = prd_typ_cd;
 					possn_yn = "";
@@ -157,19 +161,19 @@ public class MakeCWService {
 					
 				} else if (big_prd_typ_cd.compareTo(prd_typ_cd) == 0) {
 					
-					if (prd_prc_fr_dt.compareTo(p.get("prd_prc_fr_dt").toString()) < 0) {
-						
-						big_prd_typ_cd = prd_typ_cd;
-						possn_yn = p.get("possn_yn").toString();
-						prd_prc_fr_dt = p.get("prd_prc_fr_dt").toString();
-						sale_prc = p.get("sale_prc");
-						
-					} else if (possn_yn.compareTo(p.get("possn_yn").toString()) > 0) {
+					if (possn_yn.compareTo(p.get("possn_yn").toString()) > 0) {
 
 						big_prd_typ_cd = prd_typ_cd;
 						possn_yn = p.get("possn_yn").toString();
 						prd_prc_fr_dt = p.get("prd_prc_fr_dt").toString();
 						sale_prc = p.get("sale_prc");
+					} else if (prd_prc_fr_dt.compareTo(p.get("prd_prc_fr_dt").toString()) < 0) {
+						
+						big_prd_typ_cd = prd_typ_cd;
+						possn_yn = p.get("possn_yn").toString();
+						prd_prc_fr_dt = p.get("prd_prc_fr_dt").toString();
+						sale_prc = p.get("sale_prc");
+						
 					}
 				}
 			}

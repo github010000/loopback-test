@@ -426,8 +426,14 @@
 									+ "<b>" + grid_contents[r].title + "</b><br/>";
 
 							html += "<span>" + grid_contents[r].sris_id + "</span><br/>";
-
 							html += epsdView;
+							html += "<span>" + grid_contents[r].sale_prc + "원</span><br/>";
+							if (grid_contents[r].poster_filename_v == "") {
+								html += "<span>포스터유무 : N</span><br/>";
+							} else {
+								html += "<span>포스터유무 : Y</span><br/>";
+							}
+
 							html += "<b class='red2'>" + grid_contents[r].i_img_cd + "</b><br/>";
 							html += synopUrl;
 							html += "</div>";
@@ -506,8 +512,14 @@
 							+ "<b>" + args.contents[r].title + "</b><br/>";
 
 					html += "<span>" + args.contents[r].sris_id + "</span><br/>";
-
 					html += epsdView;
+					html += "<span>" + args.contents[r].sale_prc + "원</span><br/>";
+					if (args.contents[r].poster_filename_v == "") {
+						html += "<span>포스터유무 : N</span><br/>";
+					} else {
+						html += "<span>포스터유무 : Y</span><br/>";
+					}
+					
 					html += "<b class='red2'>" + args.contents[r].i_img_cd + "</b><br/>";
 					html += synopUrl;
 					html += "</div>";
