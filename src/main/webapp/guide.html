@@ -32,6 +32,7 @@
 			border-top: 1px solid #777;
 			border-radius: 2px;
 			padding: 2px 2px;
+			background-color: #EAEAEA;
 		}
 		
 		#gnb li a {
@@ -168,6 +169,30 @@
 			font-size: 0.7em;
 		}
 		
+		#banner {
+			display: block;
+		}
+		
+		#banner li {
+			float: left;
+			width: 100px;
+			height: 70px;
+			font-weight: bold;
+			display: inline-block;
+			text-align: left;
+			vertical-align: middle;
+			text-decoration: none;
+			font-size: 0.75em;
+			margin: 0 2px 0 2px;
+			border-left: 1px solid #777;
+			border-right: 1px solid #777;
+			border-bottom: 1px solid #777;
+			border-top: 1px solid #777;
+			border-radius: 2px;
+			padding: 2px 2px;
+			background-color: #DDD;
+		}
+		
 	</style>
 </head>
 <body>
@@ -176,6 +201,13 @@
 	<ul id="gnb">
 		
 	</ul>
+	<div class="clearAll"></div>
+	<div id="bigbanner">
+		<b>BigBanner</b>
+		<ul id="banner">
+			
+		</ul>
+	</div>
 	<div class="clearAll"></div>
 	<b>Block / Grid</b>
 	<ul id="block">
@@ -195,10 +227,11 @@
 		       return results[1] || 0;
 		    }
 		}
+		$("#bigbanner").hide();
 		
 		$.ajax({    
 			type : "GET",
-			url : "/v5/menu/gnb?menu_stb_svc_id=" + $.urlParam('poc') + "&IF=IF-NXPG-001&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D",
+			url : "/v5/menu/gnb?menu_stb_svc_id=" + $.urlParam('poc') + "&IF=IF-NXPG-001&stb_id=1234",
 			success : function(args) {
 				
 				var appendHtml = "";
@@ -243,13 +276,16 @@
 			
 			$.ajax({    
 				type : "GET",
-				url : "/v5/menu/month?menu_stb_svc_id=" +  $.urlParam('poc') + "&IF=IF-NXPG-005&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&menu_id=" + menu_id,
+				url : "/v5/menu/month?menu_stb_svc_id=" +  $.urlParam('poc') + "&IF=IF-NXPG-005&stb_id=1234&menu_id=" + menu_id,
 				success : function(args) {
 					$("#block").empty();
+					$("#banner").empty();
+					$("#bigbanner").hide();
 					var temp = "";
 					var color = "";
 					var tag = "";
 					var menus;
+					
 					for (var r in args.blocks) {
 						
 						if (args.blocks[r].menu_nm_exps_yn == "Y") {
@@ -292,10 +328,23 @@
 				type : "GET",
 				url : "/v5/menu/block?menu_stb_svc_id=" +  $.urlParam('poc') + "&IF=IF-NXPG-003&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&menu_id=" + menu_id,
 				success : function(args) {
+					$("#banner").empty();
 					$("#block").empty();
+					$("#bigbanner").hide();
 					var temp = "";
 					var color = "";
 					var tag = "";
+					
+					for (var bb in args.banners) {
+						if (bb == 0) {
+							$("#bigbanner").show();
+						}
+						temp = "<li>";
+						temp += "<div><b>" + args.banners[bb].menu_nm + "</b><div>";
+						temp += "</li>";
+						$("#banner").append(temp);
+					}
+					
 					for (var r in args.blocks) {
 						
 						if (args.blocks[r].menu_nm_exps_yn == "Y") {
@@ -373,7 +422,7 @@
 			classval = $.trim(classval);
 			if ((classval == "grid" || classval == "cwgrid") && id != "") {
 				
-				var gridurl = "/v5/grid/grid?menu_stb_svc_id=" +  $.urlParam('poc') + "&IF=IF-NXPG-006&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&page_no=1&page_cnt=20&menu_id=" + id;
+				var gridurl = "/v5/grid/grid?menu_stb_svc_id=" +  $.urlParam('poc') + "&IF=IF-NXPG-006&stb_id=2345&page_no=1&page_cnt=20&menu_id=" + id;
 				
 				if (classval == "cwgrid") {
 					gridurl = "/v5/inter/cwgrid?menu_stb_svc_id=" +  $.urlParam('poc') + "&track_id=368.34727.1522911308391&session_id=b4566b6b-73b9-4f05-ab68-a80ff25a6c95&IF=IF-NXPG-009&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&type=all&cw_call_id=" + cw_val;
@@ -426,6 +475,7 @@
 									+ "<b>" + grid_contents[r].title + "</b><br/>";
 
 							html += "<span>" + grid_contents[r].sris_id + "</span><br/>";
+							
 							html += epsdView;
 							html += "<span>" + grid_contents[r].sale_prc + "원</span><br/>";
 							if (grid_contents[r].poster_filename_v == "") {
@@ -433,7 +483,6 @@
 							} else {
 								html += "<span>포스터유무 : Y</span><br/>";
 							}
-
 							html += "<b class='red2'>" + grid_contents[r].i_img_cd + "</b><br/>";
 							html += synopUrl;
 							html += "</div>";
@@ -512,6 +561,7 @@
 							+ "<b>" + args.contents[r].title + "</b><br/>";
 
 					html += "<span>" + args.contents[r].sris_id + "</span><br/>";
+
 					html += epsdView;
 					html += "<span>" + args.contents[r].sale_prc + "원</span><br/>";
 					if (args.contents[r].poster_filename_v == "") {
@@ -519,7 +569,6 @@
 					} else {
 						html += "<span>포스터유무 : Y</span><br/>";
 					}
-					
 					html += "<b class='red2'>" + args.contents[r].i_img_cd + "</b><br/>";
 					html += synopUrl;
 					html += "</div>";
