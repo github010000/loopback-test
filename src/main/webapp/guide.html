@@ -9,10 +9,35 @@
 		body {
 			font-family: Sans-Serif;	
 		}
+		
+		small {
+			font-weight: normal;
+		}
 	
 		ul {
 			display: block;
 			margin: 10px 0 10px 0;
+		}
+		
+		#guide {
+			position: absolute;
+			top: 5px;
+			left: 270px;
+			width: 980px;
+			height: 72px;
+		}
+		
+		#guide table {
+			border-collapse: collapse;
+			border: 1px solid #999;
+			background-color: #F9F9F9;
+			font-size: 0.7em;
+			padding: 0px;
+		}
+		
+		#guide td, th {
+			border: 1px solid #999;
+			padding: 2px;
 		}
 		
 		#gnb li {
@@ -32,7 +57,7 @@
 			border-top: 1px solid #777;
 			border-radius: 2px;
 			padding: 2px 2px;
-			background-color: #EAEAEA;
+			background-color: #FEEEED;
 		}
 		
 		#gnb li a {
@@ -101,6 +126,7 @@
 			float: left;
 			margin: 5px 5px 0 0;
 			padding: 2px;
+			background-color: #F2EADA;
 		}
 		
 		.grid b {
@@ -135,24 +161,38 @@
 			background-color: #CE2B37;
 		}
 		
+		.skred {
+			color: #FFF;
+			background-color: #CE2B37;
+		}
+		
+		.skyellow {
+			color: #FFF;
+			background-color: #FF7A00;
+		}
+		
 		.gray {
 			color: #848484;
 		}
 		
 		.movie {
-			background-color: #CCCCFF;
-		}
-		
-		.sris {
-			background-color: #FFCC66;
-		}
-		
-		.gateway {
 			background-color: #99CC66;
 		}
 		
-		.vod {
+		.sris {
 			background-color: #99CCFF;
+		}
+		
+		.gateway {
+			background-color: #FFC0CB;
+		}
+		
+		.vod {
+			background-color: #DA70D6;
+		}
+		
+		.event {
+			background-color: #F2EADA;
 		}
 		
 		#block div {
@@ -190,26 +230,65 @@
 			border-top: 1px solid #777;
 			border-radius: 2px;
 			padding: 2px 2px;
-			background-color: #DDD;
+			background-color: #FFFACD;
 		}
 		
 	</style>
 </head>
 <body>
-	<b>GNB (001)</b><br>
+	<div id="guide">
+		<table>
+			<tr>
+				<th class="movie">단편/영화</th>
+				<th class="sris">시리즈/드라마</th>
+				<th class="gateway">패키지상품(묶음)</th>
+				<th class="vod">VOD+관련상품(실물)</th>
+				<th class="event">블록하위메뉴/이벤트블록</th>
+				<th>
+					<b class='skred'>&nbsp;S</b><b class='skyellow'>K&nbsp;</b>
+					블록 별 그리드
+				</th>
+				<th>
+					<b class='cwgreen'>&nbsp;&nbsp;</b><b class='cwwhite'>&nbsp;&nbsp;</b><b class='cwred'>&nbsp;&nbsp;</b>
+					CW추천그리드
+				</th>
+			</tr>
+			<tr>
+				<td colspan=2>NXPG-010</td>
+				<td>NXPG-014</td>
+				<td>NXPG-015</td>
+				<td>NXPG-007</td>
+				<td>NXPG-006</td>
+				<td>NXPG-009</td>
+			</tr>
+			<tr>
+				<td colspan=2>NCMS_API-007,008,011,012,013,014,015,029</td>
+				<td>NCMS_API-009</td>
+				<td>NCMS_API-010</td>
+				<td>NCMS_API-005</td>
+				<td>NCMS_API-006</td>
+				<td>CW의 CID+NCMS_API-006,007,008,015,016</td>
+			</tr>
+		
+		</table>
+		
+		
+	</div>
 	<h2 id="whatPoc"></h2>
+	<b>GNB메뉴</b> <small>NXPG-001 / NCMS_API-001</small>
 	<ul id="gnb">
 		
 	</ul>
 	<div class="clearAll"></div>
 	<div id="bigbanner">
-		<b>BigBanner</b>
+		<b>빅배너</b> <small>NXPG-003 / NCMS_API-003</small>
 		<ul id="banner">
 			
 		</ul>
 	</div>
 	<div class="clearAll"></div>
-	<b>Block / Grid</b>
+	<b id="t_block">블록 <small>NXPG-003 / NCMS_API-004</small></b>
+	<b id="t_month">월정액 메뉴 <small>NXPG-005 / NCMS_API-024</small></b>
 	<ul id="block">
 		
 	</ul>
@@ -228,6 +307,8 @@
 		    }
 		}
 		$("#bigbanner").hide();
+		$("#t_block").hide();
+		$("#t_month").hide();
 		
 		$.ajax({    
 			type : "GET",
@@ -238,7 +319,7 @@
 				var firstLi = " class='first'";
 				var isLinkTag = "";
 				
-				$("#whatPoc").append($.urlParam('poc'));
+				$("#whatPoc").append("POC : " + $.urlParam('poc'));
 				
 				for (var r in args.menus) {
 					if ("U5_01,U5_09,U5_11,VIEW_ALL".includes(args.menus[r].gnb_typ_cd)) {
@@ -281,6 +362,8 @@
 					$("#block").empty();
 					$("#banner").empty();
 					$("#bigbanner").hide();
+					$("#t_block").hide();
+					$("#t_month").show();
 					var temp = "";
 					var color = "";
 					var tag = "";
@@ -291,7 +374,7 @@
 						if (args.blocks[r].menu_nm_exps_yn == "Y") {
 							tag = "표시";
 							color = "blue";
-						} else if (args.blocks[r].menu_nm_exps_yn == "Y") {
+						} else if (args.blocks[r].menu_nm_exps_yn == "N") {
 							tag = "숨김";
 							color = "red";
 						} else {
@@ -331,6 +414,8 @@
 					$("#banner").empty();
 					$("#block").empty();
 					$("#bigbanner").hide();
+					$("#t_block").show();
+					$("#t_month").hide();
 					var temp = "";
 					var color = "";
 					var tag = "";
@@ -362,7 +447,7 @@
 							temp += "<b class='cwgreen'>&nbsp;&nbsp;</b><b class='cwwhite'>&nbsp;&nbsp;</b><b class='cwred'>&nbsp;&nbsp;</b> <strong>_CW_ : ";
 							temp += args.blocks[r].menu_id + " / " + args.blocks[r].cw_call_id_val;
 						} else {
-							temp += "<strong>" + args.blocks[r].menu_nm + " : ";
+							temp += "<b class='skred'>&nbsp;S</b><b class='skyellow'>K&nbsp;</b> <strong>" + args.blocks[r].menu_nm + " : ";
 							temp += args.blocks[r].menu_id;
 						}
 						temp += "</strong> - <small class='" + color + "'>" + tag + "</small> - " + args.blocks[r].cmpgn_id;
