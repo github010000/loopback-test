@@ -44,6 +44,8 @@ public class NXPGCommon {
 	public static final String GRID_CONTENTS_ITEM  = "grid_contents_item";
 	public static final String VERSION  = "version";
 
+	public static final String INSIDE_INFO  = "inside_info";
+
 	public static boolean cwSwitch = true;
 	@Value("${user.cwswitch}")
     private void setCWSwitch(boolean cwSwitch){

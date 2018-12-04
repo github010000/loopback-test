@@ -194,7 +194,13 @@
 				<b><span></span></b> <input type="text" value="" disabled/>
 				<button id="u018">조회</button>
 			</li>
-			<!--<li><h3><i>IF-NXPG-019 / <a href="#" id="u019">진행중이벤트)</h3><br/> <b><span></span></b> <input type="text" value=""/></li> -->
+			<li>
+				<h3><i>IF-NXPG-019</i> (Inside Info)</h3><br/> 
+				<b><span>epsd_id</span></b> <input type="text" value="CE0000024898"/><br/>
+				<b><span>prs_id</span></b> <input type="text" value="MP0000001818"/><br/>
+				<b><span>tmtag_tmsc</span></b> <input type="text" value="1081"/>
+				<button id="u026">조회</button>
+			</li>
 			<li>
 				<h3><i>IF-NXPG-101</i> (키즈존 캐릭터메뉴 정보)</h3><br/> 
 				<b><span>menu_stb_svc_id</span></b> <input type="text" value="BTVUH2V500"/><br/>
@@ -217,7 +223,6 @@
 				<b><span>epsd_id</span></b> <input type="text" value="CE1000008260"/>
 				<button id="u025">조회</button>
 			</li>
-	
 		</ul>
 	</div>
 	<!-- <h3>Content Id Sample</h3>
@@ -255,6 +260,7 @@ var u022 = "/v5/menu/lfthomemapping?menu_stb_svc_id=BTVUH2V500&IF=IF-NXPG-401"
 //var u023 = "/v5/menu/lftmenu?menu_stb_svc_id=BTVUH2V500&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&IF=IF-NXPG-401"
 //var u024 = "/v5/grid/lftgrid?menu_stb_svc_id=BTVUH2V500&menu_id=NM1000018172&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&IF=IF-NXPG-402"
 var u025 = "/v5/contents/lftsynop?menu_stb_svc_id=BTVUH2V500&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&IF=IF-NXPG-403"
+var u026 = "/v5/inside/info?menu_stb_svc_id=BTVUH2V500&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&IF=IF-NXPG-019"
 
 $("#indexPage li button").click(function(){
 	var urlname = $(this).attr("id");
