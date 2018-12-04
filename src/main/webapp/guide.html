@@ -180,11 +180,11 @@
 		}
 		
 		.sris {
-			background-color: #A2DCF2;
+			background-color: #E8C84A;
 		}
 		
 		.gateway {
-			background-color: #FFC0CB;
+			background-color: #FF8282;
 		}
 		
 		.vod {
@@ -239,35 +239,38 @@
 	<div id="guide">
 		<table>
 			<tr>
+				<th></th>
 				<th class="movie">단편/영화</th>
 				<th class="sris">시리즈/드라마</th>
 				<th class="gateway">패키지상품(묶음)</th>
 				<th class="vod">VOD+관련상품(실물)</th>
 				<th class="event">블록하위메뉴/이벤트블록</th>
 				<th>
-					<b class='skred'>&nbsp;S</b><b class='skyellow'>K&nbsp;</b>
-					블록 별 그리드
+					<b class='skred'>GR</b><b class='skyellow'>ID</b>
+					그리드
 				</th>
 				<th>
 					<b class='cwgreen'>&nbsp;&nbsp;</b><b class='cwwhite'>&nbsp;&nbsp;</b><b class='cwred'>&nbsp;&nbsp;</b>
-					CW추천그리드
+					CW그리드
 				</th>
 			</tr>
 			<tr>
-				<td colspan=2>NXPG-010</td>
-				<td>NXPG-014</td>
-				<td>NXPG-015</td>
-				<td>NXPG-007</td>
-				<td>NXPG-006</td>
-				<td>NXPG-009</td>
+				<th>NXPG API</th>
+				<td colspan=2>010</td>
+				<td>014</td>
+				<td>015</td>
+				<td>007</td>
+				<td>006</td>
+				<td>009</td>
 			</tr>
 			<tr>
-				<td colspan=2>NCMS_API-007,008,011,012,013,014,015,029</td>
-				<td>NCMS_API-009</td>
-				<td>NCMS_API-010</td>
-				<td>NCMS_API-005</td>
-				<td>NCMS_API-006</td>
-				<td>CW의 CID+NCMS_API-006,007,008,015,016</td>
+				<th>NCMS API</th>
+				<td colspan=2>007,008,011,012,013,014,015,029</td>
+				<td>009</td>
+				<td>010</td>
+				<td>005</td>
+				<td>006</td>
+				<td>CW결과+006,007,008,015,016</td>
 			</tr>
 		
 		</table>
@@ -446,8 +449,11 @@
 						if (args.blocks[r].scn_mthd_cd == "501") {
 							temp += "<b class='cwgreen'>&nbsp;&nbsp;</b><b class='cwwhite'>&nbsp;&nbsp;</b><b class='cwred'>&nbsp;&nbsp;</b> <strong>_CW_ : ";
 							temp += args.blocks[r].menu_id + " / " + args.blocks[r].cw_call_id_val;
+						} else if (args.blocks[r].blk_typ_cd == "30") {
+							temp += "<b class='skred'>GR</b><b class='skyellow'>ID</b> <strong>" + args.blocks[r].menu_nm + " : ";
+							temp += args.blocks[r].menu_id;
 						} else {
-							temp += "<b class='skred'>&nbsp;S</b><b class='skyellow'>K&nbsp;</b> <strong>" + args.blocks[r].menu_nm + " : ";
+							temp += "<strong>" + args.blocks[r].menu_nm + " : ";
 							temp += args.blocks[r].menu_id;
 						}
 						temp += "</strong> - <small class='" + color + "'>" + tag + "</small> - " + args.blocks[r].cmpgn_id;
