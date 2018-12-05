@@ -104,6 +104,7 @@
 			float: left;
 			margin: 5px 5px 0 0;
 			padding: 2px;
+			font-size: 0.7em;
 		}
 		
 		.cwgrid div {
@@ -115,6 +116,7 @@
 			float: left;
 			margin: 5px 5px 0 0;
 			padding: 2px;
+			font-size: 0.7em;
 		}
 		
 		.event div, .banner div {
@@ -127,13 +129,26 @@
 			margin: 5px 5px 0 0;
 			padding: 2px;
 			background-color: #F2EADA;
+			font-size: 0.8em;
 		}
 		
 		.grid b {
 			font-size: 1.10em;
+			display: block;
+			white-space: nowrap; 
+			overflow: hidden;
+			text-overflow: ellipsis;
 		}
 		
 		.cwgrid b {
+			font-size: 1.10em;
+			display: block;
+			white-space: nowrap; 
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+		
+		.cw b {
 			font-size: 1.10em;
 		}
 		
@@ -180,11 +195,11 @@
 		}
 		
 		.sris {
-			background-color: #A2DCF2;
+			background-color: #E8C84A;
 		}
 		
 		.gateway {
-			background-color: #FFC0CB;
+			background-color: #FF8282;
 		}
 		
 		.vod {
@@ -206,7 +221,6 @@
 		#block div div div {
 			display: block;
 			float: left;
-			font-size: 0.7em;
 		}
 		
 		#banner {
@@ -239,35 +253,39 @@
 	<div id="guide">
 		<table>
 			<tr>
+				<th></th>
 				<th class="movie">단편/영화</th>
 				<th class="sris">시리즈/드라마</th>
 				<th class="gateway">패키지상품(묶음)</th>
 				<th class="vod">VOD+관련상품(실물)</th>
 				<th class="event">블록하위메뉴/이벤트블록</th>
 				<th>
-					<b class='skred'>&nbsp;S</b><b class='skyellow'>K&nbsp;</b>
-					블록 별 그리드
+					<b class='skred'>GR</b><b class='skyellow'>ID</b>
+					그리드
 				</th>
 				<th>
-					<b class='cwgreen'>&nbsp;&nbsp;</b><b class='cwwhite'>&nbsp;&nbsp;</b><b class='cwred'>&nbsp;&nbsp;</b>
-					CW추천그리드
+					<!-- <b class='cwgreen'>&nbsp;&nbsp;</b><b class='cwwhite'>&nbsp;&nbsp;</b><b class='cwred'>&nbsp;&nbsp;</b> -->
+					<img class='pasta' src='italy.gif' width='30' height='25'/>
+					CW그리드
 				</th>
 			</tr>
 			<tr>
-				<td colspan=2>NXPG-010</td>
-				<td>NXPG-014</td>
-				<td>NXPG-015</td>
-				<td>NXPG-007</td>
-				<td>NXPG-006</td>
-				<td>NXPG-009</td>
+				<th>NXPG API</th>
+				<td colspan=2>010</td>
+				<td>014</td>
+				<td>015</td>
+				<td>007</td>
+				<td>006</td>
+				<td>009</td>
 			</tr>
 			<tr>
-				<td colspan=2>NCMS_API-007,008,011,012,013,014,015,029</td>
-				<td>NCMS_API-009</td>
-				<td>NCMS_API-010</td>
-				<td>NCMS_API-005</td>
-				<td>NCMS_API-006</td>
-				<td>CW의 CID+NCMS_API-006,007,008,015,016</td>
+				<th>NCMS API</th>
+				<td colspan=2>007,008,011,012,013,014,015,029</td>
+				<td>009</td>
+				<td>010</td>
+				<td>005</td>
+				<td>006</td>
+				<td>CW결과+006,007,008,015,016</td>
 			</tr>
 		
 		</table>
@@ -444,16 +462,22 @@
 						}
 						temp = "<div>";
 						if (args.blocks[r].scn_mthd_cd == "501") {
-							temp += "<b class='cwgreen'>&nbsp;&nbsp;</b><b class='cwwhite'>&nbsp;&nbsp;</b><b class='cwred'>&nbsp;&nbsp;</b> <strong>_CW_ : ";
-							temp += args.blocks[r].menu_id + " / " + args.blocks[r].cw_call_id_val;
+							//temp += "<b class='cwgreen'>&nbsp;&nbsp;</b><b class='cwwhite'>&nbsp;&nbsp;</b><b class='cwred'>&nbsp;&nbsp;</b> <strong>_CW_ : ";
+							//temp += "<img class='pasta' src='italy.gif' width='40' height='32' title='파스타'/> <strong>_CW_ : "
+							//temp += args.blocks[r].menu_id + " / " + args.blocks[r].cw_call_id_val;
+							temp += "<strong>" + args.blocks[r].menu_nm + " : ";
+							temp += args.blocks[r].menu_id;
+						} else if (args.blocks[r].blk_typ_cd == "30") {
+							temp += "<b class='skred'>GR</b><b class='skyellow'>ID</b> <strong>" + args.blocks[r].menu_nm + " : ";
+							temp += args.blocks[r].menu_id;
 						} else {
-							temp += "<b class='skred'>&nbsp;S</b><b class='skyellow'>K&nbsp;</b> <strong>" + args.blocks[r].menu_nm + " : ";
+							temp += "<strong>" + args.blocks[r].menu_nm + " : ";
 							temp += args.blocks[r].menu_id;
 						}
 						temp += "</strong> - <small class='" + color + "'>" + tag + "</small> - " + args.blocks[r].cmpgn_id;
 						
 						if (args.blocks[r].scn_mthd_cd == "501") {
-							temp += "<div class='cwgrid' id='" + args.blocks[r].menu_id + "'>" + args.blocks[r].cw_call_id_val;
+							temp += "<div class='cw' id='" + args.blocks[r].menu_id + "'>" + args.blocks[r].cw_call_id_val;
 						} else if (args.blocks[r].blk_typ_cd == "20") {
 							temp += "<div class='banner' id='" + args.blocks[r].menu_id + "'>";
 							menus = args.blocks[r].menus;
@@ -463,11 +487,12 @@
 
 								temp += "<b>" + menus[t].menu_nm + "</b></br>";
 								temp += "<span>" + menus[t].menu_id + "</span></br>";
-								
-								if (menus[t].blk_typ_cd == "20") {
+								if (menus[t].scn_mthd_cd == "501") {
+									temp += "<a href='#' onClick='goCWGrid(\"" + menus[t].menu_id + "\", \"" + menus[t].cw_call_id_val + "\", \"block\")'>CW 호출</a>";
+								} else if (menus[t].blk_typ_cd == "20") {
 									temp += "<a href='#' onClick='goBlock(\"" + menus[t].menu_id + "\", \"" + menus[t].gnb_typ_cd + "\")'>블록 호출</a>";
 								} else if (menus[t].blk_typ_cd == "30") {
-									temp += "<a href='#' onClick='goOnlyGrid(\"" + menus[t].menu_id + "\", \"" + menus[t].menu_nm + "\")'>그리드 호출</a>";
+									temp += "<a href='#' onClick='goOnlyGrid(\"" + menus[t].menu_id + "\", \"" + menus[t].menu_nm + "\", \"block\")'>그리드 호출</a>";
 								}
 								temp += "</div>";
 							}
@@ -489,6 +514,12 @@
 						$("#block").append(temp);
 					}
 					
+					$('.pasta').mouseover(function() {
+					    $(this).attr('src','pasta.gif');
+					}).mouseout(function() {
+					    $(this).attr('src','italy.gif');
+					});
+					
 					goGrid();
 				}
 			});
@@ -505,78 +536,37 @@
 			
 			var classval = $(this).attr("class");
 			classval = $.trim(classval);
-			if ((classval == "grid" || classval == "cwgrid") && id != "") {
+			if ((classval == "grid" || classval == "cw") && id != "") {
 				
-				var gridurl = "/v5/grid/grid?menu_stb_svc_id=" +  $.urlParam('poc') + "&IF=IF-NXPG-006&stb_id=2345&page_no=1&page_cnt=20&menu_id=" + id;
+				if (classval == "cw") {
+					$("#" + id).empty();
+					goCWGrid(id, cw_val, id);
 				
-				if (classval == "cwgrid") {
-					gridurl = "/v5/inter/cwgrid?menu_stb_svc_id=" +  $.urlParam('poc') + "&track_id=368.34727.1522911308391&session_id=b4566b6b-73b9-4f05-ab68-a80ff25a6c95&IF=IF-NXPG-009&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&type=all&cw_call_id=" + cw_val;
-				}
+				} else {
+					
+					var gridurl = "/v5/grid/grid?menu_stb_svc_id=" +  $.urlParam('poc') + "&IF=IF-NXPG-006&stb_id=2345&page_no=1&page_cnt=20&menu_id=" + id;
 				
-				$.ajax({    
-					type : "GET",
-					url : gridurl,
-					success : function(args) {
-						//$(this).empty();
-						var html = "";
-						var color = "";
-						var epsdView = "";
-						
-						var grid_contents = args.contents;
-						
-						//alert($("#" + id).text());
-						if (classval == "cwgrid") {
-							grid_contents = args.grid[0].block;
-							$("#" + id).empty();
+					$.ajax({    
+						type : "GET",
+						url : gridurl,
+						success : function(args) {
+							//$(this).empty();
+							var html = "";
+							var color = "";
+							var epsdView = "";
 							
-							var cwtext = $("#" + id).prev().prev().text();
+							var grid_contents = args.contents;
 							
-							cwtext = cwtext.replace("_CW_", "CW / " + args.grid[0].sub_title);
-							$("#" + id).prev().prev().text(cwtext);
-						}
-						
-						for (var r in grid_contents) {
-							color = "";
-							epsdView = "";
-							synopUrl = "<a onClick='goSynop(\"" + grid_contents[r].epsd_id + "\")' href='#'>시놉시스 API</a><br/>";
 							
-									
-							if (grid_contents[r].synon_typ_cd == "01") {
-								color = " class='movie'";
-								epsdView = "<span>" + grid_contents[r].epsd_id + "</span><br/>";
-							} else if (grid_contents[r].synon_typ_cd == "02") {
-								color = " class='sris'";
-								epsdView = "<span>" + grid_contents[r].epsd_id + "</span><br/>";
-							} else if (grid_contents[r].synon_typ_cd == "03") {
-								color = " class='gateway'";
-								synopUrl = "<a onClick='goGateway(\"" + grid_contents[r].sris_id + "\")' href='#'>GW시놉시스 API</a><br/>";
-							} else if (grid_contents[r].synon_typ_cd == "04") {
-								color = " class='vod'";
-								synopUrl = "<a onClick='goVod(\"" + grid_contents[r].sris_id + "\")' href='#'>VOD관련상품 API</a><br/>";
-							}
-							
-
-							html = "<div id='" + grid_contents[r].epsd_id + "'" + color + ">"
-									+ "<b>" + grid_contents[r].title + "</b><br/>";
-
-							html += "<span>" + grid_contents[r].sris_id + "</span><br/>";
-							
-							html += epsdView;
-							html += "<span>" + grid_contents[r].sale_prc + "원</span><br/>";
-							if (grid_contents[r].poster_filename_v == "") {
-								html += "<span>포스터유무 : N</span><br/>";
-							} else {
-								html += "<span>포스터유무 : Y</span><br/>";
-							}
-							html += "<b class='red2'>" + grid_contents[r].i_img_cd + "</b><br/>";
-							html += synopUrl;
-							html += "</div>";
+							html = makeGrid(grid_contents);
 							
 							$("#" + id).append(html);
+							
 						}
-						
-					}
-				});
+				
+					});
+				}
+					
 			} else if (classval == "event" && id != "") {
 				$.ajax({    
 					type : "GET",
@@ -600,7 +590,60 @@
 		
 	}
 	
-	function goOnlyGrid(menu_id, menu_nm) {
+	function goCWGrid(menu_id, cw_val, target) {
+		
+		var gridurl = "/v5/inter/cwgrid?menu_stb_svc_id=" +  $.urlParam('poc') + "&track_id=368.34727.1522911308391&session_id=b4566b6b-73b9-4f05-ab68-a80ff25a6c95&IF=IF-NXPG-009&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&type=all&cw_call_id=" + cw_val;
+		
+		
+		$.ajax({    
+			type : "GET",
+			url : gridurl,
+			success : function(args) {
+				
+				$("#" + target).empty();
+				//$(this).empty();
+				var html = "";
+				var color = "";
+				var epsdView = "";
+				var temp = "";
+				var synopUrl = "";
+				
+				var grid_contents, cwtext;
+				
+				
+				for (var j in args.grid) {
+				
+					grid_contents = args.grid[j].block;
+					cwtext = args.grid[j].sub_title;
+					html = "";
+					temp = "<div>";
+					temp += "<img class='pasta' src='italy.gif' width='40' height='32' title='파스타'/> ";
+					temp += "<strong>[CW] " + cwtext + " / " + cw_val  + "</strong>";
+					
+					temp += "<div class='cwgrid'>";
+					
+					html = makeGrid(grid_contents);
+
+					temp += html;
+					
+					temp += "</div>";
+					temp += "<div class='clearAll'></div>";
+					temp += "</div>";
+					
+					
+					
+					$("#" + target).append(temp);
+				
+				
+				
+				}
+				
+				
+			}
+		});
+	}
+	
+	function goOnlyGrid(menu_id, menu_nm, target) {
 		$.ajax({    
 			type : "GET",
 			url : "/v5/grid/grid?menu_stb_svc_id=" +  $.urlParam('poc') + "&IF=IF-NXPG-006&stb_id=2345&page_no=1&page_cnt=20&menu_id=" + menu_id,
@@ -621,54 +664,64 @@
 				
 				temp += "<div class='grid' id='" + menu_id + "'>";
 				
-				for (var r in args.contents) {
-					color = "";
-					epsdView = "";
-					synopUrl = "<a onClick='goSynop(\"" + args.contents[r].epsd_id + "\")' href='#'>시놉시스 API</a><br/>";
-					
-							
-					if (args.contents[r].synon_typ_cd == "01") {
-						color = " class='movie'";
-						epsdView = "<span>" + args.contents[r].epsd_id + "</span><br/>";
-					} else if (args.contents[r].synon_typ_cd == "02") {
-						color = " class='sris'";
-						epsdView = "<span>" + args.contents[r].epsd_id + "</span><br/>";
-					} else if (args.contents[r].synon_typ_cd == "03") {
-						color = " class='gateway'";
-						synopUrl = "<a onClick='goGateway(\"" + args.contents[r].sris_id + "\")' href='#'>GW시놉시스 API</a><br/>";
-					} else if (args.contents[r].synon_typ_cd == "04") {
-						color = " class='vod'";
-						synopUrl = "<a onClick='goVod(\"" + args.contents[r].sris_id + "\")' href='#'>VOD관련상품 API</a><br/>";
-					}
-					
-
-					html += "<div id='" + args.contents[r].epsd_id + "'" + color + ">"
-							+ "<b>" + args.contents[r].title + "</b><br/>";
-
-					html += "<span>" + args.contents[r].sris_id + "</span><br/>";
-
-					html += epsdView;
-					html += "<span>" + args.contents[r].sale_prc + "원</span><br/>";
-					if (args.contents[r].poster_filename_v == "") {
-						html += "<span>포스터유무 : N</span><br/>";
-					} else {
-						html += "<span>포스터유무 : Y</span><br/>";
-					}
-					html += "<b class='red2'>" + args.contents[r].i_img_cd + "</b><br/>";
-					html += synopUrl;
-					html += "</div>";
-					
-				}
+				html = makeGrid(args.contents);
+				
 				temp += html;
 				
 				temp += "</div>";
 				temp += "</div>";
 				temp += "<div class='clearAll'></div>";
-				$("#block").append(temp);
+				$("#" + target).append(temp);
 				
 				
 			}
 		});
+	}
+	
+	function makeGrid(grid_contents) {
+		var html = "";
+		var color = "";
+		var epsdView = "";
+		var synopUrl = "";
+		for (var r in grid_contents) {
+			color = "";
+			epsdView = "";
+			var synopUrl = "<a onClick='goSynop(\"" + grid_contents[r].epsd_id + "\")' href='#'>시놉시스 API</a><br/>";
+			
+					
+			if (grid_contents[r].synon_typ_cd == "01") {
+				color = " class='movie'";
+				epsdView = "<span>" + grid_contents[r].epsd_id + "</span><br/>";
+			} else if (grid_contents[r].synon_typ_cd == "02") {
+				color = " class='sris'";
+				epsdView = "<span>" + grid_contents[r].epsd_id + "</span><br/>";
+			} else if (grid_contents[r].synon_typ_cd == "03") {
+				color = " class='gateway'";
+				synopUrl = "<a onClick='goGateway(\"" + grid_contents[r].sris_id + "\")' href='#'>GW시놉시스 API</a><br/>";
+			} else if (grid_contents[r].synon_typ_cd == "04") {
+				color = " class='vod'";
+				synopUrl = "<a onClick='goVod(\"" + grid_contents[r].sris_id + "\")' href='#'>VOD관련상품 API</a><br/>";
+			}
+			
+
+			html += "<div id='" + grid_contents[r].epsd_id + "'" + color + ">"
+					+ "<b>" + grid_contents[r].title + "</b><br/>";
+
+			html += "<span>" + grid_contents[r].sris_id + "</span><br/>";
+
+			html += epsdView;
+			html += "<span>" + grid_contents[r].sale_prc + "원</span><br/>";
+			if (grid_contents[r].poster_filename_v == "") {
+				html += "<span>포스터유무 : N</span><br/>";
+			} else {
+				html += "<span>포스터유무 : Y</span><br/>";
+			}
+			html += "<b class='red2'>" + grid_contents[r].i_img_cd + "</b><br/>";
+			html += synopUrl;
+			html += "</div>";
+			
+		}
+		return html;
 	}
 	
 	function goSynop(epsd_id) {
