@@ -9,16 +9,10 @@ spring:
       enabled: false
 ---
 spring:
-  profiles: dojdev, dojstg, devtest, stgtest
+  profiles: dev, stg
   cloud:
     config:
       uri: https://common-config-server-dev.skb-doj-dev01.mybluemix.net/
----
-spring:
-  profiles: prd, dev, stg
-  cloud:
-    config:
-      uri: https://common-config-server-dev.skb-suy-dev01.mybluemix.net/
 ---
 spring:
   profiles: prdsuy, prdssu

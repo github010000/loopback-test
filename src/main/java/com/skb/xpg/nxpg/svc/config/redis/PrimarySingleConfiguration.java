@@ -18,7 +18,7 @@ import redis.clients.jedis.JedisPoolConfig;
 import redis.clients.jedis.exceptions.JedisConnectionException;
 
 @Configuration
-@Profile({"local", "dev", "dojdev", "devtest"})
+@Profile({"local", "dev", "devtest"})
 public class PrimarySingleConfiguration {
 
 	@Value("${spring.redis.host}")

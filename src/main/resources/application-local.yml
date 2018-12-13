@@ -18,7 +18,7 @@ user:
   defaults:
     menu_stb_svc_id: UI50_BSUHD2
   cw:
-    baseurl: http://xpg-nxpg-dev.skb-suy-dev01.mybluemix.net/cw
+    baseurl: http://localhost:8092/xpg/v5
     fullsection: 
       uri: /parallelApi/v6/CW/ux/{cw_call_id}/page
       param: sessionId,trackId,{param},itemType
