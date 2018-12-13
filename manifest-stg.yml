@@ -10,7 +10,6 @@ applications:
   path: ./defaultServer
   services:
     - stg-xpg-common-redis
-    - stg-xpg-common-syslog
   env:
     SPRING_PROFILES_ACTIVE: stg
     JBP_CONFIG_SPRING_AUTO_RECONFIGURATION: '{enabled: false}'
