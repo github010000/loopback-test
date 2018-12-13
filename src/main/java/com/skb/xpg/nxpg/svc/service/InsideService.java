@@ -43,83 +43,79 @@ public class InsideService {
 		data = CastUtil.StringToJsonMap(redisClient.hget(NXPGCommon.INSIDE_INFO, epsd_id, param));
 		
 		// 조회값 없음
-		if (data == null) {
-			info = CastUtil.StringToJsonListMap(redisClient.hget(NXPGCommon.INSIDE_INFO, epsd_id, param));
-			rtn.put("result", "9998");
-			return;
-		} else {
-			if (data.containsKey("xray_info") && data.get("xray_info") instanceof List) {
-				info = (List<Map<String, Object>>) data.get("xray_info");
-			}
-		}
+//		if (data == null) {
+//			info = CastUtil.StringToJsonListMap(redisClient.hget(NXPGCommon.INSIDE_INFO, epsd_id, param));
+//			rtn.put("result", "9998");
+//			return;
+//		}
 		
 		// 조회값 없음
-		if (info == null) {
+		if (data == null) {
 			rtn.put("result", "9998");
 			return;
 		}
 		///////////////////////////
 		// 인물 필터링
 		// prs_id가 없으면 그냥 넘어간다.
-		if (info != null && !StrUtil.isEmpty(prs_id)) {
-			for (Iterator<Map<String,Object>> iterator = info.iterator(); iterator.hasNext();) {
-				Map<String, Object> map = CastUtil.getObjectToMap(iterator.next());
-				List<Map<String, Object>> peopleScenes = CastUtil.getObjectToMapList(map.get("people_scenes"));
-				
-				// people_scenes가 없으면 넘어간다.
-				if (peopleScenes == null) continue;
-				
-				for (Iterator<Map<String,Object>> psIterator = peopleScenes.iterator(); psIterator.hasNext();) {
-					Map<String, Object> peopleScenesMap = CastUtil.getObjectToMap(psIterator.next());
-					String tempPrsId = CastUtil.getObjectToString(peopleScenesMap.get("prs_id"));
-					
-					// prs_id 비교 후 다르면 삭제한다.
-					if (!prs_id.equals(tempPrsId)) {
-						psIterator.remove();
-					}
-				}
-			}
-		}
+//		if (data != null && !StrUtil.isEmpty(prs_id)) {
+//			for (Iterator<Map<String,Object>> iterator = info.iterator(); iterator.hasNext();) {
+//				Map<String, Object> map = CastUtil.getObjectToMap(iterator.next());
+//				List<Map<String, Object>> peopleScenes = CastUtil.getObjectToMapList(map.get("people_scenes"));
+//				
+//				// people_scenes가 없으면 넘어간다.
+//				if (peopleScenes == null) continue;
+//				
+//				for (Iterator<Map<String,Object>> psIterator = peopleScenes.iterator(); psIterator.hasNext();) {
+//					Map<String, Object> peopleScenesMap = CastUtil.getObjectToMap(psIterator.next());
+//					String tempPrsId = CastUtil.getObjectToString(peopleScenesMap.get("prs_id"));
+//					
+//					// prs_id 비교 후 다르면 삭제한다.
+//					if (!prs_id.equals(tempPrsId)) {
+//						psIterator.remove();
+//					}
+//				}
+//			}
+//		}
 		///////////////////////////
 		
 		///////////////////////////
 		// 시간 필터링
-		if (tmtag_tmsc > 0) {
-			for (Iterator<Map<String,Object>> iterator = info.iterator(); iterator.hasNext();) {
-				Map<String, Object> map = CastUtil.getObjectToMap(iterator.next());
-				List<Map<String, Object>> peopleScenes = CastUtil.getObjectToMapList(map.get("people_scenes"));
-				
-				// people_scenes가 없으면 넘어간다.
-				if (peopleScenes == null) continue;
-				
-				for (Iterator<Map<String,Object>> psIterator = peopleScenes.iterator(); psIterator.hasNext();) {
-					Map<String, Object> peopleScenesMap = CastUtil.getObjectToMap(psIterator.next());
-					List<Map<String, Object>> personScenes = CastUtil.getObjectToMapList(peopleScenesMap.get("person_scenes"));
-					
-					// person_scenes가 없으면 넘어간다.
-					if (personScenes == null) continue;
-
-					for (Iterator<Map<String,Object>> personIterator = personScenes.iterator(); personIterator.hasNext();) {
-						Map<String, Object> personScenesMap = CastUtil.getObjectToMap(personIterator.next());
-						int frtmsc = 0, totmsc = 0;
-						
-						if (personScenesMap.get("tmtag_fr_tmsc") != null)
-							frtmsc = CastUtil.getStrToInt(personScenesMap.get("tmtag_fr_tmsc").toString());
-						if (personScenesMap.get("tmtag_to_tmsc") != null)
-							totmsc = CastUtil.getStrToInt(personScenesMap.get("tmtag_to_tmsc").toString());
-						
-						// frtmsc보다 작거나 totmsc보다 크면 삭제 
-						if (frtmsc > tmtag_tmsc || totmsc < tmtag_tmsc) {
-							personIterator.remove();
-							continue;
-						}
-					}
-				}
-			}
-		}
+//		if (tmtag_tmsc > 0) {
+//			for (Iterator<Map<String,Object>> iterator = data.iterator(); iterator.hasNext();) {
+//				Map<String, Object> map = CastUtil.getObjectToMap(iterator.next());
+//				List<Map<String, Object>> peopleScenes = CastUtil.getObjectToMapList(map.get("people_scenes"));
+//				
+//				// people_scenes가 없으면 넘어간다.
+//				if (peopleScenes == null) continue;
+//				
+//				for (Iterator<Map<String,Object>> psIterator = peopleScenes.iterator(); psIterator.hasNext();) {
+//					Map<String, Object> peopleScenesMap = CastUtil.getObjectToMap(psIterator.next());
+//					List<Map<String, Object>> personScenes = CastUtil.getObjectToMapList(peopleScenesMap.get("person_scenes"));
+//					
+//					// person_scenes가 없으면 넘어간다.
+//					if (personScenes == null) continue;
+//
+//					for (Iterator<Map<String,Object>> personIterator = personScenes.iterator(); personIterator.hasNext();) {
+//						Map<String, Object> personScenesMap = CastUtil.getObjectToMap(personIterator.next());
+//						int frtmsc = 0, totmsc = 0;
+//						
+//						if (personScenesMap.get("tmtag_fr_tmsc") != null)
+//							frtmsc = CastUtil.getStrToInt(personScenesMap.get("tmtag_fr_tmsc").toString());
+//						if (personScenesMap.get("tmtag_to_tmsc") != null)
+//							totmsc = CastUtil.getStrToInt(personScenesMap.get("tmtag_to_tmsc").toString());
+//						
+//						// frtmsc보다 작거나 totmsc보다 크면 삭제 
+//						if (frtmsc > tmtag_tmsc || totmsc < tmtag_tmsc) {
+//							personIterator.remove();
+//							continue;
+//						}
+//					}
+//				}
+//			}
+//		}
 		///////////////////////////
 		
 		rtn.put("result", "0000");
-		rtn.put("xray_info", info);
+		rtn.put("inside_info", data);
 	}
 }
