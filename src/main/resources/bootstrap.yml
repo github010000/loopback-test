@@ -3,13 +3,13 @@ spring:
     name: xpg-nxpg-svc
 ---
 spring:
-  profiles: local, stg, stgtest
+  profiles: local
   cloud:
     config:
       enabled: false
 ---
 spring:
-  profiles: dev, devtest
+  profiles: dev, devtest, stg, stgtest
   cloud:
     config:
       uri: https://common-config-server-dev.skb-doj-dev01.mybluemix.net/
