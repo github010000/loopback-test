@@ -203,6 +203,10 @@
 		}
 		
 		.vod {
+			background-color: #40E0D0;
+		}
+		
+		.fairyTale {
 			background-color: #CB89E5;
 		}
 		
@@ -255,10 +259,11 @@
 			<tr>
 				<th></th>
 				<th class="movie">단편/영화</th>
-				<th class="sris">시리즈/드라마</th>
-				<th class="gateway">패키지상품(묶음)</th>
-				<th class="vod">VOD+관련상품(실물)</th>
-				<th class="event">블록하위메뉴/이벤트블록</th>
+				<th class="sris">시리즈<br/>/드라마</th>
+				<th class="gateway">패키지상품</th>
+				<th class="vod">VOD<br/>+관련상품</th>
+				<th class="fairyTale">살아있는<br/>동화</th>
+				<th class="event">블록하위메뉴<br/>/이벤트블록</th>
 				<th>
 					<b class='skred'>GR</b><b class='skyellow'>ID</b>
 					그리드
@@ -274,6 +279,7 @@
 				<td colspan=2>010</td>
 				<td>014</td>
 				<td>015</td>
+				<td>021</td>
 				<td>007</td>
 				<td>006</td>
 				<td>009</td>
@@ -283,6 +289,7 @@
 				<td colspan=2>007,008,011,012,013,014,015,029</td>
 				<td>009</td>
 				<td>010</td>
+				<td>403</td>
 				<td>005</td>
 				<td>006</td>
 				<td>CW결과+006,007,008,015,016</td>
@@ -688,8 +695,10 @@
 			epsdView = "";
 			var synopUrl = "<a onClick='goSynop(\"" + grid_contents[r].epsd_id + "\")' href='#'>시놉시스 API</a><br/>";
 			
-					
-			if (grid_contents[r].synon_typ_cd == "01") {
+			if (grid_contents[r].meta_typ_cd == "024") {
+				color = " class='fairyTale'";
+				synopUrl = "<a onClick='goFairyTail(\"" + grid_contents[r].epsd_id + "\")' href='#'>살아있는동화 API</a><br/>";
+			} else if (grid_contents[r].synon_typ_cd == "01") {
 				color = " class='movie'";
 				epsdView = "<span>" + grid_contents[r].epsd_id + "</span><br/>";
 			} else if (grid_contents[r].synon_typ_cd == "02") {
@@ -726,20 +735,26 @@
 	
 	function goSynop(epsd_id) {
 		
-		var url = "/v5/contents/synopsis?menu_stb_svc_id=BTVUH2V500&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&IF=IF-NXPG-010";
+		var url = "/v5/contents/synopsis?stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&IF=IF-NXPG-010";
 		url = url + "&search_type=1&yn_recent=N&epsd_id=" + epsd_id;
 		window.open(url, "_blank");
 	}
 	
 	function goGateway(sris_id) {
-		var url = "/v5/contents/gwsynop?menu_stb_svc_id=BTVUH2V500&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&IF=IF-NXPG-014";
+		var url = "/v5/contents/gwsynop?stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&IF=IF-NXPG-014";
 		url = url + "&sris_id=" + sris_id;
 		window.open(url, "_blank");
 	}
 	
 	function goVod(sris_id) {
-		var url = "/v5/contents/commerce?menu_stb_svc_id=BTVUH2V500&IF=IF-NXPG-015"
+		var url = "/v5/contents/commerce?IF=IF-NXPG-015"
 		url = url + "&sris_id=" + sris_id;
+		window.open(url, "_blank");
+	}
+	
+	function goFairyTail(epsd_id) {
+		var url = "/v5/contents/lftsynop?stb_id={660D7F55-89D8-11E5-ADAE-E5AC4F814417}&IF=IF-NXPG-403"
+		url = url + "&epsd_id=" + epsd_id;
 		window.open(url, "_blank");
 	}
 	
