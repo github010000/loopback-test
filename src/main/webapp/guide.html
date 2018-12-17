@@ -207,7 +207,7 @@
 		}
 		
 		.fairyTale {
-			background-color: #CB89E5;
+			background-color: #CC99FF;
 		}
 		
 		.event {
@@ -735,25 +735,25 @@
 	
 	function goSynop(epsd_id) {
 		
-		var url = "/v5/contents/synopsis?stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&IF=IF-NXPG-010";
+		var url = "/v5/contents/synopsis?menu_stb_svc_id=" +  $.urlParam('poc') + "&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&IF=IF-NXPG-010";
 		url = url + "&search_type=1&yn_recent=N&epsd_id=" + epsd_id;
 		window.open(url, "_blank");
 	}
 	
 	function goGateway(sris_id) {
-		var url = "/v5/contents/gwsynop?stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&IF=IF-NXPG-014";
+		var url = "/v5/contents/gwsynop?menu_stb_svc_id=" +  $.urlParam('poc') + "&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&IF=IF-NXPG-014";
 		url = url + "&sris_id=" + sris_id;
 		window.open(url, "_blank");
 	}
 	
 	function goVod(sris_id) {
-		var url = "/v5/contents/commerce?IF=IF-NXPG-015"
+		var url = "/v5/contents/commerce?menu_stb_svc_id=" +  $.urlParam('poc') + "&IF=IF-NXPG-015"
 		url = url + "&sris_id=" + sris_id;
 		window.open(url, "_blank");
 	}
 	
 	function goFairyTail(epsd_id) {
-		var url = "/v5/contents/lftsynop?stb_id={660D7F55-89D8-11E5-ADAE-E5AC4F814417}&IF=IF-NXPG-403"
+		var url = "/v5/contents/lftsynop?menu_stb_svc_id=" +  $.urlParam('poc') + "&stb_id={660D7F55-89D8-11E5-ADAE-E5AC4F814417}&IF=IF-NXPG-403"
 		url = url + "&epsd_id=" + epsd_id;
 		window.open(url, "_blank");
 	}
