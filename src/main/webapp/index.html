@@ -1,290 +1,762 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta>
-<title>NXPG Service</title>
-<script src="jquery-3.2.1.min.js"></script>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta>
+	<title>NXPG Service</title>
+	<script src="jquery-3.2.1.min.js"></script>
 	<style>
-	body {
-		font-family: Sans-Serif;
-		padding: 5px;
-	}
-	h3 {
-		color: #229922;
-		padding: 0;
-		margin: 0;
-	}
-	input {
-	    width: 240px;
-	}
-	span {
-		font-family: Consolas;
-	}
-	ul {
-		font-size: 0.9em;
-		border-left: 3px solid #4caf59;
-		background-color: #f2f2f2;
-		padding: 0 3px 0 30px;
-	}
-	li {
-		display: block;
-		width: 800px;
-		/*border-left: 1px solid #ddd;
-		border-right: 1px solid #ddd;*/
-		border-bottom: 1px solid #ddd;
-		padding: 3px;
-	}
-	li.top {
-		border-top: 1px solid #ddd;
-	}
-	li b {
-		display: inline-block;
-		min-width: 160px;
-		border-right: 1px solid #ddd;
-		padding-right: 3px;
-	}
-	li span {
-		display: inline-block;
-		padding-right: 3px;
-	}
-	li a {
-		border-right: 1px solid #ddd;
-		display: inline-block;
-		padding-left: 3px;
-		width: 314px;
-	}
-	li a.head {
-		font-weight: bold;
-	}
-	li button {
 	
-	}
-	.red {
-		color: red;
-	}
-	.container {
-		position: absolute;
-		z-index: 3;
-		border-top: 2px solid #666;
-		background-color: #FFF;
-	}
+		body {
+			font-family: Sans-Serif;	
+		}
+		
+		small {
+			font-weight: normal;
+		}
+	
+		ul {
+			display: block;
+			margin: 10px 0 10px 0;
+		}
+		
+		#guide {
+			position: absolute;
+			top: 5px;
+			left: 270px;
+			width: 980px;
+			height: 72px;
+		}
+		
+		#guide table {
+			border-collapse: collapse;
+			border: 1px solid #999;
+			background-color: #F9F9F9;
+			font-size: 0.7em;
+			padding: 0px;
+		}
+		
+		#guide td, th {
+			border: 1px solid #999;
+			padding: 2px;
+		}
+		
+		#gnb li {
+			float: left;
+			width: 100px;
+			height: 70px;
+			font-weight: bold;
+			display: inline-block;
+			text-align: center;
+			vertical-align: middle;
+			text-decoration: none;
+			font-size: 0.9em;
+			margin: 0 2px 0 2px;
+			border-left: 1px solid #777;
+			border-right: 1px solid #777;
+			border-bottom: 1px solid #777;
+			border-top: 1px solid #777;
+			border-radius: 2px;
+			padding: 2px 2px;
+			background-color: #F9F9FD;
+		}
+		
+		#gnb li a {
+			width: 100px;
+			line-height: 100%;
+			display: inline-block;
+			text-decoration: none;
+			font-size: 0.9em;
+			color: #962300;
+		}
+		
+		#gnb li b {
+			text-decoration: none;
+			font-size: 0.9em;
+			color: #BDBDBD;
+		}
+		
+		#gnb li:hover {
+		}
+		
+		#gnb li a:hover {
+			background-color: #962300;
+			color: #FEFEFE;
+		}
+		
+		#gnb li.first {
+		}
+		
+		ul li span {
+			display: none;
+		}
+		
+		.clearAll {
+			clear: both;
+			margin-bottom: 10px;
+		}
+		
+		.grid div {
+			display: inline-block;
+			width: 100px;
+			height: 140px;
+			border: 1px solid #777;
+			border-radius: 2px;
+			float: left;
+			margin: 5px 5px 0 0;
+			padding: 2px;
+			font-size: 0.7em;
+		}
+		
+		.cwgrid div {
+			display: inline-block;
+			width: 100px;
+			height: 140px;
+			border: 1px solid #777;
+			border-radius: 2px;
+			float: left;
+			margin: 5px 5px 0 0;
+			padding: 2px;
+			font-size: 0.7em;
+		}
+		
+		.event div, .banner div {
+			display: inline-block;
+			width: 140px;
+			height: 100px;
+			border: 1px solid #777;
+			border-radius: 2px;
+			float: left;
+			margin: 5px 5px 0 0;
+			padding: 2px;
+			background-color: #F2EADA;
+			font-size: 0.8em;
+		}
+		
+		.grid b {
+			font-size: 1.10em;
+			display: block;
+			white-space: nowrap; 
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+		
+		.cwgrid b {
+			font-size: 1.10em;
+			display: block;
+			white-space: nowrap; 
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+		
+		.cw b {
+			font-size: 1.10em;
+		}
+		
+		.red {
+			color: #B43104;
+		}
+		
+		.red2 {
+			color: #BE2457;
+		}
+		
+		.blue {
+			color: #2E64FE;
+		}
+		
+		.cwgreen {
+			background-color: #009246;
+		}
+		
+		.cwwhite {
+			background-color: #F1F2F1;
+		}
+		
+		.cwred {
+			background-color: #CE2B37;
+		}
+		
+		.skred {
+			color: #FFF;
+			background-color: #CE2B37;
+		}
+		
+		.skyellow {
+			color: #FFF;
+			background-color: #FF7A00;
+		}
+		
+		.gray {
+			color: #848484;
+		}
+		
+		.movie {
+			background-color: #9FC99D;
+		}
+		
+		.sris {
+			background-color: #E8C84A;
+		}
+		
+		.gateway {
+			background-color: #FF8282;
+		}
+		
+		.vod {
+			background-color: #40E0D0;
+		}
+		
+		.fairyTale {
+			background-color: #CB89E5;
+		}
+		
+		.event {
+			background-color: #F2EADA;
+		}
+		
+		#block div {
+			display: block;
+		}
+		
+		#block div div {
+			display: block;
+		}
+		
+		#block div div div {
+			display: block;
+			float: left;
+		}
+		
+		#banner {
+			display: block;
+		}
+		
+		#banner li {
+			float: left;
+			width: 100px;
+			height: 70px;
+			font-weight: bold;
+			display: inline-block;
+			text-align: left;
+			vertical-align: middle;
+			text-decoration: none;
+			font-size: 0.75em;
+			margin: 0 2px 0 2px;
+			border-left: 1px solid #777;
+			border-right: 1px solid #777;
+			border-bottom: 1px solid #777;
+			border-top: 1px solid #777;
+			border-radius: 2px;
+			padding: 2px 2px;
+			background-color: #FFFACD;
+		}
+		
 	</style>
 </head>
 <body>
-	<h2 style="color:#229922;">NXPG API list</h2>
-	
-	<!-- <p>CONTENT_ID value must be entered.</p>
-	<table>
-		<tr>
-			<td><b>CONTENT ID</b></td>
-			<td><input type="text" id="con_id" style="width:500px;" value="A2C46D9E-1B04-11E6-B49C-5702654CECC8"/></td>
-		</tr>
-		<tr>
-			<td><b>MASTER ID</b></td>
-			<td><input type="text" id="mst_id" style="width:500px;" value="D3E94229-1B03-11E6-B49C-5702654CECC8"/></td>
-		</tr>
-	</table> -->
-	<div class="container">
-		<ul id="indexPage">
-			<li>
-				<h3><i>IF-NXPG-001</i> (GNB 메뉴 정보)</h3><br/>
-				<b><span>menu_stb_svc_id</span></b> <input type="text" value="BTVUH2V500"/>
-				<button id="u001">조회</button>
-			</li>
-			<li>
-				<h3><i>IF-NXPG-002</i> (전체 메뉴 정보)</h3><br/>  
-				<b><span>menu_stb_svc_id</span></b> <input type="text" value="BTVUH2V500"/>
-				<button id="u002">조회</button>
-			</li>
-			<li>
-				<h3><i>IF-NXPG-003</i> (블록 정보)</h3><br/>  
-				<b><span>menu_stb_svc_id</span></b> <input type="text" value="BTVUH2V500"/><br/>
-				<b><span>menu_id</span></b> <input type="text" value="NM1000000400"/>
-				<button id="u003">조회</button>
-			</li>
-			<!-- <li><h3><i>IF-NXPG-004 / <a href="#" id="u004">월정액 상세 정보)</h3><br/> <b><span></span></b> <input type="text" value=""/></li> -->
-			<li>
-				<h3><i>IF-NXPG-005</i> (월정액 가입자 메뉴 정보)</h3><br/> 
-				<b><span>menu_id</span></b> <input type="text" value="NM1000000100"/><br/>
-				<b><span>prd_prc_id_lst</span></b> <input type="text" value="1017470"/>
-				<button id="u005">조회</button>
-			</li>
-			<li>
-				<h3><i>IF-NXPG-006</i> (블록 별 그리드 정보)</h3><br/> 
-				<b><span>menu_id</span></b> <input type="text" value="NM1000019814"/>
-				<button id="u006">조회</button>
-			</li>
-			<li>
-				<h3><i>IF-NXPG-007</i> (이벤트 정보)</h3><br/> 
-				<b><span>menu_id</span></b> <input type="text" value="NM1000020226"/>
-				<button id="u007">조회</button>
-			</li>
-			<li>
-				<h3><i>IF-NXPG-008</i> (평점 및 리뷰)</h3><br/> 
-				<b><span>sris_id</span></b> <input type="text" value="CS01000249"/><br/>
-				<b><span>site_cd</span></b> <input type="text" value="10"/>
-				<button id="u008">조회</button>
-			</li>
-			<li>
-				<h3><i>IF-NXPG-009</i> (CW연동 그리드)</h3><br/> 
-				<b><span>cw_call_id</span></b> <input type="text" value="MOVIESERIESREC.PAGE"/><br/>
-				<b><span>stb_id</span></b> <input type="text" value="%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D"/><br/>
-				<b><span>type</span></b> <input type="text" value="all"/><br/>
-				<b><span>section_id</span></b> <input type="text" value=""/>
-				<button id="u009">조회</button>
-			</li>
-			<li>
-				<h3><i>IF-NXPG-010</i> (시놉시스 search_type)</h3><br/> 
-				<b><span>epsd_id</span></b> <input type="text" value="CE0001293945"/><br/>
-				<b><span>epsd_rslu_id</span></b> <input type="text" value="%7B17E6CCA1-0A46-11E8-9252-FFA90356A7A9%7D"/><br/>
-				<b><span>search_type</span></b> <input type="text" value="1"/><br/>
-				<b><span>yn_recent</span></b> <input type="text" value="N"/>
-				<button id="u010">조회</button>
-			</li>
-			<!--<li>
-				<h3><i>IF-NXPG-010</i> (시놉시스 search_type 2)</h3><br/> 
-				<b><span>search_type</span></b> <input type="text" value="2"/><br/>			
-				<button id="s001">조회</button>
-			</li>
-			 <li><h3><i>IF-NXPG-010 / <a href="#" id="s002">시놉시스 search_type 3 (연관컨텐츠, 코너 정보 있음))</h3><br/> <b><span></span></b> <input type="text" value=""/></li> -->
-	
-			<li>
-				<h3><i>IF-NXPG-011</i> (인물정보)</h3><br/> 
-				<b><span>prs_id</span></b> <input type="text" value="MP0000000005"/>
-				<button id="u011">조회</button>
-			</li>
-			<li>
-				<h3><i>IF-NXPG-012</i> (CW연관콘텐츠)</h3><br/> 
-				<b><span>cw_call_id</span></b> <input type="text" value="RELATED.MOVIE.PAGE"/><br/>
-				<b><span>epsd_id</span></b> <input type="text" value="CE0000006497"/><br/>
-				<b><span>epsd_rslu_id</span></b> <input type="text" value="%7B8764D44C-1B04-11E6-B49C-5702654CECC8%7D"/><br/>
-				<b><span>type</span></b> <input type="text" value="all"/><br/>
-				<b><span>section_id</span></b> <input type="text" value=""/>
-				<button id="u012">조회</button>
-			</li>
-			<li>
-				<h3><i>IF-NXPG-013</i> (실시간 EPG 정보)</h3><br/> 
-				<b><span></span></b> <input type="text" value="" disabled/>
-				<button id="u013">조회</button>
-			</li>
-			<li>
-				<h3><i>IF-NXPG-014</i> (게이트웨이 시놉시스)</h3><br/> 
-				<b><span>search_type</span></b> <input type="text" value="2"/><br/>
-				<b><span>prd_prc_id</span></b> <input type="text" value="5421222"/><br/>
-				<b><span>sris_id</span></b> <input type="text" value="CS01151270"/>
-				<button id="u014">조회</button>
-			</li>
-			<li>
-				<h3><i>IF-NXPG-015</i> (VOD+관련상품 시놉시스)</h3><br/> 
-				<b><span>sris_id</span></b> <input type="text" value="CS10007978"/>
-				<button id="u015">조회</button>
-			</li>
-			<li>
-				<h3><i>IF-NXPG-016</i> (코너 모아보기)</h3><br/> 
-				<b><span>cnr_grp_id</span></b> <input type="text" value="CN1000000157"/>
-				<button id="u016">조회</button>
-			</li>
-			<li>
-				<h3><i>IF-NXPG-017</i> (EPG 장르 편성표)</h3><br/> 
-				<b><span></span></b> <input type="text" value="" disabled/>
-				<button id="u017">조회</button>
-			</li>
-			<li>
-				<h3><i>IF-NXPG-018</i> (실시간 채널 순위)</h3><br/> 
-				<b><span></span></b> <input type="text" value="" disabled/>
-				<button id="u018">조회</button>
-			</li>
-			<li>
-				<h3><i>IF-NXPG-019</i> (Inside Info)</h3><br/> 
-				<b><span>epsd_id</span></b> <input type="text" value="CE0000024898"/>
-				<button id="u026">조회</button>
-			</li>
-			<li>
-				<h3><i>IF-NXPG-101</i> (키즈존 캐릭터메뉴 정보)</h3><br/> 
-				<b><span>menu_stb_svc_id</span></b> <input type="text" value="BTVUH2V500"/><br/>
-				<b><span>order_type</span></b> <input type="text" value="01"/>
-				<button id="u020">조회</button>
-			</li>
-			<li>
-				<h3><i>IF-NXPG-102</i> (키즈존 GNB 메뉴정보)</h3><br/> 
-				<b><span>menu_stb_svc_id</span></b> <input type="text" value="BTVUH2V500"/>
-				<button id="u021">조회</button>
-			</li>
-			<!-- <li><h3><i>IF-NXPG-103 / <a href="#" id="u022">키즈존 캐릭터서브 정보)</h3><br/> <b><span></span></b> <input type="text" value=""/></li> -->
-			<li>
-				<h3><i>IF-NXPG-401</i> (살아있는동화 맵핑정보)</h3><br/> 
-				<b><span>stb_id</span></b> <input type="text" value="%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D"/>
-				<button id="u022">조회</button>
-			</li>
-			<li>
-				<h3><i>IF-NXPG-403</i> (살아있는동화 시놉시스)</h3><br/> 
-				<b><span>epsd_id</span></b> <input type="text" value="CE1000008260"/>
-				<button id="u025">조회</button>
-			</li>
+	<div id="guide">
+		<table>
+			<tr>
+				<th></th>
+				<th class="movie">단편/영화</th>
+				<th class="sris">시리즈<br/>/드라마</th>
+				<th class="gateway">패키지상품</th>
+				<th class="vod">VOD<br/>+관련상품</th>
+				<th class="fairyTale">살아있는<br/>동화</th>
+				<th class="event">블록하위메뉴<br/>/이벤트블록</th>
+				<th>
+					<b class='skred'>GR</b><b class='skyellow'>ID</b>
+					그리드
+				</th>
+				<th>
+					<!-- <b class='cwgreen'>&nbsp;&nbsp;</b><b class='cwwhite'>&nbsp;&nbsp;</b><b class='cwred'>&nbsp;&nbsp;</b> -->
+					<img class='pasta' src='italy.gif' width='30' height='25'/>
+					CW그리드
+				</th>
+			</tr>
+			<tr>
+				<th>NXPG API</th>
+				<td colspan=2>010</td>
+				<td>014</td>
+				<td>015</td>
+				<td>021</td>
+				<td>007</td>
+				<td>006</td>
+				<td>009</td>
+			</tr>
+			<tr>
+				<th>NCMS API</th>
+				<td colspan=2>007,008,011,012,013,014,015,029</td>
+				<td>009</td>
+				<td>010</td>
+				<td>403</td>
+				<td>005</td>
+				<td>006</td>
+				<td>CW결과+006,007,008,015,016</td>
+			</tr>
+		
+		</table>
+		
+		
+	</div>
+	<h2 id="whatPoc"></h2>
+	<b>GNB메뉴</b> <small>NXPG-001 / NCMS_API-001</small>
+	<ul id="gnb">
+		
+	</ul>
+	<div class="clearAll"></div>
+	<div id="bigbanner">
+		<b>빅배너</b> <small>NXPG-003 / NCMS_API-003</small>
+		<ul id="banner">
+			
 		</ul>
 	</div>
-	<!-- <h3>Content Id Sample</h3>
-	<ul>
-		<li>포켓몬 : 4F5E1499-12AC-11E7-AA4D-770183037457</li>
-		<li>렛잇고 : E422C6C7-9DC1-11E3-AE86-D3C00F10593D</li>
-	</ul> -->
+	<div class="clearAll"></div>
+	<b id="t_block">블록 <small>NXPG-003 / NCMS_API-004</small></b>
+	<b id="t_month">월정액 메뉴 <small>NXPG-005 / NCMS_API-024</small></b>
+	<ul id="block">
+		
+	</ul>
 </body>
-
 <script>
 
-var u001 = "/v5/menu/gnb?IF=IF-NXPG-001&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D"
-var u002 = "/v5/menu/all?IF=IF-NXPG-002&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D"
-var u003 = "/v5/menu/block?IF=IF-NXPG-003&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D"
-//var u004 = "/v5/menu/monthinfo?menu_stb_svc_id=BTVUH2V500&prd_prc_id=P0001&IF=IF-NXPG-004&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D"
-var u005 = "/v5/menu/month?menu_stb_svc_id=BTVUH2V500&IF=IF-NXPG-005&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D"
-var u006 = "/v5/grid/grid?menu_stb_svc_id=BTVUH2V500&IF=IF-NXPG-006&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&page_no=1&page_cnt=20"
-var u007 = "/v5/grid/event?menu_stb_svc_id=BTVUH2V500&IF=IF-NXPG-007&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D"
-var u008 = "/v5/contents/rating?menu_stb_svc_id=BTVUH2V500&IF=IF-NXPG-008&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&page_no=1&page_cnt=2"
-var u009 = "/v5/inter/cwgrid?menu_stb_svc_id=UI50_BSUHD&track_id=368.34727.1522911308391&session_id=b4566b6b-73b9-4f05-ab68-a80ff25a6c95&IF=IF-NXPG-009"
-var u010 = "/v5/contents/synopsis?menu_stb_svc_id=BTVUH2V500&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&IF=IF-NXPG-010"
-//var s001 = "/v5/contents/synopsis?menu_stb_svc_id=BTVUH2V500&search_type=2&epsd_rslu_id=%7B17E6CCA1-0A46-11E8-9252-FFA90356A7A9%7D&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&yn_recent=N&IF=IF-NXPG-010"
-//var s002 = "/v5/contents/synopsis?menu_stb_svc_id=BTVUH2V500&search_type=3&sris_id=CS01062941&epsd_id=CE0001276818&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&yn_recent=Y&IF=IF-NXPG-010"
-var u011 = "/v5/people/info?menu_stb_svc_id=BTVUH2V500&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&IF=IF-NXPG-011"
-var u012 = "/v5/inter/cwrelation?menu_stb_svc_id=UI50_BSUHD&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&track_id=368.34727.1522911308391&session_id=b4566b6b-73b9-4f05-ab68-a80ff25a6c95&IF=IF-NXPG-012"
-var u013 = "/v5/added/epg?menu_stb_svc_id=BTVUH2V500&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&IF=IF-NXPG-013"
-var u014 = "/v5/contents/gwsynop?menu_stb_svc_id=BTVUH2V500&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&IF=IF-NXPG-014"
-var u015 = "/v5/contents/commerce?menu_stb_svc_id=BTVUH2V500&IF=IF-NXPG-015"
-var u016 = "/v5/contents/corner?menu_stb_svc_id=BTVUH2V500&IF=IF-NXPG-016"
-var u017 = "/v5/added/epggenre?menu_stb_svc_id=BTVUH2V500&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D"
-var u018 = "/v5/added/realtimechannel?IF=IF-NXPG-018"
-//var u019 = "/v5/menu/liveevent?"
-var u020 = "/v5/menu/kzchar?stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&IF=IF-NXPG-101"
-var u021 = "/v5/menu/kzgnb?IF=IF-NXPG-102&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D"
-var u022 = "/v5/menu/lfthomemapping?menu_stb_svc_id=BTVUH2V500&IF=IF-NXPG-401"
-//var u023 = "/v5/menu/lftmenu?menu_stb_svc_id=BTVUH2V500&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&IF=IF-NXPG-401"
-//var u024 = "/v5/grid/lftgrid?menu_stb_svc_id=BTVUH2V500&menu_id=NM1000018172&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&IF=IF-NXPG-402"
-var u025 = "/v5/contents/lftsynop?menu_stb_svc_id=BTVUH2V500&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&IF=IF-NXPG-403"
-var u026 = "/v5/inside/info?menu_stb_svc_id=BTVUH2V500&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&IF=IF-NXPG-019"
-
-$("#indexPage li button").click(function(){
-	var urlname = $(this).attr("id");
-	var span = $(this).parent().find("span");
-	
-	var pathvariable = $(span[1]).text();
-	var vals = $(this).parent().find("input");
-
-	var url = "";
-
-	
-	eval("url = " + urlname + "");
-	
-
-	for (var i=0 ; i < span.length; i++) {
-		if($(vals[i]).val()){
-			url = url + "&" + $(span[i]).text() + "=" + $(vals[i]).val();
+	$(document).ready(function() {
+		
+		$.urlParam = function(name){
+		    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+		    if (results==null){
+		       return null;
+		    }
+		    else{
+		       return results[1] || 0;
+		    }
 		}
+		$("#bigbanner").hide();
+		$("#t_block").hide();
+		$("#t_month").hide();
+		
+		$.ajax({    
+			type : "GET",
+			url : "/v5/menu/gnb?menu_stb_svc_id=" + $.urlParam('poc') + "&IF=IF-NXPG-001&stb_id=1234",
+			success : function(args) {
+				
+				var appendHtml = "";
+				var firstLi = " class='first'";
+				var isLinkTag = "";
+				
+				$("#whatPoc").append("POC : " + $.urlParam('poc'));
+				
+				for (var r in args.menus) {
+					if ("U5_01,U5_09,U5_11,VIEW_ALL".includes(args.menus[r].gnb_typ_cd)) {
+						isLinkTag = "b";
+					} else {
+						isLinkTag = "a";
+					}
+					appendHtml = "";
+					$("#gnb").append(
+					appendHtml = "<li " + firstLi + ">"
+							+ "<" + isLinkTag + " href='#'>"
+							+ args.menus[r].menu_nm
+							+ "</" + isLinkTag + ">"
+							+ "</br>"
+							+ "<small>"
+							+ args.menus[r].menu_id
+							+ "</small>"
+							+ "<span>"
+							+ args.menus[r].menu_id + "|" + args.menus[r].gnb_typ_cd
+							+ "</span></li>");
+					firstLi = "";
+				}
+				
+				$("#gnb li a").click(function() {
+					var menu_id_gnb_typ_cd = $(this).parent().find("span").text();
+					var item = menu_id_gnb_typ_cd.split("|");
+					goBlock(item[0], item[1]);
+				});
+			}
+		});
+	});
+	
+	function goBlock(menu_id, gnb_typ_cd) {
+		if (gnb_typ_cd == "U5_02") {
+			
+			$.ajax({    
+				type : "GET",
+				url : "/v5/menu/month?menu_stb_svc_id=" +  $.urlParam('poc') + "&IF=IF-NXPG-005&stb_id=1234&menu_id=" + menu_id,
+				success : function(args) {
+					$("#block").empty();
+					$("#banner").empty();
+					$("#bigbanner").hide();
+					$("#t_block").hide();
+					$("#t_month").show();
+					var temp = "";
+					var color = "";
+					var tag = "";
+					var menus;
+					
+					for (var r in args.blocks) {
+						
+						if (args.blocks[r].menu_nm_exps_yn == "Y") {
+							tag = "표시";
+							color = "blue";
+						} else if (args.blocks[r].menu_nm_exps_yn == "N") {
+							tag = "숨김";
+							color = "red";
+						} else {
+							tag = "값없음";
+							color = "gray";
+						}
+						temp = "<div>";
+						temp += "<strong>" + args.blocks[r].menu_nm + " : " + args.blocks[r].menu_id + "</strong> - <small class='" + color + "'>" + tag + "</small> - " + args.blocks[r].cmpgn_id;
+						temp += "<div class='event' id='" + args.blocks[r].menu_id + "'>";
+						
+						menus = args.blocks[r].menus;
+						for (var t in menus) {
+							
+							temp += "<div><b>" + menus[t].menu_nm + "</b>";
+							temp += "</br><span>" + menus[t].shcut_menu_id + "</span>";
+							if (menus[t].shcut_menu_id != "") {
+								temp += "</br><a href='#' onClick='goBlock(\"" + menus[t].shcut_menu_id + "\", \"\")'>블록 호출</a>";
+							}
+							temp += "</div>";
+						}
+
+						temp += "</div>";
+						
+						temp += "</div>";
+						temp += "<div class='clearAll'></div>";
+						$("#block").append(temp);
+					}
+					
+				}
+			});
+			
+		} else {
+			$.ajax({    
+				type : "GET",
+				url : "/v5/menu/block?menu_stb_svc_id=" +  $.urlParam('poc') + "&IF=IF-NXPG-003&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&menu_id=" + menu_id,
+				success : function(args) {
+					$("#banner").empty();
+					$("#block").empty();
+					$("#bigbanner").hide();
+					$("#t_block").show();
+					$("#t_month").hide();
+					var temp = "";
+					var color = "";
+					var tag = "";
+					
+					for (var bb in args.banners) {
+						if (bb == 0) {
+							$("#bigbanner").show();
+						}
+						temp = "<li>";
+						temp += "<div><b>" + args.banners[bb].menu_nm + "</b><div>";
+						temp += "</li>";
+						$("#banner").append(temp);
+					}
+					
+					for (var r in args.blocks) {
+						
+						if (args.blocks[r].menu_nm_exps_yn == "Y") {
+							tag = "표시";
+							color = "blue";
+						} else if (args.blocks[r].menu_nm_exps_yn == "Y") {
+							tag = "숨김";
+							color = "red";
+						} else {
+							tag = "값없음";
+							color = "gray";
+						}
+						temp = "<div>";
+						if (args.blocks[r].scn_mthd_cd == "501") {
+							//temp += "<b class='cwgreen'>&nbsp;&nbsp;</b><b class='cwwhite'>&nbsp;&nbsp;</b><b class='cwred'>&nbsp;&nbsp;</b> <strong>_CW_ : ";
+							//temp += "<img class='pasta' src='italy.gif' width='40' height='32' title='파스타'/> <strong>_CW_ : "
+							//temp += args.blocks[r].menu_id + " / " + args.blocks[r].cw_call_id_val;
+							temp += "<strong>" + args.blocks[r].menu_nm + " : ";
+							temp += args.blocks[r].menu_id;
+						} else if (args.blocks[r].blk_typ_cd == "30") {
+							temp += "<b class='skred'>GR</b><b class='skyellow'>ID</b> <strong>" + args.blocks[r].menu_nm + " : ";
+							temp += args.blocks[r].menu_id;
+						} else {
+							temp += "<strong>" + args.blocks[r].menu_nm + " : ";
+							temp += args.blocks[r].menu_id;
+						}
+						temp += "</strong> - <small class='" + color + "'>" + tag + "</small> - " + args.blocks[r].cmpgn_id;
+						
+						if (args.blocks[r].scn_mthd_cd == "501") {
+							temp += "<div class='cw' id='" + args.blocks[r].menu_id + "'>" + args.blocks[r].cw_call_id_val;
+						} else if (args.blocks[r].blk_typ_cd == "20") {
+							temp += "<div class='banner' id='" + args.blocks[r].menu_id + "'>";
+							menus = args.blocks[r].menus;
+							for (var t in menus) {
+								
+								temp += "<div>";
+
+								temp += "<b>" + menus[t].menu_nm + "</b></br>";
+								temp += "<span>" + menus[t].menu_id + "</span></br>";
+								if (menus[t].scn_mthd_cd == "501") {
+									temp += "<a href='#' onClick='goCWGrid(\"" + menus[t].menu_id + "\", \"" + menus[t].cw_call_id_val + "\", \"block\")'>CW 호출</a>";
+								} else if (menus[t].blk_typ_cd == "20") {
+									temp += "<a href='#' onClick='goBlock(\"" + menus[t].menu_id + "\", \"" + menus[t].gnb_typ_cd + "\")'>블록 호출</a>";
+								} else if (menus[t].blk_typ_cd == "30") {
+									temp += "<a href='#' onClick='goOnlyGrid(\"" + menus[t].menu_id + "\", \"" + menus[t].menu_nm + "\", \"block\")'>그리드 호출</a>";
+								}
+								temp += "</div>";
+							}
+						} else if (args.blocks[r].blk_typ_cd == "70") {
+							
+							temp += "<div class='event' id='" + args.blocks[r].menu_id + "'>";
+							
+							
+							///v5/grid/event?menu_stb_svc_id=BTVUH2V500&IF=IF-NXPG-007&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&menu_id=NM1000021141
+							
+						} else if (args.blocks[r].call_url.includes("btv")) {
+							temp += "<div>";
+						} else {
+							temp += "<div class='grid' id='" + args.blocks[r].menu_id + "'>";
+						}
+						temp += "</div>";
+						temp += "</div>";
+						temp += "<div class='clearAll'></div>";
+						$("#block").append(temp);
+					}
+					
+					$('.pasta').mouseover(function() {
+					    $(this).attr('src','pasta.gif');
+					}).mouseout(function() {
+					    $(this).attr('src','italy.gif');
+					});
+					
+					goGrid();
+				}
+			});
+		}
+		
 	}
 	
-	window.open(url, "_blank");
-	
-	//&con_id=%7BA2AB675D-1B04-11E6-B49C-5702654CECC8%7D
-	//&mst_id=%7BD3E94229-1B03-11E6-B49C-5702654CECC8%7D
-})
+	function goGrid() {
+		
+		var tempArray = new Array();
+		$("#block div div").each(function(){
+			var id = $(this).attr("id");
+			var cw_val = $(this).text();
+			
+			var classval = $(this).attr("class");
+			classval = $.trim(classval);
+			if ((classval == "grid" || classval == "cw") && id != "") {
+				
+				if (classval == "cw") {
+					$("#" + id).empty();
+					goCWGrid(id, cw_val, id);
+				
+				} else {
+					
+					var gridurl = "/v5/grid/grid?menu_stb_svc_id=" +  $.urlParam('poc') + "&IF=IF-NXPG-006&stb_id=2345&page_no=1&page_cnt=20&menu_id=" + id;
+				
+					$.ajax({    
+						type : "GET",
+						url : gridurl,
+						success : function(args) {
+							//$(this).empty();
+							var html = "";
+							var color = "";
+							var epsdView = "";
+							
+							var grid_contents = args.contents;
+							
+							
+							html = makeGrid(grid_contents);
+							
+							$("#" + id).append(html);
+							
+						}
+				
+					});
+				}
+					
+			} else if (classval == "event" && id != "") {
+				$.ajax({    
+					type : "GET",
+					url : "/v5/grid/event?menu_stb_svc_id=" +  $.urlParam('poc') + "&IF=IF-NXPG-007&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&menu_id=" + id,
+					success : function(args) {
+						//$(this).empty();
+						for (var r in args.banners) {
+							html = "<div>"
+									+ "<b>" + args.banners[r].menu_nm + "</b><br/>";
 
+							html += "</div>";
+							
+							$("#" + id).append(html);
+						}
+						
+					}
+				});
+			}
+			
+		});
+		
+	}
+	
+	function goCWGrid(menu_id, cw_val, target) {
+		
+		var gridurl = "/v5/inter/cwgrid?menu_stb_svc_id=" +  $.urlParam('poc') + "&track_id=368.34727.1522911308391&session_id=b4566b6b-73b9-4f05-ab68-a80ff25a6c95&IF=IF-NXPG-009&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&type=all&cw_call_id=" + cw_val;
+		
+		
+		$.ajax({    
+			type : "GET",
+			url : gridurl,
+			success : function(args) {
+				
+				$("#" + target).empty();
+				//$(this).empty();
+				var html = "";
+				var color = "";
+				var epsdView = "";
+				var temp = "";
+				var synopUrl = "";
+				
+				var grid_contents, cwtext;
+				
+				
+				for (var j in args.grid) {
+				
+					grid_contents = args.grid[j].block;
+					cwtext = args.grid[j].sub_title;
+					html = "";
+					temp = "<div>";
+					temp += "<img class='pasta' src='italy.gif' width='40' height='32' title='파스타'/> ";
+					temp += "<strong>[CW] " + cwtext + " / " + cw_val  + "</strong><br/>";
+					
+					temp += "<div class='cwgrid'>";
+					
+					html = makeGrid(grid_contents);
+
+					temp += html;
+					
+					temp += "</div>";
+					temp += "<div class='clearAll'></div>";
+					temp += "</div>";
+					
+					
+					
+					$("#" + target).append(temp);
+				
+				
+				
+				}
+				
+				
+			}
+		});
+	}
+	
+	function goOnlyGrid(menu_id, menu_nm, target) {
+		$.ajax({    
+			type : "GET",
+			url : "/v5/grid/grid?menu_stb_svc_id=" +  $.urlParam('poc') + "&IF=IF-NXPG-006&stb_id=2345&page_no=1&page_cnt=20&menu_id=" + menu_id,
+			success : function(args) {
+			
+				$("#block").empty();
+			
+				//$(this).empty();
+				var html = "";
+				var color = "";
+				var epsdView = "";
+				var temp = "";
+				var synopUrl = "";
+				
+					
+				temp = "<div>";
+				temp += "<strong>" + menu_nm + " : " + menu_id + "</strong>";
+				
+				temp += "<div class='grid' id='" + menu_id + "'>";
+				
+				html = makeGrid(args.contents);
+				
+				temp += html;
+				
+				temp += "</div>";
+				temp += "</div>";
+				temp += "<div class='clearAll'></div>";
+				$("#" + target).append(temp);
+				
+				
+			}
+		});
+	}
+	
+	function makeGrid(grid_contents) {
+		var html = "";
+		var color = "";
+		var epsdView = "";
+		var synopUrl = "";
+		for (var r in grid_contents) {
+			color = "";
+			epsdView = "";
+			var synopUrl = "<a onClick='goSynop(\"" + grid_contents[r].epsd_id + "\")' href='#'>시놉시스 API</a><br/>";
+			
+			if (grid_contents[r].meta_typ_cd == "024") {
+				color = " class='fairyTale'";
+				synopUrl = "<a onClick='goFairyTail(\"" + grid_contents[r].epsd_id + "\")' href='#'>살아있는동화 API</a><br/>";
+			} else if (grid_contents[r].synon_typ_cd == "01") {
+				color = " class='movie'";
+				epsdView = "<span>" + grid_contents[r].epsd_id + "</span><br/>";
+			} else if (grid_contents[r].synon_typ_cd == "02") {
+				color = " class='sris'";
+				epsdView = "<span>" + grid_contents[r].epsd_id + "</span><br/>";
+			} else if (grid_contents[r].synon_typ_cd == "03") {
+				color = " class='gateway'";
+				synopUrl = "<a onClick='goGateway(\"" + grid_contents[r].sris_id + "\")' href='#'>GW시놉시스 API</a><br/>";
+			} else if (grid_contents[r].synon_typ_cd == "04") {
+				color = " class='vod'";
+				synopUrl = "<a onClick='goVod(\"" + grid_contents[r].sris_id + "\")' href='#'>VOD관련상품 API</a><br/>";
+			}
+			
+
+			html += "<div id='" + grid_contents[r].epsd_id + "'" + color + ">"
+					+ "<b>" + grid_contents[r].title + "</b><br/>";
+
+			html += "<span>" + grid_contents[r].sris_id + "</span><br/>";
+
+			html += epsdView;
+			html += "<span>" + grid_contents[r].sale_prc + "원</span><br/>";
+			if (grid_contents[r].poster_filename_v == "") {
+				html += "<span>포스터유무 : N</span><br/>";
+			} else {
+				html += "<span>포스터유무 : Y</span><br/>";
+			}
+			html += "<b class='red2'>" + grid_contents[r].i_img_cd + "</b><br/>";
+			html += synopUrl;
+			html += "</div>";
+			
+		}
+		return html;
+	}
+	
+	function goSynop(epsd_id) {
+		
+		var url = "/v5/contents/synopsis?stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&IF=IF-NXPG-010";
+		url = url + "&search_type=1&yn_recent=N&epsd_id=" + epsd_id;
+		window.open(url, "_blank");
+	}
+	
+	function goGateway(sris_id) {
+		var url = "/v5/contents/gwsynop?stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&IF=IF-NXPG-014";
+		url = url + "&sris_id=" + sris_id;
+		window.open(url, "_blank");
+	}
+	
+	function goVod(sris_id) {
+		var url = "/v5/contents/commerce?IF=IF-NXPG-015"
+		url = url + "&sris_id=" + sris_id;
+		window.open(url, "_blank");
+	}
+	
+	function goFairyTail(epsd_id) {
+		var url = "/v5/contents/lftsynop?stb_id={660D7F55-89D8-11E5-ADAE-E5AC4F814417}&IF=IF-NXPG-403"
+		url = url + "&epsd_id=" + epsd_id;
+		window.open(url, "_blank");
+	}
+	
 
 </script>
