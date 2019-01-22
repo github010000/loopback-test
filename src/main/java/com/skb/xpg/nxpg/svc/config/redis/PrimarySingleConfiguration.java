@@ -39,6 +39,9 @@ public class PrimarySingleConfiguration {
 	@Value("${spring.redis.setMinIdle}")
 	private int setMinIdle;
 
+    @Value("${services.redis.connection.timeout}")
+    private int timeout;
+
     @Primary
 	@Bean(name = "primaryJedisConnectionFactory")
 	public JedisConnectionFactory jedisConnectionFactory() {
@@ -60,7 +63,7 @@ public class PrimarySingleConfiguration {
 		factory.setPort(redisPort);
 		factory.setPassword(password);
 		factory.setUsePool(true);
-		factory.setTimeout(50);
+		factory.setTimeout(timeout);
 		factory.setPoolConfig(poolConfig);
 		return factory;
 	}
