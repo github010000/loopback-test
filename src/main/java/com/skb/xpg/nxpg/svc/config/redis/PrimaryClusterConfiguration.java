@@ -1,34 +1,43 @@
 package com.skb.xpg.nxpg.svc.config.redis;
 
 import java.time.Duration;
+import java.util.HashMap;
+import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.core.env.MapPropertySource;
+import org.springframework.data.redis.connection.RedisClusterConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.script.DefaultRedisScript;
-import org.springframework.data.redis.core.script.RedisScript;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+
 import com.skb.xpg.nxpg.svc.util.LogUtil;
 
 import redis.clients.jedis.JedisPoolConfig;
 import redis.clients.jedis.exceptions.JedisConnectionException;
 
 @Configuration
-@Profile({"local", "dev", "devtest"})
-public class PrimarySingleConfiguration {
+@Profile({"stg", "prdsuy", "prdssu", "stgtest"})
+public class PrimaryClusterConfiguration {
+	
+    @Value("${spring.redis.host}")
+    private String redisclusterNodes;
+    
+    @Value("${spring.redis.password}")
+    private String redisPassword;
 
-	@Value("${spring.redis.host}")
-	private String redisHost;
-	
-	@Value("${spring.redis.port}")
-	private int redisPort;
-	
-	@Value("${spring.redis.password}")
-	private String password;
+    @Value("${services.redis.connection.timeout}")
+    private int clusterConnectionTimeout;
+
+    @Value("${services.redis.redirection.count}")
+    private int clusterRedirectionCount;
 	
 	@Value("${spring.redis.setMaxTotal}")
 	private int setMaxTotal;
@@ -38,14 +47,27 @@ public class PrimarySingleConfiguration {
 	
 	@Value("${spring.redis.setMinIdle}")
 	private int setMinIdle;
-
-    @Value("${services.redis.connection.timeout}")
-    private int timeout;
-
+	
+	@Autowired
+	@Qualifier("activeProfile")
+	private String activeProfile;
+    
     @Primary
-	@Bean(name = "primaryJedisConnectionFactory")
-	public JedisConnectionFactory jedisConnectionFactory() {
-    	
+    @Bean(name="primaryRedisCluster")
+    public RedisClusterConfiguration getClusterConfiguration() {
+        Map<String, Object> source = new HashMap<String, Object>();
+        
+        source.put("spring.redis.cluster.nodes", redisclusterNodes);
+        source.put("spring.redis.cluster.timeout", clusterConnectionTimeout);
+        source.put("spring.redis.cluster.max-redirects", clusterRedirectionCount);
+        //source.put("spring.redis.cluster.password", redisPassword);
+        
+       return new RedisClusterConfiguration(new MapPropertySource("RedisClusterConfiguration", source));
+    }
+    
+    @Primary
+    @Bean(name="primaryJedisConnection")
+    public JedisConnectionFactory jedisConnectionFactory() {
     	JedisPoolConfig poolConfig = new JedisPoolConfig();
 		poolConfig.setMaxTotal(setMaxTotal);
 		poolConfig.setMaxIdle(setMaxIdle);
@@ -58,29 +80,15 @@ public class PrimarySingleConfiguration {
 		poolConfig.setNumTestsPerEvictionRun(3);
 		poolConfig.setBlockWhenExhausted(true);
 		
-		JedisConnectionFactory factory = new JedisConnectionFactory();
-		factory.setHostName(redisHost);
-		factory.setPort(redisPort);
-		factory.setPassword(password);
-		factory.setUsePool(true);
-		factory.setTimeout(timeout);
-		factory.setPoolConfig(poolConfig);
-		return factory;
-	}
+		JedisConnectionFactory factory = new JedisConnectionFactory(getClusterConfiguration(), poolConfig);
+		factory.setPassword(redisPassword);
+//		
+    	return factory;
+//		return factory;
+    }
 
-    @Primary
-	@Bean(name = "primaryRedisScript")
-	public RedisScript<String> testScript() {
-		DefaultRedisScript<String> redisScript = new DefaultRedisScript<String>();
-		redisScript.setScriptText("local aa = redis.call('HGET', KEYS[1], ARGV[1]) "
-								+ "local bb = cjson.decode(aa)['epsd_rslu_id'] "
-								+ "return redis.call('HGET', KEYS[2], bb)");
-		redisScript.setResultType(String.class);
-		return redisScript;
-	}
-
-    @Primary
-	@Bean(name = "primaryRedisTemplate")
+	@Primary
+    @Bean(name="primaryRedisTemplate")
 	public RedisTemplate<String, Object> redisTemplate() {
 		try {
 			StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
@@ -90,13 +98,23 @@ public class PrimarySingleConfiguration {
 			redisTemplate.setKeySerializer(stringRedisSerializer);
 			redisTemplate.setValueSerializer(stringRedisSerializer);
 			redisTemplate.setHashKeySerializer(stringRedisSerializer);
-			redisTemplate.setHashValueSerializer(stringRedisSerializer);
+			if (!activeProfile.contains("prd")) {
+				redisTemplate.setHashValueSerializer(stringRedisSerializer);
+			}
 
 			return redisTemplate;
 
 		} catch (JedisConnectionException e) {
+//			LogUtil.error(e.getStackTrace(), "NULL");
 			LogUtil.error("", "CONFIG", "", "", "REDIS", e.getStackTrace()[0].toString());
 			return null;
 		}
 	}
+
+	@Primary
+	@Bean(name="primary-propertySourcesPlaceholderConfigurer")
+	public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
+		return new PropertySourcesPlaceholderConfigurer();
+	}
+
 }
