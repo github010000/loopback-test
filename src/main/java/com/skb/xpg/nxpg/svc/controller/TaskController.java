@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,7 +31,7 @@ public class TaskController {
 
     @Autowired
     private RedisClient redisClient;
-
+    
 	@RequestMapping(value = "/task/stat")
 	public Map<String, Object> getStat(@PathVariable String ver) {
 		Map<String, Object> rtn = new HashMap<String, Object>();
@@ -77,6 +76,17 @@ public class TaskController {
 		rtn.put("active_profile", activeProfile);
 		
 		return rtn;
+	}
+
+	// hdel 추가
+	@RequestMapping(value = "/hdel/{key}/{field}")
+	public String hdel(@PathVariable String key, @PathVariable String field) {
+		try {
+			return Long.toString(redisClient.hdel(key, field));
+		} catch (Exception e) {
+			LogUtil.error("", "", "", "", "", e.toString());
+			return null;
+		}
 	}
 	
 	@RequestMapping(value = "/hget/{key}/{field}")

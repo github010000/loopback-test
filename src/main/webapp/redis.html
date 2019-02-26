@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta>
+	<title>NXPG Service</title>
+	<script src="jquery-3.2.1.min.js"></script>
+	<style>
+		body {
+			font-family: Sans-Serif;
+			padding: 5px;
+		}
+		
+		h3 {
+			color: #229922;
+			padding: 0;
+			margin: 0;
+		}
+		input {
+		    width: 240px;
+		}
+		span {
+			font-family: Consolas;
+		}
+		ul {
+			font-size: 0.9em;
+			border-left: 3px solid #4caf59;
+			background-color: #f2f2f2;
+			padding: 0 3px 0 30px;
+		}
+		li {
+			display: block;
+			width: 800px;
+			/*border-left: 1px solid #ddd;
+			border-right: 1px solid #ddd;*/
+			border-bottom: 1px solid #ddd;
+			padding: 3px;
+		}
+		li.top {
+			border-top: 1px solid #ddd;
+		}
+		li b {
+			display: inline-block;
+			min-width: 160px;
+			border-right: 1px solid #ddd;
+			padding-right: 3px;
+		}
+		li span {
+			display: inline-block;
+			padding-right: 3px;
+		}
+		li a {
+			border-right: 1px solid #ddd;
+			display: inline-block;
+			padding-left: 3px;
+			width: 314px;
+		}
+		li a.head {
+			font-weight: bold;
+		}
+		li button {
+		
+		}
+		.red {
+			color: red;
+		}
+		.container {
+			position: absolute;
+			z-index: 3;
+			border-top: 2px solid #666;
+			background-color: #FFF;
+		}
+		
+		#link {
+			position: fixed;
+			top: 40px;
+			left: 400px;
+		}
+		#link a {
+			border: 1px solid #aaa;
+			border-radius: 4px;
+			text-decoration: none;
+			padding: 2px;
+			color: #229922;
+		}
+		#link a:hover {
+			background-color: #AAA;
+			text-decoration: none;
+			color: #FFF;
+		}
+	</style>
+</head>
+<body>
+	<h2 style="color:#229922;">NXPG Redis list</h2>
+	
+	<div id="link">
+		<b>바로가기</b> 
+		<a href="index.html">API List</a>
+		<a href="guide.html?poc=BTVUH2V500">가이드 화면</a>
+	</div>
+	<div class="container">
+		<ul id="indexPage">
+			<li>
+				<h3><i>INFNXPG001</i> (menu_gnb)</h3><br/>
+				<input type="hidden" value="menu_gnb"/>
+				<b><span>menu_stb_svc_id</span></b><input type="text" name="menu_stb_svc_id" value="BTVUH2V500"/>
+				<button>조회</button>
+			</li>
+			<li>
+				<h3><i>INFNXPG002</i> (menu_all)</h3><br/>
+				<input type="hidden" value="menu_all"/>
+				<b><span>menu_stb_svc_id</span></b> <input type="text" value="BTVUH2V500"/>
+				<button>조회</button>
+			</li>
+			<li>
+				<h3><i>INFNXPG003</i> (big_banner)</h3><br/>
+				<input type="hidden" value="big_banner"/>
+				<b><span>menu_stb_svc_id</span></b> <input type="text" value="BTVUH2V500"/><br/>
+				<b><span>menu_id</span></b> <input type="text" value="NM1000000400"/>
+				<button>조회</button>
+			</li>
+			<li>
+				<h3><i>INFNXPG004</i> (block_block)</h3><br/>
+				<input type="hidden" value="block_block"/>
+				<b><span>menu_stb_svc_id</span></b> <input type="text" value="BTVUH2V500"/><br/>
+				<b><span>menu_id</span></b> <input type="text" value="NM1000000400"/>
+				<button>조회</button>
+			</li>
+			<li>
+				<h3><i>INFNXPG005</i> (grid_banner)</h3><br/>
+				<input type="hidden" value="grid_banner"/>
+				<b><span>menu_stb_svc_id</span></b> <input type="text" value="BTVUH2V500"/><br/>
+				<b><span>menu_id</span></b> <input type="text" value="NM1000000400"/>
+				<button>조회</button>
+			</li>
+			<li>
+				<h3><i>INFNXPG006</i> (grid_contents)</h3><br/>
+				<input type="hidden" value="grid_contents"/>
+				<b><span>menu_id</span></b> <input type="text" value="NM1000019814"/>
+				<button>조회</button>
+			</li>
+			<li>
+				<h3><i>INFNXPG007</i> (synopsis_contents)</h3><br/>
+				<input type="hidden" value="synopsis_contents"/>
+				<b><span>sris_id</span></b> <input type="text" value="CS11000408"/>
+				<button>조회</button>
+			</li>
+			<li>
+				<h3><i>INFNXPG008</i> (synopsis_srisInfo)</h3><br/>
+				<input type="hidden" value="synopsis_srisInfo"/>
+				<b><span>epsd_id</span></b> <input type="text" value="CE1000006506"/>
+				<button>조회</button>
+			</li>
+			<li>
+				<h3><i>INFNXPG009</i> (synopsis_gateway)</h3><br/>
+				<input type="hidden" value="synopsis_gateway"/>
+				<b><span>sris_id</span></b> <input type="text" value="CS02152774"/>
+				<button>조회</button>
+			</li>
+			<li>
+				<h3><i>INFNXPG010</i> (synopsis_commerce)</h3><br/>
+				<input type="hidden" value="synopsis_commerce"/>
+				<b><span>sris_id</span></b> <input type="text" value="CS11005062"/>
+				<button>조회</button>
+			</li>
+			<li>
+				<h3><i>INFNXPG011</i> (contents_people)</h3><br/>
+				<input type="hidden" value="contents_people"/>
+				<b><span>epsd_id</span></b> <input type="text" value="CE1000006506"/>
+				<button>조회</button>
+			</li>
+			<li>
+				<h3><i>INFNXPG012</i> (contents_preview)</h3><br/>
+				<input type="hidden" value="contents_preview"/>
+				<b><span>sris_id</span></b> <input type="text" value="CS02070710"/>
+				<button>조회</button>
+			</li>
+			<li>
+				<h3><i>INFNXPG013</i> (contents_corner)</h3><br/>
+				<input type="hidden" value="contents_corner"/>
+				<b><span>epsd_id</span></b> <input type="text" value="CE0000868975"/>
+				<button>조회</button>
+			</li>
+			<li>
+				<h3><i>INFNXPG014</i> (contents_review)</h3><br/>
+				<input type="hidden" value="contents_review"/>
+				<b><span>sris_id</span></b> <input type="text" value="CS02070710"/>
+				<button>조회</button>
+			</li>
+			<li>
+				<h3><i>INFNXPG015</i> (contents_purchares)</h3><br/>
+				<input type="hidden" value="contents_purchares"/>
+				<b><span>sris_id</span></b> <input type="text" value="CS02067879"/>
+				<button>조회</button>
+			</li>
+			<li>
+				<h3><i>INFNXPG016</i> (contents_cidinfo)</h3><br/>
+				<input type="hidden" value="contents_cidinfo"/>
+				<b><span>epsd_rslu_id</span></b> <input type="text" value="{56D49A6D-5EAB-46D9-A692-3BA7CB0F1848}"/>
+				<button>조회</button>
+			</li>
+			<li>
+				<h3><i>INFNXPG017</i> (people_info)</h3><br/>
+				<input type="hidden" value="people_info"/>
+				<b><span>prs_id</span></b> <input type="text" value="MP0000158888"/>
+				<button>조회</button>
+			</li>
+			<li>
+				<h3><i>INFNXPG018</i> (corner_gather)</h3><br/>
+				<input type="hidden" value="corner_gather"/>
+				<b><span>cnr_grp_id</span></b> <input type="text" value="CN1000007439"/>
+				<button>조회</button>
+			</li>
+			<li>
+				<h3><i>INFNXPG019</i> (menu_kidsGnb)</h3><br/>
+				<input type="hidden" value="menu_kidsGnb"/>
+				<b><span>menu_stb_svc_id</span></b> <input type="text" value="BTVUH2V500"/>
+				<button>조회</button>
+			</li>
+			
+			<li>
+				<h3><i>INFNXPG020</i> (menu_kidsCharacter)</h3><br/>
+				<input type="hidden" value="menu_kidsCharacter"/>
+				<b><span>menu_stb_svc_id</span></b> <input type="text" value="BTVUH2V500"/>
+				<button>조회</button>
+			</li>
+			<li>
+				<h3><i>INFNXPG021</i> (synopsis_liveChildStory)</h3><br/>
+				<input type="hidden" value="synopsis_liveChildStory"/>
+				<b><span>epsd_id</span></b> <input type="text" value="CE1000027948"/>
+				<button>조회</button>
+			</li>
+			<li>
+				<h3><i>INFNXPG022</i> (epg_info)</h3><br/>
+				<input type="hidden" value="epg_info"/>
+				<b><span>epg</span></b> <input type="text" value="epg"/>
+				<button>조회</button>
+			</li>
+			<li>
+				<h3><i>INFNXPG023</i> (contents_phrase)</h3><br/>
+				<input type="hidden" value="contents_phrase"/>
+				<b><span>stb_exps_phrs_id</span></b> <input type="text" value="AP1000000004"/>
+				<button>조회</button>
+			</li>
+			<li>
+				<h3><i>INFNXPG024</i> (block_month)</h3><br/>
+				<input type="hidden" value="block_month"/>
+				<b><span>menu_stb_svc_id</span></b> <input type="text" value="BTVUH2V500"/>
+				<button>조회</button>
+			</li>
+			<li>
+				<h3><i>INFNXPG025</i> (synopsis_sris)</h3><br/>
+				<input type="hidden" value="synopsis_sris"/>
+				<b><span>sris_id</span></b> <input type="text" value="CS02065597"/>
+				<button>조회</button>
+			</li>
+			<li>
+				<h3><i>INFNXPG026</i> (genre_info)</h3><br/>
+				<input type="hidden" value="genre_info"/>
+				<b><span>genre</span></b> <input type="text" value="genre"/>
+				<button>조회</button>
+			</li>
+			<li>
+				<h3><i>INFNXPG029</i> (ending_cwcallidval)</h3><br/>
+				<input type="hidden" value="ending_cwcallidval"/>
+				<b><span>ending_cwcallidval</span></b> <input type="text" value="ending_cwcallidval"/>
+				<button>조회</button>
+			</li>
+			<li>
+				<h3><i>INFNXPG030</i> (inside_info)</h3><br/>
+				<input type="hidden" value="inside_info"/>
+				<b><span>epsd_id</span></b> <input type="text" value="CE1000031801"/>
+				<button>조회</button>
+			</li>
+		</ul>
+	</div>
+</body>
+<script>
+
+$("#indexPage li button").click(function(){
+	var urlname = $(this).attr("id");
+	var span = $(this).parent().find("span");
+	
+	var pathvariable = $(span[1]).text();
+	var vals = $(this).parent().find("input");
+
+	var url = "";
+	
+	url = url + $(vals[0]).val();
+
+	if (vals.length == 2) {
+		url = url + "/" + $(vals[1]).val();
+	} else {
+		url = url + "/" + $(vals[1]).val() + "_" + $(vals[2]).val();
+	}
+	
+	window.open(encodeURI("viewredis.html?url="+url), "_blank");
+})
+</script>

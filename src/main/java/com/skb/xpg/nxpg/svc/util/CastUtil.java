@@ -1,14 +1,14 @@
 package com.skb.xpg.nxpg.svc.util;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.json.GsonJsonParser;
 import org.springframework.boot.json.JacksonJsonParser;
 import org.springframework.stereotype.Component;
@@ -19,6 +19,13 @@ import com.google.gson.Gson;
 @Component
 public class CastUtil {
 
+	private static String commerceProduck = "42";
+	
+	@Value("${user.commerceProduck}")
+    private void setCommerceProduck(String commerceProduck){
+		CastUtil.commerceProduck = commerceProduck;
+    }
+	
 	public static String getObjectToString(Object obj) {
 		if (obj != null && obj instanceof String) {
 			String str = (String) obj;
@@ -235,57 +242,29 @@ public class CastUtil {
 	}
 	
 	// id_package 값을 확인하여서 price arr를 obj로 변환시켜준다.
-	public static void checkPackAgeList(Object list, Map<String, String> param) {
-		String idPackAge = "15";
-		if (param.containsKey("id_package")) {
-			idPackAge = param.get("id_package");
+	public static void checkPackBizList(Object list, Map<String, String> param) {
+		String cmcYn = "N";
+		if (param.containsKey("cmc_yn")) {
+			cmcYn = param.get("cmc_yn");
 		}
-		int intPackAge = getStrToInt(idPackAge);
-		// 초기값 설정
-		if (intPackAge == 0) intPackAge = 15;
 		
 		List<Map<String, Object>> mapList = getObjectToMapList(list);
-		if (mapList == null) return;
-		for(int i = 0; i < mapList.size(); i++) {
+		if ("Y".equals(cmcYn) || mapList == null) return;
+		
+		for (Iterator<Map<String,Object>> iterator = mapList.iterator(); iterator.hasNext();) {
+		
 			try {
-				Map<String, Object> map = mapList.get(i);
+				Map<String, Object> map = iterator.next();
 				
-				// 테스트 데이터
-				/*
-				List<Map<String, Object>> tempList = new ArrayList<Map<String, Object>>();
-				Map<String, Object> temp = new HashMap<String, Object>();
-				temp.put("id_package", "10");
-				temp.put("sale_prc", 0);
-				temp.put("sale_prc_vat", 0);
-				tempList.add(temp);temp = new HashMap<String, Object>();
-				temp.put("id_package", 15);
-				temp.put("sale_prc", 1500);
-				temp.put("sale_prc_vat", 1500);
-				tempList.add(temp);
-				map.put("price", tempList);
-				*/
-				///////////////////
-				
-				if (!map.containsKey("price")) {
+				if (!map.containsKey("prd_typ_cd")) {
 					continue;
 				}
-				// List형태의 price를 확인하면서 데이터를 처리한다.
-				// param에 id_package를 가지고와서 동일한 정보를 넣어주고 없으면 기존값 그대로 넣어준다.
-				List<Map<String, Object>> prices = getObjectToMapList(map.get("price"));
-				if (prices == null) continue;
-				for (int j = 0; j < prices.size(); j++) {
-					Map<String, Object> price = prices.get(j);
-					if (price.get("id_package") == null) continue;
-					int pricePackAge = getStrToInt(price.get("id_package")+"");
-					if (pricePackAge == 0) continue;
-					
-					if (pricePackAge == intPackAge) {
-						copyMapData(map, price);
-						break;
-					}
+				String prdTydCd = (map.get("prd_typ_cd") + "").trim();
+				
+				if (commerceProduck.indexOf(prdTydCd) >= 0) {
+					iterator.remove();
 				}
-				// price 데이터 삭제
-				map.remove("price");
+				
 			} catch (Exception e) {
 				LogUtil.error("", "", "", "", "", e.toString());
 			}

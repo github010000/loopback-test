@@ -12,11 +12,12 @@ public class ErrorConfiguration extends ServerProperties {
 	@Override 
 	public void customize(ConfigurableEmbeddedServletContainer container) { 
 		super.customize(container); 
-		container.addErrorPages(new ErrorPage(HttpStatus.UNAUTHORIZED, "/error/401")); 
-		container.addErrorPages(new ErrorPage(HttpStatus.FORBIDDEN, "/error/403")); 
-		container.addErrorPages(new ErrorPage(HttpStatus.NOT_FOUND, "/error/404")); 
-		container.addErrorPages(new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR, "/error/500")); 
-		// container.addErrorPages(new ErrorPage(HttpStatus.valueOf(590), "/error/590")); 
-		container.addErrorPages(new ErrorPage("/error/default")); 
+		container.addErrorPages(new ErrorPage(HttpStatus.UNAUTHORIZED, "/error/default")); 
+		container.addErrorPages(new ErrorPage(HttpStatus.FORBIDDEN, "/error/default")); 
+		container.addErrorPages(new ErrorPage(HttpStatus.NOT_FOUND, "/error/default")); 
+		container.addErrorPages(new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR, "/error/default")); 
+		container.addErrorPages(new ErrorPage(HttpStatus.BAD_GATEWAY, "/error/default"));
+		container.addErrorPages(new ErrorPage(HttpStatus.SERVICE_UNAVAILABLE, "/error/default"));
+		container.addErrorPages(new ErrorPage("/error/default"));
 	}
 }

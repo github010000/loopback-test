@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta>
+	<link rel="stylesheet" href="json-viewer.css">
+	<script src="jquery-3.2.1.min.js"></script>
+	<script src="json-viewer.js"></script>
+</head>
+<body>
+	<button onclick="javascript:deleteRedis();">삭제</button>
+	<div id="json-container"></div>
+</body>
+
+<script>
+	var url = new URL(window.location.href);
+	url = url.searchParams.get("url");
+	
+	$.post("task/hget/" + url, { }, 
+			function(data) { $('#json-container').jsonview(data); });
+	
+	function deleteRedis() {
+		if(confirm("삭제하시겠습니까?")) {
+			$.post("task/hdel/" + url, { }, 
+					function(data) { 
+						alert('삭제되었습니다');
+					});
+			location.reload();
+		}
+	}
+	
+</script>
