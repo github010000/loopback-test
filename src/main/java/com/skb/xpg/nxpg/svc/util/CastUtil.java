@@ -21,7 +21,7 @@ public class CastUtil {
 
 	private static String commerceProduck = "42";
 	
-	@Value("${user.commerceProduck}")
+	@Value("${user.commerceProduct}")
     private void setCommerceProduck(String commerceProduck){
 		CastUtil.commerceProduck = commerceProduck;
     }
