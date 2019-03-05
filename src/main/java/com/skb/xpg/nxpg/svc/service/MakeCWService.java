@@ -28,8 +28,8 @@ public class MakeCWService {
 	@Autowired
 	private Properties properties;
 	
-//	@Async("fixedThreadPool")
-	public List<Map<String, Object>> makeCwGridMap(String[] idNblockId, Map<String, Object> gridData, Map<String, String> param) {
+	@Async("fixedThreadPool")
+	public ListenableFuture<List<Map<String, Object>>> makeCwGridMap(String[] idNblockId, Map<String, Object> gridData, Map<String, String> param) {
 //		int redisCnt = 0;
 		List<Map<String, Object>> resultGridList = new ArrayList<Map<String, Object>>();
 		String epsd_rslu_id = idNblockId[0];
@@ -122,7 +122,7 @@ public class MakeCWService {
 					
 				} else {
 //					LogUtil.info("", "", "", "", "CW", "CONTENTS NULL : " + epsd_id);
-					return resultGridList;
+					return AsyncResult.forValue(resultGridList);
 				}
 
 
@@ -131,7 +131,7 @@ public class MakeCWService {
 		}
 		DateUtil.getCompare(resultGridList, "svc_fr_dt", "svc_to_dt", true);
 		
-		return resultGridList;
+		return AsyncResult.forValue(resultGridList);
 	}
 	
 	private Object checkPrdTypCd(List<Map<String, Object>> products) {

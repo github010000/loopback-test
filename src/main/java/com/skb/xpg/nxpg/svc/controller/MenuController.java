@@ -2,8 +2,6 @@ package com.skb.xpg.nxpg.svc.controller;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.Callable;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.skb.xpg.nxpg.svc.common.ResultCommon;
 import com.skb.xpg.nxpg.svc.config.Properties;
 import com.skb.xpg.nxpg.svc.service.MenuService;
-import com.skb.xpg.nxpg.svc.util.CastUtil;
 import com.skb.xpg.nxpg.svc.util.DateUtil;
 import com.skb.xpg.nxpg.svc.util.LogUtil;
 import com.skb.xpg.nxpg.svc.util.StrUtil;
@@ -32,15 +29,11 @@ public class MenuController {
 	// IF-NXPG-001
 	@RequestMapping(value = "/menu/gnb")
 	public Map<String, Object> getMenuGnb(HttpServletRequest req, @PathVariable String ver, @RequestParam Map<String, String> param) {
-		
-	        	
 		String IF = param.get("IF");
 		Map<String, Object> result = properties.getResults();
 		Map<String, String> defaults = properties.getDefaults();
 		Map<String, Object> rtn = new HashMap<String, Object>();
 		param.put("UUID", req.getHeader("UUID"));
-		param.put("time_start", System.nanoTime() + "");
-		param.put("redis_count", "0");
 		
 		rtn.putAll(result);
 		
@@ -66,23 +59,18 @@ public class MenuController {
 		}
 		
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
-		param.put("time_end", System.nanoTime() + "");
-		LogUtil.rlog(param.get("IF"), "SEND.RES", param.get("UUID"), param.get("stb_id"), "STB", param);
-		return rtn;							
-		
+		LogUtil.tlog(param.get("IF"), "SEND.RES", param.get("UUID"), param.get("stb_id"), "STB", rtn, param);
+		return rtn;
 	}
 
 	// IF-NXPG-002
 	@RequestMapping(value = "/menu/all")
 	public Map<String, Object> getMenuAll(HttpServletRequest req, @PathVariable String ver, @RequestParam Map<String, String> param) {
-		
 		String IF = param.get("IF");
 		Map<String, Object> result = properties.getResults();
 		Map<String, String> defaults = properties.getDefaults();
 		Map<String, Object> rtn = new HashMap<String, Object>();
 		param.put("UUID", req.getHeader("UUID"));
-		param.put("time_start", System.nanoTime() + "");
-		param.put("redis_count", "0");
 
 		rtn.putAll(result);
 		rtn.put("IF", IF);
@@ -107,8 +95,7 @@ public class MenuController {
 		}
 		
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
-		param.put("time_end", System.nanoTime() + "");
-		LogUtil.rlog(param.get("IF"), "SEND.RES", param.get("UUID"), param.get("stb_id"), "STB", param);
+		LogUtil.tlog(param.get("IF"), "SEND.RES", param.get("UUID"), param.get("stb_id"), "STB", rtn, param);
 		return rtn;
 	}
 
@@ -120,8 +107,6 @@ public class MenuController {
 		Map<String, String> defaults = properties.getDefaults();
 		Map<String, Object> rtn = new HashMap<String, Object>();
 		param.put("UUID", req.getHeader("UUID"));
-		param.put("time_start", System.nanoTime() + "");
-		param.put("redis_count", "0");
 
 		rtn.putAll(result);
 		rtn.put("IF", IF);
@@ -191,8 +176,7 @@ public class MenuController {
 		rtn.put("reason", ResultCommon.reason.get(rtn.get("result")));
 		
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
-		param.put("time_end", System.nanoTime() + "");
-		LogUtil.rlog(param.get("IF"), "SEND.RES", param.get("UUID"), param.get("stb_id"), "STB", param);
+		LogUtil.tlog(param.get("IF"), "SEND.RES", param.get("UUID"), param.get("stb_id"), "STB", rtn, param);
 		return rtn;
 	}
 
@@ -204,8 +188,6 @@ public class MenuController {
 		Map<String, String> defaults = properties.getDefaults();
 		Map<String, Object> rtn = new HashMap<String, Object>();
 		param.put("UUID", req.getHeader("UUID"));
-		param.put("time_start", System.nanoTime() + "");
-		param.put("redis_count", "0");
 
 		rtn.putAll(result);
 		rtn.put("IF", IF);
@@ -230,8 +212,7 @@ public class MenuController {
 		rtn.put("reason", ResultCommon.reason.get(rtn.get("result")));
 		
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
-		param.put("time_end", System.nanoTime() + "");
-		LogUtil.rlog(param.get("IF"), "SEND.RES", param.get("UUID"), param.get("stb_id"), "STB", param);
+		LogUtil.tlog(param.get("IF"), "SEND.RES", param.get("UUID"), param.get("stb_id"), "STB", rtn, param);
 		return rtn;
 	}
 	

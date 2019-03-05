@@ -6,14 +6,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.concurrent.FutureTask;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -71,12 +65,6 @@ public class CwService {
 	@Autowired
 	private MakeCWService makeCWService;
 	
-	//19.01.29 추가
-	@Value("${user.cw.conntimeout}")
-	private int conntimeout;
-
-	@Value("${user.cw.biztimeout}")
-	private int biztimeout;
 	
 	public Map<String, Object> cwGetGrid(String ver, Map<String, String> param) {
 
@@ -136,7 +124,7 @@ public class CwService {
 				if (time != null) {
 					time.put("after_end", System.nanoTime());
 				}
-//				printProcessTime(time, param);
+				printProcessTime(time, param);
 			}else {
 				LogUtil.info("IF-NXPG-009", "", param.get("UUID"), param.get("cw_stb_id"), "CW", "CW API return null. switch value: " + NXPGCommon.cwSwitch);
 				result = null;
@@ -286,7 +274,7 @@ public class CwService {
 					if (time != null) {
 						time.put("after_end", System.nanoTime());
 					}
-//					printProcessTime(time, param);
+					printProcessTime(time, param);
 				}
 			}else {
 				LogUtil.info(param.get("IF"), "", param.get("UUID"), param.get("cw_stb_id"), "NCMS", "content data is null. epsd_id: "+epsd_id);
@@ -371,9 +359,9 @@ public class CwService {
 		long before = System.nanoTime();
 		restResult = restClient.getRestUri(cwBaseUrl + path, cwUser, cwPassword, cwparam, param);
 		
-		param.put("cw_time_start", before + "");
-		param.put("cw_time_end", System.nanoTime() + "");
-//		restResult.put("url", cwBaseUrl + path);
+		restResult.put("cw_time_start", before);
+		restResult.put("cw_time_end", System.nanoTime());
+		restResult.put("url", cwBaseUrl + path);
 		
 		if (restResult != null && restResult.containsKey("result")) {
 			rest = restResult.get("result") + "";
@@ -460,118 +448,108 @@ public class CwService {
 		
 		//데이터 추출 메소드
 		getCwData(objMap, resultList);
-		
-		List<Map<String, Object>>resultGrid = new ArrayList<Map<String,Object>>();
-		//데이터 가공로직 시작
-		ExecutorService threadPool = Executors.newCachedThreadPool();
-		FutureTask<List<Map<String, Object>>> task = new FutureTask<List<Map<String, Object>>>(new Callable<List<Map<String, Object>>>() {
-			public List<Map<String, Object>> call() throws Exception {
-				param.put("biz_thread_time_start", System.nanoTime() + "");
-				
-				List<Map<String, Object>>cwGrid = new ArrayList<Map<String,Object>>();
-		
-				int i = 0;
-				int cnt = 0;
-				boolean checkFirstBlock = true;
-				
-				if (resultList != null && resultList.size() > 0) {
-					for (Map<String, Object> temp : resultList) {
-						List<Map<String, Object>>resultGridList = new ArrayList<Map<String,Object>>();
-						Map<String, Object> resultMap = new HashMap<String, Object>();
-						List<String> tempIdList = CastUtil.getObjectToListString(temp.get("idList"));
-						
-						if(tempIdList != null) {
-							List<Map<String, Object>> makedList = new ArrayList<Map<String, Object>>();
-							for(String dataGrp:tempIdList) {
-								String [] idNblockId = dataGrp.split("\\|");
-		
-								Map<String, Object> gridData = new HashMap<String, Object>();
-									
-								makedList = makeCWService.makeCwGridMap(idNblockId, gridData, param);
-								if (makedList.size() > 0) {
-									resultGridList.add(makedList.get(0));
-								}
-								cnt++;
-								
-							}
-//							for (Map<String, Object> makedMap : makedList) {
-//						        	resultGridList.add(makedMap);
-//						    }
-							
-//							time.put("redis_count", cnt);
-						} else {
-							//아이템이 없을 경우 카운트 추가
-							if(type != null && !"section".equals(type)) {
-								i++;
-							}
-						}
-		
-						//onepage호출시 첫번쨰 블록에 데이터가 없으면 리턴
-						if(type != null && "onepage".equals(type) && checkFirstBlock && resultGridList.size()<=0) {
-							LogUtil.info(param.get("IF"), "", param.get("UUID"), param.get("cw_stb_id"), "CW", "No Exist Match Data. CW code: 0, CW result size : " +  + resultList.size());
-							checkFirstBlock=false;
-							return null;
-						}
-						
-						resultMap.put("sectionId", temp.get("sectionId"));
-						resultMap.put("session_id", objMap.get("sessionId"));
-						if(objMap.containsKey("trackId") && objMap.get("trackId")!= null && !"".equals(objMap.get("trackId"))) {
-							resultMap.put("btrack_id", objMap.get("trackId"));
-						}else {
-							resultMap.put("btrack_id", temp.get("btrackId"));
-						}
-						resultMap.put("block", resultGridList);
-						resultMap.put("sub_title", temp.get("blockTitle"));
-						resultMap.put("block_cnt", resultGridList.size());
-						resultMap.put("cw_call_id", objMap.get("cw_call_id"));
-		
-						if("all".equals(type) || "onesection".equals(type)) {
-							if(resultGridList.size()>0) {
-								cwGrid.add(resultMap);
-							}
-						}else {
-							cwGrid.add(resultMap);	//type이 all 이 아닌 애들
-						}
-						resultMap = new HashMap<String, Object>();
-						
-						checkFirstBlock=false;
-					}
-				} else {
-					cwGrid = null;
-				}
-				//CW status가 0 이었지만, 데이터가 하나도 없었을 경우 처리로직
-				if (i == resultList.size()) {
-					LogUtil.info(param.get("IF"), "", param.get("UUID"), param.get("cw_stb_id"), "CW", "No Exist Match Data. CW code: 0");
-					cwGrid = null;
-				}
-				param.put("biz_thread_time_end", System.nanoTime() + "");
 
-				return cwGrid;
-				
-			}
-		});		
+		//데이터 가공로직 시작
+		List<Map<String, Object>>cwGrid = new ArrayList<Map<String,Object>>();
+
+		int i = 0;
+		int cnt = 0;
+		boolean checkFirstBlock = true;
 		
-		
-		threadPool.execute(task);
-		List<Map<String, Object>> resultTask = new ArrayList<Map<String,Object>>();
-		try {
-			try {
-				resultTask = task.get(biztimeout, TimeUnit.MILLISECONDS);
-				resultGrid = resultTask;
+		if(resultList != null && resultList.size()>0) {
+			for(Map<String, Object>temp:resultList ) {
+				List<Map<String, Object>>resultGridList = new ArrayList<Map<String,Object>>();
+				Map<String, Object> resultMap = new HashMap<String, Object>();
+				List<String> tempIdList = CastUtil.getObjectToListString(temp.get("idList"));
+				if(tempIdList != null) {
+					Collection<Future<List<Map<String, Object>>>> futures = new ArrayList<Future<List<Map<String, Object>>>>();
+					for(String dataGrp:tempIdList) {
+						String [] idNblockId = dataGrp.split("\\|");
+						
+//						String epsd_rslu_id = idNblockId[0];
+//						String trackId = idNblockId[1];
+
+						Map<String, Object> gridData = new HashMap<String, Object>();
+						
+						
+						
+						
+							
+//							int executeQueue = 0;
+//							
+//							if (maxQueue < (keySize - currentQueue)) {
+//								executeQueue = maxQueue;
+//							} else {
+//								executeQueue = keySize - currentQueue;
+//							}
+							
+						futures.add(makeCWService.makeCwGridMap(idNblockId, gridData, param));
+//						cnt += makeCwGridMap(idNblockId, gridData, resultGridList, param);
+						cnt++;
+					}
+					for (Future<List<Map<String, Object>>> future : futures) {
+				        try {
+				        	resultGridList.addAll(future.get());
+				        	
+//				        	cnt += future.get();
+						} catch (ExecutionException e) {
+							// TODO Auto-generated catch block
+							LogUtil.error("", "", "", "", "", e.toString());
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							LogUtil.error("", "", "", "", "", e.toString());
+						}
+				    }
+					
+					time.put("redis_count", cnt);
+				}else {
+					//아이템이 없을 경우 카운트 추가
+					if(type != null && !"section".equals(type)) {
+						i++;
+					}
+				}
 				
-			} catch (TimeoutException e) {
-				LogUtil.error(param.get("IF"), "RECV.RES", param.get("UUID"), param.get("cw_stb_id"), "CW", "cw_biz_timeout");
-				param.put("biz_thread_time_end", System.nanoTime() + "");
-				param.put("biz_exception", "biz_timeout");
+				//onepage호출시 첫번쨰 블록에 데이터가 없으면 리턴
+				if(type != null && "onepage".equals(type) && checkFirstBlock && resultGridList.size()<=0) {
+					LogUtil.info(param.get("IF"), "", param.get("UUID"), param.get("cw_stb_id"), "CW", "No Exist Match Data. CW code: 0, CW result size : " +  + resultList.size());
+					checkFirstBlock=false;
+					return null;
+				}
+				
+				resultMap.put("sectionId", temp.get("sectionId"));
+				resultMap.put("session_id", objMap.get("sessionId"));
+				if(objMap.containsKey("trackId") && objMap.get("trackId")!= null && !"".equals(objMap.get("trackId"))) {
+					resultMap.put("btrack_id", objMap.get("trackId"));
+				}else {
+					resultMap.put("btrack_id", temp.get("btrackId"));
+				}
+				resultMap.put("block", resultGridList);
+				resultMap.put("sub_title", temp.get("blockTitle"));
+				resultMap.put("block_cnt", resultGridList.size());
+				resultMap.put("cw_call_id", objMap.get("cw_call_id"));
+
+				if("all".equals(type) || "onesection".equals(type)) {
+					if(resultGridList.size()>0) {
+						cwGrid.add(resultMap);
+					}
+				}else {
+					cwGrid.add(resultMap);	//type이 all 이 아닌 애들
+				}
+				resultMap = new HashMap<String, Object>();
+				
+				checkFirstBlock=false;
 			}
-		} catch (InterruptedException e) {
-			LogUtil.error(param.get("IF"), "RECV.RES", param.get("UUID"), param.get("cw_stb_id"), "CW", e.getStackTrace()[0].toString());
-		} catch (ExecutionException e) {
-			LogUtil.error(param.get("IF"), "RECV.RES", param.get("UUID"), param.get("cw_stb_id"), "CW", e.getStackTrace()[0].toString());
+		} else {
+			cwGrid=null;
 		}
-				
 		
-		return resultGrid;
+		//CW status가 0 이었지만, 데이터가 하나도 없었을 경우 처리로직
+		if(i==resultList.size()) {
+			LogUtil.info(param.get("IF"), "", param.get("UUID"), param.get("cw_stb_id"), "CW", "No Exist Match Data. CW code: 0");
+			cwGrid = null;
+		}
+		
+		return cwGrid;
 	}
 	
 	//CW 연관콘텐츠 생성로직
@@ -585,122 +563,104 @@ public class CwService {
 		//데이터 추출 메소드
 		getCwData(objMap, resultList);
 		
-//		List<Map<String, Object>>resultRelation = new ArrayList<Map<String,Object>>();
 		//데이터 가공로직 시작
-		ExecutorService threadPool = Executors.newCachedThreadPool();
-		FutureTask<List<Map<String, Object>>> task = new FutureTask<List<Map<String, Object>>>(new Callable<List<Map<String, Object>>>() {
-			public List<Map<String, Object>> call() throws Exception {
-				List<Map<String, Object>> cwRelation = new ArrayList<Map<String,Object>>();
+		List cwRelation = null;
 
-				int cnt = 0;
-				int i = 0;
-				boolean checkFirstBlock = true;		
-				
-				if(resultList!=null && !resultList.isEmpty()) {
-					cwRelation = new ArrayList<Map<String,Object>>();
-					for(Map<String, Object>temp:resultList ) {
-						List<Map<String, Object>>resultRelationList = new ArrayList<Map<String,Object>>();
-						Map<String, Object> resultMap = new HashMap<String, Object>();
-						List<String> tempIdList = CastUtil.getObjectToListString(temp.get("idList"));
-		//				List<String>tempIdList = (List<String>) temp.get("idList");
-						if(tempIdList != null && !tempIdList.isEmpty()) {
-							List<Map<String, Object>> makedList = new ArrayList<Map<String, Object>>();
-							
-							for(String dataGrp:tempIdList) {
-								String [] idNblockId = dataGrp.split("\\|");
-								
-								Map<String, Object> relationData = new HashMap<String, Object>();
-								
-								makedList = makeCWService.makeCwGridMap(idNblockId, relationData, param);
-								if (makedList.size() > 0) {
-									resultRelationList.add(makedList.get(0));
-								}
-								cnt++;
-							}
-//							for (Map<String, Object> makedMap : makedList) {
-//								resultRelationList.add(makedMap);
-//						    }
-//							time.put("redis_count", cnt);
-							
-						}else {
-							//아이템이 없을 경우 카운트 추가
-							if(!"section".equals(type)) {
-								i++;
-							}
-						}
-						String sub_title=CastUtil.getObjectToString(temp.get("blockTitle"));
-						String content_title=CastUtil.getObjectToString(objMap.get("contentTitle"));
-						if(sub_title != null && !sub_title.isEmpty()) {
-							sub_title = restMatching(param_epsd_id, sub_title, content_title, param);
-						}
+		int cnt = 0;
+		int i = 0;
+		boolean checkFirstBlock = true;		
+		
+		if(resultList!=null && !resultList.isEmpty()) {
+			cwRelation = new ArrayList<Map<String,Object>>();
+			for(Map<String, Object>temp:resultList ) {
+				List<Map<String, Object>>resultRelationList = new ArrayList<Map<String,Object>>();
+				Map<String, Object> resultMap = new HashMap<String, Object>();
+				List<String> tempIdList = CastUtil.getObjectToListString(temp.get("idList"));
+//				List<String>tempIdList = (List<String>) temp.get("idList");
+				if(tempIdList != null && !tempIdList.isEmpty()) {
+					Collection<Future<List<Map<String, Object>>>> futures = new ArrayList<Future<List<Map<String, Object>>>>();
+					
+					for(String dataGrp:tempIdList) {
+						String [] idNblockId = dataGrp.split("\\|");
 						
-						if(!sub_title.isEmpty()) {
-							
-							resultMap.put("sectionId", temp.get("sectionId"));
-							resultMap.put("session_id", objMap.get("sessionId"));
-							if(temp.containsKey("trackId") && temp.get("trackId")!=null && !"".equals(temp.get("trackId"))) {
-								resultMap.put("btrack_id", temp.get("trackId"));
-							}else {
-								resultMap.put("btrack_id", temp.get("btrackId"));
-							}
-							resultMap.put("block", resultRelationList);
-							resultMap.put("t_cnt", resultRelationList.size()+"");
-							resultMap.put("sub_title", sub_title);
-							resultMap.put("cw_call_id", objMap.get("cw_call_id"));
-							
-							//onepage호출시 첫번쨰 블록에 데이터가 없으면 리턴
-							if("onepage".equals(type) && checkFirstBlock && resultRelationList.size()<=0) {
-								LogUtil.info(param.get("IF"), "", param.get("UUID"), param.get("cw_stb_id"), "NCMS", "No Exist Match Data. CW code: 0");
-								checkFirstBlock=false;
-								return null;
-							}
-							
-							if("all".equals(type) || "onesection".equals(type)) {
-								if(resultRelationList.size()>0) {
-									cwRelation.add(resultMap);
-								}
-							}else {
-								cwRelation.add(resultMap);	//type이 all 이 아닌 애들
-							}
-							resultMap = new HashMap<String, Object>();
-							checkFirstBlock=false;
-							
-						}
+						Map<String, Object> relationData = new HashMap<String, Object>();
+						
+//						makeCwGridMap(idNblockId, relationData, resultRelationList, param);
+
+						cnt++;
+						futures.add(makeCWService.makeCwGridMap(idNblockId, relationData, param));
+						
 					}
-				
+					for (Future<List<Map<String, Object>>> future : futures) {
+				        try {
+				        	resultRelationList.addAll(future.get());
+//				        	cnt += resultRelationList.size();
+						} catch (ExecutionException e) {
+							// TODO Auto-generated catch block
+							LogUtil.error("", "", "", "", "", e.toString());
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							LogUtil.error("", "", "", "", "", e.toString());
+						}
+				    }
+					time.put("redis_count", cnt);
+					
+				}else {
+					//아이템이 없을 경우 카운트 추가
+					if(!"section".equals(type)) {
+						i++;
+					}
+				}
+				String sub_title=CastUtil.getObjectToString(temp.get("blockTitle"));
+				String content_title=CastUtil.getObjectToString(objMap.get("contentTitle"));
+				if(sub_title != null && !sub_title.isEmpty()) {
+					sub_title = restMatching(param_epsd_id, sub_title, content_title, param);
 				}
 				
-				//CW status가 0 이었지만, 데이터가 하나도 없었을 경우 처리로직
-				if(i==resultList.size()) {
-					LogUtil.info(param.get("IF"), "", param.get("UUID"), param.get("cw_stb_id"), "CW", "No Exist Match Data. CW code: 0");
-					cwRelation = null;
+				if(!sub_title.isEmpty()) {
+					
+					resultMap.put("sectionId", temp.get("sectionId"));
+					resultMap.put("session_id", objMap.get("sessionId"));
+					if(temp.containsKey("trackId") && temp.get("trackId")!=null && !"".equals(temp.get("trackId"))) {
+						resultMap.put("btrack_id", temp.get("trackId"));
+					}else {
+						resultMap.put("btrack_id", temp.get("btrackId"));
+					}
+					resultMap.put("block", resultRelationList);
+					resultMap.put("t_cnt", resultRelationList.size()+"");
+					resultMap.put("sub_title", sub_title);
+					resultMap.put("cw_call_id", objMap.get("cw_call_id"));
+					
+					//onepage호출시 첫번쨰 블록에 데이터가 없으면 리턴
+					if("onepage".equals(type) && checkFirstBlock && resultRelationList.size()<=0) {
+						LogUtil.info(param.get("IF"), "", param.get("UUID"), param.get("cw_stb_id"), "NCMS", "No Exist Match Data. CW code: 0");
+						checkFirstBlock=false;
+						return null;
+					}
+					
+					if("all".equals(type) || "onesection".equals(type)) {
+						if(resultRelationList.size()>0) {
+							cwRelation.add(resultMap);
+						}
+					}else {
+						cwRelation.add(resultMap);	//type이 all 이 아닌 애들
+					}
+					resultMap = new HashMap<String, Object>();
+					checkFirstBlock=false;
+					
 				}
 				
-				return cwRelation;
 			}
-		});		
-	
-		threadPool.execute(task);
-		List<Map<String, Object>> resultTask = new ArrayList<Map<String,Object>>();
-		try {
-			try {
-				resultTask = task.get(biztimeout, TimeUnit.MILLISECONDS);
-				
-//				resultRelation = resultTask;
-//				LogUtil.tlog(param.get("IF"), "RECV.RES", param.get("UUID"), param.get("cw_stb_id"), "CW", resultRelation);
-				
-			} catch (TimeoutException e) {
-				LogUtil.error(param.get("IF"), "RECV.RES", param.get("UUID"), param.get("cw_stb_id"), "CW", "cw_biz_timeout");
-				param.put("biz_thread_time_end", System.nanoTime() + "");
-				param.put("biz_exception", "biz_timeout");
-			}
-		} catch (InterruptedException e) {
-			LogUtil.error(param.get("IF"), "RECV.RES", param.get("UUID"), param.get("cw_stb_id"), "CW", e.getStackTrace()[0].toString());
-		} catch (ExecutionException e) {
-			LogUtil.error(param.get("IF"), "RECV.RES", param.get("UUID"), param.get("cw_stb_id"), "CW", e.getStackTrace()[0].toString());
-		}
 			
-		return resultTask;
+		}
+		
+		//CW status가 0 이었지만, 데이터가 하나도 없었을 경우 처리로직
+		if(i==resultList.size()) {
+			LogUtil.info(param.get("IF"), "", param.get("UUID"), param.get("cw_stb_id"), "CW", "No Exist Match Data. CW code: 0");
+			cwRelation = null;
+		}
+		
+		return cwRelation;
 	}
 	
 	//CW API에서 데이터 추출 (con_id등)
@@ -990,22 +950,22 @@ public class CwService {
 		return redisCnt;
 	}
 */
-//	private void printProcessTime(Map<String, Object> time, Map<String, String> param) {
-//		
-//		long cw_start = CastUtil.getObjectToLong(time.get("cw_time_start"));
-//		long cw_end = CastUtil.getObjectToLong(time.get("cw_time_end"));
-//		
-//		long after_start = CastUtil.getObjectToLong(time.get("after_start"));
-//		long after_end = CastUtil.getObjectToLong(time.get("after_end"));
-//		
-//		String redis_count = time.get("redis_count") + "";
-//		
-//		long cw = (cw_end - cw_start) / 1000000;
-//		long after = (after_end - after_start) / 1000000;
-//		
-//		String log = "";
-//		log = "cwredis sum:" + (cw + after) + ",cw:" + cw + ",biz_redis:" + after + ",data_cnt:" + redis_count + ",cwcallid:" + param.get("cw_call_id");
-//		
-//		LogUtil.info(param.get("IF"), "", param.get("UUID"), param.get("stb_id"), "", log);
-//	}
+	private void printProcessTime(Map<String, Object> time, Map<String, String> param) {
+		
+		long cw_start = CastUtil.getObjectToLong(time.get("cw_time_start"));
+		long cw_end = CastUtil.getObjectToLong(time.get("cw_time_end"));
+		
+		long after_start = CastUtil.getObjectToLong(time.get("after_start"));
+		long after_end = CastUtil.getObjectToLong(time.get("after_end"));
+		
+		String redis_count = time.get("redis_count") + "";
+		
+		long cw = (cw_end - cw_start) / 1000000;
+		long after = (after_end - after_start) / 1000000;
+		
+		String log = "";
+		log = "cwredis sum:" + (cw + after) + ",cw:" + cw + ",biz_redis:" + after + ",data_cnt:" + redis_count + ",cwcallid:" + param.get("cw_call_id");
+		
+		LogUtil.info(param.get("IF"), "", param.get("UUID"), param.get("cw_stb_id"), "", log);
+	}
 }

@@ -2,7 +2,6 @@ user:
   cwswitch: true
   expiryDate: true
   cimodeCheck: 20,30,34,35,41,42
-  commerceProduck: 42
   useLogForResponseData: true
   checkVersionEqual: true
   checkdate:
@@ -103,7 +102,6 @@ user:
     socktimeout: 2000
     conntimeout: 1000
     connreqtimeout: 500
-    biztimeout: 2000
   logging:
     name: xpg-nxpg-svc
     instance_index: 0
@@ -120,8 +118,6 @@ spring:
     setMaxTotal: 100 
     setMaxIdle: 100
     setMinIdle: 100
-  transaction:
-    default-timeout: 1000 
 second:
   redis:
     host: localhost

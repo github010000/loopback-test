@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.skb.xpg.nxpg.svc.common.NXPGCommon;
@@ -44,7 +43,7 @@ public class GridService {
 		
 		if (gridMap != null && gridMap.containsKey("contents")) {
 			// id_package 처리
-//			CastUtil.checkPackAgeList(gridMap.get("contents"), param);
+			CastUtil.checkPackAgeList(gridMap.get("contents"), param);
 
 			rtn.put("version", gridMap.get("version"));
 			
@@ -147,7 +146,7 @@ public class GridService {
 
 		if (gridBanner != null && gridBanner.get("banners") != null) {
 			// id_package 처리
-//			CastUtil.checkPackBizList(gridBanner.get("banners"), param);
+			CastUtil.checkPackAgeList(gridBanner.get("banners"), param);
 			
 			String version = CastUtil.getObjectToString( gridBanner.get("version") );
 			gridBanner.put("version", version);
@@ -212,12 +211,11 @@ public class GridService {
 					result = "event";
 				} else if (!sris_dist_fir_svc_dt.isEmpty() && DateUtil.getAddDate(sris_dist_fir_svc_dt, 7).compareTo(DateUtil.getYYYYMMDDhhmmss2()) >= 0) {
 					result = "new";
-				} else if ("0".equals(sale_prc) && !"Y".equals(ppv_uabl_yn)) {
+				} else if ("0".equals(sale_prc)) {
 					// 디멘드여부 구분
-					result = "free";
-//					if (!"Y".equals(ppv_uabl_yn)) {
-//						result = "free";
-//					}
+					if (!"Y".equals(ppv_uabl_yn)) {
+						result = "free";
+					}
 				} else if ("Y".equals(cacbro_yn)) {
 					result = "rest";
 				} else if (epsd_dist_fir_svc_dt != null && !epsd_dist_fir_svc_dt.isEmpty() && DateUtil.getAddDate(epsd_dist_fir_svc_dt, 1).compareTo(DateUtil.getYYYYMMDDhhmmss2()) >= 0) {

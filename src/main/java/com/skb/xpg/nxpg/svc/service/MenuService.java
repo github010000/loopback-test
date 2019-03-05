@@ -120,7 +120,7 @@ public class MenuService {
 		if (bigbanner != null && bigbanner.get("banners") != null) {
 			
 			// id_package 데이터 확인
-//			CastUtil.checkPackAgeList(bigbanner.get("banners"), param);
+			CastUtil.checkPackAgeList(bigbanner.get("banners"), param);
 			
 			String version = CastUtil.getObjectToString( bigbanner.get("banner_version") );
 			
@@ -206,7 +206,7 @@ public class MenuService {
 											Map<String ,Object> cwPerMap = null;
 											cwPerMap = CastUtil.StringToJsonMap(cwPerGridStr);
 											// id_package 처리
-//											CastUtil.checkPackAgeList(cwPerMap.get("contents"), param);
+											CastUtil.checkPackAgeList(cwPerMap.get("contents"), param);
 											
 											cwPerGrid = CastUtil.getObjectToMapList(cwPerMap.get("contents"));
 											List<Map<String, Object>> data = (List<Map<String, Object>>) CastUtil.getObjectToMapList(cwPerGrid);
@@ -287,7 +287,7 @@ public class MenuService {
 		
 		// id_package 데이터 확인
 		if (result != null) {
-//			CastUtil.checkPackAgeList(result.get("banners"), param);
+			CastUtil.checkPackAgeList(result.get("banners"), param);
 		}
 		return result;
 	}
@@ -311,7 +311,7 @@ public class MenuService {
 		List<Map<String, Object>> banners = null;
 		if (bigbanner != null) {
 			// id_package 데이터 확인
-//			CastUtil.checkPackAgeList(bigbanner.get("banners"), param);
+			CastUtil.checkPackAgeList(bigbanner.get("banners"), param);
 			
 			//version check
 			banner_version = CastUtil.getObjectToString( bigbanner.get("banner_version") );

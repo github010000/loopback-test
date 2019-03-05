@@ -107,7 +107,7 @@ public class ContentsService {
 			rtn.put("result", "9998");
 		} else {
 			// id_package 처리
-			CastUtil.checkPackBizList(epsd.get("products"), param);
+			CastUtil.checkPackAgeList(epsd.get("products"), param);
 			
 			sris.putAll(epsd);
 			
@@ -183,7 +183,7 @@ public class ContentsService {
 			if (purchares != null && purchares.get("products") != null) {
 				List<Map<String, Object>> products = CastUtil.getObjectToMapList(purchares.get("products"));
 				DateUtil.getCompare(products, "prd_prc_fr_dt", "purc_wat_to_dt", false);
-				CastUtil.checkPackBizList(products, param);
+				CastUtil.checkPackAgeList(products, param);
 				
 				if(NXPGCommon.isCIMode()) {
 					products = CiModeUtil.getPrdFilter(products);

@@ -42,8 +42,6 @@ public class InsideController {
 
 		rtn.put("IF", IF);
 		rtn.put("request_time", DateUtil.getYYYYMMDDhhmmss());
-		param.put("time_start", System.nanoTime() + "");
-		param.put("redis_count", "0");
 
 		if (StrUtil.isEmpty(param.get("epsd_id"))) {
 			rtn.put("result", "9999");
@@ -61,8 +59,7 @@ public class InsideController {
 		
 		rtn.put("reason", ResultCommon.reason.get(rtn.get("result")));
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
-		param.put("time_end", System.nanoTime() + "");
-		LogUtil.rlog(param.get("IF"), "SEND.RES", param.get("UUID"), param.get("stb_id"), "STB", param);
+		LogUtil.tlog(param.get("IF"), "SEND.RES", param.get("UUID"), param.get("stb_id"), "STB", rtn, param);
 		return rtn;
 	}
 }

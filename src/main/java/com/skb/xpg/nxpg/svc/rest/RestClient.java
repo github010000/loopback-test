@@ -57,8 +57,7 @@ public class RestClient {
 		ExecutorService threadPool = Executors.newCachedThreadPool();
 		FutureTask<String> task = new FutureTask<String>(new Callable<String>() {
 			public String call() throws Exception {
-				reqparam.put("cw_thread_time_start", System.nanoTime() + "");
-
+				
 				HttpClient client = HttpClientBuilder.create().build();
 				HttpGet request = new HttpGet(url);
 
@@ -103,13 +102,10 @@ public class RestClient {
 					}
 				} catch (ClientProtocolException e1) {
 					LogUtil.error(reqparam.get("IF"), "RECV.RES", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW", "client_timeout : " + e1.getStackTrace()[0].toString());
-					reqparam.put("cw_exception", "cw_timeout");
 				} catch (IOException e1) {
 					LogUtil.error(reqparam.get("IF"), "RECV.RES", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW", "client_timeout : " + e1.getStackTrace()[0].toString());
-					reqparam.put("cw_exception", "cw_timeout");
 				} catch (UnsupportedOperationException e) {
 					LogUtil.error(reqparam.get("IF"), "RECV.RES", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW", "client_timeout : " + e.getStackTrace()[0].toString());
-					reqparam.put("cw_exception", "cw_timeout");
 				} finally {
 					try {
 						if(rd!=null) rd.close();
@@ -129,8 +125,7 @@ public class RestClient {
 //				String codeValue = StrUtil.getRegexString(restregex, result.toString());
 
 				reqparam.put("status", statusCode);
-
-				reqparam.put("cw_thread_time_end", System.nanoTime() + "");
+				
 				return result.toString();
 				
 			}
@@ -146,10 +141,7 @@ public class RestClient {
 				LogUtil.tlog(reqparam.get("IF"), "RECV.RES", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW", resultMap);
 				
 			} catch (TimeoutException e) {
-				reqparam.put("cw_thread_time_end", System.nanoTime() + "");
-				LogUtil.error(reqparam.get("IF"), "RECV.RES", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW", "cw_dns_timeout");
-				reqparam.put("cwt_exception", "cw_thread_timeout");
-			} finally {
+				LogUtil.error(reqparam.get("IF"), "RECV.RES", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW", "thread_timeout");
 			}
 		} catch (InterruptedException e) {
 			LogUtil.error(reqparam.get("IF"), "RECV.RES", reqparam.get("UUID"), reqparam.get("cw_stb_id"), "CW", e.getStackTrace()[0].toString());
