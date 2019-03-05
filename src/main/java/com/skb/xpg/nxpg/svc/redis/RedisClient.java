@@ -28,7 +28,11 @@ public class RedisClient {
 	
 	@Autowired
 	CacheService cacheService;
-	
+
+	public Long hdel(String key, String field) {
+		redisTemplate.<String, Object>opsForHash().delete(key, field);
+		return secondRedisTemplate.<String, Object>opsForHash().delete(key, field);
+	}
 
 	public String hget(String key, String field, Map<String, String> param) {
 		Object obj = null;
@@ -49,8 +53,14 @@ public class RedisClient {
 		if (NXPGCommon.isUseFirstRedis()) {
 			try {
 				obj = redisTemplate.<String, Object>opsForHash().get(key, field);
+				int cnt = 0;
+				if (param.containsKey("redis_count")) {
+					cnt = CastUtil.getStringToInteger(param.get("redis_count").toString());
+				}
+				cnt = cnt + 1;
+				param.put("redis_count", cnt + "");
 				
-				LogUtil.tlog(param.get("IF"), "RECV.RES", param.get("UUID"), stb_id, "REDIS", obj, CastUtil.getMapToString(keyAndField));
+				LogUtil.tlog(param.get("IF"), "RECV.RES", param.get("UUID"), stb_id, "REDIS", CastUtil.getMapToString(keyAndField));
 				
 			} catch (Exception e) {
 				LogUtil.error(param.get("IF"), "RECV.RES", param.get("UUID"), stb_id, "REDIS", e.getStackTrace()[0].toString());
@@ -60,8 +70,11 @@ public class RedisClient {
 		} else {
 			try {
 				obj = secondRedisTemplate.<String, Object>opsForHash().get(key, field);
+				int cnt = CastUtil.getStringToInteger(param.get("redis_count").toString());
+				cnt = cnt + 1;
+				param.put("redis_count", cnt + "");
 				
-				LogUtil.tlog(param.get("IF"), "RECV.RES", param.get("UUID"), stb_id, "REDIS", obj, CastUtil.getMapToString(keyAndField));
+				LogUtil.tlog(param.get("IF"), "RECV.RES", param.get("UUID"), stb_id, "REDIS", CastUtil.getMapToString(keyAndField));
 				
 			} catch (Exception e) {
 				LogUtil.error(param.get("IF"), "RECV.RES", param.get("UUID"), stb_id, "REDIS", e.getStackTrace()[0].toString());

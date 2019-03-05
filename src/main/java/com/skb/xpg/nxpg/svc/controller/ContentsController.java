@@ -44,6 +44,8 @@ public class ContentsController {
 
 		rtn.put("IF", IF);
 		rtn.put("request_time", DateUtil.getYYYYMMDDhhmmss());
+		param.put("time_start", System.nanoTime() + "");
+		param.put("redis_count", "0");
 
 		if (StrUtil.isEmpty(param.get("menu_stb_svc_id"))
 				|| StrUtil.isEmpty(param.get("search_type"))) {
@@ -71,7 +73,8 @@ public class ContentsController {
 		
 		rtn.put("reason", ResultCommon.reason.get(rtn.get("result")));
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
-		LogUtil.tlog(param.get("IF"), "SEND.RES", param.get("UUID"), param.get("stb_id"), "STB", rtn, param);
+		param.put("time_end", System.nanoTime() + "");
+		LogUtil.rlog(param.get("IF"), "SEND.RES", param.get("UUID"), param.get("stb_id"), "STB", param);
 		return rtn;
 	}
 
@@ -87,6 +90,8 @@ public class ContentsController {
 
 		rtn.put("IF", IF);
 		rtn.put("request_time", DateUtil.getYYYYMMDDhhmmss());
+		param.put("time_start", System.nanoTime() + "");
+		param.put("redis_count", "0");
 
 		if (StrUtil.isEmpty(param.get("prs_id"))) {
 			rtn.put("result", "9999");
@@ -114,7 +119,8 @@ public class ContentsController {
 		
 		rtn.put("reason", ResultCommon.reason.get(rtn.get("result")));
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
-		LogUtil.tlog(param.get("IF"), "SEND.RES", param.get("UUID"), param.get("stb_id"), "STB", rtn, param);
+		param.put("time_end", System.nanoTime() + "");
+		LogUtil.rlog(param.get("IF"), "SEND.RES", param.get("UUID"), param.get("stb_id"), "STB", param);
 		return rtn;
 	}
 
@@ -130,6 +136,8 @@ public class ContentsController {
 
 		rtn.put("IF", IF);
 		rtn.put("request_time", DateUtil.getYYYYMMDDhhmmss());
+		param.put("time_start", System.nanoTime() + "");
+		param.put("redis_count", "0");
 
 		if (StrUtil.isEmpty(param.get("search_type"))) {
 			param.put("search_type", "1");
@@ -141,7 +149,7 @@ public class ContentsController {
 			rtn.put("result", "9999");
 			rtn.put("reason", "search_type에 맞는 param입력 요망");
 			rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
-			LogUtil.tlog(param.get("IF"), "SEND.RES", param.get("UUID"), param.get("stb_id"), "STB", rtn, param);
+			LogUtil.tlog(param.get("IF"), "SEND.RES", param.get("UUID"), param.get("stb_id"), "STB", param);
 			return rtn;
 		}
 		
@@ -153,7 +161,7 @@ public class ContentsController {
 			rtn.put("result", "9999");
 			rtn.put("reason", ResultCommon.reason.get(rtn.get("result")));
 			rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
-			LogUtil.tlog(param.get("IF"), "SEND.RES", param.get("UUID"), param.get("stb_id"), "STB", rtn, param);
+			LogUtil.tlog(param.get("IF"), "SEND.RES", param.get("UUID"), param.get("stb_id"), "STB", param);
 			return rtn;
 		}
 
@@ -181,7 +189,8 @@ public class ContentsController {
 		
 		rtn.put("reason", ResultCommon.reason.get(rtn.get("result")));
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
-		LogUtil.tlog(param.get("IF"), "SEND.RES", param.get("UUID"), param.get("stb_id"), "STB", rtn, param);
+		param.put("time_end", System.nanoTime() + "");
+		LogUtil.rlog(param.get("IF"), "SEND.RES", param.get("UUID"), param.get("stb_id"), "STB", param);
 		return rtn;
 	}
 
@@ -197,6 +206,8 @@ public class ContentsController {
 
 		rtn.put("IF", IF);
 		rtn.put("request_time", DateUtil.getYYYYMMDDhhmmss());
+		param.put("time_start", System.nanoTime() + "");
+		param.put("redis_count", "0");
 
 		if (StrUtil.isEmpty(param.get("sris_id"))) {
 			rtn.put("result", "9999");
@@ -228,7 +239,8 @@ public class ContentsController {
 		
 		rtn.put("reason", ResultCommon.reason.get(rtn.get("result")));
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
-		LogUtil.tlog(param.get("IF"), "SEND.RES", param.get("UUID"), param.get("stb_id"), "STB", rtn, param);
+		param.put("time_end", System.nanoTime() + "");
+		LogUtil.rlog(param.get("IF"), "SEND.RES", param.get("UUID"), param.get("stb_id"), "STB", param);
 		return rtn;
 	}
 	
@@ -244,6 +256,8 @@ public class ContentsController {
 
 		rtn.put("IF", IF);
 		rtn.put("request_time", DateUtil.getYYYYMMDDhhmmss());
+		param.put("time_start", System.nanoTime() + "");
+		param.put("redis_count", "0");
 
 		if (StrUtil.isEmpty(param.get("cnr_grp_id"))) {
 			rtn.put("result", "9999");
@@ -272,7 +286,8 @@ public class ContentsController {
 		
 		rtn.put("reason", ResultCommon.reason.get(rtn.get("result")));
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
-		LogUtil.tlog(param.get("IF"), "SEND.RES", param.get("UUID"), param.get("stb_id"), "STB", rtn, param);
+		param.put("time_end", System.nanoTime() + "");
+		LogUtil.rlog(param.get("IF"), "SEND.RES", param.get("UUID"), param.get("stb_id"), "STB", param);
 		return rtn;
 	}
 	
@@ -288,6 +303,8 @@ public class ContentsController {
 
 		rtn.put("IF", IF);
 		rtn.put("request_time", DateUtil.getYYYYMMDDhhmmss());
+		param.put("time_start", System.nanoTime() + "");
+		param.put("redis_count", "0");
 
 		if (StrUtil.isEmpty(param.get("menu_stb_svc_id")) || StrUtil.isEmpty(param.get("menu_id"))
 				|| StrUtil.isEmpty(param.get("stb_id"))) {
@@ -316,7 +333,8 @@ public class ContentsController {
 		
 		rtn.put("reason", ResultCommon.reason.get(rtn.get("result")));
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
-		LogUtil.tlog(param.get("IF"), "SEND.RES", param.get("UUID"), param.get("stb_id"), "STB", rtn, param);
+		param.put("time_end", System.nanoTime() + "");
+		LogUtil.rlog(param.get("IF"), "SEND.RES", param.get("UUID"), param.get("stb_id"), "STB", param);
 		return rtn;
 	}
 	
@@ -332,6 +350,8 @@ public class ContentsController {
 
 		rtn.put("IF", IF);
 		rtn.put("request_time", DateUtil.getYYYYMMDDhhmmss());
+		param.put("time_start", System.nanoTime() + "");
+		param.put("redis_count", "0");
 
 		if (StrUtil.isEmpty(param.get("sris_id"))
 				|| StrUtil.isEmpty(param.get("page_no")) || StrUtil.isEmpty(param.get("page_cnt"))
@@ -362,7 +382,8 @@ public class ContentsController {
 		
 		rtn.put("reason", ResultCommon.reason.get(rtn.get("result")));
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
-		LogUtil.tlog(param.get("IF"), "SEND.RES", param.get("UUID"), param.get("stb_id"), "STB", rtn, param);
+		param.put("time_end", System.nanoTime() + "");
+		LogUtil.rlog(param.get("IF"), "SEND.RES", param.get("UUID"), param.get("stb_id"), "STB", param);
 		return rtn;
 	}
 
@@ -378,6 +399,8 @@ public class ContentsController {
 
 		rtn.put("IF", IF);
 		rtn.put("request_time", DateUtil.getYYYYMMDDhhmmss());
+		param.put("time_start", System.nanoTime() + "");
+		param.put("redis_count", "0");
 
 		if (StrUtil.isEmpty(param.get("prs_id"))) {
 			rtn.put("result", "9999");
@@ -405,7 +428,8 @@ public class ContentsController {
 		
 		rtn.put("reason", ResultCommon.reason.get(rtn.get("result")));
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
-		LogUtil.tlog(param.get("IF"), "SEND.RES", param.get("UUID"), param.get("stb_id"), "STB", rtn, param);
+		param.put("time_end", System.nanoTime() + "");
+		LogUtil.rlog(param.get("IF"), "SEND.RES", param.get("UUID"), param.get("stb_id"), "STB", param);
 		return rtn;
 	}
 }
