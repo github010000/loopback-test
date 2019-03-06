@@ -4,7 +4,7 @@
 
 	<groupId>com.skb.xpg</groupId>
 	<artifactId>nxpg.svc</artifactId>
-	<version>5.1.2-SNAPSHOT</version>
+	<version>5.1.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 
 	<name>xpg-nxpg-svc</name>
