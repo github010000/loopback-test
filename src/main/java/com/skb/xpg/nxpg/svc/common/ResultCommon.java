@@ -27,7 +27,7 @@ public class ResultCommon {
 //		reason.put("7165", "에피소드 데이터 없음");
 //		reason.put("7200", "실시간 채널 정보 없음");
 //		reason.put("7201", "실시간 채널 장르 정보 없음");
-//		reason.put("9001", "입력 파라미터 오류");
+		reason.put("9994", "응답시간 초과");
 		reason.put("9995", "상품ID 올바르지 않음");
 		reason.put("9996", "상품아이디 값 없음");
 		reason.put("9997", "기타 에러");

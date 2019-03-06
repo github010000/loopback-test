@@ -22,7 +22,7 @@
 		#guide {
 			position: absolute;
 			top: 5px;
-			left: 270px;
+			left: 580px;
 			width: 980px;
 			height: 72px;
 		}
@@ -251,9 +251,32 @@
 			background-color: #FFFACD;
 		}
 		
+		#link {
+			position: fixed;
+			top: 27px;
+			left: 280px;
+			z-index: 2;
+		}
+		#link a {
+			border: 1px solid #aaa;
+			border-radius: 4px;
+			text-decoration: none;
+			padding: 2px;
+			color: #229922;
+		}
+		#link a:hover {
+			background-color: #AAA;
+			text-decoration: none;
+			color: #FFF;
+		}
 	</style>
 </head>
 <body>
+	<!-- div id="link">
+		<b>바로가기</b> 
+		<a href="index.html">API List</a>
+		<a href="redis.html">REDIS 데이터 조회</a>
+	</div> -->
 	<div id="guide">
 		<table>
 			<tr>
@@ -735,7 +758,7 @@
 	
 	function goSynop(epsd_id) {
 		
-		var url = "/v5/contents/synopsis?menu_stb_svc_id=" +  $.urlParam('poc') + "&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&IF=IF-NXPG-010";
+		var url = "/v5/contents/synopsis?menu_stb_svc_id=" +  $.urlParam('poc') + "&stb_id=%7B660D7F55-89D8-11E5-ADAE-E5AC4F814417%7D&IF=IF-NXPG-010&cmc_yn=Y";
 		url = url + "&search_type=1&yn_recent=N&epsd_id=" + epsd_id;
 		window.open(url, "_blank");
 	}

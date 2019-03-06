@@ -45,6 +45,8 @@ public class KidsController {
 	
 		rtn.put("IF", IF);
 		rtn.put("request_time", DateUtil.getYYYYMMDDhhmmss());
+		param.put("time_start", System.nanoTime() + "");
+		param.put("redis_count", "0");
 	
 		if (defaults != null && StrUtil.isEmpty(param.get("menu_stb_svc_id"))) {
 			param.put("menu_stb_svc_id", defaults.get("menu_stb_svc_id"));
@@ -64,7 +66,8 @@ public class KidsController {
 //		}
 		
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
-		LogUtil.tlog(param.get("IF"), "SEND.RES", param.get("UUID"), param.get("stb_id"), "STB", rtn, param);
+		param.put("time_end", System.nanoTime() + "");
+		LogUtil.rlog(param.get("IF"), "SEND.RES", param.get("UUID"), param.get("stb_id"), "STB", param);
 		return rtn;
 	}
 	
@@ -80,6 +83,8 @@ public class KidsController {
 	
 		rtn.put("IF", IF);
 		rtn.put("request_time", DateUtil.getYYYYMMDDhhmmss());
+		param.put("time_start", System.nanoTime() + "");
+		param.put("redis_count", "0");
 	
 		if (defaults != null && StrUtil.isEmpty(param.get("menu_stb_svc_id"))) {
 			param.put("menu_stb_svc_id", defaults.get("menu_stb_svc_id"));
@@ -101,7 +106,8 @@ public class KidsController {
 		}
 		
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
-		LogUtil.tlog(param.get("IF"), "SEND.RES", param.get("UUID"), param.get("stb_id"), "STB", rtn, param);
+		param.put("time_end", System.nanoTime() + "");
+		LogUtil.rlog(param.get("IF"), "SEND.RES", param.get("UUID"), param.get("stb_id"), "STB", param);
 		return rtn;
 	}
 
@@ -179,6 +185,8 @@ public class KidsController {
 
 		rtn.put("IF", IF);
 		rtn.put("request_time", DateUtil.getYYYYMMDDhhmmss());
+		param.put("time_start", System.nanoTime() + "");
+		param.put("redis_count", "0");
 		
 		if (defaults != null && StrUtil.isEmpty(param.get("menu_stb_svc_id"))) {
 			param.put("menu_stb_svc_id", defaults.get("menu_stb_svc_id"));
@@ -211,7 +219,8 @@ public class KidsController {
 		
 		rtn.put("reason", ResultCommon.reason.get(rtn.get("result")));
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
-		LogUtil.tlog(param.get("IF"), "SEND.RES", param.get("UUID"), param.get("stb_id"), "STB", rtn, param);
+		param.put("time_end", System.nanoTime() + "");
+		LogUtil.rlog(param.get("IF"), "SEND.RES", param.get("UUID"), param.get("stb_id"), "STB", param);
 		return rtn;
 	}
 	
@@ -227,6 +236,8 @@ public class KidsController {
 
 		rtn.put("IF", IF);
 		rtn.put("request_time", DateUtil.getYYYYMMDDhhmmss());
+		param.put("time_start", System.nanoTime() + "");
+		param.put("redis_count", "0");
 		
 		if (defaults != null && StrUtil.isEmpty(param.get("menu_stb_svc_id"))) {
 			param.put("menu_stb_svc_id", defaults.get("menu_stb_svc_id"));
@@ -249,7 +260,8 @@ public class KidsController {
 		
 		rtn.put("reason", ResultCommon.reason.get(rtn.get("result")));
 		rtn.put("response_time", DateUtil.getYYYYMMDDhhmmss());
-		LogUtil.tlog(param.get("IF"), "SEND.RES", param.get("UUID"), param.get("stb_id"), "STB", rtn, param);
+		param.put("time_end", System.nanoTime() + "");
+		LogUtil.rlog(param.get("IF"), "SEND.RES", param.get("UUID"), param.get("stb_id"), "STB", param);
 		return rtn;
 	}
 	
