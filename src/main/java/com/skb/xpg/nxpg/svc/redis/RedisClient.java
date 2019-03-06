@@ -70,7 +70,10 @@ public class RedisClient {
 		} else {
 			try {
 				obj = secondRedisTemplate.<String, Object>opsForHash().get(key, field);
-				int cnt = CastUtil.getStringToInteger(param.get("redis_count").toString());
+				int cnt = 0;
+				if (param.containsKey("redis_count")) {
+					cnt = CastUtil.getStringToInteger(param.get("redis_count").toString());
+				}
 				cnt = cnt + 1;
 				param.put("redis_count", cnt + "");
 				
