@@ -1,9 +1,9 @@
 ---
 applications:
-- name: xpg-nxpg-svc
+- name: loopback-test
   hosts:
-    - xpg-nxpg-svc-tst
-    - xpg-nxpg-tst
+    - loopback-test-tst
+    - loopback-test
   memory: 2048M
   instances: 1
   buildpack: liberty-for-java

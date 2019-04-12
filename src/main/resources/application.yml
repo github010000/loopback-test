@@ -1,5 +1,0 @@
-logging:
-  pattern:
-    console: "%d{yyyy-MM-dd HH:mm:ss.SSS}|%-4level|XPG|%msg%n"
-  level:
-    root: info, error

@@ -20,5 +20,6 @@
 		type='war' context-root='/' />
 	<webContainer deferServletLoad='false' />
 	<cdi12 enableImplicitBeanArchives='false' />
+	<logging messageFormat="json" messageSource="ffdc" />
 	<executor name="DefaultThreadPool" id="default" coreThreads="100" maxThreads="150" />
 </server>
